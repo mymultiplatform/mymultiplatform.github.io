@@ -237,3 +237,32 @@
 </body>
 
 </div>
+
+// EDITACION PAPICHULOOOOOOO //
+
+<!-- comment section HTML code -->
+<form action="comment.php" method="post">
+  <label for="username">Username:</label>
+  <input type="text" name="username" required><br><br>
+  <label for="comment">Comment:</label>
+  <textarea name="comment" rows="4" cols="50" required></textarea><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<!-- comment section PHP code (comment.php) -->
+<?php
+  // get the username and comment from the form
+  $username = $_POST['username'];
+  $comment = $_POST['comment'];
+
+  // connect to the database
+  $db = new mysqli('localhost', 'username', 'password', 'database_name');
+
+  // insert the comment into the database
+  $sql = "INSERT INTO comments (username, comment) VALUES ('$username', '$comment')";
+  $db->query($sql);
+
+  // display a message confirming the comment was submitted
+  echo "Thank you for your comment, $username!";
+?>
+
