@@ -16,13 +16,70 @@
         p {
             line-height: 1.6;
         }
+        .pyramid-container {
+            width: 300px;
+            height: 300px;
+            perspective: 800px;
+            margin: 0 auto;
+        }
+        .pyramid {
+            width: 0;
+            height: 0;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 5s infinite linear;
+        }
+        .pyramid div {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 150px 50px 0 50px;
+            border-color: white transparent transparent transparent;
+            transform-origin: 50% 100%;
+        }
+        .pyramid .front {
+            transform: rotateX(-60deg) translateZ(75px);
+        }
+        .pyramid .back {
+            transform: rotateX(60deg) rotateZ(180deg) translateZ(75px);
+        }
+        .pyramid .left {
+            transform: rotateY(-60deg) rotateX(60deg) translateZ(75px);
+        }
+        .pyramid .right {
+            transform: rotateY(60deg) rotateX(60deg) translateZ(75px);
+        }
+        @keyframes rotate {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        .emoji {
+            text-align: center;
+            font-size: 50px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
- <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> 
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> 
     <h1>Mymultiplatform Info</h1>
- <p><strong>Headquarters:</strong> 915 Alper Center Dr, Henderson, NV 89052</p>
+    <p><strong>Headquarters:</strong> 915 Alper Center Dr, Henderson, NV 89052</p>
     <p><strong>Contact:</strong> mymultiplatform@gmail.com | (619) 551-9810</p>
     <p><strong>Description:</strong> Mymultiplatform, as the company name suggests, refers to an ecosystem that encompasses multiple areas of work. This integration facilitates a broad range of services and solutions tailored to meet diverse needs.</p>
+
+    <div class="pyramid-container">
+        <div class="pyramid">
+            <div class="front"></div>
+            <div class="back"></div>
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+    </div>
+    <div class="emoji">😠</div>
 </body>
 </html>
