@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body {
-      background-color: rgb(0, 0, 0);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: white;
-    }
+<style>
+body {
+  background-color: black;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 
-    .banner {
-      background-color: green;
-      color: white;
-      padding: 10px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: left;
-    }
+.banner {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
 
-    .title {
-      margin-left: 20px;
-    }
+.title {
+  margin-left: 20px;
+}
 
-    .sidebar {
-      background-color: #333;
-      width: 200px;
-      position: fixed;
-      height: 100%;
-      overflow: auto;
-    }
+.navbar {
+  background-color: #333;
+  text-align: center;
+  padding: 10px 0;
+}
 
-    .sidebar a {
-      display: block;
-      color: white;
-      padding: 16px;
-      text-decoration: none;
-      font-size: 18px;
-    }
+.navbar a {
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 18px;
+}
 
-    .sidebar a:hover {
-      background-color: green;
-    }
+.navbar a:hover {
+  background-color: #555;
+}
 
-    .content {
-      margin-left: 220px;
-      padding: 20px;
-    }
+.tab-content {
+  padding: 20px;
+  color: white;
+}
 
-    .tab-content h2:not(:first-child) {
-      display: none;
-    }
-  </style>
+.tab-content h2:not(:first-child) {
+  display: none;
+}
+
+</style>
 </head>
 <body>
 
@@ -57,32 +55,41 @@
   <div class="title">Mymultiplatform Forum</div>
 </div>
 
-<div class="sidebar">
-  <a href="#home">Home</a>
-  <a href="#architecture">Architecture</a>
-  <a href="#gamedev">Game Dev</a>
-  <a href="#bobaup">Boba Up</a>
-  <a href="#zlc">Zitlalic</a>
+<div class="navbar">
   <a href="#films">Films</a>
   <a href="#studio">Studio</a>
+  <a href="#arch">Architecture</a>
+  <a href="#waverug">Waverug</a>
   <a href="#publisher">Publisher</a>
   <a href="#shop">Shop</a>
+  <a href="#boba">Boba Up</a>
   <a href="#software">Software</a>
 </div>
 
-<div class="content">
-  <div class="tab-content">
-    <h2 id="home">Welcome to Mymultiplatform Forum!<p>This is the home section.</p></h2>
-    <h2 id="architecture">Architecture<p>Details about the architecture branch.</p></h2>
-    <h2 id="gamedev">Game Dev<p>Details about the game development branch.</p></h2>
-    <h2 id="bobaup">Boba Up<p>Details about the Boba Up branch.</p></h2>
-    <h2 id="zlc">Zitlalic<p>Details about the Zitlalic branch.</p></h2>
-    <h2 id="films">Films<p>Details about the Films branch.</p></h2>
-    <h2 id="studio">Studio<p>Details about the Studio branch.</p></h2>
-    <h2 id="publisher">Publisher<p>Details about the Publisher branch.</p></h2>
-    <h2 id="shop">Shop<p>Details about the Shop branch.</p></h2>
-    <h2 id="software">Software<p>Details about the Software branch.</p></h2>
-  </div>
+<div class="tab-content">
+  <h2 id="films">Mymultiplatform Films</h2>
+  <p>Welcome to Mymultiplatform Films. Here we focus on producing and promoting innovative films and documentaries.</p>
+
+  <h2 id="studio">Mymultiplatform Studio</h2>
+  <p>Welcome to Mymultiplatform Studio. This branch is dedicated to providing state-of-the-art production facilities and services.</p>
+
+  <h2 id="arch">Mymultiplatform Architecture</h2>
+  <p>Welcome to Mymultiplatform Architecture. We specialize in CAD, rendering, and architectural design.</p>
+
+  <h2 id="waverug">Waverug by Mymultiplatform</h2>
+  <p>Welcome to Waverug. Our focus is on creating unique, custom-made carpets and rugs.</p>
+
+  <h2 id="publisher">Mymultiplatform Publisher</h2>
+  <p>Welcome to Mymultiplatform Publisher. We offer publishing services for authors and content creators.</p>
+
+  <h2 id="shop">Mymultiplatform Shop</h2>
+  <p>Welcome to Mymultiplatform Shop. Explore our wide range of products, including custom-designed items.</p>
+
+  <h2 id="boba">Boba Up by Mymultiplatform</h2>
+  <p>Welcome to Boba Up. We specialize in offering delicious boba tea and snacks in a unique, enjoyable environment.</p>
+
+  <h2 id="software">Mymultiplatform Software</h2>
+  <p>Welcome to Mymultiplatform Software. We develop cutting-edge software solutions tailored to your needs.</p>
 </div>
 
 <script>
@@ -99,7 +106,7 @@
   }
 
   // Add click event listeners to each tab link
-  const tabLinks = document.querySelectorAll(".sidebar a");
+  const tabLinks = document.querySelectorAll(".navbar a");
   tabLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
