@@ -37,121 +37,68 @@
             padding: 20px;
         }
         .branch-section {
+            display: none;
             margin-bottom: 20px;
         }
     </style>
+    <script>
+        function showSection(id) {
+            var sections = document.getElementsByClassName('branch-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+            document.getElementById(id).style.display = 'block';
+        }
+    </script>
 </head>
 <body>
     <div class="sidebar">
-        <a href="#films">MYMULTIPLATFORM Films</a>
-        <a href="#studio">MYMULTIPLATFORM Studio</a>
-        <a href="#arch">MYMULTIPLATFORM Arch</a>
-        <a href="#waverug">Waverug by MYMULTIPLATFORM</a>
-        <a href="#publisher">MYMULTIPLATFORM Publisher by Kareem Kannan</a>
-        <a href="#shop">MYMULTIPLATFORM Shop</a>
-        <a href="#xsw">MYMULTIPLATFORM by XSW</a>
-        <a href="#boba">Boba Up by MYMULTIPLATFORM</a>
-        <a href="#software">MYM SOFTWARE by MYMULTIPLATFORM</a>
+        <a href="#" onclick="showSection('films')">MYMULTIPLATFORM Films</a>
+        <a href="#" onclick="showSection('studio')">MYMULTIPLATFORM Studio</a>
+        <a href="#" onclick="showSection('arch')">MYMULTIPLATFORM Arch</a>
+        <a href="#" onclick="showSection('waverug')">Waverug by MYMULTIPLATFORM</a>
+        <a href="#" onclick="showSection('publisher')">MYMULTIPLATFORM Publisher by Kareem Kannan</a>
+        <a href="#" onclick="showSection('shop')">MYMULTIPLATFORM Shop</a>
+        <a href="#" onclick="showSection('xsw')">MYMULTIPLATFORM by XSW</a>
+        <a href="#" onclick="showSection('boba')">Boba Up by MYMULTIPLATFORM</a>
+        <a href="#" onclick="showSection('software')">MYM SOFTWARE by MYMULTIPLATFORM</a>
     </div>
     <div class="content">
         <div id="films" class="branch-section">
             <h2>MYMULTIPLATFORM Films</h2>
             <p>Focuses on film production and related activities.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="studio" class="branch-section">
             <h2>MYMULTIPLATFORM Studio</h2>
             <p>Dedicated to studio work, possibly including recording, editing, and other multimedia tasks.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="arch" class="branch-section">
             <h2>MYMULTIPLATFORM Arch</h2>
             <p>Centers on architecture, including CAD, rendering, and supporting freelance projects. This branch also supports other branches by providing architectural knowledge and resources.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="waverug" class="branch-section">
             <h2>Waverug by MYMULTIPLATFORM</h2>
             <p>Specializes in creating carpets and recycling wool to make couches, sofas, and potentially small furniture pieces.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="publisher" class="branch-section">
             <h2>MYMULTIPLATFORM Publisher by Kareem Kannan</h2>
             <p>Involved in publishing activities.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="shop" class="branch-section">
             <h2>MYMULTIPLATFORM Shop</h2>
             <p>Likely focused on retail or online sales.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="xsw" class="branch-section">
             <h2>MYMULTIPLATFORM by XSW</h2>
             <p>Details about this branch are unclear but it is a part of the MYMULTIPLATFORM ecosystem.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="boba" class="branch-section">
             <h2>Boba Up by MYMULTIPLATFORM</h2>
             <p>Possibly a business related to boba (bubble tea) and arcade.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
         <div id="software" class="branch-section">
             <h2>MYM SOFTWARE by MYMULTIPLATFORM</h2>
             <p>Focuses on software development and related activities.</p>
-            <p></p>
-            <div class="separator" style="clear: both; text-align: center;">
-                <a href="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" style="margin-left: 1em; margin-right: 1em;">
-                    <img alt="" data-original-height="450" data-original-width="800" height="180" src="https://blogger.googleusercontent.com/img/a/AVvXsEjTB7GaBdy5sf41c-Z7qWTbUQtZN_YfSc9fZ7jgPuRyE7leamlZriSouIDR_slGdPzCwFefuiiqbc8eB28TgRiMl9P8eFwl_7GA1kaJH77j_fSnnNBBqPiCtJXOAEioI2B9Lm4YU_6b2DRrhDh-ARRk7CAVI_Y2P4TUlhdN6cwLVojtjRhrajqOXlpzJauY" width="320" />
-                </a>
-            </div>
-            <br />&nbsp;<p></p>
         </div>
     </div>
 </body>
