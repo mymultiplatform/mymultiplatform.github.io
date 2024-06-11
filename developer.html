@@ -1,95 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYMULTIPLATFORM Forum</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-        }
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #1e1e1e;
-            padding-top: 20px;
-            overflow: auto;
-        }
-        .sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #b8b8b8;
-            display: block;
-        }
-        .sidebar a:hover {
-            background-color: #575757;
-            color: #ffffff;
-        }
-        .content {
-            margin-left: 260px;
-            padding: 20px;
-        }
-        .branch-section {
-            margin-bottom: 20px;
-        }
-    </style>
+  <style>
+    body {
+      background-color: rgb(0, 0, 0);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: white;
+    }
+
+    .banner {
+      background-color: green;
+      color: white;
+      padding: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .title {
+      margin-left: 20px;
+    }
+
+    .sidebar {
+      background-color: #333;
+      width: 200px;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 16px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .sidebar a:hover {
+      background-color: green;
+    }
+
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    .tab-content h2:not(:first-child) {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <a href="#films">MYMULTIPLATFORM Films</a>
-        <a href="#studio">MYMULTIPLATFORM Studio</a>
-        <a href="#arch">MYMULTIPLATFORM Arch</a>
-        <a href="#waverug">Waverug by MYMULTIPLATFORM</a>
-        <a href="#publisher">MYMULTIPLATFORM Publisher by Kareem Kannan</a>
-        <a href="#shop">MYMULTIPLATFORM Shop</a>
-        <a href="#xsw">MYMULTIPLATFORM by XSW</a>
-        <a href="#boba">Boba Up by MYMULTIPLATFORM</a>
-        <a href="#software">MYM SOFTWARE by MYMULTIPLATFORM</a>
-    </div>
-    <div class="content">
-        <div id="films" class="branch-section">
-            <h2>MYMULTIPLATFORM Films</h2>
-            <p>Focuses on film production and related activities.</p>
-        </div>
-        <div id="studio" class="branch-section">
-            <h2>MYMULTIPLATFORM Studio</h2>
-            <p>Dedicated to studio work, possibly including recording, editing, and other multimedia tasks.</p>
-        </div>
-        <div id="arch" class="branch-section">
-            <h2>MYMULTIPLATFORM Arch</h2>
-            <p>Centers on architecture, including CAD, rendering, and supporting freelance projects. This branch also supports other branches by providing architectural knowledge and resources.</p>
-        </div>
-        <div id="waverug" class="branch-section">
-            <h2>Waverug by MYMULTIPLATFORM</h2>
-            <p>Specializes in creating carpets and recycling wool to make couches, sofas, and potentially small furniture pieces.</p>
-        </div>
-        <div id="publisher" class="branch-section">
-            <h2>MYMULTIPLATFORM Publisher by Kareem Kannan</h2>
-            <p>Involved in publishing activities.</p>
-        </div>
-        <div id="shop" class="branch-section">
-            <h2>MYMULTIPLATFORM Shop</h2>
-            <p>Likely focused on retail or online sales.</p>
-        </div>
-        <div id="xsw" class="branch-section">
-            <h2>MYMULTIPLATFORM by XSW</h2>
-            <p>Details about this branch are unclear but it is a part of the MYMULTIPLATFORM ecosystem.</p>
-        </div>
-        <div id="boba" class="branch-section">
-            <h2>Boba Up by MYMULTIPLATFORM</h2>
-            <p>Possibly a business related to boba (bubble tea) and arcade.</p>
-        </div>
-        <div id="software" class="branch-section">
-            <h2>MYM SOFTWARE by MYMULTIPLATFORM</h2>
-            <p>Focuses on software development and related activities.</p>
-        </div>
-    </div>
+
+<div class="banner">
+  <div class="title">Mymultiplatform Forum</div>
+</div>
+
+<div class="sidebar">
+  <a href="#home">Home</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#gamedev">Game Dev</a>
+  <a href="#bobaup">Boba Up</a>
+  <a href="#zlc">Zitlalic</a>
+  <a href="#films">Films</a>
+  <a href="#studio">Studio</a>
+  <a href="#publisher">Publisher</a>
+  <a href="#shop">Shop</a>
+  <a href="#software">Software</a>
+</div>
+
+<div class="content">
+  <div class="tab-content">
+    <h2 id="home">Welcome to Mymultiplatform Forum!<p>This is the home section.</p></h2>
+    <h2 id="architecture">Architecture<p>Details about the architecture branch.</p></h2>
+    <h2 id="gamedev">Game Dev<p>Details about the game development branch.</p></h2>
+    <h2 id="bobaup">Boba Up<p>Details about the Boba Up branch.</p></h2>
+    <h2 id="zlc">Zitlalic<p>Details about the Zitlalic branch.</p></h2>
+    <h2 id="films">Films<p>Details about the Films branch.</p></h2>
+    <h2 id="studio">Studio<p>Details about the Studio branch.</p></h2>
+    <h2 id="publisher">Publisher<p>Details about the Publisher branch.</p></h2>
+    <h2 id="shop">Shop<p>Details about the Shop branch.</p></h2>
+    <h2 id="software">Software<p>Details about the Software branch.</p></h2>
+  </div>
+</div>
+
+<script>
+  // Function to show the content of the selected tab and hide others
+  function showTabContent(tabId) {
+    const tabContents = document.querySelectorAll(".tab-content h2");
+    tabContents.forEach((content) => {
+      if (content.id === tabId) {
+        content.style.display = "block";
+      } else {
+        content.style.display = "none";
+      }
+    });
+  }
+
+  // Add click event listeners to each tab link
+  const tabLinks = document.querySelectorAll(".sidebar a");
+  tabLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const tabId = link.getAttribute("href").replace("#", "");
+      showTabContent(tabId);
+    });
+  });
+</script>
+
 </body>
 </html>
