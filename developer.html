@@ -124,6 +124,35 @@
         <div id="software" class="branch-section">
             <h2>MYM SOFTWARE by MYMULTIPLATFORM</h2>
             <p>Focuses on software development and related activities.</p>
+            <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div id="tradingview_btc_chart" style="height: 650px; width: 650px;"></div>
+  <div class="tradingview-widget-copyright">
+    <a href="https://www.tradingview.com/symbols/BTCUSD/" rel="noopener" target="_blank"><span class="blue-text">BTCUSD chart</span></a> by TradingView
+  </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+    new TradingView.widget(
+    {
+      "width": 650,
+      "height": 650,
+      "symbol": "BTCUSD",
+      "interval": "D",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#f1f3f6",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_btc_chart"
+    }
+    );
+  </script>
+</div>
+</p>
+<!-- TradingView Widget END -->
+
         </div>
     </div>
 </body>
