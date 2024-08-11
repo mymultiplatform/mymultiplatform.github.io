@@ -41,43 +41,52 @@
 
 <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/orbit-db/dist/orbitdb.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/webrtc-adapter/out/adapter.js"></script>
 <script>
-    const node = await IPFS.create();
-    const orbitdb = await OrbitDB.createInstance(node);
+    async function initialize() {
+        const node = await IPFS.create();
+        const orbitdb = await OrbitDB.createInstance(node);
 
-    const db = await orbitdb.log('chat');
-    await db.load();
+        const db = await orbitdb.log('chat');
+        await db.load();
 
-    const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
-    document.getElementById('unique-id').textContent = uniqueID;
+        const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
+        document.getElementById('unique-id').textContent = uniqueID;
 
-    db.events.on('replicated', () => {
-        displayMessages();
-    });
-
-    async function displayMessages() {
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML = '';
-        const messages = db.iterator({ limit: -1 }).collect().map(e => e.payload.value);
-        messages.forEach(message => {
-            const p = document.createElement('p');
-            p.textContent = message;
-            messagesDiv.appendChild(p);
+        db.events.on('replicated', () => {
+            displayMessages();
         });
+
+        async function displayMessages() {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+            const messages = db.iterator({ limit: -1 }).collect().map(e => e.payload.value);
+            messages.forEach(message => {
+                const p = document.createElement('p');
+                p.textContent = message;
+                messagesDiv.appendChild(p);
+            });
+        }
+
+        document.getElementById('send-btn').disabled = false;
+
+        document.getElementById('send-btn').addEventListener('click', async () => {
+            const messageBox = document.getElementById('message-box');
+            const message = `${uniqueID}: ${messageBox.value.trim()}`;
+            if (messageBox.value.trim()) {
+                await db.add(message);
+                displayMessages();
+                messageBox.value = '';
+            }
+        });
+
+        displayMessages();
+        document.getElementById('status').textContent = 'Connected!';
     }
 
-    document.getElementById('send-btn').disabled = false;
-
-    document.getElementById('send-btn').addEventListener('click', async () => {
-        const messageBox = document.getElementById('message-box');
-        const message = `${uniqueID}: ${messageBox.value.trim()}`;
-        await db.add(message);
-        displayMessages();
-        messageBox.value = '';
+    initialize().catch(error => {
+        console.error('Error initializing IPFS and OrbitDB:', error);
+        document.getElementById('status').textContent = 'Connection failed.';
     });
-
-    displayMessages();
 </script>
 
 </body>
