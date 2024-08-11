@@ -22,9 +22,27 @@
         #send-btn {
             padding: 5px 10px;
         }
+        #cookie-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 0px 0px 10px #888;
+            border: 1px solid #ccc;
+        }
+        #cookie-popup button {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+
+<div id="cookie-popup">
+    <p>This website uses cookies to establish a synthetic server. Do you accept the terms and allow the connection?</p>
+    <button id="accept-cookies">Accept</button>
+</div>
 
 <p id="status">Connecting...</p>
 <p>Your Aleatory Unique ID: <span id="unique-id"></span></p>
@@ -38,10 +56,13 @@
 </div>
 
 <input type="text" id="message-box" placeholder="Type your message..." />
-<button id="send-btn">SEND &gt;</button>
+<button id="send-btn" disabled>SEND &gt;</button>
 
 <script>
-    // Generate a unique ID for the user
+    // Show the cookie popup
+    document.getElementById('cookie-popup').style.display = 'block';
+
+    // Function to generate a unique ID for the user
     const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
     document.getElementById('unique-id').textContent = uniqueID;
 
@@ -64,13 +85,27 @@
         messages.push(`${uniqueID}: ${message}`);
         displayMessages();
         // Simulate the message being passed to other users in the chain
-        // This is where WebRTC or a similar technology would be implemented
-        // For now, we'll just simulate it by echoing the message back
         setTimeout(() => {
             messages.push(`${uniqueID}: ${message} (echo)`);
             displayMessages();
         }, 1000);
     }
+
+    // Accept cookies and start the connection
+    document.getElementById('accept-cookies').addEventListener('click', () => {
+        document.cookie = "acceptedCookies=true";
+        document.getElementById('cookie-popup').style.display = 'none';
+        document.getElementById('send-btn').disabled = false;
+        document.getElementById('status').textContent = 'You are online!';
+
+        // Simulate fetching messages from other users
+        setTimeout(() => {
+            if (messages.length === 0) {
+                messages.push('ID-EXAMPLE: Hello from another user!');
+                displayMessages();
+            }
+        }, 2000);
+    });
 
     // Handle the send button click
     document.getElementById('send-btn').addEventListener('click', () => {
@@ -82,14 +117,19 @@
         }
     });
 
-    // Set connection status
-    document.getElementById('status').textContent = 'You are online!';
+    // Chain algorithm to fetch the latest messages
+    function chainAlgorithm() {
+        // This function simulates using other users' connections to fetch new messages
+        setInterval(() => {
+            if (Math.random() > 0.5) {
+                messages.push(`ID-${Math.random().toString(36).substring(2, 15)}: New message from the chain.`);
+                displayMessages();
+            }
+        }, 5000);
+    }
 
-    // Simulate receiving a message from another user
-    setTimeout(() => {
-        messages.push('ID-EXAMPLE: Hello from another user!');
-        displayMessages();
-    }, 2000);
+    // Start the chain algorithm after accepting cookies
+    document.cookie.includes('acceptedCookies=true') && chainAlgorithm();
 </script>
 
 </body>
