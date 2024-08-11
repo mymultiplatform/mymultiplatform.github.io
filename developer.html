@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decentralized Chat</title>
+    <title>Decentralized Chat with GunDB</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,7 +27,6 @@
 <body>
 
 <h1>Decentralized Chat</h1>
-<p id="status">Connecting...</p>
 <p>Your Unique ID: <span id="unique-id"></span></p>
 
 <div id="chat-box">
@@ -37,56 +36,26 @@
 </div>
 
 <input type="text" id="message-box" placeholder="Type your message..." />
-<button id="send-btn" disabled>SEND &gt;</button>
-<button id="connect-btn">Connect to Chat</button>
+<button id="send-btn">SEND &gt;</button>
 
-<script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/orbit-db/dist/orbitdb.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 <script>
-    document.getElementById('connect-btn').addEventListener('click', async () => {
-        try {
-            const node = await IPFS.create();
-            const orbitdb = await OrbitDB.createInstance(node);
+    const gun = Gun('https://gun-manhattan.herokuapp.com/gun');
+    const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
+    document.getElementById('unique-id').textContent = uniqueID;
 
-            const db = await orbitdb.log('chat');
-            await db.load();
+    gun.get('chat').map().on((message) => {
+        const p = document.createElement('p');
+        p.textContent = message;
+        document.getElementById('messages').appendChild(p);
+    });
 
-            const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
-            document.getElementById('unique-id').textContent = uniqueID;
-
-            db.events.on('replicated', () => {
-                displayMessages();
-            });
-
-            async function displayMessages() {
-                const messagesDiv = document.getElementById('messages');
-                messagesDiv.innerHTML = '';
-                const messages = db.iterator({ limit: -1 }).collect().map(e => e.payload.value);
-                messages.forEach(message => {
-                    const p = document.createElement('p');
-                    p.textContent = message;
-                    messagesDiv.appendChild(p);
-                });
-            }
-
-            document.getElementById('send-btn').disabled = false;
-
-            document.getElementById('send-btn').addEventListener('click', async () => {
-                const messageBox = document.getElementById('message-box');
-                const message = `${uniqueID}: ${messageBox.value.trim()}`;
-                if (messageBox.value.trim()) {
-                    await db.add(message);
-                    displayMessages();
-                    messageBox.value = '';
-                }
-            });
-
-            displayMessages();
-            document.getElementById('status').textContent = 'Connected!';
-            document.getElementById('connect-btn').style.display = 'none';
-        } catch (error) {
-            console.error('Error initializing IPFS and OrbitDB:', error);
-            document.getElementById('status').textContent = 'Connection failed.';
+    document.getElementById('send-btn').addEventListener('click', () => {
+        const messageBox = document.getElementById('message-box');
+        const message = `${uniqueID}: ${messageBox.value.trim()}`;
+        if (messageBox.value.trim()) {
+            gun.get('chat').set(message);
+            messageBox.value = '';
         }
     });
 </script>
