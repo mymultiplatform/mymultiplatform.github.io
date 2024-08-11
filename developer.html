@@ -23,46 +23,60 @@
             padding: 5px 10px;
         }
         #cookie-popup {
-            display: none;
+            display: flex;
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #cookie-popup-content {
             background-color: #fff;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0px 0px 10px #888;
             border: 1px solid #ccc;
+            text-align: center;
         }
         #cookie-popup button {
             margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
 <div id="cookie-popup">
-    <p>This website uses your internet connection to establish a peer-to-peer chat network. Do you accept the terms and allow the connection?</p>
-    <button id="accept-cookies">Accept</button>
+    <div id="cookie-popup-content">
+        <p>This website uses your internet connection to establish a peer-to-peer chat network. Do you accept the terms and allow the connection?</p>
+        <button id="accept-cookies">Accept</button>
+    </div>
 </div>
 
 <p id="status">Connecting...</p>
 <p>Your Aleatory Unique ID: <span id="unique-id"></span></p>
 
 <div id="chat-box">
-    <p>__________________________________</p>
     <div id="messages">
         <!-- Messages will be displayed here -->
     </div>
-    <p>__________________________________</p>
 </div>
 
 <input type="text" id="message-box" placeholder="Type your message..." />
 <button id="send-btn" disabled>SEND &gt;</button>
 
+<script src="https://cdn.jsdelivr.net/npm/webtorrent@0.115.4/webtorrent.min.js"></script>
 <script>
-    let localConnection, dataChannel;
+    let client, torrent, dataChannel;
 
     // Show the cookie popup
-    document.getElementById('cookie-popup').style.display = 'block';
+    document.getElementById('cookie-popup').style.display = 'flex';
 
     // Function to generate a unique ID for the user
     const uniqueID = 'ID-' + Math.random().toString(36).substring(2, 15);
@@ -82,39 +96,48 @@
         });
     }
 
-    // Function to establish a peer-to-peer connection using WebRTC
-    async function establishConnection() {
-        localConnection = new RTCPeerConnection();
-        dataChannel = localConnection.createDataChannel("chat");
+    // Function to establish a peer-to-peer connection using WebRTC and WebTorrent
+    function establishConnection() {
+        client = new WebTorrent();
 
-        dataChannel.onmessage = (event) => {
-            messages.push(event.data);
-            displayMessages();
+        // Create a new torrent with the unique ID as metadata
+        const torrentId = uniqueID;
+        const opts = {
+            announce: ["wss://tracker.openwebtorrent.com"],
+            path: uniqueID
         };
 
-        dataChannel.onopen = () => {
-            console.log("Data channel is open");
-        };
+        client.seed(torrentId, opts, (torrent) => {
+            console.log("Seeding torrent with ID:", torrent.magnetURI);
 
-        const offer = await localConnection.createOffer();
-        await localConnection.setLocalDescription(offer);
+            torrent.on('wire', (wire) => {
+                console.log("Connected to peer via WebTorrent");
 
-        // Simulate signaling exchange (this normally requires a server)
-        setTimeout(async () => {
-            const remoteConnection = new RTCPeerConnection();
-            remoteConnection.ondatachannel = (event) => {
-                const receiveChannel = event.channel;
-                receiveChannel.onmessage = (event) => {
+                const rtcConnection = new RTCPeerConnection();
+                dataChannel = rtcConnection.createDataChannel("chat");
+
+                dataChannel.onmessage = (event) => {
                     messages.push(event.data);
                     displayMessages();
                 };
-            };
 
-            await remoteConnection.setRemoteDescription(localConnection.localDescription);
-            const answer = await remoteConnection.createAnswer();
-            await remoteConnection.setLocalDescription(answer);
-            await localConnection.setRemoteDescription(remoteConnection.localDescription);
-        }, 1000);
+                dataChannel.onopen = () => {
+                    console.log("Data channel is open");
+                };
+
+                wire.on('data', (chunk) => {
+                    const data = JSON.parse(chunk.toString());
+                    rtcConnection.setRemoteDescription(new RTCSessionDescription(data.offer))
+                        .then(() => rtcConnection.createAnswer())
+                        .then((answer) => rtcConnection.setLocalDescription(answer))
+                        .then(() => wire.send(JSON.stringify({ answer: rtcConnection.localDescription })));
+                });
+
+                rtcConnection.createOffer()
+                    .then((offer) => rtcConnection.setLocalDescription(offer))
+                    .then(() => wire.send(JSON.stringify({ offer: rtcConnection.localDescription })));
+            });
+        });
     }
 
     // Accept cookies and start the connection
@@ -144,19 +167,8 @@
         }
     });
 
-    // Chain algorithm to fetch the latest messages
-    function chainAlgorithm() {
-        setInterval(() => {
-            if (Math.random() > 0.5 && messages.length) {
-                const latestMessage = messages[messages.length - 1];
-                messages.push(`ID-${Math.random().toString(36).substring(2, 15)}: ${latestMessage} (fetched from the chain)`);
-                displayMessages();
-            }
-        }, 5000);
-    }
-
     // Start the chain algorithm after accepting cookies
-    document.cookie.includes('acceptedCookies=true') && chainAlgorithm();
+    document.cookie.includes('acceptedCookies=true') && establishConnection();
 </script>
 
 </body>
