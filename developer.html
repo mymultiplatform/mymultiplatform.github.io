@@ -40,7 +40,7 @@
 <body>
 
 <div id="cookie-popup">
-    <p>This website uses cookies to establish a synthetic server. Do you accept the terms and allow the connection?</p>
+    <p>This website uses your internet connection to establish a peer-to-peer chat network. Do you accept the terms and allow the connection?</p>
     <button id="accept-cookies">Accept</button>
 </div>
 
@@ -59,6 +59,8 @@
 <button id="send-btn" disabled>SEND &gt;</button>
 
 <script>
+    let localConnection, dataChannel;
+
     // Show the cookie popup
     document.getElementById('cookie-popup').style.display = 'block';
 
@@ -80,14 +82,38 @@
         });
     }
 
-    // Function to simulate sending a message to other users
-    function sendMessage(message) {
-        messages.push(`${uniqueID}: ${message}`);
-        displayMessages();
-        // Simulate the message being passed to other users in the chain
-        setTimeout(() => {
-            messages.push(`${uniqueID}: ${message} (echo)`);
+    // Function to establish a peer-to-peer connection using WebRTC
+    async function establishConnection() {
+        localConnection = new RTCPeerConnection();
+        dataChannel = localConnection.createDataChannel("chat");
+
+        dataChannel.onmessage = (event) => {
+            messages.push(event.data);
             displayMessages();
+        };
+
+        dataChannel.onopen = () => {
+            console.log("Data channel is open");
+        };
+
+        const offer = await localConnection.createOffer();
+        await localConnection.setLocalDescription(offer);
+
+        // Simulate signaling exchange (this normally requires a server)
+        setTimeout(async () => {
+            const remoteConnection = new RTCPeerConnection();
+            remoteConnection.ondatachannel = (event) => {
+                const receiveChannel = event.channel;
+                receiveChannel.onmessage = (event) => {
+                    messages.push(event.data);
+                    displayMessages();
+                };
+            };
+
+            await remoteConnection.setRemoteDescription(localConnection.localDescription);
+            const answer = await remoteConnection.createAnswer();
+            await remoteConnection.setLocalDescription(answer);
+            await localConnection.setRemoteDescription(remoteConnection.localDescription);
         }, 1000);
     }
 
@@ -97,15 +123,16 @@
         document.getElementById('cookie-popup').style.display = 'none';
         document.getElementById('send-btn').disabled = false;
         document.getElementById('status').textContent = 'You are online!';
-
-        // Simulate fetching messages from other users
-        setTimeout(() => {
-            if (messages.length === 0) {
-                messages.push('ID-EXAMPLE: Hello from another user!');
-                displayMessages();
-            }
-        }, 2000);
+        establishConnection();
     });
+
+    // Function to send a message
+    function sendMessage(message) {
+        const formattedMessage = `${uniqueID}: ${message}`;
+        messages.push(formattedMessage);
+        displayMessages();
+        dataChannel.send(formattedMessage);
+    }
 
     // Handle the send button click
     document.getElementById('send-btn').addEventListener('click', () => {
@@ -119,10 +146,10 @@
 
     // Chain algorithm to fetch the latest messages
     function chainAlgorithm() {
-        // This function simulates using other users' connections to fetch new messages
         setInterval(() => {
-            if (Math.random() > 0.5) {
-                messages.push(`ID-${Math.random().toString(36).substring(2, 15)}: New message from the chain.`);
+            if (Math.random() > 0.5 && messages.length) {
+                const latestMessage = messages[messages.length - 1];
+                messages.push(`ID-${Math.random().toString(36).substring(2, 15)}: ${latestMessage} (fetched from the chain)`);
                 displayMessages();
             }
         }, 5000);
