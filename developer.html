@@ -32,11 +32,16 @@
             margin-top: 20px;
         }
 
+        .profiles-container {
+            width: 100%;
+            overflow-x: auto; /* Allow horizontal scroll */
+            white-space: nowrap; /* Prevent wrapping */
+            padding: 20px 0; /* Padding for a better layout */
+        }
+
         .profiles {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            white-space: nowrap; /* Prevent profiles from wrapping to the next line */
-            animation: scroll 10s linear infinite; /* Scroll effect */
         }
 
         .profile {
@@ -47,6 +52,7 @@
             max-width: 300px;
             text-align: left;
             display: inline-block;
+            flex-shrink: 0; /* Prevents profiles from shrinking in size */
         }
 
         .profile img {
@@ -64,6 +70,22 @@
                 transform: translateX(-100%); /* Adjust the percentage for the scroll speed */
             }
         }
+
+        /* Initially hide the animation */
+        .scroll-animation {
+            display: none;
+        }
+
+        /* Show animation when active */
+        .scroll-animation.active {
+            display: block;
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        /* Hide scroll container when animation is active */
+        .profiles-container.hide {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -72,33 +94,99 @@
         <div class="logo">
             <div style="width: 320px; height: 183px; background-color: black;"></div> <!-- Black square as replacement for the logo -->
         </div>
-        <div class="profiles">
-            <div class="profile">
-                <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                <p>Name: Example 1</p>
-                <p>Description: Example</p>
+        
+        <!-- Profiles container with scroll -->
+        <div class="profiles-container">
+            <div class="profiles">
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 1</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 2</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 3</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 4</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 5</p>
+                    <p>Description: Example</p>
+                </div>
             </div>
-            <div class="profile">
-                <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                <p>Name: Example 2</p>
-                <p>Description: Example</p>
-            </div>
-            <div class="profile">
-                <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                <p>Name: Example 3</p>
-                <p>Description: Example</p>
-            </div>
-            <div class="profile">
-                <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                <p>Name: Example 4</p>
-                <p>Description: Example</p>
-            </div>
-            <div class="profile">
-                <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                <p>Name: Example 5</p>
-                <p>Description: Example</p>
+        </div>
+
+        <!-- Animation container -->
+        <div class="profiles-container scroll-animation">
+            <div class="profiles">
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 1</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 2</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 3</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 4</p>
+                    <p>Description: Example</p>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <p>Name: Example 5</p>
+                    <p>Description: Example</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        let timeout;
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                // Switch to animation
+                document.querySelector('.profiles-container').classList.add('hide');
+                document.querySelector('.scroll-animation').classList.add('active');
+            }, 30000); // 30 seconds
+        }
+
+        function activateScroll() {
+            // Reset inactivity timer
+            resetTimer();
+
+            // Show profiles and hide animation
+            document.querySelector('.profiles-container').classList.remove('hide');
+            document.querySelector('.scroll-animation').classList.remove('active');
+        }
+
+        // Detect user interaction
+        window.addEventListener('mousemove', activateScroll);
+        window.addEventListener('keydown', activateScroll);
+        window.addEventListener('scroll', activateScroll);
+        window.addEventListener('click', activateScroll);
+
+        // Start the inactivity timer on load
+        resetTimer();
+    </script>
 </body>
 </html>
