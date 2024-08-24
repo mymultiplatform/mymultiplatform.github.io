@@ -43,7 +43,7 @@
             align-items: center;
             white-space: nowrap;
             animation: scroll 10s linear infinite;
-            transition: transform 0.9s ease; /* Smooth interaction scrolling */
+            transition: transform 0.3s ease; /* Smooth interaction scrolling */
         }
 
         .profile {
@@ -160,7 +160,7 @@
             // Start the idle animation after 3 seconds of inactivity
             animationInterval = setTimeout(() => {
                 startIdleAnimation();
-            }, 3000);
+            }, 10000);
         }
 
         function getPositionX(event) {
