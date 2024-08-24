@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
@@ -34,14 +36,17 @@
 
         .profiles-container {
             width: 100%;
-            overflow-x: auto; /* Allow horizontal scroll */
-            white-space: nowrap; /* Prevent wrapping */
-            padding: 20px 0; /* Padding for a better layout */
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
         }
 
         .profiles {
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            white-space: nowrap;
+            animation: scroll 10s linear infinite;
+            transition: transform 0.3s ease; /* Smooth transition */
         }
 
         .profile {
@@ -52,14 +57,13 @@
             max-width: 300px;
             text-align: left;
             display: inline-block;
-            flex-shrink: 0; /* Prevents profiles from shrinking in size */
         }
 
         .profile img {
             max-width: 100%;
-            background-color: black; /* Black square as replacement */
-            width: 100%; /* Fill the space */
-            height: 200px; /* Set a height for the square */
+            background-color: black;
+            width: 100%;
+            height: 200px;
         }
 
         @keyframes scroll {
@@ -67,24 +71,8 @@
                 transform: translateX(0);
             }
             100% {
-                transform: translateX(-100%); /* Adjust the percentage for the scroll speed */
+                transform: translateX(-100%);
             }
-        }
-
-        /* Initially hide the animation */
-        .scroll-animation {
-            display: none;
-        }
-
-        /* Show animation when active */
-        .scroll-animation.active {
-            display: block;
-            overflow: hidden; /* Hide scrollbars */
-        }
-
-        /* Hide scroll container when animation is active */
-        .profiles-container.hide {
-            display: none;
         }
     </style>
 </head>
@@ -92,65 +80,33 @@
     <div class="background-container">
         <div class="title">WAVERUG</div>
         <div class="logo">
-            <div style="width: 320px; height: 183px; background-color: black;"></div> <!-- Black square as replacement for the logo -->
+            <div style="width: 320px; height: 183px; background-color: black;"></div>
         </div>
-        
-        <!-- Profiles container with scroll -->
         <div class="profiles-container">
             <div class="profiles">
+                <!-- Profiles go here -->
                 <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 1</p>
                     <p>Description: Example</p>
                 </div>
                 <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 2</p>
                     <p>Description: Example</p>
                 </div>
                 <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 3</p>
                     <p>Description: Example</p>
                 </div>
                 <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 4</p>
                     <p>Description: Example</p>
                 </div>
                 <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                    <p>Name: Example 5</p>
-                    <p>Description: Example</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Animation container -->
-        <div class="profiles-container scroll-animation">
-            <div class="profiles">
-                <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                    <p>Name: Example 1</p>
-                    <p>Description: Example</p>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                    <p>Name: Example 2</p>
-                    <p>Description: Example</p>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                    <p>Name: Example 3</p>
-                    <p>Description: Example</p>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
-                    <p>Name: Example 4</p>
-                    <p>Description: Example</p>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; width: 100%; height: 200px;"></div> <!-- Black square as replacement -->
+                    <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 5</p>
                     <p>Description: Example</p>
                 </div>
@@ -159,34 +115,68 @@
     </div>
 
     <script>
-        let timeout;
+        const profiles = document.querySelector('.profiles');
+        let isScrolling = false;
+        let isUserInteracting = false;
+        let animationTimeout;
 
-        function resetTimer() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                // Switch to animation
-                document.querySelector('.profiles-container').classList.add('hide');
-                document.querySelector('.scroll-animation').classList.add('active');
-            }, 30000); // 30 seconds
+        function pauseAnimation() {
+            profiles.style.animationPlayState = 'paused';
+            clearTimeout(animationTimeout);
         }
 
-        function activateScroll() {
-            // Reset inactivity timer
-            resetTimer();
-
-            // Show profiles and hide animation
-            document.querySelector('.profiles-container').classList.remove('hide');
-            document.querySelector('.scroll-animation').classList.remove('active');
+        function resumeAnimation() {
+            profiles.style.animationPlayState = 'running';
         }
 
-        // Detect user interaction
-        window.addEventListener('mousemove', activateScroll);
-        window.addEventListener('keydown', activateScroll);
-        window.addEventListener('scroll', activateScroll);
-        window.addEventListener('click', activateScroll);
+        function handleInteraction() {
+            isUserInteracting = true;
+            pauseAnimation();
+            clearTimeout(animationTimeout);
 
-        // Start the inactivity timer on load
-        resetTimer();
+            animationTimeout = setTimeout(() => {
+                isUserInteracting = false;
+                resumeAnimation();
+            }, 3000); // Resume animation after 3 seconds of inactivity
+        }
+
+        // Add event listeners for mouse and touch scrolling
+        profiles.addEventListener('mousedown', (e) => {
+            isScrolling = true;
+            profiles.style.cursor = 'grabbing';
+            pauseAnimation();
+        });
+
+        profiles.addEventListener('mouseup', () => {
+            isScrolling = false;
+            profiles.style.cursor = 'grab';
+            handleInteraction();
+        });
+
+        profiles.addEventListener('mousemove', (e) => {
+            if (isScrolling) {
+                profiles.style.transform = `translateX(${e.movementX}px)`;
+                handleInteraction();
+            }
+        });
+
+        profiles.addEventListener('touchstart', (e) => {
+            isScrolling = true;
+            pauseAnimation();
+        });
+
+        profiles.addEventListener('touchend', () => {
+            isScrolling = false;
+            handleInteraction();
+        });
+
+        profiles.addEventListener('touchmove', (e) => {
+            if (isScrolling) {
+                const touch = e.touches[0];
+                profiles.style.transform = `translateX(${touch.clientX}px)`;
+                handleInteraction();
+            }
+        });
     </script>
 </body>
 </html>
