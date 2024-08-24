@@ -47,6 +47,8 @@
             white-space: nowrap;
             animation: scroll 10s linear infinite;
             transition: transform 0.3s ease; /* Smooth transition */
+            position: absolute;
+            left: 0;
         }
 
         .profile {
@@ -117,6 +119,8 @@
     <script>
         const profiles = document.querySelector('.profiles');
         let isScrolling = false;
+        let startX;
+        let scrollLeft;
         let isUserInteracting = false;
         let animationTimeout;
 
@@ -140,11 +144,17 @@
             }, 3000); // Resume animation after 3 seconds of inactivity
         }
 
-        // Add event listeners for mouse and touch scrolling
         profiles.addEventListener('mousedown', (e) => {
             isScrolling = true;
+            startX = e.pageX - profiles.offsetLeft;
+            scrollLeft = profiles.scrollLeft;
             profiles.style.cursor = 'grabbing';
             pauseAnimation();
+        });
+
+        profiles.addEventListener('mouseleave', () => {
+            isScrolling = false;
+            profiles.style.cursor = 'grab';
         });
 
         profiles.addEventListener('mouseup', () => {
@@ -155,13 +165,18 @@
 
         profiles.addEventListener('mousemove', (e) => {
             if (isScrolling) {
-                profiles.style.transform = `translateX(${e.movementX}px)`;
+                e.preventDefault();
+                const x = e.pageX - profiles.offsetLeft;
+                const walk = (x - startX) * 3; // Scroll-fast multiplier
+                profiles.scrollLeft = scrollLeft - walk;
                 handleInteraction();
             }
         });
 
         profiles.addEventListener('touchstart', (e) => {
             isScrolling = true;
+            startX = e.touches[0].pageX - profiles.offsetLeft;
+            scrollLeft = profiles.scrollLeft;
             pauseAnimation();
         });
 
@@ -172,8 +187,9 @@
 
         profiles.addEventListener('touchmove', (e) => {
             if (isScrolling) {
-                const touch = e.touches[0];
-                profiles.style.transform = `translateX(${touch.clientX}px)`;
+                const x = e.touches[0].pageX - profiles.offsetLeft;
+                const walk = (x - startX) * 3; // Scroll-fast multiplier
+                profiles.scrollLeft = scrollLeft - walk;
                 handleInteraction();
             }
         });
