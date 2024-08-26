@@ -58,6 +58,7 @@
             max-width: 300px;
             text-align: left;
             display: inline-block;
+            position: relative; /* Added for positioning the icon */
         }
 
         .profile img {
@@ -67,6 +68,14 @@
             height: 200px;
             -webkit-user-drag: none; /* Disable image dragging */
             user-drag: none;
+        }
+
+        .magnifier-icon {
+            position: absolute;
+            bottom: 10px; /* Position from the bottom */
+            right: 10px;  /* Position from the right */
+            width: 20px; /* Set a smaller width */
+            height: 20px; /* Set a smaller height */
         }
 
         @keyframes scroll {
@@ -93,26 +102,51 @@
                     </div>
                     <p>Name: Example 1</p>
                     <p>Description: Example</p>
+                    <!-- Magnifier Icon -->
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 2</p>
                     <p>Description: Example</p>
+                    <!-- Magnifier Icon -->
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 3</p>
                     <p>Description: Example</p>
+                    <!-- Magnifier Icon -->
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 4</p>
                     <p>Description: Example</p>
+                    <!-- Magnifier Icon -->
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; width: 100%; height: 200px;"></div>
                     <p>Name: Example 5</p>
                     <p>Description: Example</p>
+                    <!-- Magnifier Icon -->
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
                 </div>
             </div>
         </div>
