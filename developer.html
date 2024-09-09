@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Scrolling with Screen Wrapping</title>
     <style>
         body {
             margin: 0;
@@ -46,8 +49,7 @@
             display: flex;
             align-items: center;
             white-space: nowrap;
-            position: absolute;
-            left: 0;
+            position: relative;
         }
 
         .profile {
@@ -58,8 +60,8 @@
             max-width: 300px;
             text-align: left;
             display: inline-block;
+            transition: transform 0.3s ease;
             position: relative;
-            transition: transform 0.3s ease; /* Smooth scaling */
         }
 
         .profile img {
@@ -79,6 +81,7 @@
             height: 20px;
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
@@ -90,7 +93,9 @@
         <div class="profiles-container">
             <div class="profiles" id="profiles">
                 <div class="profile">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" alt="Rose Quartz Pot">
+                    <div style="background-color: black; width: 100%; height: 200px;">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" alt="Rose Quartz Pot">
+                    </div>
                     <p>Name: Example 1</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" onclick="toggleScale(this)">
@@ -145,16 +150,32 @@
         let currentTranslate = 0;
         let prevTranslate = 0;
         let animationInterval;
-        let profileWidth = profiles.offsetWidth;
-        let speed = 2;  // Speed of movement in pixels per frame
 
-        // Function to start the idle animation
+        const profileWidth = profiles.offsetWidth;
+        let speed = 2; // pixels per frame
+        let position = 0;
+
         function startIdleAnimation() {
-            profiles.style.animation = 'none'; // Disable CSS animation, use JS for wrapping
             moveProfiles();
         }
 
-        // Add event listeners for touch and mouse interactions
+        function moveProfiles() {
+            position -= speed;
+
+            // Screen wrapping logic: if the profiles container goes out of view, reset it to the other side
+            if (position <= -profiles.scrollWidth) {
+                position = profileWidth;
+            }
+
+            profiles.style.transform = `translateX(${position}px)`;
+            requestAnimationFrame(moveProfiles);
+        }
+
+        function stopIdleAnimation() {
+            cancelAnimationFrame(moveProfiles);
+        }
+
+        // Dragging logic
         profiles.addEventListener('mousedown', startDragging);
         profiles.addEventListener('touchstart', startDragging);
 
@@ -167,7 +188,7 @@
 
         function startDragging(event) {
             isDragging = true;
-            clearInterval(animationInterval); // Stop the idle animation
+            stopIdleAnimation();
             startPos = getPositionX(event);
         }
 
@@ -182,7 +203,7 @@
             isDragging = false;
             prevTranslate = currentTranslate;
 
-            // Restart idle animation after 10 seconds of inactivity
+            // Start the idle animation after 10 seconds of inactivity
             animationInterval = setTimeout(() => {
                 startIdleAnimation();
             }, 10000);
@@ -190,25 +211,6 @@
 
         function getPositionX(event) {
             return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        }
-
-        // Function to move profiles with wrapping logic
-        function moveProfiles() {
-            let position = currentTranslate;
-
-            function animate() {
-                position -= speed;
-                profiles.style.transform = `translateX(${position}px)`;
-
-                // Screen wrapping logic: If profiles move beyond the left edge, teleport to the right
-                if (position < -profileWidth) {
-                    position = window.innerWidth;
-                }
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
         }
 
         // Function to toggle the scale of the profile
