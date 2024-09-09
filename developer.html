@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Scrolling with Screen Wrapping</title>
+    <title>Profile Scrolling with Drag and Touch</title>
     <style>
         body {
             margin: 0;
@@ -149,30 +149,30 @@
         let startPos = 0;
         let currentTranslate = 0;
         let prevTranslate = 0;
-        let animationInterval;
+        let animationFrame;
+        let idleTimeout;
 
-        const profileWidth = profiles.offsetWidth;
+        const profileWidth = profiles.scrollWidth;
         let speed = 2; // pixels per frame
         let position = 0;
 
+        // Function to start the idle animation with wrapping
         function startIdleAnimation() {
             moveProfiles();
         }
 
         function moveProfiles() {
             position -= speed;
-
             // Screen wrapping logic: if the profiles container goes out of view, reset it to the other side
-            if (position <= -profiles.scrollWidth) {
-                position = profileWidth;
+            if (position <= -profileWidth) {
+                position = profiles.parentElement.offsetWidth;
             }
-
             profiles.style.transform = `translateX(${position}px)`;
-            requestAnimationFrame(moveProfiles);
+            animationFrame = requestAnimationFrame(moveProfiles);
         }
 
         function stopIdleAnimation() {
-            cancelAnimationFrame(moveProfiles);
+            cancelAnimationFrame(animationFrame);
         }
 
         // Dragging logic
@@ -190,6 +190,7 @@
             isDragging = true;
             stopIdleAnimation();
             startPos = getPositionX(event);
+            clearTimeout(idleTimeout); // Stop idle animation from restarting
         }
 
         function drag(event) {
@@ -203,8 +204,8 @@
             isDragging = false;
             prevTranslate = currentTranslate;
 
-            // Start the idle animation after 10 seconds of inactivity
-            animationInterval = setTimeout(() => {
+            // Resume idle animation after 10 seconds of inactivity
+            idleTimeout = setTimeout(() => {
                 startIdleAnimation();
             }, 10000);
         }
