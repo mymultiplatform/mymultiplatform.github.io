@@ -40,7 +40,7 @@
         }
 
         .profiles-container {
-            overflow: hidden;
+            overflow: visible; /* Changed from hidden to visible */
             width: 80vw;
             position: relative;
         }
@@ -60,7 +60,7 @@
             max-width: 300px;
             text-align: left;
             display: inline-block;
-            transition: transform 0.3s ease, z-index 0.3s ease; /* Added z-index transition */
+            transition: transform 0.3s ease, z-index 0.3s ease;
             position: relative;
         }
 
@@ -84,6 +84,7 @@
 
         .profile.expanded {
             z-index: 10; /* Ensure the zoomed profile is on top */
+            transform: scale(2); /* Ensure the zoomed profile scales correctly */
         }
     </style>
 </head>
