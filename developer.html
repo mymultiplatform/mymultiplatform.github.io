@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waverug</title>
     <style>
         body {
             margin: 0;
@@ -46,8 +49,7 @@
             display: flex;
             align-items: center;
             white-space: nowrap;
-            animation: scroll 10s linear infinite;
-            transition: transform 0.3s ease;
+            animation: scroll 20s linear infinite;
         }
 
         .profile {
@@ -80,12 +82,13 @@
             cursor: pointer; /* Add cursor pointer */
         }
 
+        /* New Keyframe for seamless scroll */
         @keyframes scroll {
             0% {
                 transform: translateX(0);
             }
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
     </style>
@@ -98,6 +101,7 @@
         </div>
         <div class="profiles-container">
             <div class="profiles" id="profiles">
+                <!-- Repeat the profiles to achieve seamless scrolling -->
                 <div class="profile">
                     <div style="background-color: black; width: 100%; height: 200px;">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" alt="Rose Quartz Pot">
@@ -145,6 +149,20 @@
                         <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
                     </svg>
                 </div>
+
+                <!-- Duplicate the profiles for seamless scrolling -->
+                <div class="profile">
+                    <div style="background-color: black; width: 100%; height: 200px;">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" alt="Rose Quartz Pot">
+                    </div>
+                    <p>Name: Example 1</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" onclick="toggleScale(this)">
+                        <circle cx="30" cy="30" r="20" stroke="black" stroke-width="8" fill="none"/>
+                        <line x1="45" y1="45" x2="80" y2="80" stroke="black" stroke-width="8"/>
+                    </svg>
+                </div>
+                <!-- Add as many duplicates as needed -->
             </div>
         </div>
     </div>
@@ -159,7 +177,7 @@
 
         // Function to start the idle animation
         function startIdleAnimation() {
-            profiles.style.animation = 'scroll 10s linear infinite';
+            profiles.style.animation = 'scroll 20s linear infinite';
         }
 
         // Function to stop the idle animation
