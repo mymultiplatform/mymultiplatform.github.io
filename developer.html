@@ -3,104 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychedelic Lava Lamp</title>
+    <title>Lava Lamp Sphere</title>
     <style>
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: black;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
         canvas {
-            border: 5px solid white;
-        }
-
-        .center {
-            text-align: center;
-            color: white;
-        }
-
-        .container {
-            text-align: center;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <canvas id="lavaCanvas"></canvas>
-        <div class="center">
-            <h1>PSYCHEDELIC LAVA LAMP</h1>
-            <hr style="border-top: 2px solid white; width: 80%;">
-        </div>
-    </div>
 
-    <!-- Include Simplex Noise Library from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+<!-- Include Three.js library from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Include Simplex Noise library for the texture generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
 
-    <script>
-        const canvas = document.getElementById('lavaCanvas');
-        const ctx = canvas.getContext('2d');
+<script>
+    // Set up the scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-        canvas.width = window.innerWidth * 0.9;
-        canvas.height = window.innerHeight * 0.6;
+    // Set camera position
+    camera.position.z = 5;
 
-        // Create a Simplex Noise instance
-        const simplex = new SimplexNoise();
+    // Create the Simplex Noise instance for generating the texture
+    const simplex = new SimplexNoise();
+    const canvasTexture = document.createElement('canvas');
+    const ctx = canvasTexture.getContext('2d');
+    canvasTexture.width = 512;
+    canvasTexture.height = 512;
 
-        // Parameters to adjust the look
-        const scale = 0.01; // Scale of the noise (lower value = more zoomed in)
-        const noiseSpeed = 0.005; // Speed of noise transition
-        let time = 0;
+    let time = 0;
+    const noiseSpeed = 0.01;
+    const scale = 0.02;
 
-        // Function to generate noise-based color patterns
-        function drawLavaPattern() {
-            const imgData = ctx.createImageData(canvas.width, canvas.height);
+    // Function to generate the lava-lamp-like texture using simplex noise
+    function generateTexture() {
+        const imgData = ctx.createImageData(canvasTexture.width, canvasTexture.height);
 
-            for (let x = 0; x < canvas.width; x++) {
-                for (let y = 0; y < canvas.height; y++) {
-                    const index = (x + y * canvas.width) * 4;
+        for (let x = 0; x < canvasTexture.width; x++) {
+            for (let y = 0; y < canvasTexture.height; y++) {
+                const noiseValue = simplex.noise3D(x * scale, y * scale, time);
 
-                    // Generate a noise value for this pixel using simplex noise
-                    const noiseValue = simplex.noise3D(x * scale, y * scale, time);
-
-                    // Map noise value (-1 to 1) to a color (lava-like transition)
-                    let color;
-                    if (noiseValue < -0.2) {
-                        color = [0, 0, 128]; // Dark Blue
-                    } else if (noiseValue < 0) {
-                        color = [0, 128, 128]; // Teal
-                    } else if (noiseValue < 0.2) {
-                        color = [0, 128, 0]; // Green
-                    } else {
-                        color = [128, 0, 0]; // Red
-                    }
-
-                    // Apply the color to the pixel
-                    imgData.data[index] = color[0];      // Red
-                    imgData.data[index + 1] = color[1];  // Green
-                    imgData.data[index + 2] = color[2];  // Blue
-                    imgData.data[index + 3] = 255;       // Alpha
+                let color;
+                if (noiseValue < -0.2) {
+                    color = [0, 0, 128]; // Dark Blue
+                } else if (noiseValue < 0) {
+                    color = [0, 128, 128]; // Teal
+                } else if (noiseValue < 0.2) {
+                    color = [0, 128, 0]; // Green
+                } else {
+                    color = [128, 0, 0]; // Red
                 }
+
+                const index = (x + y * canvasTexture.width) * 4;
+                imgData.data[index] = color[0];     // Red
+                imgData.data[index + 1] = color[1]; // Green
+                imgData.data[index + 2] = color[2]; // Blue
+                imgData.data[index + 3] = 255;      // Alpha
             }
-
-            // Update canvas with new image data
-            ctx.putImageData(imgData, 0, 0);
-            time += noiseSpeed; // Update time for animation
         }
 
-        // Animation loop to keep redrawing the pattern
-        function animate() {
-            drawLavaPattern();
-            requestAnimationFrame(animate);
-        }
+        ctx.putImageData(imgData, 0, 0);
+        time += noiseSpeed;
+    }
 
-        // Start the animation loop
-        animate();
-    </script>
+    // Create a sphere geometry and apply the texture to it
+    const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+
+    // Create a material that uses the canvas as a texture
+    const texture = new THREE.Texture(canvasTexture);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const sphere = new THREE.Mesh(geometry, material);
+
+    // Add the sphere to the scene
+    scene.add(sphere);
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Update the texture with new noise
+        generateTexture();
+        texture.needsUpdate = true;
+
+        // Rotate the sphere slowly
+        sphere.rotation.y += 0.01;
+        sphere.rotation.x += 0.005;
+
+        // Render the scene
+        renderer.render(scene, camera);
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+
+    // Start the animation
+    animate();
+</script>
+
 </body>
 </html>
