@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychedelic Noise</title>
+    <title>Psychedelic Lava Lamp</title>
     <style>
         body, html {
             margin: 0;
@@ -32,64 +32,74 @@
 </head>
 <body>
     <div class="container">
-        <canvas id="noiseCanvas"></canvas>
+        <canvas id="lavaCanvas"></canvas>
         <div class="center">
-            <h1>PSYCHEDELIC NOISE</h1>
+            <h1>PSYCHEDELIC LAVA LAMP</h1>
             <hr style="border-top: 2px solid white; width: 80%;">
         </div>
     </div>
 
+    <!-- Include Simplex Noise Library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+
     <script>
-        // Setup canvas
-        const canvas = document.getElementById('noiseCanvas');
+        const canvas = document.getElementById('lavaCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Set canvas width and height
         canvas.width = window.innerWidth * 0.9;
         canvas.height = window.innerHeight * 0.6;
 
-        // Parameters for noise generation
-        const scale = 0.03;
-        const threshold = 0.5;
-        const noiseSpeed = 0.1;
+        // Create a Simplex Noise instance
+        const simplex = new SimplexNoise();
 
+        // Parameters to adjust the look
+        const scale = 0.01; // Scale of the noise (lower value = more zoomed in)
+        const noiseSpeed = 0.005; // Speed of noise transition
         let time = 0;
 
-        // Helper function to generate random noise
-        function generateNoise(x, y, t) {
-            return Math.sin((x + Math.sin(t)) * scale) + Math.cos((y + Math.cos(t)) * scale);
-        }
-
-        // Draw pattern on the canvas
-        function drawPattern() {
+        // Function to generate noise-based color patterns
+        function drawLavaPattern() {
             const imgData = ctx.createImageData(canvas.width, canvas.height);
 
             for (let x = 0; x < canvas.width; x++) {
                 for (let y = 0; y < canvas.height; y++) {
                     const index = (x + y * canvas.width) * 4;
-                    const value = generateNoise(x, y, time);
 
-                    const color1 = value > threshold ? [0, 128, 0] : [0, 0, 128]; // Green and Blue
-                    const color2 = value < -threshold ? [255, 255, 255] : color1;
+                    // Generate a noise value for this pixel using simplex noise
+                    const noiseValue = simplex.noise3D(x * scale, y * scale, time);
 
-                    imgData.data[index] = color2[0];
-                    imgData.data[index + 1] = color2[1];
-                    imgData.data[index + 2] = color2[2];
-                    imgData.data[index + 3] = 255; // Alpha
+                    // Map noise value (-1 to 1) to a color (lava-like transition)
+                    let color;
+                    if (noiseValue < -0.2) {
+                        color = [0, 0, 128]; // Dark Blue
+                    } else if (noiseValue < 0) {
+                        color = [0, 128, 128]; // Teal
+                    } else if (noiseValue < 0.2) {
+                        color = [0, 128, 0]; // Green
+                    } else {
+                        color = [128, 0, 0]; // Red
+                    }
+
+                    // Apply the color to the pixel
+                    imgData.data[index] = color[0];      // Red
+                    imgData.data[index + 1] = color[1];  // Green
+                    imgData.data[index + 2] = color[2];  // Blue
+                    imgData.data[index + 3] = 255;       // Alpha
                 }
             }
 
+            // Update canvas with new image data
             ctx.putImageData(imgData, 0, 0);
             time += noiseSpeed; // Update time for animation
         }
 
-        // Animation loop
+        // Animation loop to keep redrawing the pattern
         function animate() {
-            drawPattern();
+            drawLavaPattern();
             requestAnimationFrame(animate);
         }
 
-        // Start animation
+        // Start the animation loop
         animate();
     </script>
 </body>
