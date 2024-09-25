@@ -3,115 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lava Lamp Sphere</title>
+    <title>Simple Game Menu</title>
     <style>
-        body {
+        body, html {
+            height: 100%;
             margin: 0;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            color: white;
+            text-align: center;
         }
-
-        canvas {
-            display: block;
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        #menuScreen {
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #optionsScreen {
+            background-color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #startScreen {
+            background-color: blue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center-text {
+            cursor: pointer;
+            font-size: 48px;
         }
     </style>
 </head>
 <body>
 
-<!-- Include Three.js library from CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- Include Simplex Noise library for the texture generation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <!-- Menu Screen -->
+    <div id="menuScreen" class="screen">
+        <div class="center-text" onclick="showOptions()">MENU</div>
+    </div>
 
-<script>
-    // Set up the scene, camera, and renderer
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    <!-- Options Screen -->
+    <div id="optionsScreen" class="screen">
+        <div class="center-text" onclick="showStart()">OPTIONS</div>
+    </div>
 
-    // Set camera position
-    camera.position.z = 5;
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen">
+        <div class="center-text" onclick="showMenu()">START</div>
+    </div>
 
-    // Create the Simplex Noise instance for generating the texture
-    const simplex = new SimplexNoise();
-    const canvasTexture = document.createElement('canvas');
-    const ctx = canvasTexture.getContext('2d');
-    canvasTexture.width = 512;
-    canvasTexture.height = 512;
+    <script>
+        // Show menu screen by default
+        window.onload = function() {
+            showMenu();
+        };
 
-    let time = 0;
-    const noiseSpeed = 0.01;
-    const scale = 0.02;
-
-    // Function to generate the lava-lamp-like texture using simplex noise
-    function generateTexture() {
-        const imgData = ctx.createImageData(canvasTexture.width, canvasTexture.height);
-
-        for (let x = 0; x < canvasTexture.width; x++) {
-            for (let y = 0; y < canvasTexture.height; y++) {
-                const noiseValue = simplex.noise3D(x * scale, y * scale, time);
-
-                let color;
-                if (noiseValue < -0.2) {
-                    color = [0, 0, 128]; // Dark Blue
-                } else if (noiseValue < 0) {
-                    color = [0, 128, 128]; // Teal
-                } else if (noiseValue < 0.2) {
-                    color = [0, 128, 0]; // Green
-                } else {
-                    color = [128, 0, 0]; // Red
-                }
-
-                const index = (x + y * canvasTexture.width) * 4;
-                imgData.data[index] = color[0];     // Red
-                imgData.data[index + 1] = color[1]; // Green
-                imgData.data[index + 2] = color[2]; // Blue
-                imgData.data[index + 3] = 255;      // Alpha
-            }
+        // Functions to switch between screens
+        function showMenu() {
+            hideAllScreens();
+            document.getElementById('menuScreen').style.display = 'flex';
         }
 
-        ctx.putImageData(imgData, 0, 0);
-        time += noiseSpeed;
-    }
+        function showOptions() {
+            hideAllScreens();
+            document.getElementById('optionsScreen').style.display = 'flex';
+        }
 
-    // Create a sphere geometry and apply the texture to it
-    const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+        function showStart() {
+            hideAllScreens();
+            document.getElementById('startScreen').style.display = 'flex';
+        }
 
-    // Create a material that uses the canvas as a texture
-    const texture = new THREE.Texture(canvasTexture);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const sphere = new THREE.Mesh(geometry, material);
-
-    // Add the sphere to the scene
-    scene.add(sphere);
-
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Update the texture with new noise
-        generateTexture();
-        texture.needsUpdate = true;
-
-        // Rotate the sphere slowly
-        sphere.rotation.y += 0.01;
-        sphere.rotation.x += 0.005;
-
-        // Render the scene
-        renderer.render(scene, camera);
-    }
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    });
-
-    // Start the animation
-    animate();
-</script>
+        function hideAllScreens() {
+            document.getElementById('menuScreen').style.display = 'none';
+            document.getElementById('optionsScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
