@@ -14,7 +14,6 @@
             width: 100%;
             height: 100%;
             display: none;
-            display: flex;
             justify-content: center;
             align-items: center;
             color: white;
@@ -42,66 +41,68 @@
             text-align: left;
             line-height: 2.5;
         }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-
     <!-- Main Screen -->
     <div id="mainScreen" class="screen">
         <div>
             <p>____________________________________________________________________________________</p>
             <div class="center-text">THE GAME</div><br><br>
             <div class="menu-options">
-                <div class="center-text" onclick="showStart()">1. Start</div><br>
-                <div class="center-text" onclick="showMenu()">2. Menu</div><br>
-                <div class="center-text" onclick="showOptions()">3. Options</div>
+                <div class="button" onclick="showStart()">1. Start</div><br>
+                <div class="button" onclick="showMenu()">2. Menu</div><br>
+                <div class="button" onclick="showOptions()">3. Options</div>
             </div>
             <p>____________________________________________________________________________________</p>
         </div>
     </div>
-
     <!-- Menu Screen -->
     <div id="menuScreen" class="screen">
-        <div class="center-text" onclick="showMain()">MENU</div>
+        <div class="button" onclick="showMain()">MENU</div>
     </div>
-
     <!-- Options Screen -->
     <div id="optionsScreen" class="screen">
-        <div class="center-text" onclick="showMain()">OPTIONS</div>
+        <div class="button" onclick="showMain()">OPTIONS</div>
     </div>
-
     <!-- Start Screen -->
     <div id="startScreen" class="screen">
-        <div class="center-text" onclick="showMain()">START</div>
+        <div class="button" onclick="showMain()">START</div>
     </div>
-
     <script>
         // Show main screen by default
         window.onload = function() {
             showMain();
         };
-
         // Functions to switch between screens
         function showMain() {
             hideAllScreens();
             document.getElementById('mainScreen').style.display = 'flex';
         }
-
         function showMenu() {
             hideAllScreens();
             document.getElementById('menuScreen').style.display = 'flex';
         }
-
         function showOptions() {
             hideAllScreens();
             document.getElementById('optionsScreen').style.display = 'flex';
         }
-
         function showStart() {
             hideAllScreens();
             document.getElementById('startScreen').style.display = 'flex';
         }
-
         function hideAllScreens() {
             document.getElementById('mainScreen').style.display = 'none';
             document.getElementById('menuScreen').style.display = 'none';
@@ -109,6 +110,5 @@
             document.getElementById('startScreen').style.display = 'none';
         }
     </script>
-
 </body>
 </html>
