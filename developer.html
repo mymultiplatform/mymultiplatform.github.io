@@ -22,6 +22,9 @@
             font-size: 48px;
             text-align: center;
         }
+        #mainScreen {
+            background-color: purple;
+        }
         #menuScreen {
             background-color: red;
         }
@@ -34,32 +37,56 @@
         .center-text {
             cursor: pointer;
         }
+        .menu-options {
+            font-size: 24px;
+            text-align: left;
+            line-height: 2.5;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Main Screen -->
+    <div id="mainScreen" class="screen">
+        <div>
+            <p>____________________________________________________________________________________</p>
+            <div class="center-text">THE GAME</div><br><br>
+            <div class="menu-options">
+                <div class="center-text" onclick="showStart()">1. Start</div><br>
+                <div class="center-text" onclick="showMenu()">2. Menu</div><br>
+                <div class="center-text" onclick="showOptions()">3. Options</div>
+            </div>
+            <p>____________________________________________________________________________________</p>
+        </div>
+    </div>
+
     <!-- Menu Screen -->
     <div id="menuScreen" class="screen">
-        <div class="center-text" onclick="showOptions()">MENU</div>
+        <div class="center-text" onclick="showMain()">MENU</div>
     </div>
 
     <!-- Options Screen -->
     <div id="optionsScreen" class="screen">
-        <div class="center-text" onclick="showStart()">OPTIONS</div>
+        <div class="center-text" onclick="showMain()">OPTIONS</div>
     </div>
 
     <!-- Start Screen -->
     <div id="startScreen" class="screen">
-        <div class="center-text" onclick="showMenu()">START</div>
+        <div class="center-text" onclick="showMain()">START</div>
     </div>
 
     <script>
-        // Show menu screen by default
+        // Show main screen by default
         window.onload = function() {
-            showMenu();
+            showMain();
         };
 
         // Functions to switch between screens
+        function showMain() {
+            hideAllScreens();
+            document.getElementById('mainScreen').style.display = 'flex';
+        }
+
         function showMenu() {
             hideAllScreens();
             document.getElementById('menuScreen').style.display = 'flex';
@@ -76,6 +103,7 @@
         }
 
         function hideAllScreens() {
+            document.getElementById('mainScreen').style.display = 'none';
             document.getElementById('menuScreen').style.display = 'none';
             document.getElementById('optionsScreen').style.display = 'none';
             document.getElementById('startScreen').style.display = 'none';
