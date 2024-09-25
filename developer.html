@@ -17,10 +17,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            color: white;
             font-family: Arial, sans-serif;
             font-size: 48px;
             text-align: center;
-            position: relative;
         }
         #mainScreen {
             background-color: purple;
@@ -36,32 +36,12 @@
         }
         .center-text {
             cursor: pointer;
+            font-weight: bold; /* Make text bold */
+            z-index: 100; /* Ensure it is on top of everything */
         }
         .menu-options {
             font-size: 24px;
-            text-align: center;
-            line-height: 2.5;
-            color: transparent; /* Hide the original text for brute-force method */
-            position: relative;
-        }
-
-        /* Overlay text styles */
-        .text-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            pointer-events: none; /* Make sure overlay doesn't block the buttons */
-            font-size: 48px;
-            color: white;
-        }
-
-        .text-overlay div {
+            text-align: left;
             line-height: 2.5;
         }
     </style>
@@ -79,13 +59,6 @@
                 <div class="center-text" onclick="showOptions()">3. Options</div>
             </div>
             <p>____________________________________________________________________________________</p>
-        </div>
-
-        <!-- Text Overlay -->
-        <div class="text-overlay">
-            <div>Start</div>
-            <div>Menu</div>
-            <div>Options</div>
         </div>
     </div>
 
