@@ -1,117 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Slot Machine</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: black;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    canvas {
-      display: block;
-      background-color: black;
-    }
-
-    .slot-word {
-      position: absolute;
-      font-family: Helvetica, Arial, sans-serif;
-      color: white;
-      text-shadow: 2px 2px 5px grey;
-      white-space: nowrap;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyMultiplatform Official Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .spacer {
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="slotCanvas"></canvas>
+    <h1>MYMULTIPLATFORM OFFICIAL WEBPAGE</h1>
 
-<script>
-  // Set up the canvas and context
-  const canvas = document.getElementById('slotCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    <div class="spacer"></div>
 
-  // Words to display
-  const words = ["CA DRIVERS LICENSE", "ARCHITECTURE JOB", "I HAVE MATH CLASS", "SENTRI GLOBAL ENTRY"];
-  let currentWordIndex = 0;
-  let yPosition = canvas.height; // Initial position for the first word
-  const wordHeight = 60; // Height of each word for spacing
-  const speed = 3; // Speed of the movement
-  const fontSize = 40; // Normal font size
-  let frameCount = 0; // Track the frame count for bending effect
+    <h2>TEST SERVER</h2>
+    <p>PLEASE DEBUG AND LEAVE A COMMENT TO TEST SERVER'S STORING CAPABILITIES</p>
 
-  function animateWords() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    <div class="spacer"></div>
 
-    // Get the current word
-    const word = words[currentWordIndex];
+    <form action="#" method="post">
+        <label for="random-id">RANDOM ID:</label>
+        <input type="text" id="random-id" name="random-id" placeholder="Generated ID will appear here" disabled>
+        <br><br>
+        
+        <label for="comment">COMMENT:</label>
+        <input type="text" id="comment" name="comment" placeholder="Enter your comment here" style="width: 60%;">
+        <br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
 
-    // Calculate bending and oscillation effect
-    const bendFactor = 30; // Controls the bending effect
-    const oscillationAmplitude = 15; // Controls the oscillation amplitude
-    const oscillationFrequency = 5; // Controls how fast the oscillation occurs
+    <div class="spacer"></div>
 
-    // Calculate effective y position with bending
-    const bendingOffset = (yPosition - canvas.height / 2) / (canvas.height / 2);
-    let effectiveYPosition = yPosition + (bendFactor * Math.pow(bendingOffset, 2));
-
-    // Add vertical oscillation
-    const oscillation = oscillationAmplitude * Math.sin(frameCount / oscillationFrequency);
-    effectiveYPosition += oscillation;
-
-    // Calculate distance to the center for scaling
-    const distanceToCenter = Math.abs(effectiveYPosition - canvas.height / 2);
-
-    // Scale font size based on distance to center
-    const scaleFactor = Math.max(0.5, (100 - distanceToCenter) / 100); // Scale between 0.5 and 1
-    const currentFontSize = fontSize * scaleFactor * 1.5; // Increase size for more impact
-
-    // Set the font style and size
-    ctx.font = `${currentFontSize}px Helvetica`;
-    ctx.fillStyle = 'white';
-    ctx.textAlign = 'center';
-
-    // Draw shadow effect
-    ctx.fillText(word, canvas.width / 2 + 2, effectiveYPosition + 2);
-
-    // Draw the word
-    ctx.fillStyle = 'white';
-    ctx.fillText(word, canvas.width / 2, effectiveYPosition);
-
-    // Update the y position for the animation
-    yPosition -= speed;
-
-    // Reset position and update word index when the word moves out of view
-    if (yPosition < -wordHeight) {
-      yPosition = canvas.height; // Reset to the bottom
-      currentWordIndex = (currentWordIndex + 1) % words.length;
-    }
-
-    // Increment frame count for oscillation effect
-    frameCount++;
-
-    // Call this function again after 50 milliseconds for smooth animation
-    requestAnimationFrame(animateWords);
-  }
-
-  // Adjust canvas size on window resize
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-
-  // Start the animation
-  animateWords();
-</script>
+    <h3>List of Comments by Other Users</h3>
+    <ul id="comments-list">
+        <li>-</li>
+    </ul>
 
 </body>
 </html>
