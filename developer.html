@@ -13,6 +13,14 @@
         .spacer {
             margin-top: 50px;
         }
+        #comments-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #comments-list li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -26,7 +34,8 @@
 
     <div class="spacer"></div>
 
-    <form action="#" method="post">
+    <!-- Comment Form -->
+    <form id="comment-form">
         <label for="random-id">RANDOM ID:</label>
         <input type="text" id="random-id" name="random-id" placeholder="Generated ID will appear here" disabled>
         <br><br>
@@ -42,8 +51,46 @@
 
     <h3>List of Comments by Other Users</h3>
     <ul id="comments-list">
-        <li>-</li>
+        <!-- Comments will be loaded here dynamically -->
     </ul>
+
+    <script>
+        // Function to fetch and display comments
+        async function loadComments() {
+            const response = await fetch('/comments');
+            const comments = await response.json();
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+            comments.forEach(comment => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `ID ${comment.id}: ${comment.text}`;
+                commentsList.appendChild(listItem);
+            });
+        }
+
+        // Function to handle form submission
+        document.getElementById('comment-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const commentInput = document.getElementById('comment');
+            const commentText = commentInput.value;
+
+            if (commentText) {
+                await fetch('/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ comment: commentText })
+                });
+                
+                commentInput.value = '';  // Clear the input
+                loadComments();  // Reload comments to show the new one
+            }
+        });
+
+        // Load comments when the page loads
+        window.onload = loadComments;
+    </script>
 
 </body>
 </html>
