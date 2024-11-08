@@ -13,13 +13,47 @@
         .spacer {
             margin-top: 50px;
         }
-        #comments-list {
+        #comments-list, #videos-list {
             list-style-type: none;
             padding: 0;
         }
-        #comments-list li {
+        #comments-list li, #videos-list li {
             padding: 5px;
             border-bottom: 1px solid #ddd;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        .form-group input[type="text"], .form-group input[type="file"] {
+            width: 60%;
+            padding: 8px;
+            font-size: 16px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        a.download-link {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a.download-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -34,31 +68,56 @@
 
     <div class="spacer"></div>
 
-    <!-- Comment Form -->
-    <form id="comment-form">
-        <label for="random-id">RANDOM ID:</label>
-        <input type="text" id="random-id" name="random-id" placeholder="Generated ID will appear here" disabled>
-        <br><br>
-        
-        <label for="comment">COMMENT:</label>
-        <input type="text" id="comment" name="comment" placeholder="Enter your comment here" style="width: 60%;">
-        <br><br>
-        
-        <button type="submit">Submit</button>
-    </form>
+    <!-- Comments Section -->
+    <div class="section" id="comments-section">
+        <h2>Comments</h2>
+        <form id="comment-form">
+            <div class="form-group">
+                <label for="comment">COMMENT:</label><br>
+                <input type="text" id="comment" name="comment" placeholder="Enter your comment here" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit Comment</button>
+            </div>
+            <div id="comment-message"></div>
+        </form>
 
-    <div class="spacer"></div>
+        <h3>List of Comments by Other Users</h3>
+        <ul id="comments-list">
+            <!-- Comments will be loaded here dynamically -->
+        </ul>
+    </div>
 
-    <h3>List of Comments by Other Users</h3>
-    <ul id="comments-list">
-        <!-- Comments will be loaded here dynamically -->
-    </ul>
+    <!-- Videos Section -->
+    <div class="section" id="videos-section">
+        <h2>Uploaded Videos</h2>
+        <form id="video-form">
+            <div class="form-group">
+                <label for="video">UPLOAD MP4 VIDEO:</label><br>
+                <input type="file" id="video" name="video" accept=".mp4" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Upload Video</button>
+            </div>
+            <div id="video-message"></div>
+        </form>
+
+        <h3>List of Uploaded Videos</h3>
+        <ul id="videos-list">
+            <!-- Videos will be loaded here dynamically -->
+        </ul>
+    </div>
 
     <script>
+        // Configuration: Set the server's base URL
+        const SERVER_URL = 'http://localhost:5000'; // Change this if your server is hosted elsewhere
+
+        // -------------------- Comments Section --------------------
+
         // Function to fetch and display comments
         async function loadComments() {
             try {
-                const response = await fetch('http://localhost:5000/comments');
+                const response = await fetch(`${SERVER_URL}/comments`);
                 if (response.ok) {
                     const comments = await response.json();
                     const commentsList = document.getElementById('comments-list');
@@ -72,40 +131,142 @@
                     console.error("Failed to fetch comments");
                 }
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Error fetching comments:", error);
             }
         }
 
-        // Function to handle form submission
+        // Function to handle comment form submission
         document.getElementById('comment-form').addEventListener('submit', async (event) => {
             event.preventDefault();
             const commentInput = document.getElementById('comment');
-            const commentText = commentInput.value;
+            const commentText = commentInput.value.trim();
+            const messageDiv = document.getElementById('comment-message');
 
             if (commentText) {
                 try {
-                    const response = await fetch('http://localhost:5000/comments', {
+                    const response = await fetch(`${SERVER_URL}/comments`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ comment: commentText })
                     });
-                    
+
                     if (response.ok) {
-                        commentInput.value = '';  // Clear the input
-                        loadComments();  // Reload comments to show the new one
+                        const result = await response.json();
+                        commentInput.value = ''; // Clear input
+                        loadComments(); // Reload comments
+                        messageDiv.textContent = 'Comment submitted successfully!';
+                        messageDiv.className = 'success';
                     } else {
-                        console.error("Failed to post comment");
+                        const error = await response.json();
+                        messageDiv.textContent = `Error: ${error.error || 'Failed to submit comment.'}`;
+                        messageDiv.className = 'error';
                     }
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("Error submitting comment:", error);
+                    messageDiv.textContent = 'An error occurred while submitting your comment.';
+                    messageDiv.className = 'error';
                 }
+
+                // Clear message after 3 seconds
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = '';
+                }, 3000);
             }
         });
 
-        // Load comments when the page loads
-        window.onload = loadComments;
+        // -------------------- Videos Section --------------------
+
+        // Function to fetch and display videos
+        async function loadVideos() {
+            try {
+                const response = await fetch(`${SERVER_URL}/videos`);
+                if (response.ok) {
+                    const videos = await response.json();
+                    const videosList = document.getElementById('videos-list');
+                    videosList.innerHTML = '';
+                    if (videos.length === 0) {
+                        videosList.innerHTML = '<li>No videos uploaded yet.</li>';
+                        return;
+                    }
+                    videos.forEach(video => {
+                        const listItem = document.createElement('li');
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = `${SERVER_URL}/download/${encodeURIComponent(video)}`;
+                        downloadLink.textContent = 'Download';
+                        downloadLink.className = 'download-link';
+                        downloadLink.target = '_blank'; // Open in new tab
+                        listItem.textContent = video + ' - ';
+                        listItem.appendChild(downloadLink);
+                        videosList.appendChild(listItem);
+                    });
+                } else {
+                    console.error("Failed to fetch videos");
+                }
+            } catch (error) {
+                console.error("Error fetching videos:", error);
+            }
+        }
+
+        // Function to handle video form submission
+        document.getElementById('video-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const videoInput = document.getElementById('video');
+            const file = videoInput.files[0];
+            const messageDiv = document.getElementById('video-message');
+
+            if (file) {
+                if (file.type !== 'video/mp4') {
+                    messageDiv.textContent = 'Error: Only MP4 files are allowed.';
+                    messageDiv.className = 'error';
+                    setTimeout(() => {
+                        messageDiv.textContent = '';
+                        messageDiv.className = '';
+                    }, 3000);
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const response = await fetch(`${SERVER_URL}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        videoInput.value = ''; // Clear input
+                        loadVideos(); // Reload videos
+                        messageDiv.textContent = 'Video uploaded successfully!';
+                        messageDiv.className = 'success';
+                    } else {
+                        const error = await response.json();
+                        messageDiv.textContent = `Error: ${error.error || 'Failed to upload video.'}`;
+                        messageDiv.className = 'error';
+                    }
+                } catch (error) {
+                    console.error("Error uploading video:", error);
+                    messageDiv.textContent = 'An error occurred while uploading your video.';
+                    messageDiv.className = 'error';
+                }
+
+                // Clear message after 3 seconds
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = '';
+                }, 3000);
+            }
+        });
+
+        // Load comments and videos on page load
+        window.onload = () => {
+            loadComments();
+            loadVideos();
+        };
     </script>
 
 </body>
