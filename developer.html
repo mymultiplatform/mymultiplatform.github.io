@@ -57,15 +57,23 @@
     <script>
         // Function to fetch and display comments
         async function loadComments() {
-            const response = await fetch('/comments');
-            const comments = await response.json();
-            const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '';
-            comments.forEach(comment => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `ID ${comment.id}: ${comment.text}`;
-                commentsList.appendChild(listItem);
-            });
+            try {
+                const response = await fetch('http://localhost:5000/comments');
+                if (response.ok) {
+                    const comments = await response.json();
+                    const commentsList = document.getElementById('comments-list');
+                    commentsList.innerHTML = '';
+                    comments.forEach(comment => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `ID ${comment.id}: ${comment.text}`;
+                        commentsList.appendChild(listItem);
+                    });
+                } else {
+                    console.error("Failed to fetch comments");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
         }
 
         // Function to handle form submission
@@ -75,16 +83,24 @@
             const commentText = commentInput.value;
 
             if (commentText) {
-                await fetch('/comments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ comment: commentText })
-                });
-                
-                commentInput.value = '';  // Clear the input
-                loadComments();  // Reload comments to show the new one
+                try {
+                    const response = await fetch('http://localhost:5000/comments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ comment: commentText })
+                    });
+                    
+                    if (response.ok) {
+                        commentInput.value = '';  // Clear the input
+                        loadComments();  // Reload comments to show the new one
+                    } else {
+                        console.error("Failed to post comment");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                }
             }
         });
 
