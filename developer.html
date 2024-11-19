@@ -1,273 +1,234 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyMultiplatform Official Webpage</title>
+<foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot>
+    <meta charset="UTF-8"></meta>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+    <title>Profile Scrolling with Drag and Touch</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .spacer {
-            margin-top: 50px;
-        }
-        #comments-list, #videos-list {
-            list-style-type: none;
+            margin: 0;
             padding: 0;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
-        #comments-list li, #videos-list li {
-            padding: 5px;
-            border-bottom: 1px solid #ddd;
+
+        .background-container {
+            background-color: black;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: black;
+            font-family: 'Helvetica', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .section {
-            margin: 40px 0;
+
+        .title {
+            font-size: 3rem;
+            color: white;
         }
-        .section h2 {
-            margin-bottom: 20px;
+
+        .logo {
+            margin-top: 20px;
         }
-        .form-group {
-            margin: 10px 0;
+
+        .profiles-container {
+            overflow: visible; /* Changed from hidden to visible */
+            width: 80vw;
+            position: relative;
         }
-        .form-group input[type="text"], .form-group input[type="file"] {
-            width: 60%;
-            padding: 8px;
-            font-size: 16px;
+
+        .profiles {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
         }
-        .form-group button {
-            padding: 10px 20px;
-            font-size: 16px;
+
+        .profile {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            background-color: #f8f8f8;
+            max-width: 300px;
+            text-align: left;
+            display: inline-block;
+            transition: transform 0.3s ease, z-index 0.3s ease;
+            position: relative;
+        }
+
+        .profile img {
+            max-width: 100%;
+            background-color: black;
+            width: 100%;
+            height: 200px;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+
+        .magnifier-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
         }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-        .success {
-            color: green;
-            margin-top: 10px;
-        }
-        a.download-link {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a.download-link:hover {
-            text-decoration: underline;
+
+        .profile.expanded {
+            z-index: 10; /* Ensure the zoomed profile is on top */
+            transform: scale(2); /* Ensure the zoomed profile scales correctly */
         }
     </style>
 </head>
 <body>
-
-    <h1>MYMULTIPLATFORM OFFICIAL WEBPAGE</h1>
-
-    <div class="spacer"></div>
-
-    <h2>TEST SERVER</h2>
-    <p>PLEASE DEBUG AND LEAVE A COMMENT TO TEST SERVER'S STORING CAPABILITIES</p>
-
-    <div class="spacer"></div>
-
-    <!-- Comments Section -->
-    <div class="section" id="comments-section">
-        <h2>Comments</h2>
-        <form id="comment-form">
-            <div class="form-group">
-                <label for="comment">COMMENT:</label><br>
-                <input type="text" id="comment" name="comment" placeholder="Enter your comment here" required>
+    <div class="background-container">
+        <div class="title">WAVERUG</div>
+        <div class="logo">
+            <div style="background-color: black; height: 183px; width: 320px;"></div>
+        </div>
+        <div class="profiles-container">
+            <div class="profiles" id="profiles">
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;">
+                        <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
+                    </div>
+                    <p>Name: Example 1</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
+                    </line></circle></svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 2</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
+                    </line></circle></svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 3</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
+                    </line></circle></svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 4</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
+                    </line></circle></svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 5</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
+                    </line></circle></svg>
+                </div>
             </div>
-            <div class="form-group">
-                <button type="submit">Submit Comment</button>
-            </div>
-            <div id="comment-message"></div>
-        </form>
-
-        <h3>List of Comments by Other Users</h3>
-        <ul id="comments-list">
-            <!-- Comments will be loaded here dynamically -->
-        </ul>
-    </div>
-
-    <!-- Videos Section -->
-    <div class="section" id="videos-section">
-        <h2>Uploaded Videos</h2>
-        <form id="video-form">
-            <div class="form-group">
-                <label for="video">UPLOAD MP4 VIDEO:</label><br>
-                <input type="file" id="video" name="video" accept=".mp4" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Upload Video</button>
-            </div>
-            <div id="video-message"></div>
-        </form>
-
-        <h3>List of Uploaded Videos</h3>
-        <ul id="videos-list">
-            <!-- Videos will be loaded here dynamically -->
-        </ul>
+        </div>
     </div>
 
     <script>
-        // Configuration: Set the server's base URL
-        const SERVER_URL = 'http://localhost:5000'; // Change this if your server is hosted elsewhere
+        const profiles = document.getElementById('profiles');
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationFrame;
+        let idleTimeout;
 
-        // -------------------- Comments Section --------------------
+        const profileWidth = profiles.scrollWidth;
+        let speed = 2; // pixels per frame
+        let position = 0;
 
-        // Function to fetch and display comments
-        async function loadComments() {
-            try {
-                const response = await fetch(`${SERVER_URL}/comments`);
-                if (response.ok) {
-                    const comments = await response.json();
-                    const commentsList = document.getElementById('comments-list');
-                    commentsList.innerHTML = '';
-                    comments.forEach(comment => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `ID ${comment.id}: ${comment.text}`;
-                        commentsList.appendChild(listItem);
-                    });
-                } else {
-                    console.error("Failed to fetch comments");
-                }
-            } catch (error) {
-                console.error("Error fetching comments:", error);
-            }
+        // Function to start the idle animation with wrapping
+        function startIdleAnimation() {
+            moveProfiles();
         }
 
-        // Function to handle comment form submission
-        document.getElementById('comment-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const commentInput = document.getElementById('comment');
-            const commentText = commentInput.value.trim();
-            const messageDiv = document.getElementById('comment-message');
-
-            if (commentText) {
-                try {
-                    const response = await fetch(`${SERVER_URL}/comments`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ comment: commentText })
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        commentInput.value = ''; // Clear input
-                        loadComments(); // Reload comments
-                        messageDiv.textContent = 'Comment submitted successfully!';
-                        messageDiv.className = 'success';
-                    } else {
-                        const error = await response.json();
-                        messageDiv.textContent = `Error: ${error.error || 'Failed to submit comment.'}`;
-                        messageDiv.className = 'error';
-                    }
-                } catch (error) {
-                    console.error("Error submitting comment:", error);
-                    messageDiv.textContent = 'An error occurred while submitting your comment.';
-                    messageDiv.className = 'error';
-                }
-
-                // Clear message after 3 seconds
-                setTimeout(() => {
-                    messageDiv.textContent = '';
-                    messageDiv.className = '';
-                }, 3000);
+        function moveProfiles() {
+            position -= speed;
+            // Screen wrapping logic: if the profiles container goes out of view, reset it to the other side
+            if (position <= -profileWidth) {
+                position = profiles.parentElement.offsetWidth;
             }
-        });
-
-        // -------------------- Videos Section --------------------
-
-        // Function to fetch and display videos
-        async function loadVideos() {
-            try {
-                const response = await fetch(`${SERVER_URL}/videos`);
-                if (response.ok) {
-                    const videos = await response.json();
-                    const videosList = document.getElementById('videos-list');
-                    videosList.innerHTML = '';
-                    if (videos.length === 0) {
-                        videosList.innerHTML = '<li>No videos uploaded yet.</li>';
-                        return;
-                    }
-                    videos.forEach(video => {
-                        const listItem = document.createElement('li');
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = `${SERVER_URL}/download/${encodeURIComponent(video)}`;
-                        downloadLink.textContent = 'Download';
-                        downloadLink.className = 'download-link';
-                        downloadLink.target = '_blank'; // Open in new tab
-                        listItem.textContent = video + ' - ';
-                        listItem.appendChild(downloadLink);
-                        videosList.appendChild(listItem);
-                    });
-                } else {
-                    console.error("Failed to fetch videos");
-                }
-            } catch (error) {
-                console.error("Error fetching videos:", error);
-            }
+            profiles.style.transform = `translateX(${position}px)`;
+            animationFrame = requestAnimationFrame(moveProfiles);
         }
 
-        // Function to handle video form submission
-        document.getElementById('video-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const videoInput = document.getElementById('video');
-            const file = videoInput.files[0];
-            const messageDiv = document.getElementById('video-message');
+        function stopIdleAnimation() {
+            cancelAnimationFrame(animationFrame);
+        }
 
-            if (file) {
-                if (file.type !== 'video/mp4') {
-                    messageDiv.textContent = 'Error: Only MP4 files are allowed.';
-                    messageDiv.className = 'error';
-                    setTimeout(() => {
-                        messageDiv.textContent = '';
-                        messageDiv.className = '';
-                    }, 3000);
-                    return;
-                }
+        // Dragging logic
+        profiles.addEventListener('mousedown', startDragging);
+        profiles.addEventListener('touchstart', startDragging);
 
-                const formData = new FormData();
-                formData.append('file', file);
+        profiles.addEventListener('mousemove', drag);
+        profiles.addEventListener('touchmove', drag);
 
-                try {
-                    const response = await fetch(`${SERVER_URL}/upload`, {
-                        method: 'POST',
-                        body: formData
-                    });
+        profiles.addEventListener('mouseup', stopDragging);
+        profiles.addEventListener('touchend', stopDragging);
+        profiles.addEventListener('mouseleave', stopDragging);
 
-                    if (response.ok) {
-                        const result = await response.json();
-                        videoInput.value = ''; // Clear input
-                        loadVideos(); // Reload videos
-                        messageDiv.textContent = 'Video uploaded successfully!';
-                        messageDiv.className = 'success';
-                    } else {
-                        const error = await response.json();
-                        messageDiv.textContent = `Error: ${error.error || 'Failed to upload video.'}`;
-                        messageDiv.className = 'error';
-                    }
-                } catch (error) {
-                    console.error("Error uploading video:", error);
-                    messageDiv.textContent = 'An error occurred while uploading your video.';
-                    messageDiv.className = 'error';
-                }
+        function startDragging(event) {
+            isDragging = true;
+            stopIdleAnimation();
+            startPos = getPositionX(event);
+            clearTimeout(idleTimeout); // Stop idle animation from restarting
+        }
 
-                // Clear message after 3 seconds
-                setTimeout(() => {
-                    messageDiv.textContent = '';
-                    messageDiv.className = '';
-                }, 3000);
-            }
-        });
+        function drag(event) {
+            if (!isDragging) return;
+            const currentPosition = getPositionX(event);
+            currentTranslate = prevTranslate + currentPosition - startPos;
+            profiles.style.transform = `translateX(${currentTranslate}px)`;
+        }
 
-        // Load comments and videos on page load
-        window.onload = () => {
-            loadComments();
-            loadVideos();
-        };
+        function stopDragging() {
+            isDragging = false;
+            prevTranslate = currentTranslate;
+
+            // Resume idle animation after 10 seconds of inactivity
+            idleTimeout = setTimeout(() => {
+                startIdleAnimation();
+            }, 10000);
+        }
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        }
+
+        // Function to toggle the scale of the profile
+        function toggleScale(icon) {
+            const profile = icon.closest('.profile');
+            const isExpanded = profile.classList.toggle('expanded');
+            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
+            profile.style.zIndex = isExpanded ? '10' : '1'; // Ensure the zoomed profile is on top
+        }
+
+        // Start the idle animation initially
+        startIdleAnimation();
     </script>
-
 </body>
-</html>
+<br /><foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot></html>
