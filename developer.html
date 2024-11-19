@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Removed incorrect <foot> tag from here -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Scrolling with Drag and Touch</title>
@@ -15,6 +14,23 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, #666666, #000000);
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            background-color: green;
         }
 
         .background-container {
@@ -89,9 +105,8 @@
             transform: scale(2); /* Ensure the zoomed profile scales correctly */
         }
 
-        /* Optional: Add padding to footer for spacing instead of multiple <br /> tags */
         footer {
-            padding: 50px 0; /* Adjust as needed */
+            padding: 50px 0;
             background-color: black;
             color: white;
             text-align: center;
@@ -100,6 +115,12 @@
     </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#Shop">Shop</a>
+    </div>
+
     <div class="background-container">
         <div class="title">SHOP</div>
         <div class="logo">
@@ -136,29 +157,10 @@
                         <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                     </svg>
                 </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 4</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 5</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Added footer inside the body -->
     <footer>
         <p style="text-align: center;">
             MYMULTIPLATFORM
@@ -178,14 +180,12 @@
         let speed = 2; // pixels per frame
         let position = 0;
 
-        // Function to start the idle animation with wrapping
         function startIdleAnimation() {
             moveProfiles();
         }
 
         function moveProfiles() {
             position -= speed;
-            // Screen wrapping logic: if the profiles container goes out of view, reset it to the other side
             if (position <= -profileWidth) {
                 position = profiles.parentElement.offsetWidth;
             }
@@ -197,7 +197,6 @@
             cancelAnimationFrame(animationFrame);
         }
 
-        // Dragging logic
         profiles.addEventListener('mousedown', startDragging);
         profiles.addEventListener('touchstart', startDragging);
 
@@ -212,7 +211,7 @@
             isDragging = true;
             stopIdleAnimation();
             startPos = getPositionX(event);
-            clearTimeout(idleTimeout); // Stop idle animation from restarting
+            clearTimeout(idleTimeout);
         }
 
         function drag(event) {
@@ -225,8 +224,6 @@
         function stopDragging() {
             isDragging = false;
             prevTranslate = currentTranslate;
-
-            // Resume idle animation after 10 seconds of inactivity
             idleTimeout = setTimeout(() => {
                 startIdleAnimation();
             }, 10000);
@@ -236,15 +233,13 @@
             return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
         }
 
-        // Function to toggle the scale of the profile
         function toggleScale(icon) {
             const profile = icon.closest('.profile');
             const isExpanded = profile.classList.toggle('expanded');
             profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
-            profile.style.zIndex = isExpanded ? '10' : '1'; // Ensure the zoomed profile is on top
+            profile.style.zIndex = isExpanded ? '10' : '1';
         }
 
-        // Start the idle animation initially
         startIdleAnimation();
     </script>
 </body>
