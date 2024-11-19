@@ -1,15 +1,16 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot>
-    <meta charset="UTF-8"></meta>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+    <!-- Removed incorrect <foot> tag from here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Scrolling with Drag and Touch</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow-x: hidden; /* Hide horizontal overflow */
+            overflow-y: auto;   /* Allow vertical scrolling */
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -87,6 +88,15 @@
             z-index: 10; /* Ensure the zoomed profile is on top */
             transform: scale(2); /* Ensure the zoomed profile scales correctly */
         }
+
+        /* Optional: Add padding to footer for spacing instead of multiple <br /> tags */
+        footer {
+            padding: 50px 0; /* Adjust as needed */
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: 'Helvetica', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -104,49 +114,56 @@
                     <p>Name: Example 1</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; height: 200px; width: 100%;"></div>
                     <p>Name: Example 2</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; height: 200px; width: 100%;"></div>
                     <p>Name: Example 3</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; height: 200px; width: 100%;"></div>
                     <p>Name: Example 4</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
                 </div>
                 <div class="profile">
                     <div style="background-color: black; height: 200px; width: 100%;"></div>
                     <p>Name: Example 5</p>
                     <p>Description: Example</p>
                     <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Added footer inside the body -->
+    <footer>
+        <p style="text-align: center;">
+            MYMULTIPLATFORM
+        </p>
+    </footer>
 
     <script>
         const profiles = document.getElementById('profiles');
@@ -231,4 +248,4 @@
         startIdleAnimation();
     </script>
 </body>
-<br /><foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot></html>
+</html>
