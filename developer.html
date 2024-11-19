@@ -1,19 +1,16 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot>
-    <meta charset="UTF-8"></meta>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Scrolling with Drag and Touch</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            /* Removed overflow: hidden to allow vertical scrolling */
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f0f0f0;
         }
 
         .background-container {
@@ -21,14 +18,9 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 100vh;
             color: black;
-            font-family: 'Helvetica', sans-serif;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 50px 0;
         }
 
         .title {
@@ -41,26 +33,28 @@
         }
 
         .profiles-container {
-            overflow: visible; /* Changed from hidden to visible */
-            width: 80vw;
-            position: relative;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-y: hidden; /* Hide vertical overflow */
+            width: 100%;
+            padding: 20px 0;
+            background-color: #fff;
         }
 
         .profiles {
             display: flex;
             align-items: center;
             white-space: nowrap;
-            position: relative;
+            transition: transform 0.3s ease;
         }
 
         .profile {
             border: 1px solid #ccc;
             padding: 10px;
-            margin: 10px;
+            margin: 0 10px;
             background-color: #f8f8f8;
             max-width: 300px;
             text-align: left;
-            display: inline-block;
+            flex: 0 0 auto; /* Prevent flex items from shrinking */
             transition: transform 0.3s ease, z-index 0.3s ease;
             position: relative;
         }
@@ -70,8 +64,13 @@
             background-color: black;
             width: 100%;
             height: 200px;
-            -webkit-user-drag: none;
+            object-fit: cover;
             user-drag: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         .magnifier-icon {
@@ -87,6 +86,27 @@
             z-index: 10; /* Ensure the zoomed profile is on top */
             transform: scale(2); /* Ensure the zoomed profile scales correctly */
         }
+
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Hide scrollbar for profiles-container */
+        .profiles-container::-webkit-scrollbar {
+            display: none;
+        }
+        .profiles-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body>
@@ -95,58 +115,63 @@
         <div class="logo">
             <div style="background-color: black; height: 183px; width: 320px;"></div>
         </div>
-        <div class="profiles-container">
-            <div class="profiles" id="profiles">
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;">
-                        <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
-                    </div>
-                    <p>Name: Example 1</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
+    </div>
+    <div class="profiles-container">
+        <div class="profiles" id="profiles">
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
                 </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 2</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 3</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 4</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 5</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black">
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80">
-                    </line></circle></svg>
-                </div>
+                <p><strong>Name:</strong> Example 1</p>
+                <p><strong>Description:</strong> Example</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Repeat similar profile divs for Example 2, 3, 4, 5 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;"></div>
+                <p><strong>Name:</strong> Example 2</p>
+                <p><strong>Description:</strong> Example</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;"></div>
+                <p><strong>Name:</strong> Example 3</p>
+                <p><strong>Description:</strong> Example</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;"></div>
+                <p><strong>Name:</strong> Example 4</p>
+                <p><strong>Description:</strong> Example</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;"></div>
+                <p><strong>Name:</strong> Example 5</p>
+                <p><strong>Description:</strong> Example</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
             </div>
         </div>
     </div>
+
+    <footer>
+        <p>MYMULTIPLATFORM</p>
+    </footer>
 
     <script>
         const profiles = document.getElementById('profiles');
@@ -157,27 +182,12 @@
         let animationFrame;
         let idleTimeout;
 
-        const profileWidth = profiles.scrollWidth;
-        let speed = 2; // pixels per frame
-        let position = 0;
-
-        // Function to start the idle animation with wrapping
-        function startIdleAnimation() {
-            moveProfiles();
-        }
-
-        function moveProfiles() {
-            position -= speed;
-            // Screen wrapping logic: if the profiles container goes out of view, reset it to the other side
-            if (position <= -profileWidth) {
-                position = profiles.parentElement.offsetWidth;
-            }
-            profiles.style.transform = `translateX(${position}px)`;
-            animationFrame = requestAnimationFrame(moveProfiles);
-        }
-
-        function stopIdleAnimation() {
-            cancelAnimationFrame(animationFrame);
+        // Function to toggle the scale of the profile
+        function toggleScale(icon) {
+            const profile = icon.closest('.profile');
+            const isExpanded = profile.classList.toggle('expanded');
+            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
+            profile.style.zIndex = isExpanded ? '10' : '1'; // Ensure the zoomed profile is on top
         }
 
         // Dragging logic
@@ -201,13 +211,14 @@
         function drag(event) {
             if (!isDragging) return;
             const currentPosition = getPositionX(event);
-            currentTranslate = prevTranslate + currentPosition - startPos;
-            profiles.style.transform = `translateX(${currentTranslate}px)`;
+            const delta = currentPosition - startPos;
+            profiles.scrollLeft = prevTranslate - delta;
         }
 
-        function stopDragging() {
+        function stopDragging(event) {
+            if (!isDragging) return;
             isDragging = false;
-            prevTranslate = currentTranslate;
+            prevTranslate = profiles.scrollLeft;
 
             // Resume idle animation after 10 seconds of inactivity
             idleTimeout = setTimeout(() => {
@@ -219,16 +230,34 @@
             return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
         }
 
-        // Function to toggle the scale of the profile
-        function toggleScale(icon) {
-            const profile = icon.closest('.profile');
-            const isExpanded = profile.classList.toggle('expanded');
-            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
-            profile.style.zIndex = isExpanded ? '10' : '1'; // Ensure the zoomed profile is on top
+        // Idle Animation with auto-scrolling
+        let idleInterval;
+        const speed = 1; // Adjust the speed as needed
+
+        function startIdleAnimation() {
+            idleInterval = setInterval(() => {
+                profiles.scrollLeft += speed;
+                // If scrolled to the end, reset to start
+                if (profiles.scrollLeft + profiles.clientWidth >= profiles.scrollWidth) {
+                    profiles.scrollLeft = 0;
+                }
+            }, 16); // Approximately 60fps
+        }
+
+        function stopIdleAnimation() {
+            clearInterval(idleInterval);
         }
 
         // Start the idle animation initially
         startIdleAnimation();
+
+        // Pause idle animation on user interaction
+        profiles.addEventListener('mouseenter', stopIdleAnimation);
+        profiles.addEventListener('mouseleave', () => {
+            idleTimeout = setTimeout(() => {
+                startIdleAnimation();
+            }, 10000);
+        });
     </script>
 </body>
-<br /><foot><p style="text-align: center;">&nbsp;<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />MYMULTIPLATFORM</p></foot></html>
+</html>
