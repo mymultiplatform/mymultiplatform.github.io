@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Scrolling with Drag and Touch</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Hide horizontal overflow */
+            overflow-y: auto;   /* Allow vertical scrolling */
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, #666666, #000000);
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            background-color: green;
+        }
+
+        .background-container {
+            background-color: black;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            color: black;
+            font-family: 'Helvetica', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .logo {
+            margin-top: 20px;
+        }
+
+        .profiles-container {
+            overflow: visible; /* Changed from hidden to visible */
+            width: 80vw;
+            position: relative;
+        }
+
+        .profiles {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .profile {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            background-color: #f8f8f8;
+            max-width: 300px;
+            text-align: left;
+            display: inline-block;
+            transition: transform 0.3s ease, z-index 0.3s ease;
+            position: relative;
+        }
+
+        .profile img {
+            max-width: 100%;
+            background-color: black;
+            width: 100%;
+            height: 200px;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+
+        .magnifier-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .profile.expanded {
+            z-index: 10; /* Ensure the zoomed profile is on top */
+            transform: scale(2); /* Ensure the zoomed profile scales correctly */
+        }
+
+        footer {
+            padding: 50px 0;
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: 'Helvetica', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#Shop">Shop</a>
+    </div>
+
+    <div class="background-container">
+        <div class="title">SHOP</div>
+        <div class="logo">
+            <div style="background-color: black; height: 183px; width: 320px;"></div>
+        </div>
+        <div class="profiles-container">
+            <div class="profiles" id="profiles">
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;">
+                        <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
+                    </div>
+                    <p>Name: Example 1</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 2</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
+                </div>
+                <div class="profile">
+                    <div style="background-color: black; height: 200px; width: 100%;"></div>
+                    <p>Name: Example 3</p>
+                    <p>Description: Example</p>
+                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="text-align: center;">
+            MYMULTIPLATFORM
+        </p>
+    </footer>
+
+    <script>
+        const profiles = document.getElementById('profiles');
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationFrame;
+        let idleTimeout;
+
+        const profileWidth = profiles.scrollWidth;
+        let speed = 1; // pixels per frame
+        let position = 0;
+
+        function startIdleAnimation() {
+            moveProfiles();
+        }
+
+        function moveProfiles() {
+            position -= speed;
+            if (position <= -profileWidth) {
+                position = profiles.parentElement.offsetWidth;
+            }
+            profiles.style.transform = `translateX(${position}px)`;
+            animationFrame = requestAnimationFrame(moveProfiles);
+        }
+
+        function stopIdleAnimation() {
+            cancelAnimationFrame(animationFrame);
+        }
+
+        profiles.addEventListener('mousedown', startDragging);
+        profiles.addEventListener('touchstart', startDragging);
+
+        profiles.addEventListener('mousemove', drag);
+        profiles.addEventListener('touchmove', drag);
+
+        profiles.addEventListener('mouseup', stopDragging);
+        profiles.addEventListener('touchend', stopDragging);
+        profiles.addEventListener('mouseleave', stopDragging);
+
+        function startDragging(event) {
+            isDragging = true;
+            stopIdleAnimation();
+            startPos = getPositionX(event);
+            clearTimeout(idleTimeout);
+        }
+
+        function drag(event) {
+            if (!isDragging) return;
+            const currentPosition = getPositionX(event);
+            currentTranslate = prevTranslate + currentPosition - startPos;
+            profiles.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function stopDragging() {
+            isDragging = false;
+            prevTranslate = currentTranslate;
+            idleTimeout = setTimeout(() => {
+                startIdleAnimation();
+            }, 100000);
+        }
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        }
+
+        function toggleScale(icon) {
+            const profile = icon.closest('.profile');
+            const isExpanded = profile.classList.toggle('expanded');
+            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
+            profile.style.zIndex = isExpanded ? '10' : '1';
+        }
+
+        startIdleAnimation();
+    </script>
+</body>
+</html>
