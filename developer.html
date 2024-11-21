@@ -2,245 +2,197 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Scrolling with Drag and Touch</title>
+    <title>Developer Page</title>
     <style>
-        body {
+        /* Reset some default browser styles */
+        * {
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Hide horizontal overflow */
-            overflow-y: auto;   /* Allow vertical scrolling */
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
+            box-sizing: border-box;
         }
 
-        .navbar {
-            background: linear-gradient(to bottom, #666666, #000000);
-            text-align: center;
-            padding: 10px 0;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
         }
 
-        .navbar a {
+        /* Red Header Bar */
+        .header {
+            width: 100%;
+            background-color: red;
             color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .navbar a:hover {
-            background-color: green;
-        }
-
-        .background-container {
-            background-color: black;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-            color: black;
-            font-family: 'Helvetica', sans-serif;
-            text-align: center;
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
-        .title {
-            font-size: 3rem;
+        .header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .header nav {
+            margin-top: 10px;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .header nav ul li {
+            margin-left: 20px;
+        }
+
+        .header nav ul li a {
             color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        .logo {
+        .header nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2em;
             margin-top: 20px;
         }
 
-        .profiles-container {
-            overflow: visible; /* Changed from hidden to visible */
-            width: 80vw;
-            position: relative;
+        h2 {
+            font-size: 1.5em;
+            margin-top: 30px;
         }
 
-        .profiles {
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            position: relative;
+        h3 {
+            font-size: 1.2em;
+            margin-top: 20px;
         }
 
-        .profile {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            background-color: #f8f8f8;
-            max-width: 300px;
-            text-align: left;
-            display: inline-block;
-            transition: transform 0.3s ease, z-index 0.3s ease;
-            position: relative;
+        ul.links {
+            list-style-type: none;
+            padding: 0;
         }
 
-        .profile img {
-            max-width: 100%;
-            background-color: black;
-            width: 100%;
-            height: 200px;
-            -webkit-user-drag: none;
-            user-drag: none;
+        ul.links li {
+            margin: 10px 0;
         }
 
-        .magnifier-icon {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
+        ul.links li a {
+            text-decoration: none;
+            color: #0066cc;
+            font-size: 1.1em;
         }
 
-        .profile.expanded {
-            z-index: 10; /* Ensure the zoomed profile is on top */
-            transform: scale(2); /* Ensure the zoomed profile scales correctly */
+        ul.links li a:hover {
+            text-decoration: underline;
         }
 
-        footer {
-            padding: 50px 0;
-            background-color: black;
-            color: white;
+        .horizontal-line {
+            margin: 40px 0;
+            border: none;
+            border-top: 2px solid #ccc;
+        }
+
+        .center-text {
             text-align: center;
-            font-family: 'Helvetica', sans-serif;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .header nav ul li {
+                margin: 10px 0 0 0;
+            }
+
+            .header nav ul li a {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <a href="#home">Home</a>
-        <a href="#Shop">Shop</a>
+
+    <!-- Header Section with Red Bar -->
+    <header class="header">
+        <div class="logo">Developer Page</div>
+        <nav>
+            <ul>
+                <li><a href="https://mymultiplatform.com" target="_blank" rel="noopener noreferrer">Home</a></li>
+                <li><a href="https://mymultiplatform.com/shop" target="_blank" rel="noopener noreferrer">Shop</a></li>
+                <li><a href="https://mymultiplatform.com/Architecture_portfolio" target="_blank" rel="noopener noreferrer">Portfolio</a></li>
+                <li><a href="https://mymultiplatform.com/RealState" target="_blank" rel="noopener noreferrer">Real Estate</a></li>
+                <li><a href="https://mymultiplatform.com/THEGAME" target="_blank" rel="noopener noreferrer">The Game</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Developer Information -->
+        <section>
+            <h2>Name: Dante E.</h2>
+            <h3>Information:</h3>
+            <p>Welcome to my developer page! Here you can find information about my projects, portfolio, and more.</p>
+        </section>
+
+        <!-- Links Section -->
+        <section>
+            <h2>Projects</h2>
+            <ul class="links">
+                <li><a href="https://mymultiplatform.com" target="_blank" rel="noopener noreferrer">Introduction Page</a></li>
+                <li><a href="https://mymultiplatform.com/shop" target="_blank" rel="noopener noreferrer">Product Development Shop</a></li>
+                <li><a href="https://mymultiplatform.com/Architecture_portfolio" target="_blank" rel="noopener noreferrer">Professional Portfolio of Architecture</a></li>
+                <li><a href="https://mymultiplatform.com/RealState" target="_blank" rel="noopener noreferrer">Experimental Real Estate</a></li>
+                <li><a href="https://mymultiplatform.com/THEGAME" target="_blank" rel="noopener noreferrer">Web Page of Tijuana the Game</a></li>
+            </ul>
+        </section>
+
+        <!-- Relax Section -->
+        <section>
+            <h2>RELAX!</h2>
+            <p>Take a moment to relax and explore the various projects showcased on this page.</p>
+        </section>
+
+        <!-- Horizontal Line -->
+        <hr class="horizontal-line">
+
+        <!-- Centered Text -->
+        <p class="center-text">Visit us at <a href="https://mymultiplatform.com" target="_blank" rel="noopener noreferrer">mymultiplatform.com</a></p>
     </div>
 
-    <div class="background-container">
-        <div class="title">SHOP TEST D</div>
-        <div class="logo">
-            <div style="background-color: black; height: 183px; width: 320px;"></div>
-        </div>
-        <div class="profiles-container">
-            <div class="profiles" id="profiles">
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;">
-                        <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
-                    </div>
-                    <p>Name: Example 1</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 2</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 3</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p style="text-align: center;">
-            MYMULTIPLATFORM
-        </p>
-    </footer>
-
-    <script>
-        const profiles = document.getElementById('profiles');
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let animationFrame;
-        let idleTimeout;
-
-        const profileWidth = profiles.scrollWidth;
-        let speed = 1; // pixels per frame
-        let position = 0;
-
-        function startIdleAnimation() {
-            moveProfiles();
-        }
-
-        function moveProfiles() {
-            position -= speed;
-            if (position <= -profileWidth) {
-                position = profiles.parentElement.offsetWidth;
-            }
-            profiles.style.transform = `translateX(${position}px)`;
-            animationFrame = requestAnimationFrame(moveProfiles);
-        }
-
-        function stopIdleAnimation() {
-            cancelAnimationFrame(animationFrame);
-        }
-
-        profiles.addEventListener('mousedown', startDragging);
-        profiles.addEventListener('touchstart', startDragging);
-
-        profiles.addEventListener('mousemove', drag);
-        profiles.addEventListener('touchmove', drag);
-
-        profiles.addEventListener('mouseup', stopDragging);
-        profiles.addEventListener('touchend', stopDragging);
-        profiles.addEventListener('mouseleave', stopDragging);
-
-        function startDragging(event) {
-            isDragging = true;
-            stopIdleAnimation();
-            startPos = getPositionX(event);
-            clearTimeout(idleTimeout);
-        }
-
-        function drag(event) {
-            if (!isDragging) return;
-            const currentPosition = getPositionX(event);
-            currentTranslate = prevTranslate + currentPosition - startPos;
-            profiles.style.transform = `translateX(${currentTranslate}px)`;
-        }
-
-        function stopDragging() {
-            isDragging = false;
-            prevTranslate = currentTranslate;
-            idleTimeout = setTimeout(() => {
-                startIdleAnimation();
-            }, 100000);
-        }
-
-        function getPositionX(event) {
-            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        }
-
-        function toggleScale(icon) {
-            const profile = icon.closest('.profile');
-            const isExpanded = profile.classList.toggle('expanded');
-            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
-            profile.style.zIndex = isExpanded ? '10' : '1';
-        }
-
-        startIdleAnimation();
-    </script>
 </body>
 </html>
