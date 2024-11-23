@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Scrolling with Drag and Touch</title>
+    <title>Mymultiplatform Shop</title>
     <style>
         body {
             margin: 0;
@@ -15,6 +15,8 @@
             -moz-user-select: none;
             -ms-user-select: none;
             background-color: black; /* Set background color for the body */
+            font-family: 'Helvetica', sans-serif;
+            color: white;
         }
 
         .navbar {
@@ -52,8 +54,6 @@
             background-position: center;
             background-repeat: no-repeat;
             min-height: 100vh;
-            color: white;
-            font-family: 'Helvetica', sans-serif;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -64,68 +64,22 @@
         .title {
             font-size: 3rem;
             color: white;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         .logo {
             margin-top: 20px;
         }
 
-        .profiles-container {
-            overflow: visible; /* Changed from hidden to visible */
-            width: 80vw;
-            position: relative;
-        }
-
-        .profiles {
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-            position: relative;
-        }
-
-        .profile {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            background-color: #f8f8f8;
-            max-width: 300px;
-            text-align: left;
-            display: inline-block;
-            transition: transform 0.3s ease, z-index 0.3s ease;
-            position: relative;
-        }
-
-        .profile img {
-            max-width: 100%;
-            background-color: black;
-            width: 100%;
-            height: 200px;
-            -webkit-user-drag: none;
-            user-drag: none;
-        }
-
-        .magnifier-icon {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .profile.expanded {
-            z-index: 10; /* Ensure the zoomed profile is on top */
-            transform: scale(2); /* Ensure the zoomed profile scales correctly */
-        }
-
         /* Shop Section Styles */
         #Shop {
             background-color: black;
             color: white;
-            font-family: 'Helvetica', sans-serif;
             text-align: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 80px 20px 20px 20px; /* Adjusted padding for navbar */
+            position: relative;
         }
 
         #Shop .shop-profiles {
@@ -133,29 +87,91 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            gap: 20px;
         }
 
         #Shop .shop-profiles .profile {
             margin: 10px;
             width: 300px;
+            background-color: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, z-index 0.3s ease;
         }
 
         #Shop .shop-profiles .profile img {
             height: 200px;
+            width: 100%;
+            object-fit: cover;
+            cursor: pointer;
         }
 
-        #Shop p {
-            margin: 20px 0;
-            font-size: 1.5rem;
+        #Shop .shop-profiles .profile p {
+            margin: 10px;
+            font-size: 1rem;
         }
 
-        #Shop .placeholder {
-            font-size: xxx-large;
-            color: #666666;
+        /* Magnifier Icon */
+        .magnifier-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            fill: white;
         }
 
+        /* Expanded Product Styles */
+        .profile.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            z-index: 1001;
+            background-color: #333;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .profile.expanded img {
+            height: 300px;
+        }
+
+        .profile.expanded .description {
+            display: block;
+            position: absolute;
+            top: 10px;
+            left: 320px;
+            background-color: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .description {
+            display: none;
+        }
+
+        /* Close Button for Expanded View */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* Footer */
         footer {
-            padding: 50px 0;
+            padding: 50px 20px;
             background-color: black;
             color: white;
             text-align: center;
@@ -164,8 +180,8 @@
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .profile {
-                max-width: 90vw;
+            #Shop .shop-profiles .profile {
+                width: 90vw;
             }
 
             .navbar a {
@@ -177,8 +193,16 @@
                 font-size: 2rem;
             }
 
-            #Shop .shop-profiles .profile {
+            .profile.expanded {
                 width: 90vw;
+                height: auto;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+
+            .profile.expanded .description {
+                position: static;
+                width: 100%;
+                margin-top: 20px;
             }
         }
     </style>
@@ -192,118 +216,42 @@
 
     <!-- Home Section -->
     <div class="content-section" id="home">
-        <div class="title">SHOP TEST</div>
+        <div class="title" onclick="showTabContent('Shop')">SHOP TEST</div>
         <div class="logo">
             <div style="background-color: black; height: 183px; width: 320px;"></div>
-        </div>
-        <div class="profiles-container">
-            <div class="profiles" id="profiles">
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;">
-                        <img alt="Rose Quartz Pot" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhp4buFpQg8jWnIhLwa5jLMu2X1qf03xeBoKs97myqiijVaWBRoTDS9BVT3JBmk7swhTHvjwg7u8-6qtks-OWVpJA9yIaCOvoeeTV6jSBeb3ilTJu0j_xHVIvPb7MpdJjKRTTaNpH11NA-GwnlJp1AIWoUAWRzNmciRX3zEYBjWfmOTJvYkVIDBlaq_097p/s320/DALL%C2%B7E%202024-08-26%2014.38.53%20-%20A%20realistic%20image%20of%20a%20cylindrical%20pot%20made%20of%20natural%20rose%20quartz,%20placed%20on%20a%20black%20background.%20The%20pot%20is%20crafted%20with%20visible%20details%20of%20the%20natur.webp" />
-                    </div>
-                    <p>Name: Quartz Pot</p>
-                    <p>Hand Crafted by Mymultiplatform</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 2</p>
-                    <p>Description: Get BTC cash back</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-                <div class="profile">
-                    <div style="background-color: black; height: 200px; width: 100%;"></div>
-                    <p>Name: Example 3</p>
-                    <p>Description: Example</p>
-                    <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                        <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                    </svg>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Shop Section -->
     <div class="content-section" id="Shop">
-        <p style="text-align: center;"><br /></p>
         <p style="text-align: center; font-size: 2rem;">SHOP</p>
         <div class="shop-profiles">
             <!-- Product 1 -->
             <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" />
-                </div>
-                <p>Name: Product 1</p>
-                <p>Description: Description for Product 1</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
+                <p>Description: High-quality product 1.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
             </div>
             <!-- Product 2 -->
             <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" />
-                </div>
-                <p>Name: Product 2</p>
-                <p>Description: Description for Product 2</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
+                <p>Description: Premium product 2.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
             </div>
             <!-- Product 3 -->
             <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" />
-                </div>
-                <p>Name: Product 3</p>
-                <p>Description: Description for Product 3</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-            </div>
-            <!-- Product 4 -->
-            <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" />
-                </div>
-                <p>Name: Product 4</p>
-                <p>Description: Description for Product 4</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-            </div>
-            <!-- Product 5 -->
-            <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" />
-                </div>
-                <p>Name: Product 5</p>
-                <p>Description: Description for Product 5</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-            </div>
-            <!-- Product 6 -->
-            <div class="profile">
-                <div style="background-color: black; height: 200px; width: 100%;">
-                    <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" />
-                </div>
-                <p>Name: Product 6</p>
-                <p>Description: Description for Product 6</p>
-                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+                <p>Description: Exclusive product 3.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
@@ -314,9 +262,7 @@
 
     <!-- Footer -->
     <footer>
-        <p style="text-align: center;">
-            MYMULTIPLATFORM
-        </p>
+        <p>MYMULTIPLATFORM</p>
     </footer>
 
     <script>
@@ -325,7 +271,7 @@
             const tabContents = document.querySelectorAll(".content-section");
             tabContents.forEach((content) => {
                 if (content.id === tabId) {
-                    content.style.display = "flex";
+                    content.style.display = "block";
                 } else {
                     content.style.display = "none";
                 }
@@ -343,7 +289,7 @@
             });
         });
 
-        // Optional: Handle page load with hash
+        // Handle page load with hash
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.substring(1);
             if (hash) {
@@ -353,93 +299,56 @@
             }
         });
 
-        // Profile Scrolling and Drag Functionality
-        const profiles = document.getElementById('profiles');
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let animationFrame;
-        let idleTimeout;
-
-        const profileWidth = profiles.scrollWidth;
-        let speed = 1; // pixels per frame
-        let position = 0;
-
-        function startIdleAnimation() {
-            moveProfiles();
-        }
-
-        function moveProfiles() {
-            position -= speed;
-            if (position <= -profileWidth) {
-                position = profiles.parentElement.offsetWidth;
-            }
-            profiles.style.transform = `translateX(${position}px)`;
-            animationFrame = requestAnimationFrame(moveProfiles);
-        }
-
-        function stopIdleAnimation() {
-            cancelAnimationFrame(animationFrame);
-        }
-
-        profiles.addEventListener('mousedown', startDragging);
-        profiles.addEventListener('touchstart', startDragging);
-
-        profiles.addEventListener('mousemove', drag);
-        profiles.addEventListener('touchmove', drag);
-
-        profiles.addEventListener('mouseup', stopDragging);
-        profiles.addEventListener('touchend', stopDragging);
-        profiles.addEventListener('mouseleave', stopDragging);
-
-        function startDragging(event) {
-            isDragging = true;
-            stopIdleAnimation();
-            startPos = getPositionX(event);
-            clearTimeout(idleTimeout);
-        }
-
-        function drag(event) {
-            if (!isDragging) return;
-            const currentPosition = getPositionX(event);
-            currentTranslate = prevTranslate + currentPosition - startPos;
-            profiles.style.transform = `translateX(${currentTranslate}px)`;
-        }
-
-        function stopDragging() {
-            isDragging = false;
-            prevTranslate = currentTranslate;
-            idleTimeout = setTimeout(() => {
-                startIdleAnimation();
-            }, 1000); // Restart idle animation after 1 second
-        }
-
-        function getPositionX(event) {
-            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-        }
-
-        function toggleScale(icon) {
-            const profile = icon.closest('.profile');
-            const isExpanded = profile.classList.toggle('expanded');
-            profile.style.transform = isExpanded ? 'scale(2)' : 'scale(1)';
-            profile.style.zIndex = isExpanded ? '10' : '1';
-        }
-
-        // Start idle animation when the Home section is visible
-        const observer = new MutationObserver(() => {
-            const homeSection = document.getElementById('home');
-            if (homeSection.style.display !== 'none') {
-                startIdleAnimation();
+        // Profile Expansion Functionality
+        function toggleExpand(element) {
+            let profile;
+            if (element.classList.contains('magnifier-icon') || element.tagName.toLowerCase() === 'svg') {
+                profile = element.closest('.profile');
+            } else if (element.classList.contains('product-title')) {
+                profile = element.parentElement;
             } else {
-                stopIdleAnimation();
+                profile = element.closest('.profile');
             }
+
+            const isExpanded = profile.classList.toggle('expanded');
+
+            if (isExpanded) {
+                // Create description overlay
+                const description = document.createElement('div');
+                description.classList.add('description');
+                const descText = profile.querySelector('p:nth-of-type(2)').textContent;
+                description.innerHTML = `
+                    <button class="close-btn" onclick="closeExpand(this)">X</button>
+                    <h2>${profile.querySelector('.product-title').textContent}</h2>
+                    <p>${descText}</p>
+                `;
+                profile.appendChild(description);
+            } else {
+                // Remove description overlay
+                const description = profile.querySelector('.description');
+                if (description) {
+                    profile.removeChild(description);
+                }
+            }
+        }
+
+        function closeExpand(button) {
+            const profile = button.closest('.profile');
+            profile.classList.remove('expanded');
+            const description = profile.querySelector('.description');
+            if (description) {
+                profile.removeChild(description);
+            }
+        }
+
+        // Prevent image dragging
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.draggable = false;
         });
 
-        observer.observe(document.getElementById('home'), { attributes: true, attributeFilter: ['style'] });
-
-        // Initial start
-        startIdleAnimation();
+        // Optional: Profile Scrolling and Drag Functionality (if needed)
+        // You can retain or remove the existing scrolling functionality based on your preference.
     </script>
 </body>
 </html>
