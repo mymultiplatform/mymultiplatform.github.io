@@ -165,6 +165,8 @@
             display: block;
             margin-left: 20px;
             text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .description h2 {
@@ -201,18 +203,6 @@
             color: white;
             text-align: center;
             font-family: 'Helvetica', sans-serif;
-        }
-
-        /* Dim Other Profiles When One is Expanded */
-        #Shop.dimmed .shop-profiles .profile {
-            opacity: 0.3;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        #Shop.dimmed .shop-profiles .profile.expanded {
-            opacity: 1;
-            pointer-events: auto;
         }
 
         /* Responsive Adjustments */
@@ -400,19 +390,16 @@
             expandedProfiles.forEach((expProfile) => {
                 if (expProfile !== profile) {
                     expProfile.classList.remove('expanded');
+                    expProfile.classList.remove('show-dash');
                     const desc = expProfile.querySelector('.description');
                     if (desc) {
                         expProfile.removeChild(desc);
                     }
-                    expProfile.classList.remove('show-dash');
                 }
             });
 
             if (!isExpanded) {
                 profile.classList.add('expanded');
-                document.getElementById('Shop').classList.add('dimmed');
-
-                // Show dash annotation at original position
                 profile.classList.add('show-dash');
 
                 // Create description overlay
@@ -429,9 +416,6 @@
                 profile.appendChild(description);
             } else {
                 profile.classList.remove('expanded');
-                document.getElementById('Shop').classList.remove('dimmed');
-
-                // Hide dash annotation
                 profile.classList.remove('show-dash');
 
                 // Remove description overlay
@@ -445,7 +429,6 @@
         function closeExpand(button) {
             const profile = button.closest('.profile');
             profile.classList.remove('expanded');
-            document.getElementById('Shop').classList.remove('dimmed');
             profile.classList.remove('show-dash');
             const description = profile.querySelector('.description');
             if (description) {
