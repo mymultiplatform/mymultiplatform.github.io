@@ -128,6 +128,22 @@
             padding: 20px;
         }
 
+        #Shop .shop-profiles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #Shop .shop-profiles .profile {
+            margin: 10px;
+            width: 300px;
+        }
+
+        #Shop .shop-profiles .profile img {
+            height: 200px;
+        }
+
         #Shop p {
             margin: 20px 0;
             font-size: 1.5rem;
@@ -159,6 +175,10 @@
 
             .title {
                 font-size: 2rem;
+            }
+
+            #Shop .shop-profiles .profile {
+                width: 90vw;
             }
         }
     </style>
@@ -214,11 +234,82 @@
     <!-- Shop Section -->
     <div class="content-section" id="Shop">
         <p style="text-align: center;"><br /></p>
-        <p style="text-align: center;">SHOP</p>
-        <p style="text-align: center;"><br /></p>
-        <p class="placeholder" style="text-align: center;">▯▯▯▯▯▯▯▯▯</p>
-        <p class="placeholder" style="text-align: center;">▯▯▯▯▯▯▯▯▯</p>
-        <p class="placeholder" style="text-align: center;">▯▯▯▯▯▯▯▯▯</p>
+        <p style="text-align: center; font-size: 2rem;">SHOP</p>
+        <div class="shop-profiles">
+            <!-- Product 1 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" />
+                </div>
+                <p>Name: Product 1</p>
+                <p>Description: Description for Product 1</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Product 2 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" />
+                </div>
+                <p>Name: Product 2</p>
+                <p>Description: Description for Product 2</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Product 3 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" />
+                </div>
+                <p>Name: Product 3</p>
+                <p>Description: Description for Product 3</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Product 4 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" />
+                </div>
+                <p>Name: Product 4</p>
+                <p>Description: Description for Product 4</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Product 5 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" />
+                </div>
+                <p>Name: Product 5</p>
+                <p>Description: Description for Product 5</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Product 6 -->
+            <div class="profile">
+                <div style="background-color: black; height: 200px; width: 100%;">
+                    <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" />
+                </div>
+                <p>Name: Product 6</p>
+                <p>Description: Description for Product 6</p>
+                <svg class="magnifier-icon" onclick="toggleScale(this)" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
     </div>
 
     <!-- Footer -->
