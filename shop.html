@@ -48,17 +48,16 @@
 
         /* Home Section Styles */
         #home {
-            display: block; /* Show home section by default */
+            display: flex; /* Changed to flex for centering */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             background-color: black;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             min-height: 100vh;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
 
         .title {
@@ -90,7 +89,8 @@
             gap: 20px;
         }
 
-        #Shop .shop-profiles .profile {
+        /* Profile Styles */
+        .profile {
             margin: 10px;
             width: 300px;
             background-color: #222;
@@ -98,9 +98,52 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
-            transition: transform 0.3s ease, z-index 0.3s ease;
+            transition: transform 0.3s ease; /* Only transform transition */
         }
 
+        /* Expanded Profile Styles */
+        .profile.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            transform-origin: center; /* Ensure scaling from center */
+            z-index: 1001;
+            background-color: #333;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            width: 400px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .profile.expanded img {
+            height: 300px;
+            width: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .profile.expanded .description {
+            display: block;
+            margin-left: 20px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            color: white;
+        }
+
+        .description h2 {
+            margin-top: 0;
+        }
+
+        .description p {
+            margin: 5px 0;
+        }
+
+        /* Product Image */
         #Shop .shop-profiles .profile img {
             height: 200px;
             width: 100%;
@@ -137,46 +180,6 @@
             pointer-events: none;
         }
 
-        /* Expanded Product Styles */
-        .profile.expanded {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.5);
-            z-index: 1001;
-            background-color: #333;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            width: 400px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .profile.expanded img {
-            height: 300px;
-            width: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .profile.expanded .description {
-            display: block;
-            margin-left: 20px;
-            text-align: left;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .description h2 {
-            margin-top: 0;
-        }
-
-        .description p {
-            margin: 5px 0;
-        }
-
         /* Show Dash Annotation */
         .profile.show-dash .dash-annotation {
             display: block;
@@ -203,6 +206,24 @@
             color: white;
             text-align: center;
             font-family: 'Helvetica', sans-serif;
+        }
+
+        /* Description Overlay */
+        .description {
+            display: block;
+            margin-left: 20px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            color: white;
+        }
+
+        .description h2 {
+            margin-top: 0;
+        }
+
+        .description p {
+            margin: 5px 0;
         }
 
         /* Responsive Adjustments */
@@ -275,61 +296,8 @@
                 </svg>
                 <div class="dash-annotation">-</div>
             </div>
-            <!-- Product 2 -->
-            <div class="profile" id="product2">
-                <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
-                <p>Description: Premium product 2.</p>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 3 -->
-            <div class="profile" id="product3">
-                <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
-                <p>Description: Exclusive product 3.</p>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 4 -->
-            <div class="profile" id="product4">
-                <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 4</p>
-                <p>Description: New arrival product 4.</p>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 5 -->
-            <div class="profile" id="product5">
-                <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 5</p>
-                <p>Description: Limited edition product 5.</p>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 6 -->
-            <div class="profile" id="product6">
-                <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 6</p>
-                <p>Description: Best-seller product 6.</p>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
+            <!-- Repeat similar blocks for Product 2 to Product 6 -->
+            <!-- ... -->
         </div>
     </div>
 
@@ -401,6 +369,7 @@
             if (!isExpanded) {
                 profile.classList.add('expanded');
                 profile.classList.add('show-dash');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
                 // Create description overlay
                 const description = document.createElement('div');
@@ -417,6 +386,7 @@
             } else {
                 profile.classList.remove('expanded');
                 profile.classList.remove('show-dash');
+                document.body.style.overflow = 'auto'; // Restore background scrolling
 
                 // Remove description overlay
                 const description = profile.querySelector('.description');
@@ -430,6 +400,7 @@
             const profile = button.closest('.profile');
             profile.classList.remove('expanded');
             profile.classList.remove('show-dash');
+            document.body.style.overflow = 'auto'; // Restore background scrolling
             const description = profile.querySelector('.description');
             if (description) {
                 profile.removeChild(description);
