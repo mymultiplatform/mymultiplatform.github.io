@@ -111,6 +111,7 @@
         #Shop .shop-profiles .profile p {
             margin: 10px;
             font-size: 1rem;
+            cursor: pointer;
         }
 
         /* Magnifier Icon */
@@ -124,6 +125,18 @@
             fill: white;
         }
 
+        /* Dash Annotation */
+        .dash-annotation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: red;
+            display: none;
+            pointer-events: none;
+        }
+
         /* Expanded Product Styles */
         .profile.expanded {
             position: fixed;
@@ -133,26 +146,38 @@
             z-index: 1001;
             background-color: #333;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            width: 400px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 20px;
+            border-radius: 8px;
         }
 
         .profile.expanded img {
             height: 300px;
+            width: 300px;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .profile.expanded .description {
             display: block;
-            position: absolute;
-            top: 10px;
-            left: 320px;
-            background-color: rgba(0,0,0,0.8);
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
+            margin-left: 20px;
             text-align: left;
         }
 
-        .description {
-            display: none;
+        .description h2 {
+            margin-top: 0;
+        }
+
+        .description p {
+            margin: 5px 0;
+        }
+
+        /* Show Dash Annotation */
+        .profile.show-dash .dash-annotation {
+            display: block;
         }
 
         /* Close Button for Expanded View */
@@ -178,6 +203,18 @@
             font-family: 'Helvetica', sans-serif;
         }
 
+        /* Dim Other Profiles When One is Expanded */
+        #Shop.dimmed .shop-profiles .profile {
+            opacity: 0.3;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #Shop.dimmed .shop-profiles .profile.expanded {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             #Shop .shop-profiles .profile {
@@ -197,12 +234,23 @@
                 width: 90vw;
                 height: auto;
                 transform: translate(-50%, -50%) scale(1.2);
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .profile.expanded img {
+                width: 100%;
+                height: auto;
             }
 
             .profile.expanded .description {
-                position: static;
-                width: 100%;
+                margin-left: 0;
                 margin-top: 20px;
+                width: 100%;
+            }
+
+            .dash-annotation {
+                font-size: 2rem;
             }
         }
     </style>
@@ -227,7 +275,7 @@
         <p style="text-align: center; font-size: 2rem;">SHOP</p>
         <div class="shop-profiles">
             <!-- Product 1 -->
-            <div class="profile">
+            <div class="profile" id="product1">
                 <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
                 <p>Description: High-quality product 1.</p>
@@ -235,9 +283,10 @@
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
+                <div class="dash-annotation">-</div>
             </div>
             <!-- Product 2 -->
-            <div class="profile">
+            <div class="profile" id="product2">
                 <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
                 <p>Description: Premium product 2.</p>
@@ -245,9 +294,10 @@
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
+                <div class="dash-annotation">-</div>
             </div>
             <!-- Product 3 -->
-            <div class="profile">
+            <div class="profile" id="product3">
                 <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
                 <p>Description: Exclusive product 3.</p>
@@ -255,8 +305,41 @@
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
                 </svg>
+                <div class="dash-annotation">-</div>
             </div>
-            <!-- Add more products as needed -->
+            <!-- Product 4 -->
+            <div class="profile" id="product4">
+                <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 4</p>
+                <p>Description: New arrival product 4.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+                <div class="dash-annotation">-</div>
+            </div>
+            <!-- Product 5 -->
+            <div class="profile" id="product5">
+                <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 5</p>
+                <p>Description: Limited edition product 5.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+                <div class="dash-annotation">-</div>
+            </div>
+            <!-- Product 6 -->
+            <div class="profile" id="product6">
+                <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" onclick="toggleExpand(this)" />
+                <p class="product-title" onclick="toggleExpand(this)">Product 6</p>
+                <p>Description: Best-seller product 6.</p>
+                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
+                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
+                </svg>
+                <div class="dash-annotation">-</div>
+            </div>
         </div>
     </div>
 
@@ -310,20 +393,47 @@
                 profile = element.closest('.profile');
             }
 
-            const isExpanded = profile.classList.toggle('expanded');
+            const isExpanded = profile.classList.contains('expanded');
 
-            if (isExpanded) {
+            // Close any currently expanded profile
+            const expandedProfiles = document.querySelectorAll('.profile.expanded');
+            expandedProfiles.forEach((expProfile) => {
+                if (expProfile !== profile) {
+                    expProfile.classList.remove('expanded');
+                    const desc = expProfile.querySelector('.description');
+                    if (desc) {
+                        expProfile.removeChild(desc);
+                    }
+                    expProfile.classList.remove('show-dash');
+                }
+            });
+
+            if (!isExpanded) {
+                profile.classList.add('expanded');
+                document.getElementById('Shop').classList.add('dimmed');
+
+                // Show dash annotation at original position
+                profile.classList.add('show-dash');
+
                 // Create description overlay
                 const description = document.createElement('div');
                 description.classList.add('description');
+                const productTitle = profile.querySelector('.product-title').textContent;
                 const descText = profile.querySelector('p:nth-of-type(2)').textContent;
                 description.innerHTML = `
                     <button class="close-btn" onclick="closeExpand(this)">X</button>
-                    <h2>${profile.querySelector('.product-title').textContent}</h2>
+                    <h2>${productTitle}</h2>
                     <p>${descText}</p>
+                    <!-- Add more details as needed -->
                 `;
                 profile.appendChild(description);
             } else {
+                profile.classList.remove('expanded');
+                document.getElementById('Shop').classList.remove('dimmed');
+
+                // Hide dash annotation
+                profile.classList.remove('show-dash');
+
                 // Remove description overlay
                 const description = profile.querySelector('.description');
                 if (description) {
@@ -335,6 +445,8 @@
         function closeExpand(button) {
             const profile = button.closest('.profile');
             profile.classList.remove('expanded');
+            document.getElementById('Shop').classList.remove('dimmed');
+            profile.classList.remove('show-dash');
             const description = profile.querySelector('.description');
             if (description) {
                 profile.removeChild(description);
@@ -347,8 +459,10 @@
             img.draggable = false;
         });
 
-        // Optional: Profile Scrolling and Drag Functionality (if needed)
-        // You can retain or remove the existing scrolling functionality based on your preference.
+        // Optional: Prevent text selection globally
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
