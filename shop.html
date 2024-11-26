@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mymultiplatform Shop</title>
+    <title>MyMultiplatform Shop</title>
     <style>
         body {
             margin: 0;
@@ -112,6 +112,88 @@
             margin: 10px;
             font-size: 1rem;
             cursor: pointer;
+        }
+
+        /* Additional Styles for Cart */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-content {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            overflow-y: auto;
+            max-height: 80%;
+            position: relative;
+        }
+
+        .cart-content h2 {
+            margin-top: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cart-item p {
+            margin: 0;
+        }
+
+        .close-cart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .proceed-btn {
+            background-color: green;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-top: 20px;
         }
 
         /* Magnifier Icon */
@@ -250,6 +332,22 @@
     <div class="navbar">
         <a href="#home" data-tab="home">Home</a>
         <a href="#Shop" data-tab="Shop">Shop</a>
+        <!-- Cart Icon -->
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒
+            <div class="cart-count" id="cart-count">0</div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <button class="close-cart" onclick="toggleCart()">X</button>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <p id="total-price">Total: $0</p>
+            <button class="proceed-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+        </div>
     </div>
 
     <!-- Home Section -->
@@ -268,7 +366,19 @@
             <div class="profile" id="product1">
                 <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
+                <p class="product-price">$10</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
                 <p>Description: High-quality product 1.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 1.</p>
+                    <!-- Product Gallery -->
+                    <div class="product-gallery">
+                        <img src="https://via.placeholder.com/60.png?text=1" onclick="changeMainImage(this)">
+                        <img src="https://via.placeholder.com/60.png?text=2" onclick="changeMainImage(this)">
+                        <img src="https://via.placeholder.com/60.png?text=3" onclick="changeMainImage(this)">
+                    </div>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -279,7 +389,13 @@
             <div class="profile" id="product2">
                 <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
+                <p class="product-price">$20</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
                 <p>Description: Premium product 2.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 2.</p>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -290,7 +406,13 @@
             <div class="profile" id="product3">
                 <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+                <p class="product-price">$30</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
                 <p>Description: Exclusive product 3.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 3.</p>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -301,7 +423,13 @@
             <div class="profile" id="product4">
                 <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 4</p>
+                <p class="product-price">$40</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 4', 40)">Add to Cart</button>
                 <p>Description: New arrival product 4.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 4.</p>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -312,7 +440,13 @@
             <div class="profile" id="product5">
                 <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 5</p>
+                <p class="product-price">$50</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 5', 50)">Add to Cart</button>
                 <p>Description: Limited edition product 5.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 5.</p>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -323,7 +457,13 @@
             <div class="profile" id="product6">
                 <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" onclick="toggleExpand(this)" />
                 <p class="product-title" onclick="toggleExpand(this)">Product 6</p>
+                <p class="product-price">$60</p>
+                <button class="add-to-cart-btn" onclick="addToCart('Product 6', 60)">Add to Cart</button>
                 <p>Description: Best-seller product 6.</p>
+                <!-- Hidden Product Details -->
+                <div class="product-details" style="display: none;">
+                    <p>More details about Product 6.</p>
+                </div>
                 <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
                     <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
@@ -372,6 +512,60 @@
             }
         });
 
+        // Cart Functionality
+        let cart = [];
+
+        function addToCart(productName, productPrice) {
+            // Check if product is already in cart
+            const existingProduct = cart.find(item => item.name === productName);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+            updateCartCount();
+            alert(`${productName} has been added to your cart.`);
+        }
+
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cart-modal');
+            if (cartModal.style.display === 'flex') {
+                cartModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            } else {
+                cartModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                renderCartItems();
+            }
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name} x${item.quantity}</p>
+                    <p>$${item.price * item.quantity}</p>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                totalPrice += item.price * item.quantity;
+            });
+            document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+        }
+
+        function proceedToPayment() {
+            // Placeholder for payment processing
+            alert('Proceeding to payment...');
+        }
+
         // Profile Expansion Functionality
         function toggleExpand(element) {
             let profile;
@@ -401,22 +595,24 @@
             if (!isExpanded) {
                 profile.classList.add('expanded');
                 profile.classList.add('show-dash');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
                 // Create description overlay
                 const description = document.createElement('div');
                 description.classList.add('description');
                 const productTitle = profile.querySelector('.product-title').textContent;
-                const descText = profile.querySelector('p:nth-of-type(2)').textContent;
+                const productDetails = profile.querySelector('.product-details').innerHTML;
                 description.innerHTML = `
                     <button class="close-btn" onclick="closeExpand(this)">X</button>
                     <h2>${productTitle}</h2>
-                    <p>${descText}</p>
+                    ${productDetails}
                     <!-- Add more details as needed -->
                 `;
                 profile.appendChild(description);
             } else {
                 profile.classList.remove('expanded');
                 profile.classList.remove('show-dash');
+                document.body.style.overflow = 'auto'; // Restore background scrolling
 
                 // Remove description overlay
                 const description = profile.querySelector('.description');
@@ -434,6 +630,13 @@
             if (description) {
                 profile.removeChild(description);
             }
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+
+        function changeMainImage(smallImg) {
+            const profile = smallImg.closest('.profile');
+            const mainImg = profile.querySelector('img');
+            mainImg.src = smallImg.src;
         }
 
         // Prevent image dragging
