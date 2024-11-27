@@ -2,55 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>MyMultiplatform Shop</title>
     <style>
-        body {
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Hide horizontal overflow */
-            overflow-y: auto;   /* Allow vertical scrolling */
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            background-color: black; /* Set background color for the body */
-            font-family: 'Helvetica', sans-serif;
-            color: white;
         }
 
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
         .navbar {
-            background: linear-gradient(to bottom, #666666, #000000);
-            text-align: center;
-            padding: 10px 0;
+            background: linear-gradient(to bottom, #666, #000);
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 1000;
+            width: 100%;
+            padding: 10px 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
 
         .navbar a {
-            color: white;
             padding: 8px 16px;
-            text-decoration: none;
             font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .navbar a:hover {
             background-color: green;
+            border-radius: 4px;
         }
 
         .cart-icon {
             margin-left: auto;
             margin-right: 20px;
             position: relative;
-            cursor: pointer;
-            display: inline-block;
             font-size: 24px;
+            cursor: pointer;
         }
 
         .cart-count {
@@ -64,97 +68,109 @@
             font-size: 12px;
         }
 
+        /* Content Sections */
         .content-section {
-            display: none; /* Hidden by default */
+            display: none;
             padding-top: 60px; /* To prevent content from being hidden under the navbar */
+            min-height: 100vh;
         }
 
-        /* Home Section Styles */
+        /* Home Section */
         #home {
-            display: block; /* Show home section by default */
-            background-color: black;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            min-height: 100vh;
-            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            text-align: center;
+            padding: 20px;
         }
 
         .title {
-            font-size: 3rem;
-            color: white;
-            cursor: pointer;
+            font-size: 2.5rem;
             font-weight: bold;
+            margin-bottom: 20px;
+            cursor: pointer;
         }
 
         .logo {
-            margin-top: 20px;
+            width: 80%;
+            max-width: 320px;
+            height: 183px;
+            background-color: black;
+            border: 2px solid #444;
+            border-radius: 8px;
         }
 
-        /* Shop Section Styles */
+        /* Shop Section */
         #Shop {
-            background-color: black;
-            color: white;
-            text-align: center;
-            min-height: 100vh;
-            padding: 80px 20px 20px 20px; /* Adjusted padding for navbar */
-            position: relative;
+            display: none;
+            padding: 80px 20px 20px 20px;
         }
 
         #Shop .shop-profiles {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 20px;
             gap: 20px;
         }
 
-        #Shop .shop-profiles .profile {
-            margin: 10px;
-            width: 300px;
+        .profile {
             background-color: #222;
             border: 1px solid #444;
             border-radius: 8px;
+            width: 90%;
+            max-width: 300px;
             overflow: hidden;
             position: relative;
             transition: transform 0.3s ease, z-index 0.3s ease;
         }
 
-        #Shop .shop-profiles .profile img {
-            height: 200px;
+        .profile img {
             width: 100%;
+            height: 200px;
             object-fit: cover;
             cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        #Shop .shop-profiles .profile p {
-            margin: 10px;
-            font-size: 1rem;
+        .profile img:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
+            margin-bottom: 5px;
         }
 
-        /* Add-to-Cart Button */
+        .product-price {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
         .add-to-cart-btn {
             background-color: #444;
             color: white;
             border: none;
             padding: 8px 12px;
-            margin: 10px;
-            cursor: pointer;
             border-radius: 4px;
             font-size: 1rem;
-            transition: background-color 0.3s ease;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
         }
 
         .add-to-cart-btn:hover {
             background-color: green;
         }
 
-        /* Additional Styles for Cart */
+        /* Cart Modal */
         .cart-modal {
             display: none;
             position: fixed;
@@ -164,34 +180,34 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             z-index: 1002;
+            display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .cart-content {
             background-color: #fff;
             color: #000;
             padding: 20px;
-            width: 80%;
+            width: 100%;
             max-width: 500px;
             border-radius: 8px;
+            max-height: 80vh;
             overflow-y: auto;
-            max-height: 80%;
             position: relative;
         }
 
         .cart-content h2 {
-            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
-        }
-
-        .cart-item p {
-            margin: 0;
+            font-size: 1rem;
         }
 
         .close-cart {
@@ -219,39 +235,16 @@
             width: 100%;
         }
 
-        /* Magnifier Icon */
-        .magnifier-icon {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            fill: white;
-        }
-
-        /* Dash Annotation */
-        .dash-annotation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            color: red;
-            display: none;
-            pointer-events: none;
-        }
-
-        /* Expanded Product Styles */
+        /* Expanded Profile */
         .profile.expanded {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(1);
             z-index: 1001;
             background-color: #333;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            width: 90vw;
+            width: 95vw;
             max-width: 500px;
             max-height: 90vh;
             display: flex;
@@ -260,38 +253,54 @@
             padding: 20px;
             border-radius: 8px;
             overflow-y: auto;
+            transition: transform 0.3s ease;
         }
 
         .profile.expanded img {
-            height: auto;
             width: 100%;
+            height: auto;
             object-fit: cover;
             border-radius: 8px;
+            margin-bottom: 15px;
         }
 
-        .profile.expanded .description {
-            display: block;
-            margin-top: 20px;
-            text-align: left;
+        .description {
             width: 100%;
-        }
-
-        .description h2 {
-            margin-top: 0;
-            color: white;
-        }
-
-        .description p {
-            margin: 5px 0;
+            text-align: left;
             color: #ddd;
         }
 
-        /* Show Dash Annotation */
-        .profile.show-dash .dash-annotation {
-            display: block;
+        .description h2 {
+            margin-bottom: 10px;
+            color: #fff;
         }
 
-        /* Close Button for Expanded View */
+        .description p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .product-gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .product-gallery img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .product-gallery img:hover {
+            transform: scale(1.1);
+        }
+
         .close-btn {
             position: absolute;
             top: 10px;
@@ -307,38 +316,27 @@
 
         /* Footer */
         footer {
-            padding: 50px 20px;
-            background-color: black;
-            color: white;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
             text-align: center;
-            font-family: 'Helvetica', sans-serif;
+            font-size: 1rem;
         }
 
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            #Shop .shop-profiles .profile {
-                width: 90vw;
-            }
-
-            .navbar a {
-                font-size: 16px;
-                padding: 6px 12px;
-            }
-
+        @media (min-width: 768px) {
             .title {
-                font-size: 2rem;
+                font-size: 3rem;
             }
 
-            .profile.expanded {
-                width: 95vw;
-                height: auto;
-                transform: translate(-50%, -50%);
-                flex-direction: column;
-                align-items: center;
+            .profile {
+                width: 45%;
             }
+        }
 
-            .dash-annotation {
-                font-size: 2rem;
+        @media (min-width: 1024px) {
+            .profile {
+                width: 30%;
             }
         }
     </style>
@@ -369,123 +367,76 @@
     <!-- Home Section -->
     <div class="content-section" id="home">
         <div class="title" onclick="showTabContent('Shop')">SHOP TEST</div>
-        <div class="logo">
-            <div style="background-color: black; height: 183px; width: 320px;"></div>
-        </div>
+        <div class="logo"></div>
     </div>
 
     <!-- Shop Section -->
     <div class="content-section" id="Shop">
-        <p style="text-align: center; font-size: 2rem;">SHOP</p>
+        <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
         <div class="shop-profiles">
-            <!-- Product 1 -->
+            <!-- Product Template -->
+            <!-- Repeat this block for each product, updating the IDs and content accordingly -->
             <div class="profile" id="product1">
                 <img alt="Product 1" src="https://via.placeholder.com/300x200.png?text=Product+1" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
-                <p class="product-price">$10</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
-                <p>Description: High-quality product 1.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 1.</p>
-                    <!-- Product Gallery -->
+                <div class="product-info">
+                    <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
+                    <p class="product-price">$10</p>
+                    <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
+                </div>
+                <!-- Expanded Product Details -->
+                <div class="description" style="display: none;">
+                    <h2>Product 1</h2>
+                    <p>High-quality product 1 with excellent features and benefits.</p>
                     <div class="product-gallery">
-                        <img src="https://via.placeholder.com/60.png?text=1" onclick="changeMainImage(this)" />
-                        <img src="https://via.placeholder.com/60.png?text=2" onclick="changeMainImage(this)" />
-                        <img src="https://via.placeholder.com/60.png?text=3" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+1+Image+1" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+1+Image+2" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+1+Image+3" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
                     </div>
                 </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
+                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
             </div>
-            <!-- Product 2 -->
+
+            <!-- Repeat for other products -->
             <div class="profile" id="product2">
                 <img alt="Product 2" src="https://via.placeholder.com/300x200.png?text=Product+2" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
-                <p class="product-price">$20</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
-                <p>Description: Premium product 2.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 2.</p>
+                <div class="product-info">
+                    <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
+                    <p class="product-price">$20</p>
+                    <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
                 </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
+                <div class="description" style="display: none;">
+                    <h2>Product 2</h2>
+                    <p>Premium product 2 with top-notch quality and design.</p>
+                    <div class="product-gallery">
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+2+Image+1" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+2+Image+2" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+2+Image+3" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
+                    </div>
+                </div>
+                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
             </div>
-            <!-- Product 3 -->
+
+            <!-- Add more products as needed following the same structure -->
+            <!-- Example Product 3 -->
             <div class="profile" id="product3">
                 <img alt="Product 3" src="https://via.placeholder.com/300x200.png?text=Product+3" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
-                <p class="product-price">$30</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
-                <p>Description: Exclusive product 3.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 3.</p>
+                <div class="product-info">
+                    <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+                    <p class="product-price">$30</p>
+                    <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
                 </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 4 -->
-            <div class="profile" id="product4">
-                <img alt="Product 4" src="https://via.placeholder.com/300x200.png?text=Product+4" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 4</p>
-                <p class="product-price">$40</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 4', 40)">Add to Cart</button>
-                <p>Description: New arrival product 4.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 4.</p>
+                <div class="description" style="display: none;">
+                    <h2>Product 3</h2>
+                    <p>Exclusive product 3 offering unmatched performance and style.</p>
+                    <div class="product-gallery">
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+3+Image+1" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+3+Image+2" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
+                        <img src="https://via.placeholder.com/300x200.png?text=Product+3+Image+3" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
+                    </div>
                 </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
+                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
             </div>
-            <!-- Product 5 -->
-            <div class="profile" id="product5">
-                <img alt="Product 5" src="https://via.placeholder.com/300x200.png?text=Product+5" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 5</p>
-                <p class="product-price">$50</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 5', 50)">Add to Cart</button>
-                <p>Description: Limited edition product 5.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 5.</p>
-                </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
-            <!-- Product 6 -->
-            <div class="profile" id="product6">
-                <img alt="Product 6" src="https://via.placeholder.com/300x200.png?text=Product+6" onclick="toggleExpand(this)" />
-                <p class="product-title" onclick="toggleExpand(this)">Product 6</p>
-                <p class="product-price">$60</p>
-                <button class="add-to-cart-btn" onclick="addToCart('Product 6', 60)">Add to Cart</button>
-                <p>Description: Best-seller product 6.</p>
-                <!-- Hidden Product Details -->
-                <div class="product-details" style="display: none;">
-                    <p>More details about Product 6.</p>
-                </div>
-                <svg class="magnifier-icon" onclick="toggleExpand(this)" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" fill="none" r="20" stroke-width="8" stroke="black"></circle>
-                    <line stroke-width="8" stroke="black" x1="45" x2="80" y1="45" y2="80"></line>
-                </svg>
-                <div class="dash-annotation">-</div>
-            </div>
+            <!-- Add additional products similarly -->
         </div>
     </div>
 
@@ -587,8 +538,8 @@
             let profile;
             if (element.classList.contains('magnifier-icon') || element.tagName.toLowerCase() === 'svg') {
                 profile = element.closest('.profile');
-            } else if (element.classList.contains('product-title')) {
-                profile = element.parentElement;
+            } else if (element.classList.contains('product-title') || element.tagName.toLowerCase() === 'img') {
+                profile = element.closest('.profile');
             } else {
                 profile = element.closest('.profile');
             }
@@ -600,78 +551,38 @@
             expandedProfiles.forEach((expProfile) => {
                 if (expProfile !== profile) {
                     expProfile.classList.remove('expanded');
-                    expProfile.classList.remove('show-dash');
-                    const desc = expProfile.querySelector('.description');
-                    if (desc) {
-                        expProfile.removeChild(desc);
-                    }
+                    toggleDescription(expProfile, false);
                 }
             });
 
             if (!isExpanded) {
                 profile.classList.add('expanded');
-                profile.classList.add('show-dash');
+                toggleDescription(profile, true);
                 document.body.style.overflow = 'hidden'; // Prevent background scrolling
-
-                // Create description overlay
-                const description = document.createElement('div');
-                description.classList.add('description');
-                const productTitle = profile.querySelector('.product-title').textContent;
-                const productDetails = profile.querySelector('.product-details').innerHTML;
-                description.innerHTML = `
-                    <button class="close-btn" onclick="closeExpand(this)">X</button>
-                    <h2>${productTitle}</h2>
-                    ${productDetails}
-                    <!-- Add more details as needed -->
-                `;
-                profile.appendChild(description);
-
-                // Optional: Close expanded view when clicking outside the profile
-                document.addEventListener('click', outsideClickListener);
-                // Optional: Close with Esc key
-                document.addEventListener('keydown', escKeyListener);
             } else {
                 profile.classList.remove('expanded');
-                profile.classList.remove('show-dash');
+                toggleDescription(profile, false);
                 document.body.style.overflow = 'auto'; // Restore background scrolling
-
-                // Remove description overlay
-                const description = profile.querySelector('.description');
-                if (description) {
-                    profile.removeChild(description);
-                }
-
-                // Remove event listeners
-                document.removeEventListener('click', outsideClickListener);
-                document.removeEventListener('keydown', escKeyListener);
             }
+        }
 
-            function outsideClickListener(event) {
-                if (!profile.contains(event.target) && !element.contains(event.target)) {
-                    closeExpand(profile.querySelector('.close-btn'));
-                }
-            }
-
-            function escKeyListener(event) {
-                if (event.key === 'Escape') {
-                    closeExpand(profile.querySelector('.close-btn'));
-                }
+        function toggleDescription(profile, show) {
+            const description = profile.querySelector('.description');
+            const closeBtn = profile.querySelector('.close-btn');
+            if (show) {
+                description.style.display = 'block';
+                closeBtn.style.display = 'block';
+            } else {
+                description.style.display = 'none';
+                closeBtn.style.display = 'none';
             }
         }
 
         function closeExpand(button) {
             const profile = button.closest('.profile');
             profile.classList.remove('expanded');
-            profile.classList.remove('show-dash');
-            const description = profile.querySelector('.description');
-            if (description) {
-                profile.removeChild(description);
-            }
+            toggleDescription(profile, false);
             document.body.style.overflow = 'auto'; // Restore background scrolling
-
-            // Remove event listeners
-            document.removeEventListener('click', outsideClickListener);
-            document.removeEventListener('keydown', escKeyListener);
         }
 
         function changeMainImage(smallImg) {
@@ -686,10 +597,13 @@
             img.draggable = false;
         });
 
-        // Optional: Prevent text selection globally
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
+        // Allow touch interactions within expanded profiles
+        document.addEventListener('touchmove', function(event) {
+            const expanded = document.querySelector('.profile.expanded');
+            if (expanded && !expanded.contains(event.target)) {
+                event.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
