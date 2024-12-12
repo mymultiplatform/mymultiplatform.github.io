@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Copy Buttons Grid</title>
+    <title>Multiple Copy Buttons List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,26 +11,28 @@
             margin: 0;
             padding: 20px;
         }
-        .copy-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 50px 0;
+        .copy-list {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 50px auto;
         }
         .copy-item {
             background-color: #ffffff;
             border: 1px solid #cccccc;
             padding: 20px;
             border-radius: 8px;
-            width: calc(20% - 40px); /* 5 columns with gaps */
+            margin-bottom: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .copy-text {
-            margin-bottom: 15px;
             color: #333;
             word-wrap: break-word;
+            flex: 1;
+            margin-right: 20px;
         }
         .copy-button {
             padding: 10px 20px;
@@ -47,53 +49,46 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1200px) {
+        @media (max-width: 600px) {
             .copy-item {
-                width: calc(25% - 40px); /* 4 columns */
+                flex-direction: column;
+                align-items: flex-start;
             }
-        }
-        @media (max-width: 992px) {
-            .copy-item {
-                width: calc(33.333% - 40px); /* 3 columns */
+            .copy-text {
+                margin-right: 0;
+                margin-bottom: 10px;
             }
-        }
-        @media (max-width: 768px) {
-            .copy-item {
-                width: calc(50% - 40px); /* 2 columns */
-            }
-        }
-        @media (max-width: 480px) {
-            .copy-item {
-                width: 100%; /* 1 column */
+            .copy-button {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <h1 style="text-align: center;">Multiple Texts with Copy Buttons</h1>
-    <div class="copy-grid">
-        <div class="copy-item">
+    <ul class="copy-list">
+        <li class="copy-item">
             <div class="copy-text" id="text1">Example Text A</div>
             <button class="copy-button" onclick="copyText('text1')">Copy</button>
-        </div>
-        <div class="copy-item">
+        </li>
+        <li class="copy-item">
             <div class="copy-text" id="text2">Example Text B</div>
             <button class="copy-button" onclick="copyText('text2')">Copy</button>
-        </div>
-        <div class="copy-item">
+        </li>
+        <li class="copy-item">
             <div class="copy-text" id="text3">Example Text C</div>
             <button class="copy-button" onclick="copyText('text3')">Copy</button>
-        </div>
-        <div class="copy-item">
+        </li>
+        <li class="copy-item">
             <div class="copy-text" id="text4">Example Text D</div>
             <button class="copy-button" onclick="copyText('text4')">Copy</button>
-        </div>
-        <div class="copy-item">
+        </li>
+        <li class="copy-item">
             <div class="copy-text" id="text5">Example Text E</div>
             <button class="copy-button" onclick="copyText('text5')">Copy</button>
-        </div>
+        </li>
         <!-- Add more copy-items as needed -->
-    </div>
+    </ul>
 
     <script>
         function copyText(elementId) {
