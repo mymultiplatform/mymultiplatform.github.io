@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text UI with Copy Button</title>
+    <style>
+        .copy-container {
+            text-align: center;
+            margin: 50px 0;
+        }
+        .copy-box {
+            border: 1px solid #cccccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: Arial, sans-serif;
+            display: inline-block;
+            width: 80%;
+            max-width: 600px;
+            text-align: left;
+        }
+        .copy-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #999999;
+            color: #cccccc;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .copy-button:hover {
+            background-color: #777777;
+        }
+    </style>
+</head>
+<body>
+    <div class="copy-container">
+        <div class="copy-box" id="textToCopy">
+            Example text
+        </div>
+        <button class="copy-button" onclick="copyText()">Copy</button>
+    </div>
+
+    <script>
+        function copyText() {
+            const textToCopy = document.getElementById('textToCopy').innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Text copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
