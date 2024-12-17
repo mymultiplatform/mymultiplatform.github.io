@@ -20,6 +20,7 @@
       font-size: 24px;
       font-weight: bold;
       text-align: left;
+      margin-top: 60px; /* Added margin to prevent overlap */
     }
     
     .title {
@@ -34,6 +35,7 @@
       width: 100%;
       top: 0;
       z-index: 1000;
+      height: 50px; /* Define a fixed height for reference */
     }
     
     .navbar a {
@@ -72,17 +74,13 @@
       
       .banner {
         font-size: 20px;
+        margin-top: 60px; /* Ensure margin remains consistent on smaller screens */
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Banner -->
-  <div class="banner">
-    <div class="title">Mymultiplatform</div>
-  </div>
-  
   <!-- Navbar -->
   <div class="navbar">
     <a href="#home" class="tab-link">Home</a>
@@ -90,6 +88,11 @@
     <a href="#gamedev" class="tab-link">Game Dev</a>
     <a href="#bobaup" class="tab-link">Boba Up</a>
     <a href="#Shop" class="tab-link">Shop</a>
+  </div>
+  
+  <!-- Banner -->
+  <div class="banner">
+    <div class="title">Mymultiplatform</div>
   </div>
   
   <!-- Tab Content -->
