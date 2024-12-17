@@ -68,9 +68,41 @@
       border-radius: 4px;
     }
     
+    /* Dynamic Banner Styles */
+    .dynamic-banner {
+      position: fixed;
+      top: 110px; /* 60px (banner) + 50px (navbar) */
+      width: 100%;
+      height: 180px; /* 3x the green banner height */
+      overflow: hidden;
+      z-index: 999; /* Below navbar and fixed banner */
+    }
+    
+    .banner-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    .banner-slide.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .banner-slide.fade-out {
+      opacity: 0;
+    }
+    
     /* Main Content Styles */
     .tab-content {
-      padding: 120px 20px 20px 20px; /* Increased padding-top to accommodate banner and navbar */
+      padding: 300px 20px 20px 20px; /* Increased padding-top to accommodate banner and navbar */
       color: white;
     }
     
@@ -100,15 +132,20 @@
         height: 45px; /* Adjusted height */
       }
       
+      .dynamic-banner {
+        top: 95px; /* 50px (banner) + 45px (navbar) */
+        height: 135px; /* Adjusted height */
+      }
+      
       .tab-content {
-        padding: 95px 15px 15px 15px; /* Adjusted padding-top */
+        padding: 230px 15px 15px 15px; /* Adjusted padding-top */
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Banner -->
+  <!-- Fixed Banner -->
   <div class="banner">
     <div class="title">Mymultiplatform</div>
   </div>
@@ -120,6 +157,16 @@
     <a href="#gamedev" class="tab-link">Game Dev</a>
     <a href="#bobaup" class="tab-link">Boba Up</a>
     <a href="#Shop" class="tab-link">Shop</a>
+  </div>
+  
+  <!-- Dynamic Banner -->
+  <div class="dynamic-banner">
+    <div class="banner-slide active" style="background-color: gray;">
+      <!-- You can add content here if needed -->
+    </div>
+    <div class="banner-slide" style="background-color: purple;">
+      <!-- You can add content here if needed -->
+    </div>
   </div>
   
   <!-- Tab Content -->
@@ -174,6 +221,7 @@
   </div>
 
   <script>
+    // Tab Functionality
     function showTabContent(tabId) {
       const tabContents = document.querySelectorAll(".tab-content h2");
       tabContents.forEach((content) => {
@@ -211,6 +259,22 @@
         showTabContent('home');
       }
     });
+
+    // Dynamic Banner Functionality
+    let currentBannerIndex = 0;
+    const banners = document.querySelectorAll('.banner-slide');
+    const totalBanners = banners.length;
+
+    setInterval(() => {
+      // Remove active class from current banner
+      banners[currentBannerIndex].classList.remove('active');
+      
+      // Calculate next banner index
+      currentBannerIndex = (currentBannerIndex + 1) % totalBanners;
+      
+      // Add active class to the next banner
+      banners[currentBannerIndex].classList.add('active');
+    }, 5000); // Change banner every 5000 milliseconds (5 seconds)
   </script>
 </body>
 </html>
