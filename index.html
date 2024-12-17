@@ -52,7 +52,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: top 0.3s;
     }
     
     .navbar a {
@@ -77,7 +76,7 @@
       height: 180px; /* 3x the green banner height */
       overflow: hidden;
       z-index: 999; /* Below navbar and fixed banner */
-      display: none; /* Hidden by default */
+      display: block; /* Always display the dynamic banner */
     }
     
     .banner-slide {
@@ -98,15 +97,10 @@
       opacity: 1;
     }
     
-    .banner-slide.fade-out {
-      opacity: 0;
-    }
-    
     /* Main Content Styles */
     .tab-content {
-      padding: 300px 20px 20px 20px; /* Adjusted padding-top to accommodate banner, navbar, and dynamic banner */
+      padding: 290px 20px 20px 20px; /* Fixed padding-top to accommodate banner, navbar, and dynamic banner */
       color: white;
-      transition: padding-top 0.3s;
     }
     
     .tab-content h2 {
@@ -141,7 +135,7 @@
       }
       
       .tab-content {
-        padding: 240px 15px 15px 15px; /* Adjusted padding-top */
+        padding: 230px 15px 15px 15px; /* Fixed padding-top for smaller screens */
       }
     }
   </style>
@@ -189,7 +183,7 @@
       <div>
         <a href="https://mymultiplatform.itch.io/tinyhousebydantesnavigation" style="font-size: 6em;">Virtual Tour</a>
         <ul>
-          <li><a href="/">Home</a></li>
+          <li><a href="#home" class="tab-link">Home</a></li>
         </ul>
       </div>
     </h2>
@@ -234,24 +228,6 @@
           content.classList.remove("active");
         }
       });
-
-      const dynamicBanner = document.querySelector('.dynamic-banner');
-      const navbar = document.querySelector('.navbar');
-      const tabContent = document.querySelector('.tab-content');
-
-      if (tabId === 'home') {
-        dynamicBanner.style.display = 'block';
-        // Adjust navbar position if necessary
-        navbar.style.top = '110px';
-        // Adjust tab-content padding
-        tabContent.style.paddingTop = '300px';
-      } else {
-        dynamicBanner.style.display = 'none';
-        // Adjust navbar position
-        navbar.style.top = '60px';
-        // Adjust tab-content padding
-        tabContent.style.paddingTop = '120px';
-      }
     }
 
     const tabLinks = document.querySelectorAll(".navbar a");
