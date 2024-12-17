@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Mymultiplatform</title>
   <style>
+    /* Reset box-sizing for consistency */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       background-color: rgb(0, 0, 0);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -13,29 +18,40 @@
       padding: 0;
     }
     
+    /* Banner Styles */
     .banner {
       background-color: green;
       color: white;
-      padding: 10px;
+      padding: 10px 20px;
       font-size: 24px;
       font-weight: bold;
       text-align: left;
-      margin-top: 60px; /* Added margin to prevent overlap */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001; /* Higher z-index to appear above the navbar */
+      height: 60px; /* Fixed height for consistency */
+      display: flex;
+      align-items: center;
     }
     
     .title {
       margin-left: 20px;
     }
     
+    /* Navbar Styles */
     .navbar {
       background: linear-gradient(to bottom, #666666, #000000);
       text-align: center;
       padding: 10px 0;
       position: fixed;
+      top: 60px; /* Positioned below the banner */
       width: 100%;
-      top: 0;
-      z-index: 1000;
-      height: 50px; /* Define a fixed height for reference */
+      z-index: 1000; /* Lower than banner */
+      height: 50px; /* Fixed height */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     
     .navbar a {
@@ -52,8 +68,9 @@
       border-radius: 4px;
     }
     
+    /* Main Content Styles */
     .tab-content {
-      padding: 80px 20px 20px 20px; /* Adjusted padding for fixed navbar */
+      padding: 120px 20px 20px 20px; /* Increased padding-top to accommodate banner and navbar */
       color: white;
     }
     
@@ -74,13 +91,28 @@
       
       .banner {
         font-size: 20px;
-        margin-top: 60px; /* Ensure margin remains consistent on smaller screens */
+        padding: 10px 15px;
+        height: 50px; /* Adjusted height for smaller screens */
+      }
+      
+      .navbar {
+        top: 50px; /* Adjusted top position based on banner height */
+        height: 45px; /* Adjusted height */
+      }
+      
+      .tab-content {
+        padding: 95px 15px 15px 15px; /* Adjusted padding-top */
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- Banner -->
+  <div class="banner">
+    <div class="title">Mymultiplatform</div>
+  </div>
+  
   <!-- Navbar -->
   <div class="navbar">
     <a href="#home" class="tab-link">Home</a>
@@ -88,11 +120,6 @@
     <a href="#gamedev" class="tab-link">Game Dev</a>
     <a href="#bobaup" class="tab-link">Boba Up</a>
     <a href="#Shop" class="tab-link">Shop</a>
-  </div>
-  
-  <!-- Banner -->
-  <div class="banner">
-    <div class="title">Mymultiplatform</div>
   </div>
   
   <!-- Tab Content -->
