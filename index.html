@@ -227,6 +227,14 @@
           content.classList.remove("active");
         }
       });
+
+      // Toggle Dynamic Banner visibility based on the active tab
+      const dynamicBanner = document.querySelector('.dynamic-banner');
+      if (tabId === 'home') {
+        dynamicBanner.style.display = 'block';
+      } else {
+        dynamicBanner.style.display = 'none';
+      }
     }
 
     const tabLinks = document.querySelectorAll(".navbar a");
@@ -264,14 +272,16 @@
     const totalBanners = banners.length;
 
     setInterval(() => {
-      // Remove active class from current banner
-      banners[currentBannerIndex].classList.remove('active');
-      
-      // Calculate next banner index
-      currentBannerIndex = (currentBannerIndex + 1) % totalBanners;
-      
-      // Add active class to the next banner
-      banners[currentBannerIndex].classList.add('active');
+      if (document.querySelector('#home').classList.contains('active')) {
+        // Remove active class from current banner
+        banners[currentBannerIndex].classList.remove('active');
+        
+        // Calculate next banner index
+        currentBannerIndex = (currentBannerIndex + 1) % totalBanners;
+        
+        // Add active class to the next banner
+        banners[currentBannerIndex].classList.add('active');
+      }
     }, 5000); // Change banner every 5000 milliseconds (5 seconds)
   </script>
 </body>
