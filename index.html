@@ -17,7 +17,7 @@
       margin: 0;
       padding: 0;
     }
-    
+
     /* Banner Styles */
     .banner {
       background-color: green;
@@ -29,31 +29,31 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: 1001; /* Higher z-index to appear above the navbar */
-      height: 60px; /* Fixed height for consistency */
+      z-index: 1001;
+      height: 60px;
       display: flex;
       align-items: center;
     }
-    
+
     .title {
       margin-left: 20px;
     }
-    
+
     /* Navbar Styles */
     .navbar {
       background: linear-gradient(to bottom, #666666, #000000);
       text-align: center;
       padding: 10px 0;
       position: fixed;
-      top: 60px; /* Positioned below the banner */
+      top: 60px;
       width: 100%;
-      z-index: 1000; /* Lower than banner */
-      height: 50px; /* Fixed height */
+      z-index: 1000;
+      height: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    
+
     .navbar a {
       color: white;
       padding: 8px 16px;
@@ -62,91 +62,86 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    
+
     .navbar a:hover {
       background-color: green;
       border-radius: 4px;
     }
-    
+
     /* Dynamic Banner Styles */
     .dynamic-banner {
       position: fixed;
-      top: 110px; /* 60px (banner) + 50px (navbar) */
+      top: 110px;
       width: 100%;
-      height: 180px; /* 3x the green banner height */
+      height: 180px;
       overflow: hidden;
-      z-index: 999; /* Below navbar and fixed banner */
-      display: block; /* Always display the dynamic banner */
+      z-index: 999;
     }
-    
+
     .banner-slide {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background-size: cover;
+      background-position: center;
       display: none;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      transition: opacity 1s ease-in-out;
     }
-    
+
     .banner-slide.active {
-      display: flex;
-      opacity: 1;
+      display: block;
     }
-    
+
     /* Main Content Styles */
     .tab-content {
-      padding: 290px 20px 20px 20px; /* Fixed padding-top to accommodate banner, navbar, and dynamic banner */
+      padding: 290px 20px 20px 20px;
       color: white;
     }
-    
+
     .tab-content h2 {
       display: none;
     }
-    
+
     .tab-content h2.active {
       display: block;
     }
-    
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .navbar a {
         font-size: 16px;
         padding: 6px 12px;
       }
-      
+
       .banner {
         font-size: 20px;
         padding: 10px 15px;
-        height: 50px; /* Adjusted height for smaller screens */
+        height: 50px;
       }
-      
+
       .navbar {
-        top: 50px; /* Adjusted top position based on banner height */
-        height: 45px; /* Adjusted height */
+        top: 50px;
+        height: 45px;
       }
-      
+
       .dynamic-banner {
-        top: 95px; /* 50px (banner) + 45px (navbar) */
-        height: 135px; /* Adjusted height */
+        top: 95px;
+        height: 135px;
       }
-      
+
       .tab-content {
-        padding: 230px 15px 15px 15px; /* Fixed padding-top for smaller screens */
+        padding: 230px 15px 15px 15px;
       }
     }
   </style>
 </head>
 <body>
-
   <!-- Fixed Banner -->
   <div class="banner">
     <div class="title">Mymultiplatform</div>
   </div>
-  
+
   <!-- Navbar -->
   <div class="navbar">
     <a href="#home" class="tab-link">Home</a>
@@ -155,134 +150,58 @@
     <a href="#bobaup" class="tab-link">Boba Up</a>
     <a href="#Shop" class="tab-link">Shop</a>
   </div>
-  
+
   <!-- Dynamic Banner -->
   <div class="dynamic-banner">
-    <div class="banner-slide active" style="background-color: gray;">
-      <!-- You can add content here if needed -->
+    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
     </div>
-    <div class="banner-slide" style="background-color: purple;">
-      <!-- You can add content here if needed -->
+    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
     </div>
   </div>
-  
+
   <!-- Tab Content -->
   <div class="tab-content">
     <!-- Home Tab -->
-    <h2 id="home" class="active">
-      If you're broke, you shouldn't be smoking weed—no question about it. CleanBeach org-RealState org
-      <div>
-        <a href="https://mymultiplatform.github.io/developer" target="_blank" title="Developer Page">/Info</a>
-      </div>
-    </h2>
-
-    <!-- Architecture Tab -->
-    <h2 id="architecture">
-      Architecture
-      <div>
-        <a href="https://mymultiplatform.itch.io/tinyhousebydantesnavigation" style="font-size: 6em;">Virtual Tour</a>
-        <ul>
-          <li><a href="#home" class="tab-link">Home</a></li>
-        </ul>
-      </div>
-    </h2>
-    
-    <!-- Game Dev Tab -->
-    <h2 id="gamedev">
-      Game Dev
-      <p style="text-align: center;">
-        <b>..Game Development Progress and Concept..</b>
-      </p>
-    </h2>
-    
-    <!-- Boba Up Tab -->
-    <h2 id="bobaup">
-      Boba Up
-    </h2>
-    
-    <!-- Shop Tab -->
-    <h2 id="Shop">
-      Mymultiplatform Shop
-      <p><a href="https://mymultiplatform.github.io/shop" target="_blank" title="Official Site" onclick="redirectToShop(); return false;">Site</a></p>
-      <div>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="YOUR_PAYPAL_BUTTON_ID">
-          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-      </div>
-      <p style="text-align: center;">XSW Official Hoodie</p>
-    </h2>
+    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
   </div>
 
   <script>
     // Tab Functionality
     function showTabContent(tabId) {
       const tabContents = document.querySelectorAll(".tab-content h2");
-      tabContents.forEach((content) => {
-        if (content.id === tabId) {
-          content.classList.add("active");
-        } else {
-          content.classList.remove("active");
-        }
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === tabId);
       });
 
-      // Toggle Dynamic Banner visibility based on the active tab
       const dynamicBanner = document.querySelector('.dynamic-banner');
-      if (tabId === 'home') {
-        dynamicBanner.style.display = 'block';
-      } else {
-        dynamicBanner.style.display = 'none';
-      }
+      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
     }
 
     const tabLinks = document.querySelectorAll(".navbar a");
-    tabLinks.forEach((link) => {
-      link.addEventListener("click", (event) => {
+    tabLinks.forEach(link => {
+      link.addEventListener("click", event => {
         event.preventDefault();
-        const tabId = link.getAttribute("href").replace("#", "");
+        const tabId = link.getAttribute("href").substring(1);
         showTabContent(tabId);
-        // Update URL hash without scrolling
-        history.pushState(null, null, '#' + tabId);
+        history.pushState(null, null, `#${tabId}`);
       });
     });
 
-    function redirectToShop() {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/android/i.test(userAgent) || /iPhone|iPad|iPod/i.test(userAgent)) {
-        window.location.href = 'https://mymultiplatform.com/shop-m';
-      } else {
-        window.location.href = 'https://mymultiplatform.github.io/shop';
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const hash = window.location.hash.substring(1);
-      if (hash) {
-        showTabContent(hash);
-      } else {
-        showTabContent('home');
-      }
-    });
-
-    // Dynamic Banner Functionality
-    let currentBannerIndex = 0;
-    const banners = document.querySelectorAll('.banner-slide');
-    const totalBanners = banners.length;
+    // Dynamic Banner Animation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".banner-slide");
 
     setInterval(() => {
-      if (document.querySelector('#home').classList.contains('active')) {
-        // Remove active class from current banner
-        banners[currentBannerIndex].classList.remove('active');
-        
-        // Calculate next banner index
-        currentBannerIndex = (currentBannerIndex + 1) % totalBanners;
-        
-        // Add active class to the next banner
-        banners[currentBannerIndex].classList.add('active');
-      }
-    }, 5000); // Change banner every 5000 milliseconds (5 seconds)
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 5000);
+
+    // Initial Content Display
+    window.addEventListener("DOMContentLoaded", () => {
+      const initialTab = window.location.hash.substring(1) || "home";
+      showTabContent(initialTab);
+    });
   </script>
 </body>
 </html>
