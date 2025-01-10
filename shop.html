@@ -206,7 +206,27 @@
             border-radius: 8px;
         }
 
-        /* Rest of your existing styles remain the same */
+        /* New styles for gallery */
+        .product-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .product-gallery img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .product-gallery img:hover {
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 <body>
@@ -263,11 +283,12 @@
                 <div class="product-details" style="display: none;">
                     <p>More details about Product 1.</p>
                 </div>
-                <!-- Rest of product 1 content -->
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <img src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" alt="L Shape Cat Scratcher 1" />
+                    <img src="https://s.alicdn.com/@sc04/kf/H2a0c3d071a864f6b9cc07b0f2fcdd1f7b.jpg_720x720q50.jpg" alt="L Shape Cat Scratcher 2" />
+                </div>
             </div>
-            
-            <!-- Repeat the same structure for products 2-6 -->
-            
         </div>
     </div>
 
@@ -322,76 +343,4 @@
                 cartModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
             } else {
-                cartModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                renderCartItems();
-            }
-        }
-
-        function renderCartItems() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            cartItemsContainer.innerHTML = '';
-            let totalPrice = 0;
-            cart.forEach(item => {
-                const cartItem = document.createElement('div');
-                cartItem.classList.add('cart-item');
-                cartItem.innerHTML = `
-                    <p>${item.name} x${item.quantity}</p>
-                    <p>$${item.price * item.quantity}</p>
-                `;
-                cartItemsContainer.appendChild(cartItem);
-                totalPrice += item.price * item.quantity;
-            });
-            document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
-        }
-
-        // New payment functions
-        function showPaymentPage(method) {
-            const paymentPage = document.getElementById('payment-page');
-            const paymentDetails = document.getElementById('payment-details');
-            paymentPage.style.display = 'block';
-            paymentDetails.innerHTML = `Processing ${method} payment...`;
-        }
-
-        function closePaymentPage() {
-            document.getElementById('payment-page').style.display = 'none';
-        }
-
-        // PayPal integration
-        paypal.HostedButtons({
-            hostedButtonId: "ZXY76AXEZ4S3S",
-        }).render("#paypal-container-ZXY76AXEZ4S3S");
-
-        // Add event listeners
-        const tabLinks = document.querySelectorAll(".navbar a");
-        tabLinks.forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-                const tabId = link.getAttribute("data-tab");
-                showTabContent(tabId);
-                history.pushState(null, null, `#${tabId}`);
-            });
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showTabContent(hash);
-            } else {
-                showTabContent('home');
-            }
-        });
-
-        // Prevent image dragging
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            img.draggable = false;
-        });
-
-        // Prevent text selection
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
-    </script>
-</body>
-</html>
+                cartModal
