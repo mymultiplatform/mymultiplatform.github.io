@@ -1,100 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyMultiplatform Shop</title>
-    <style>
-        /* Previous styles remain the same until the product image styling */
-        
-        #Shop .shop-profiles .profile img.product-image {
-            height: 300px;
-            width: 100%;
-            object-fit: contain;
-            cursor: pointer;
-            background-color: white;
-            padding: 10px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Mymultiplatform Shop</title>
+  <style>
+    /* Reset box-sizing for consistency */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-        .product-gallery {
-            display: flex;
-            gap: 10px;
-            margin: 10px;
-            justify-content: center;
-        }
+    body {
+      background-color: rgb(0, 0, 0);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
 
-        .gallery-thumbnail {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            cursor: pointer;
-            border: 2px solid transparent;
-            background-color: white;
-            padding: 2px;
-        }
+    /* Banner Styles */
+    .banner {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: left;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
 
-        .gallery-thumbnail.active {
-            border-color: #FFD140;
-        }
+    .title {
+      margin-left: 20px;
+    }
 
-        /* Rest of your previous styles remain the same */
-    </style>
+    /* Navbar Styles */
+    .navbar {
+      background: linear-gradient(to bottom, #666666, #000000);
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      top: 60px;
+      width: 100%;
+      z-index: 1000;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .navbar a:hover {
+      background-color: green;
+      border-radius: 4px;
+    }
+
+    /* Dynamic Banner Styles */
+    .dynamic-banner {
+      position: fixed;
+      top: 110px;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .banner-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: none;
+    }
+
+    .banner-slide.active {
+      display: block;
+    }
+
+    /* Main Content Styles */
+    .tab-content {
+      padding: 290px 20px 20px 20px;
+      color: white;
+    }
+
+    .tab-content h2 {
+      display: none;
+    }
+
+    .tab-content h2.active {
+      display: block;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .navbar a {
+        font-size: 16px;
+        padding: 6px 12px;
+      }
+
+      .banner {
+        font-size: 20px;
+        padding: 10px 15px;
+        height: 50px;
+      }
+
+      .navbar {
+        top: 50px;
+        height: 45px;
+      }
+
+      .dynamic-banner {
+        top: 95px;
+        height: 135px;
+      }
+
+      .tab-content {
+        padding: 230px 15px 15px 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Previous navbar and cart modal code remains the same -->
+  <!-- Fixed Banner -->
+  <div class="banner">
+    <div class="title">Mymultiplatform</div>
+  </div>
 
-    <div class="content-section" id="Shop">
-        <p style="text-align: center; font-size: 2rem;">SHOP</p>
-        <div class="shop-profiles">
-            <!-- Updated Product 1 with new images -->
-            <div class="profile" id="product1">
-                <img alt="L Shape Cat Scratcher" src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" class="product-image main-image" onclick="toggleExpand(this)" />
-                <div class="product-gallery">
-                    <img src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" class="gallery-thumbnail active" onclick="switchMainImage(this)" alt="L Shape Cat Scratcher View 1" />
-                    <img src="https://s.alicdn.com/@sc04/kf/H2a0c3d071a864f6b9cc07b0f2fcdd1f7b.jpg_720x720q50.jpg" class="gallery-thumbnail" onclick="switchMainImage(this)" alt="L Shape Cat Scratcher View 2" />
-                </div>
-                <p class="product-title" onclick="toggleExpand(this)">L Shape Cat Scratcher</p>
-                <p class="product-price">$29.99</p>
-                <button class="add-to-cart-btn" onclick="addToCart('L Shape Cat Scratcher', 29.99)">Add to Cart</button>
-                <div class="payment-options">
-                    <button class="payment-button visa-button" onclick="showPaymentPage('visa')">Visa</button>
-                    <button class="payment-button mastercard-button" onclick="showPaymentPage('mastercard')">Mastercard</button>
-                </div>
-                <div class="paypal-button-container">
-                    <div id="paypal-container-ZXY76AXEZ4S3S"></div>
-                </div>
-                <p>Description: High-quality L-shaped cat scratcher with ball toy, perfect for indoor cats.</p>
-                <div class="product-details" style="display: none;">
-                    <p>- Durable corrugated cardboard construction<br>
-                    - Includes interactive ball toy<br>
-                    - Space-saving L-shape design<br>
-                    - Protects furniture from scratching</p>
-                </div>
-            </div>
-            
-            <!-- Rest of your products remain the same -->
-        </div>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#home" class="tab-link">Home</a>
+    <a href="#architecture" class="tab-link">Architecture</a>
+    <a href="#gamedev" class="tab-link">Game Dev</a>
+    <a href="#bobaup" class="tab-link">Boba Up</a>
+    <a href="#Shop" class="tab-link">Shop</a>
+  </div>
+
+  <!-- Dynamic Banner -->
+  <div class="dynamic-banner">
+    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
     </div>
+    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
+    </div>
+  </div>
 
-    <!-- Previous payment page and footer code remains the same -->
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- Home Tab -->
+    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
+  </div>
 
-    <script>
-        // Previous JavaScript functions rooooemain the same
+  <script>
+    // Tab Functionality
+    function showTabContent(tabId) {
+      const tabContents = document.querySelectorAll(".tab-content h2");
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === tabId);
+      });
 
-        // Add new function for switching main product image
-        function switchMainImage(thumbnailImg) {
-            const profile = thumbnailImg.closest('.profile');
-            const mainImage = profile.querySelector('.main-image');
-            mainImage.src = thumbnailImg.src;
-            
-            // Update active thumbnail
-            profile.querySelectorAll('.gallery-thumbnail').forEach(thumb => {
-                thumb.classList.remove('active');
-            });
-            thumbnailImg.classList.add('active');
-        }
+      const dynamicBanner = document.querySelector('.dynamic-banner');
+      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+    }
 
-        // Previous JavaScript code remains the same
-    </script>
+    const tabLinks = document.querySelectorAll(".navbar a");
+    tabLinks.forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const tabId = link.getAttribute("href").substring(1);
+        showTabContent(tabId);
+        history.pushState(null, null, `#${tabId}`);
+      });
+    });
+
+    // Dynamic Banner Animation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".banner-slide");
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 5000);
+
+    // Initial Content Display
+    window.addEventListener("DOMContentLoaded", () => {
+      const initialTab = window.location.hash.substring(1) || "home";
+      showTabContent(initialTab);
+    });
+  </script>
 </body>
 </html>
