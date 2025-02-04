@@ -107,6 +107,228 @@
       display: block;
     }
 
+    /* Shop Section */
+    #Shop {
+      display: none;
+      padding: 80px 20px 20px 20px;
+    }
+
+    #Shop .shop-profiles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .profile {
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 300px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease, z-index 0.3s ease;
+    }
+
+    .profile img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .profile img:hover {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+
+    .product-price {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .add-to-cart-btn {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: green;
+    }
+
+    /* Cart Modal */
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1002;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .cart-content {
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 8px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .cart-content h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .close-cart {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .proceed-btn {
+      background-color: green;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    /* Expanded Profile */
+    .profile.expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      z-index: 1001;
+      background-color: #333;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      width: 95vw;
+      max-width: 500px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .profile.expanded img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .description {
+      width: 100%;
+      text-align: left;
+      color: #ddd;
+    }
+
+    .description h2 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .description p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .product-gallery {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    .product-gallery img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .product-gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 20px;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      font-size: 1rem;
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .navbar a {
@@ -163,537 +385,91 @@
   <div class="tab-content">
     <!-- Home Tab -->
     <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
-<h2 id="home" class="active">o</h2>
- /* Shop Section */
-        #Shop {
-            display: none;
-            padding: 80px 20px 20px 20px;
-        }
-
-        #Shop .shop-profiles {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .profile {
-            background-color: #222;
-            border: 1px solid #444;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 300px;
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.3s ease, z-index 0.3s ease;
-        }
-
-        .profile img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .profile img:hover {
-            transform: scale(1.05);
-        }
-
-        .product-info {
-            padding: 10px;
-            text-align: left;
-        }
-
-        .product-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 5px;
-        }
-
-        .product-price {
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .add-to-cart-btn {
-            background-color: #444;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
-
-        .add-to-cart-btn:hover {
-            background-color: green;
-        }
-
-        /* Cart Modal */
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1002;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .cart-content {
-            background-color: #fff;
-            color: #000;
-            padding: 20px;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 8px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .cart-content h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        .close-cart {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: red;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .proceed-btn {
-            background-color: green;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        /* Expanded Profile */
-        .profile.expanded {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            z-index: 1001;
-            background-color: #333;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            width: 95vw;
-            max-width: 500px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-y: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .profile.expanded img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .description {
-            width: 100%;
-            text-align: left;
-            color: #ddd;
-        }
-
-        .description h2 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .description p {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-
-        .product-gallery {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-
-        .product-gallery img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 4px;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .product-gallery img:hover {
-            transform: scale(1.1);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: red;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 20px;
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        /* Responsive Adjustments */
-        @media (min-width: 768px) {
-            .title {
-                font-size: 3rem;
-            }
-
-            .profile {
-                width: 45%;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .profile {
-                width: 30%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <a href="#home" data-tab="home">Home</a>
-        <a href="#Shop" data-tab="Shop">Shop</a>
-        <!-- Cart Icon -->
-        <div class="cart-icon" onclick="toggleCart()">
-            🛒
-            <div class="cart-count" id="cart-count">0</div>
-        </div>
-    </div>
-
-    <!-- Cart Modal -->
-    <div class="cart-modal" id="cart-modal">
-        <div class="cart-content">
-            <button class="close-cart" onclick="toggleCart()">X</button>
-            <h2>Your Cart</h2>
-            <div id="cart-items"></div>
-            <p id="total-price">Total: $0</p>
-            <button class="proceed-btn" onclick="proceedToPayment()">Proceed to Payment</button>
-        </div>
-    </div>
-
-    <!-- Home Section -->
-    <div class="content-section" id="home">
-        <div class="title" onclick="showTabContent('Shop')">SHOP TEST</div>
-        <div class="logo"></div>
-    </div>
-
-    <!-- Shop Section -->
-    <div class="content-section" id="Shop">
-        <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
-        <div class="shop-profiles">
-            <!-- Product Template -->
-            <!-- Repeat this block for each product, updating the IDs and content accordingly -->
-            <div class="profile" id="product1">
-                <img alt="Product 1" src="" onclick="toggleExpand(this)" />
-                <div class="product-info">
-                    <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
-                    <p class="product-price">$10</p>
-                    <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
-                </div>
-                <!-- Expanded Product Details -->
-                <div class="description" style="display: none;">
-                    <h2>Product 1</h2>
-                    <p>High-quality product 1 with excellent features and benefits.</p>
-                    <div class="product-gallery">
-                        <img src="" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
-                    </div>
-                </div>
-                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-            </div>
-
-            <!-- Repeat for other products -->
-            <div class="profile" id="product2">
-                <img alt="Product 2" src="" onclick="toggleExpand(this)" />
-                <div class="product-info">
-                    <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
-                    <p class="product-price">$20</p>
-                    <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
-                </div>
-                <div class="description" style="display: none;">
-                    <h2>Product 2</h2>
-                    <p>Premium product 2 with top-notch quality and design.</p>
-                    <div class="product-gallery">
-                        <img src="" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
-                    </div>
-                </div>
-                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-            </div>
-
-            <!-- Example Product 3 -->
-            <div class="profile" id="product3">
-                <img alt="Product 3" src="" onclick="toggleExpand(this)" />
-                <div class="product-info">
-                    <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
-                    <p class="product-price">$30</p>
-                    <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
-                </div>
-                <div class="description" style="display: none;">
-                    <h2>Product 3</h2>
-                    <p>Exclusive product 3 offering unmatched performance and style.</p>
-                    <div class="product-gallery">
-                        <img src="" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
-                        <img src="" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
-                    </div>
-                </div>
-                <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-            </div>
-            <!-- Add additional products similarly -->
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>MYMULTIPLATFORM</p>
-    </footer>
-
-    <script>
-        // Tab Switching Functionality
-        function showTabContent(tabId) {
-            const tabContents = document.querySelectorAll(".content-section");
-            tabContents.forEach((content) => {
-                if (content.id === tabId) {
-                    content.style.display = "block";
-                } else {
-                    content.style.display = "none";
-                }
-            });
-        }
-
-        const tabLinks = document.querySelectorAll(".navbar a");
-        tabLinks.forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-                const tabId = link.getAttribute("data-tab");
-                showTabContent(tabId);
-                // Update the URL hash without scrolling
-                history.pushState(null, null, `#${tabId}`);
-            });
-        });
-
-        // Handle page load with hash
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                showTabContent(hash);
-            } else {
-                showTabContent('home'); // Default to home
-            }
-            fotomultiplier(); // Call fotomultiplier on page load
-        });
-
-        // Cart Functionality
-        let cart = [];
-
-        function addToCart(productName, productPrice) {
-            // Check if product is already in cart
-            const existingProduct = cart.find(item => item.name === productName);
-            if (existingProduct) {
-                existingProduct.quantity += 1;
-            } else {
-                cart.push({ name: productName, price: productPrice, quantity: 1 });
-            }
-            updateCartCount();
-            alert(`${productName} has been added to your cart.`);
-        }
-
-        function updateCartCount() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = cartCount;
-        }
-
-        function toggleCart() {
-            const cartModal = document.getElementById('cart-modal');
-            if (cartModal.style.display === 'flex') {
-                cartModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            } else {
-                cartModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                renderCartItems();
-            }
-        }
-
-        function renderCartItems() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            cartItemsContainer.innerHTML = '';
-            let totalPrice = 0;
-            cart.forEach(item => {
-                const cartItem = document.createElement('div');
-                cartItem.classList.add('cart-item');
-                cartItem.innerHTML = `
-                    <p>${item.name} x${item.quantity}</p>
-                    <p>$${item.price * item.quantity}</p>
-                `;
-                cartItemsContainer.appendChild(cartItem);
-                totalPrice += item.price * item.quantity;
-            });
-            document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
-        }
-
-        function proceedToPayment() {
-            // Placeholder for payment processing
-            alert('Proceeding to payment...');
-        }
-
-        // Profile Expansion Functionality
-        function toggleExpand(element) {
-            let profile;
-            if (element.classList.contains('magnifier-icon') || element.tagName.toLowerCase() === 'svg') {
-                profile = element.closest('.profile');
-            } else if (element.classList.contains('product-title') || element.tagName.toLowerCase() === 'img') {
-                profile = element.closest('.profile');
-            } else {
-                profile = element.closest('.profile');
-            }
-
-            const isExpanded = profile.classList.contains('expanded');
-
-            // Close any currently expanded profile
-            const expandedProfiles = document.querySelectorAll('.profile.expanded');
-            expandedProfiles.forEach((expProfile) => {
-                if (expProfile !== profile) {
-                    expProfile.classList.remove('expanded');
-                    toggleDescription(expProfile, false);
-                }
-            });
-
-            if (!isExpanded) {
-                profile.classList.add('expanded');
-                toggleDescription(profile, true);
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-            } else {
-                profile.classList.remove('expanded');
-                toggleDescription(profile, false);
-                document.body.style.overflow = 'auto'; // Restore background scrolling
-            }
-        }
-
-        function toggleDescription(profile, show) {
-            const description = profile.querySelector('.description');
-            const closeBtn = profile.querySelector('.close-btn');
-            if (show) {
-                description.style.display = 'block';
-                closeBtn.style.display = 'block';
-            } else {
-                description.style.display = 'none';
-                closeBtn.style.display = 'none';
-            }
-        }
-
-        function closeExpand(button) {
-            const profile = button.closest('.profile');
-            profile.classList.remove('expanded');
-            toggleDescription(profile, false);
-            document.body.style.overflow = 'auto'; // Restore background scrolling
-        }
-
-        function changeMainImage(smallImg) {
-            const profile = smallImg.closest('.profile');
-            const mainImg = profile.querySelector('img');
-            mainImg.src = smallImg.src;
-        }
-
-        // Prevent image dragging
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            img.draggable = false;
-        });
-
-        // Allow touch interactions within expanded profiles
-        document.addEventListener('touchmove', function(event) {
-            const expanded = document.querySelector('.profile.expanded');
-            if (expanded && !expanded.contains(event.target)) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        // Fotomultiplier Functionality
-        function fotomultiplier() {
-            const sampleImageUrl = 'https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364';
-            
-            // Set main images for all products
-            const mainImages = document.querySelectorAll('.profile > img');
-            mainImages.forEach(img => {
-                img.src = sampleImageUrl;
-            });
-
-            // Set gallery images for all products
-            const galleryImages = document.querySelectorAll('.product-gallery img');
-            galleryImages.forEach(img => {
-                img.src = sampleImageUrl;
-            });
-        }
-    </script>
-</body>
+    <h2 id="home" class="active">o</h2>
   </div>
 
+  <!-- Shop Section -->
+  <div id="Shop">
+    <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
+    <div class="shop-profiles">
+      <!-- Product Template -->
+      <div class="profile" id="product1">
+        <img alt="Product 1" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
+          <p class="product-price">$10</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
+        </div>
+        <!-- Expanded Product Details -->
+        <div class="description" style="display: none;">
+          <h2>Product 1</h2>
+          <p>High-quality product 1 with excellent features and benefits.</p>
+          <div class="product-gallery">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+
+      <!-- Repeat for other products -->
+      <div class="profile" id="product2">
+        <img alt="Product 2" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
+          <p class="product-price">$20</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Product 2</h2>
+          <p>Premium product 2 with top-notch quality and design.</p>
+          <div class="product-gallery">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+
+      <!-- Example Product 3 -->
+      <div class="profile" id="product3">
+        <img alt="Product 3" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+          <p class="product-price">$30</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Product 3</h2>
+          <p>Exclusive product 3 offering unmatched performance and style.</p>
+          <div class="product-gallery">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>MYMULTIPLATFORM</p>
+  </footer>
+
   <script>
-    // Tab Functionality
+    // Tab Switching Functionality
     function showTabContent(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content h2");
+      const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
       tabContents.forEach(content => {
-        content.classList.toggle("active", content.id === tabId);
+        if (content.id === tabId) {
+          content.style.display = "block";
+        } else {
+          content.style.display = "none";
+        }
       });
 
       const dynamicBanner = document.querySelector('.dynamic-banner');
@@ -725,6 +501,121 @@
       const initialTab = window.location.hash.substring(1) || "home";
       showTabContent(initialTab);
     });
+
+    // Cart Functionality
+    let cart = [];
+
+    function addToCart(productName, productPrice) {
+      const existingProduct = cart.find(item => item.name === productName);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push({ name: productName, price: productPrice, quantity: 1 });
+      }
+      updateCartCount();
+      alert(`${productName} has been added to your cart.`);
+    }
+
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      document.getElementById('cart-count').textContent = cartCount;
+    }
+
+    function toggleCart() {
+      const cartModal = document.getElementById('cart-modal');
+      if (cartModal.style.display === 'flex') {
+        cartModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        cartModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        renderCartItems();
+      }
+    }
+
+    function renderCartItems() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+      cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+          <p>${item.name} x${item.quantity}</p>
+          <p>$${item.price * item.quantity}</p>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+        totalPrice += item.price * item.quantity;
+      });
+      document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+    }
+
+    function proceedToPayment() {
+      alert('Proceeding to payment...');
+    }
+
+    // Profile Expansion Functionality
+    function toggleExpand(element) {
+      const profile = element.closest('.profile');
+      const isExpanded = profile.classList.contains('expanded');
+
+      const expandedProfiles = document.querySelectorAll('.profile.expanded');
+      expandedProfiles.forEach((expProfile) => {
+        if (expProfile !== profile) {
+          expProfile.classList.remove('expanded');
+          toggleDescription(expProfile, false);
+        }
+      });
+
+      if (!isExpanded) {
+        profile.classList.add('expanded');
+        toggleDescription(profile, true);
+        document.body.style.overflow = 'hidden';
+      } else {
+        profile.classList.remove('expanded');
+        toggleDescription(profile, false);
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function toggleDescription(profile, show) {
+      const description = profile.querySelector('.description');
+      const closeBtn = profile.querySelector('.close-btn');
+      if (show) {
+        description.style.display = 'block';
+        closeBtn.style.display = 'block';
+      } else {
+        description.style.display = 'none';
+        closeBtn.style.display = 'none';
+      }
+    }
+
+    function closeExpand(button) {
+      const profile = button.closest('.profile');
+      profile.classList.remove('expanded');
+      toggleDescription(profile, false);
+      document.body.style.overflow = 'auto';
+    }
+
+    function changeMainImage(smallImg) {
+      const profile = smallImg.closest('.profile');
+      const mainImg = profile.querySelector('img');
+      mainImg.src = smallImg.src;
+    }
+
+    // Prevent image dragging
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.draggable = false;
+    });
+
+    // Allow touch interactions within expanded profiles
+    document.addEventListener('touchmove', function(event) {
+      const expanded = document.querySelector('.profile.expanded');
+      if (expanded && !expanded.contains(event.target)) {
+        event.preventDefault();
+      }
+    }, { passive: false });
   </script>
 </body>
 </html>
