@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolling Sphere in Three.js</title>
+    <title>Rolling Sphere with UI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -26,8 +26,31 @@
         const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
         const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
         const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.y = 1; // Position above the plane
+        sphere.position.y = 1;
         scene.add(sphere);
+
+        // Target Circle
+        const circleGeometry = new THREE.RingGeometry(1.2, 1.4, 32);
+        const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, side: THREE.DoubleSide });
+        const targetCircle = new THREE.Mesh(circleGeometry, circleMaterial);
+        targetCircle.rotation.x = -Math.PI / 2;
+        scene.add(targetCircle);
+
+        // Static Label
+        const labelGeometry = new THREE.PlaneGeometry(2, 1);
+        const labelMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        const label = new THREE.Mesh(labelGeometry, labelMaterial);
+        label.position.set(7, 5, 0);
+        scene.add(label);
+
+        // Connecting Line
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 1, 0),
+            new THREE.Vector3(7, 5, 0)
+        ]);
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        scene.add(line);
 
         // Lighting
         const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -41,19 +64,29 @@
         let speed = 0.05;
         let direction = 1;
         let distance = 5;
-        let startX = -distance;
 
         function animate() {
             requestAnimationFrame(animate);
             
             // Move sphere back and forth
             sphere.position.x += speed * direction;
-            sphere.rotation.z -= speed * direction; // Simulating rolling
+            sphere.rotation.z -= speed * direction;
             
+            // Move target circle with the sphere
+            targetCircle.position.set(sphere.position.x, 0.01, sphere.position.z);
+
+            // Update the connecting line
+            const linePoints = [
+                new THREE.Vector3(sphere.position.x, 1, sphere.position.z),
+                new THREE.Vector3(7, 5, 0)
+            ];
+            line.geometry.setFromPoints(linePoints);
+
+            // Reverse direction at boundaries
             if (sphere.position.x > distance || sphere.position.x < -distance) {
-                direction *= -1; // Reverse direction when reaching boundary
+                direction *= -1;
             }
-            
+
             renderer.render(scene, camera);
         }
         animate();
