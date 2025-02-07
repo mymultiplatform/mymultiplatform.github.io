@@ -329,49 +329,6 @@
       font-size: 1rem;
     }
 
-    /* Filter Icon and Sliding Textbox */
-    .filter-icon {
-      position: fixed;
-      top: 120px;
-      right: 20px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .filter-textbox {
-      position: fixed;
-      top: 160px;
-      right: -300px;
-      width: 250px;
-      background-color: #333;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      transition: right 0.3s ease;
-      z-index: 1000;
-    }
-
-    .filter-textbox.active {
-      right: 20px;
-    }
-
-    .filter-textbox ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .filter-textbox ul li {
-      padding: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .filter-textbox ul li:hover {
-      background-color: green;
-    }
-
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .navbar a {
@@ -398,21 +355,6 @@
       .tab-content {
         padding: 230px 15px 15px 15px;
       }
-
-      .filter-icon {
-        top: 100px;
-        right: 15px;
-      }
-
-      .filter-textbox {
-        top: 140px;
-        right: -250px;
-        width: 200px;
-      }
-
-      .filter-textbox.active {
-        right: 15px;
-      }
     }
   </style>
 </head>
@@ -436,26 +378,11 @@
     </div>
   </div>
 
-  <!-- Filter Icon -->
-  <div class="filter-icon" onclick="toggleFilter()">⏚</div>
-
-  <!-- Filter Textbox -->
-  <div class="filter-textbox">
-    <ul>
-      <li onclick="filterProducts('Furniture')">Furniture</li>
-      <li onclick="filterProducts('Clothing')">Clothing</li>
-      <li onclick="filterProducts('Decor')">Decor</li>
-      <li onclick="filterProducts('Pets')">Pets</li>
-      <li onclick="filterProducts('Sports')">Sports</li>
-    </ul>
-  </div>
-
   <!-- Tab Content -->
   <div class="tab-content">
     <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to Mymultiplatform Shop!</h2>
-    <h2 id="home" class="active">Multiple Prudicts Cant Miss OUT</h2>
-    <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgoTynGKUusmjpgeTqvUTYRnmZ7AuwdsZCtmdboOAg6xaSJdqWaWW_xD1eTX5BOzYpnbe-PEeZq8JHm_WSjy20Mjhw08iLI1sewl_lFPKFrwLmpX_hdIpEdBCujDwnxt7piemKd2RWhenmqMnv_ZozsBb1Wit6UcDe8EuALwc11Mi28Youiwr67nUpgmIkk/s2880/teees.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="1800" data-original-width="2880" height="381" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgoTynGKUusmjpgeTqvUTYRnmZ7AuwdsZCtmdboOAg6xaSJdqWaWW_xD1eTX5BOzYpnbe-PEeZq8JHm_WSjy20Mjhw08iLI1sewl_lFPKFrwLmpX_hdIpEdBCujDwnxt7piemKd2RWhenmqMnv_ZozsBb1Wit6UcDe8EuALwc11Mi28Youiwr67nUpgmIkk/w609-h381/teees.jpg" width="609" /></a>
+    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
+    <h2 id="home" class="active">o</h2>
   </div>
 
   <!-- Shop Section -->
@@ -463,7 +390,7 @@
     <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
     <div class="shop-profiles">
       <!-- Product Template -->
-      <div class="profile" id="product1" data-category="Furniture">
+      <div class="profile" id="product1">
         <img alt="Product 1" src="https://blogger.googleusercontent.com/img/a/AVvXsEgHG6mSzShiseIo3RiVJFq9bV16GKH1ksxwdjE6dvIZLgOiXRGUh-gbqjcNls0z19YB4fs3RNd8vedPxe96aiKf5yCpzREHvOBty7kcFd8CV8VRVJXGF8QRZuFhZU_K2JI-jAuQU2UrAe8J8ZkJAcdZWq6liZ_s-xF1UXsKDupqmhXemfNLZskfpfs3rJbx" onclick="toggleExpand(this)" />
         <div class="product-info">
           <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
@@ -477,4 +404,215 @@
           <div class="product-gallery">
             <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
             <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+
+      <!-- Repeat for other products -->
+      <div class="profile" id="product2">
+        <img alt="Product 2" src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
+          <p class="product-price">$20</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Product 2</h2>
+          <p>Premium product 2 with top-notch quality and design.</p>
+          <div class="product-gallery">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhVzZKmIMBgV2tEcOXxiLNNtCZCOph1EP-XASoxhGkDYrrc8BPXPdl4v87Nl_XTIOX2OoaMS-vuCs4HIq5IaFKRA8C2_5FV6RL5hj0cIWmEca5eLIlb-DdzHiNAWErwAcTFBW3-_u6Apiegh-ZVyWIBP7hFjXsRi7AykjUcqh1sBMy7Fj8XVDeVMRsbozoM=w289-h314" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
+            <img src="https://s.alicdn.com/@sc04/kf/H2a0c3d071a864f6b9cc07b0f2fcdd1f7b.jpg_720x720q50.jpg" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhCMW6y8-B-lbO3cU00orlDTTnXUmOSGjQS1qL8DTwKGSU0YczgbPE7zYhwXB163DQLya49YDBpodSFx8U8DVZ9XIDfhG7Z1YbGnn7xC6KwnzeqQxAe39qWUTK3Ct8lWxnZmsW0r2fCGbBhHkSb1AbQ7rLm7gDY7FFQupS6LFMUw46gG5pHjp92-z_lkq8J" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+
+      <!-- Example Product 3 -->
+      <div class="profile" id="product3">
+        <img alt="Product 3" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+          <p class="product-price">$30</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Product 3</h2>
+          <p>Exclusive product 3 offering unmatched performance and style.</p>
+          <div class="product-gallery">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>MYMULTIPLATFORM</p>
+  </footer>
+
+  <script>
+    // Tab Switching Functionality
+    function showTabContent(tabId) {
+      const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
+      tabContents.forEach(content => {
+        if (content.id === tabId) {
+          content.style.display = "block";
+        } else {
+          content.style.display = "none";
+        }
+      });
+
+      const dynamicBanner = document.querySelector('.dynamic-banner');
+      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+    }
+
+    const tabLinks = document.querySelectorAll(".navbar a");
+    tabLinks.forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const tabId = link.getAttribute("href").substring(1);
+        showTabContent(tabId);
+        history.pushState(null, null, `#${tabId}`);
+      });
+    });
+
+    // Dynamic Banner Animation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".banner-slide");
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 5000);
+
+    // Initial Content Display
+    window.addEventListener("DOMContentLoaded", () => {
+      const initialTab = window.location.hash.substring(1) || "home";
+      showTabContent(initialTab);
+    });
+
+    // Cart Functionality
+    let cart = [];
+
+    function addToCart(productName, productPrice) {
+      const existingProduct = cart.find(item => item.name === productName);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push({ name: productName, price: productPrice, quantity: 1 });
+      }
+      updateCartCount();
+      alert(`${productName} has been added to your cart.`);
+    }
+
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      document.getElementById('cart-count').textContent = cartCount;
+    }
+
+    function toggleCart() {
+      const cartModal = document.getElementById('cart-modal');
+      if (cartModal.style.display === 'flex') {
+        cartModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        cartModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        renderCartItems();
+      }
+    }
+
+    function renderCartItems() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+      cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+          <p>${item.name} x${item.quantity}</p>
+          <p>$${item.price * item.quantity}</p>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+        totalPrice += item.price * item.quantity;
+      });
+      document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+    }
+
+    function proceedToPayment() {
+      alert('Proceeding to payment...');
+    }
+
+    // Profile Expansion Functionality
+    function toggleExpand(element) {
+      const profile = element.closest('.profile');
+      const isExpanded = profile.classList.contains('expanded');
+
+      const expandedProfiles = document.querySelectorAll('.profile.expanded');
+      expandedProfiles.forEach((expProfile) => {
+        if (expProfile !== profile) {
+          expProfile.classList.remove('expanded');
+          toggleDescription(expProfile, false);
+        }
+      });
+
+      if (!isExpanded) {
+        profile.classList.add('expanded');
+        toggleDescription(profile, true);
+        document.body.style.overflow = 'hidden';
+      } else {
+        profile.classList.remove('expanded');
+        toggleDescription(profile, false);
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function toggleDescription(profile, show) {
+      const description = profile.querySelector('.description');
+      const closeBtn = profile.querySelector('.close-btn');
+      if (show) {
+        description.style.display = 'block';
+        closeBtn.style.display = 'block';
+      } else {
+        description.style.display = 'none';
+        closeBtn.style.display = 'none';
+      }
+    }
+
+    function closeExpand(button) {
+      const profile = button.closest('.profile');
+      profile.classList.remove('expanded');
+      toggleDescription(profile, false);
+      document.body.style.overflow = 'auto';
+    }
+
+    function changeMainImage(smallImg) {
+      const profile = smallImg.closest('.profile');
+      const mainImg = profile.querySelector('img');
+      mainImg.src = smallImg.src;
+    }
+
+    // Prevent image dragging
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.draggable = false;
+    });
+
+    // Allow touch interactions within expanded profiles
+    document.addEventListener('touchmove', function(event) {
+      const expanded = document.querySelector('.profile.expanded');
+      if (expanded && !expanded.contains(event.target)) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+  </script>
+</body>
+</html>
