@@ -1,106 +1,207 @@
-<!-- Add this CSS inside your existing <style> tag -->
-.filter-icon {
-  position: fixed;
-  top: 120px;
-  right: 20px;
-  background-color: green;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 1000;
-  font-size: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  display: none; /* Hidden by default */
-}
-
-.filter-textbox {
-  position: fixed;
-  top: 170px;
-  right: 20px;
-  background-color: #333;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  z-index: 999;
-  display: none;
-}
-
-.filter-textbox ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.filter-textbox li {
-  color: white;
-  padding: 8px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.filter-textbox li:hover {
-  background-color: green;
-  border-radius: 4px;
-}
-
-/* Add this JavaScript function inside your existing <script> tag */
-// Show/hide filter icon based on current tab
-function showTabContent(tabId) {
-  const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
-  const filterIcon = document.querySelector('.filter-icon');
-  
-  tabContents.forEach(content => {
-    if (content.id === tabId) {
-      content.style.display = "block";
-      // Show filter icon only on Shop page
-      if (tabId === "Shop") {
-        filterIcon.style.display = "flex";
-      } else {
-        filterIcon.style.display = "none";
-        // Hide filter textbox when leaving Shop page
-        document.querySelector('.filter-textbox').style.display = 'none';
-      }
-    } else {
-      content.style.display = "none";
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Mymultiplatform</title>
+  <style>
+    /* Reset box-sizing for consistency */
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
-  });
 
-  const dynamicBanner = document.querySelector('.dynamic-banner');
-  dynamicBanner.style.display = tabId === "home" ? "block" : "none";
-}
+    body {
+      background-color: rgb(0, 0, 0);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
 
-// Toggle filter textbox
-function toggleFilter() {
-  const filterTextbox = document.querySelector('.filter-textbox');
-  filterTextbox.style.display = filterTextbox.style.display === 'none' ? 'block' : 'none';
-}
+    /* Banner Styles */
+    .banner {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: left;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
 
-// Filter products function
-function filterProducts(category) {
-  const products = document.querySelectorAll('.profile');
-  products.forEach(product => {
-    // Get product category from data attribute or product title
-    const productTitle = product.querySelector('.product-title').textContent.toLowerCase();
-    const shouldShow = category.toLowerCase() === 'all' || 
-                      productTitle.includes(category.toLowerCase());
-    
-    product.style.display = shouldShow ? 'block' : 'none';
-  });
-  
-  // Close filter textbox after selection
-  document.querySelector('.filter-textbox').style.display = 'none';
-}
+    .title {
+      margin-left: 20px;
+    }
 
-// Add 'All' category option to reset filters
-document.addEventListener('DOMContentLoaded', () => {
-  const filterList = document.querySelector('.filter-textbox ul');
-  const allOption = document.createElement('li');
-  allOption.textContent = 'All';
-  allOption.onclick = () => filterProducts('All');
-  filterList.insertBefore(allOption, filterList.firstChild);
-});
+    /* Navbar Styles */
+    .navbar {
+      background: linear-gradient(to bottom, #666666, #000000);
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      top: 60px;
+      width: 100%;
+      z-index: 1000;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .navbar a:hover {
+      background-color: green;
+      border-radius: 4px;
+    }
+
+    /* Dynamic Banner Styles */
+    .dynamic-banner {
+      position: fixed;
+      top: 110px;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .banner-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: none;
+    }
+
+    .banner-slide.active {
+      display: block;
+    }
+
+    /* Main Content Styles */
+    .tab-content {
+      padding: 290px 20px 20px 20px;
+      color: white;
+    }
+
+    .tab-content h2 {
+      display: none;
+    }
+
+    .tab-content h2.active {
+      display: block;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .navbar a {
+        font-size: 16px;
+        padding: 6px 12px;
+      }
+
+      .banner {
+        font-size: 20px;
+        padding: 10px 15px;
+        height: 50px;
+      }
+
+      .navbar {
+        top: 50px;
+        height: 45px;
+      }
+
+      .dynamic-banner {
+        top: 95px;
+        height: 135px;
+      }
+
+      .tab-content {
+        padding: 230px 15px 15px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fixed Banner -->
+  <div class="banner">
+    <div class="title">Mymultiplatform</div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#home" class="tab-link">Home</a>
+    <a href="#architecture" class="tab-link">Architecture</a>
+    <a href="#gamedev" class="tab-link">Game Dev</a>
+    <a href="#bobaup" class="tab-link">Boba Up</a>
+    <a href="#Shop" class="tab-link">Shop</a>
+  </div>
+
+  <!-- Dynamic Banner -->
+  <div class="dynamic-banner">
+    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
+    </div>
+    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
+    </div>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- Home Tab -->
+    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
+  </div>
+
+  <script>
+    // Tab Functionality
+    function showTabContent(tabId) {
+      const tabContents = document.querySelectorAll(".tab-content h2");
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === tabId);
+      });
+
+      const dynamicBanner = document.querySelector('.dynamic-banner');
+      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+    }
+
+    const tabLinks = document.querySelectorAll(".navbar a");
+    tabLinks.forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const tabId = link.getAttribute("href").substring(1);
+        showTabContent(tabId);
+        history.pushState(null, null, `#${tabId}`);
+      });
+    });
+
+    // Dynamic Banner Animation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".banner-slide");
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }, 5000);
+
+    // Initial Content Display
+    window.addEventListener("DOMContentLoaded", () => {
+      const initialTab = window.location.hash.substring(1) || "home";
+      showTabContent(initialTab);
+    });
+  </script>
+</body>
+</html>
