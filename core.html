@@ -5,8 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolling Sphere with UI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            display: block;
+        }
+        /* 2D Target Circle */
+        #targetUI {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(0,0,255,1) 40%, rgba(255,255,255,1) 80%);
+            border-radius: 50%;
+            border: 2px solid white;
+            pointer-events: none;
+        }
+        /* Score UI */
+        #scoreUI {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
+    <div id="targetUI"></div>
+    <div id="scoreUI">Score: 0</div>
+
     <script>
         let score = 0;
         const scene = new THREE.Scene();
@@ -29,28 +64,6 @@
         sphere.position.y = 1;
         scene.add(sphere);
 
-        // Target Circle
-        const circleGeometry = new THREE.RingGeometry(1.2, 1.4, 32);
-        const circleMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, side: THREE.DoubleSide });
-        const targetCircle = new THREE.Mesh(circleGeometry, circleMaterial);
-        targetCircle.rotation.x = -Math.PI / 2;
-        scene.add(targetCircle);
-
-        // Score Display (Label)
-        const labelCanvas = document.createElement('canvas');
-        const ctx = labelCanvas.getContext('2d');
-        labelCanvas.width = 256;
-        labelCanvas.height = 128;
-        ctx.fillStyle = "white";
-        ctx.font = "48px Arial";
-        ctx.fillText("Score: 0", 50, 70);
-        const labelTexture = new THREE.CanvasTexture(labelCanvas);
-        const labelMaterial = new THREE.MeshBasicMaterial({ map: labelTexture });
-        const labelGeometry = new THREE.PlaneGeometry(2, 1);
-        const label = new THREE.Mesh(labelGeometry, labelMaterial);
-        label.position.set(7, 5, 0);
-        scene.add(label);
-
         // Connecting Line
         const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
         const lineGeometry = new THREE.BufferGeometry().setFromPoints([
@@ -72,74 +85,54 @@
         let direction = 1;
         let distance = 5;
 
-        function updateLabel() {
-            ctx.clearRect(0, 0, labelCanvas.width, labelCanvas.height);
-            ctx.fillStyle = "white";
-            ctx.font = "48px Arial";
-            ctx.fillText("Score: " + score, 50, 70);
-            labelTexture.needsUpdate = true;
+        function updateScore() {
+            document.getElementById("scoreUI").innerText = "Score: " + score;
         }
 
-        function explodeSphere() {
-            scene.remove(sphere);
-            for (let i = 0; i < 20; i++) {
-                const fragmentGeometry = new THREE.SphereGeometry(0.2, 8, 8);
-                const fragmentMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-                const fragment = new THREE.Mesh(fragmentGeometry, fragmentMaterial);
-                fragment.position.set(sphere.position.x, sphere.position.y, sphere.position.z);
-                fragment.velocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * 2,
-                    (Math.random() - 0.5) * 2,
-                    (Math.random() - 0.5) * 2
-                );
-                scene.add(fragment);
-                fragments.push(fragment);
-            }
-        }
-
-        let fragments = [];
         function animate() {
             requestAnimationFrame(animate);
             
+            // Move sphere and rotate
             sphere.position.x += speed * direction;
             sphere.rotation.z -= speed * direction;
             
-            targetCircle.position.set(sphere.position.x, 0.01, sphere.position.z);
-            
+            // Update 3D line
             const linePoints = [
                 new THREE.Vector3(sphere.position.x, 1, sphere.position.z),
                 new THREE.Vector3(7, 5, 0)
             ];
             line.geometry.setFromPoints(linePoints);
-            
+
+            // Reverse direction if hitting boundary
             if (sphere.position.x > distance || sphere.position.x < -distance) {
                 direction *= -1;
             }
+
+            // Convert 3D position to 2D screen position
+            const vector = new THREE.Vector3(sphere.position.x, sphere.position.y, sphere.position.z);
+            vector.project(camera);
             
-            fragments.forEach(fragment => {
-                fragment.position.add(fragment.velocity);
-            });
-            
+            const targetUI = document.getElementById("targetUI");
+            targetUI.style.left = `${(vector.x * 0.5 + 0.5) * window.innerWidth - 25}px`;
+            targetUI.style.top = `${(-vector.y * 0.5 + 0.5) * window.innerHeight - 25}px`;
+
             renderer.render(scene, camera);
         }
         animate();
 
         window.addEventListener('click', (event) => {
-            const mouse = new THREE.Vector2(
-                (event.clientX / window.innerWidth) * 2 - 1,
-                -(event.clientY / window.innerHeight) * 2 + 1
-            );
+            const targetUI = document.getElementById("targetUI");
+            const rect = targetUI.getBoundingClientRect();
             
-            const raycaster = new THREE.Raycaster();
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(targetCircle);
-            
-            if (intersects.length > 0) {
+            // Check if the click is inside the target circle
+            if (
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom
+            ) {
                 score++;
-                updateLabel();
-                if (score % 50 === 0) {
-                    explodeSphere();
-                }
+                updateScore();
             }
         });
     </script>
