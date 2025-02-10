@@ -14,14 +14,14 @@
         canvas {
             display: block;
         }
-        /* 2D Target Circle */
+        /* Thin Contour Circle */
         #targetUI {
             position: absolute;
             width: 50px;
             height: 50px;
-            background: radial-gradient(circle, rgba(0,0,255,1) 40%, rgba(255,255,255,1) 80%);
+            border: 3px solid blue; /* Thin outline */
             border-radius: 50%;
-            border: 2px solid white;
+            background: transparent; /* No fill */
             pointer-events: none;
         }
         /* Score UI */
@@ -64,11 +64,11 @@
         sphere.position.y = 1;
         scene.add(sphere);
 
-        // Connecting Line
+        // Line Material
         const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
         const lineGeometry = new THREE.BufferGeometry().setFromPoints([
             new THREE.Vector3(0, 1, 0),
-            new THREE.Vector3(7, 5, 0)
+            new THREE.Vector3(0, 5, 0)
         ]);
         const line = new THREE.Line(lineGeometry, lineMaterial);
         scene.add(line);
@@ -96,13 +96,6 @@
             sphere.position.x += speed * direction;
             sphere.rotation.z -= speed * direction;
             
-            // Update 3D line
-            const linePoints = [
-                new THREE.Vector3(sphere.position.x, 1, sphere.position.z),
-                new THREE.Vector3(7, 5, 0)
-            ];
-            line.geometry.setFromPoints(linePoints);
-
             // Reverse direction if hitting boundary
             if (sphere.position.x > distance || sphere.position.x < -distance) {
                 direction *= -1;
@@ -111,10 +104,28 @@
             // Convert 3D position to 2D screen position
             const vector = new THREE.Vector3(sphere.position.x, sphere.position.y, sphere.position.z);
             vector.project(camera);
-            
+
             const targetUI = document.getElementById("targetUI");
             targetUI.style.left = `${(vector.x * 0.5 + 0.5) * window.innerWidth - 25}px`;
             targetUI.style.top = `${(-vector.y * 0.5 + 0.5) * window.innerHeight - 25}px`;
+
+            // Update Line to point to Score UI
+            const scoreUI = document.getElementById("scoreUI");
+            const scoreRect = scoreUI.getBoundingClientRect();
+            const scoreX = scoreRect.left + scoreRect.width / 2;
+            const scoreY = scoreRect.top + scoreRect.height / 2;
+
+            // Convert Score UI to 3D world position
+            const scoreVector = new THREE.Vector3(
+                (scoreX / window.innerWidth) * 2 - 1, 
+                -(scoreY / window.innerHeight) * 2 + 1, 
+                0
+            );
+            scoreVector.unproject(camera);
+            scoreVector.z = 0;
+
+            const linePoints = [sphere.position, scoreVector];
+            line.geometry.setFromPoints(linePoints);
 
             renderer.render(scene, camera);
         }
