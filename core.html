@@ -3,149 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolling Sphere with UI</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>Shopping Page</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            position: relative;
-        }
-        canvas {
-            display: block;
-        }
-        /* Thin Contour Circle */
-        #targetUI {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border: 3px solid blue; /* Thin outline */
-            border-radius: 50%;
-            background: transparent; /* No fill */
-            pointer-events: none;
-        }
-        /* Score UI */
-        #scoreUI {
-            position: absolute;
+        .cart-icon {
+            position: fixed;
             top: 20px;
-            left: 20px;
-            font-size: 24px;
-            font-family: Arial, sans-serif;
+            right: 20px;
+            background: white;
+            border: 1px solid black;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cart-count {
+            background: red;
             color: white;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 14px;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close-cart {
+            float: right;
+            cursor: pointer;
+        }
+
+        .product {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .product img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            margin: auto;
         }
     </style>
 </head>
 <body>
-    <div id="targetUI"></div>
-    <div id="scoreUI">Score: 0</div>
+
+    <!-- Cart Icon -->
+    <div class="cart-icon" onclick="toggleCart()">
+        🛒
+        <div class="cart-count" id="cart-count">0</div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <button class="close-cart" onclick="toggleCart()">X</button>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <p id="total-price">Total: $0</p>
+            <button class="proceed-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+        </div>
+    </div>
+
+    <!-- Product Listing -->
+    <div class="product">
+        <img src="https://example.com/product1.jpg" alt="Product 1">
+        <p>Product 1 - $10</p>
+        <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="https://example.com/product2.jpg" alt="Product 2">
+        <p>Product 2 - $20</p>
+        <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <img src="https://example.com/product3.jpg" alt="Product 3">
+        <p>Product 3 - $30</p>
+        <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
+    </div>
 
     <script>
-        let score = 0;
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        let cart = [];
 
-        // Plane
-        const planeGeometry = new THREE.PlaneGeometry(20, 20);
-        const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
-        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -Math.PI / 2;
-        scene.add(plane);
-
-        // Sphere
-        const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-        const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        sphere.position.y = 1;
-        scene.add(sphere);
-
-        // Line Material
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 1, 0),
-            new THREE.Vector3(0, 5, 0)
-        ]);
-        const line = new THREE.Line(lineGeometry, lineMaterial);
-        scene.add(line);
-
-        // Lighting
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 5, 5).normalize();
-        scene.add(light);
-
-        camera.position.set(0, 5, 10);
-        camera.lookAt(0, 0, 0);
-
-        let speed = 0.05;
-        let direction = 1;
-        let distance = 5;
-
-        function updateScore() {
-            document.getElementById("scoreUI").innerText = "Score: " + score;
+        function addToCart(productName, productPrice) {
+            const existingProduct = cart.find(item => item.name === productName);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ name: productName, price: productPrice, quantity: 1 });
+            }
+            updateCartCount();
+            alert(`${productName} has been added to your cart.`);
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            // Move sphere and rotate
-            sphere.position.x += speed * direction;
-            sphere.rotation.z -= speed * direction;
-            
-            // Reverse direction if hitting boundary
-            if (sphere.position.x > distance || sphere.position.x < -distance) {
-                direction *= -1;
-            }
-
-            // Convert 3D position to 2D screen position
-            const vector = new THREE.Vector3(sphere.position.x, sphere.position.y, sphere.position.z);
-            vector.project(camera);
-
-            const targetUI = document.getElementById("targetUI");
-            targetUI.style.left = `${(vector.x * 0.5 + 0.5) * window.innerWidth - 25}px`;
-            targetUI.style.top = `${(-vector.y * 0.5 + 0.5) * window.innerHeight - 25}px`;
-
-            // Update Line to point to Score UI
-            const scoreUI = document.getElementById("scoreUI");
-            const scoreRect = scoreUI.getBoundingClientRect();
-            const scoreX = scoreRect.left + scoreRect.width / 2;
-            const scoreY = scoreRect.top + scoreRect.height / 2;
-
-            // Convert Score UI to 3D world position
-            const scoreVector = new THREE.Vector3(
-                (scoreX / window.innerWidth) * 2 - 1, 
-                -(scoreY / window.innerHeight) * 2 + 1, 
-                0
-            );
-            scoreVector.unproject(camera);
-            scoreVector.z = 0;
-
-            const linePoints = [sphere.position, scoreVector];
-            line.geometry.setFromPoints(linePoints);
-
-            renderer.render(scene, camera);
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
         }
-        animate();
 
-        window.addEventListener('click', (event) => {
-            const targetUI = document.getElementById("targetUI");
-            const rect = targetUI.getBoundingClientRect();
-            
-            // Check if the click is inside the target circle
-            if (
-                event.clientX >= rect.left &&
-                event.clientX <= rect.right &&
-                event.clientY >= rect.top &&
-                event.clientY <= rect.bottom
-            ) {
-                score++;
-                updateScore();
+        function toggleCart() {
+            const cartModal = document.getElementById('cart-modal');
+            if (cartModal.style.display === 'flex') {
+                cartModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            } else {
+                cartModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                renderCartItems();
             }
-        });
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+            cart.forEach(item => {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <p>${item.name} x${item.quantity}</p>
+                    <p>$${item.price * item.quantity}</p>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                totalPrice += item.price * item.quantity;
+            });
+            document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+        }
+
+        function proceedToPayment() {
+            alert('Proceeding to payment...');
+        }
     </script>
+
 </body>
 </html>
