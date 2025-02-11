@@ -68,6 +68,26 @@
       border-radius: 4px;
     }
 
+    /* Cart Icon */
+    .cart-icon {
+      margin-left: auto;
+      margin-right: 20px;
+      position: relative;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
     /* Dynamic Banner Styles */
     .dynamic-banner {
       position: fixed;
@@ -368,6 +388,11 @@
   <div class="navbar">
     <a href="#home" class="tab-link">Home</a>
     <a href="#Shop" class="tab-link">Shop</a>
+    <!-- Cart Icon -->
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒
+      <div class="cart-count" id="cart-count">0</div>
+    </div>
   </div>
 
   <!-- Dynamic Banner -->
@@ -386,7 +411,7 @@
 
   <!-- Shop Section -->
   <div id="Shop">
-<h2 class="filter-icon" onclick="toggleFilter()" style="text-align: right;">⏚</h2>
+    <h2 class="filter-icon" onclick="toggleFilter()" style="text-align: right;">⏚</h2>
     <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
     <div class="shop-profiles">
       <!-- Product Template -->
@@ -449,6 +474,17 @@
         </div>
         <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal" id="cart-modal">
+    <div class="cart-content">
+      <button class="close-cart" onclick="toggleCart()">X</button>
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <p id="total-price">Total: $0</p>
+      <button class="proceed-btn" onclick="proceedToPayment()">Proceed to Payment</button>
     </div>
   </div>
 
