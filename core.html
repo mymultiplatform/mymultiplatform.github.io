@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_SANDBOX_CLIENT_ID&currency=USD"></script>
     <style>
         body { font-family: Arial, sans-serif; }
         .cart { margin-top: 20px; }
         .product { margin-bottom: 10px; }
         button { background-color: #01ffff; border: none; padding: 5px 10px; cursor: pointer; }
+        #paypal-button-container { margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -27,18 +29,22 @@
     </div>
     
     <h3>Cart</h3>
-    <div class="cart" id="cart"></div>
+    <div class="cart" id="cart">Cart is empty</div>
     <h3>Total: $<span id="total">0</span></h3>
-    <button onclick="payWithPayPal()">PAY ON PAYPAL</button>
+
+    <!-- PayPal Button Container -->
+    <div id="paypal-button-container"></div>
 
     <script>
+        let totalAmount = 0;
+
         function updateCart() {
             let qty1 = parseInt(document.getElementById('qty1').value) || 0;
             let qty2 = parseInt(document.getElementById('qty2').value) || 0;
             let qty3 = parseInt(document.getElementById('qty3').value) || 0;
             
-            let total = (qty1 * 10) + (qty2 * 15) + (qty3 * 20);
-            document.getElementById('total').innerText = total;
+            totalAmount = (qty1 * 10) + (qty2 * 15) + (qty3 * 20);
+            document.getElementById('total').innerText = totalAmount;
             
             let cartContent = '';
             if (qty1 > 0) cartContent += `Product 1 x ${qty1} = $${qty1 * 10}<br>`;
@@ -46,11 +52,29 @@
             if (qty3 > 0) cartContent += `Product 3 x ${qty3} = $${qty3 * 20}<br>`;
             
             document.getElementById('cart').innerHTML = cartContent || 'Cart is empty';
+
+            renderPayPalButton();
         }
 
-        function payWithPayPal() {
-            alert('Redirecting to PayPal for payment...');
+        function renderPayPalButton() {
+            document.getElementById('paypal-button-container').innerHTML = "";
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: totalAmount }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
         }
+
+        updateCart(); // Initialize cart on page load
     </script>
 </body>
 </html>
