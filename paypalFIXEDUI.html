@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .cart { margin-top: 20px; }
+        .product { margin-bottom: 10px; }
+        button { background-color: #01ffff; border: none; padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Products</h2>
+    <div class="product">
+        <span>Product 1 - $10</span>
+        <input type="number" id="qty1" value="0" min="0" onchange="updateCart()">
+    </div>
+    <div class="product">
+        <span>Product 2 - $15</span>
+        <input type="number" id="qty2" value="0" min="0" onchange="updateCart()">
+    </div>
+    <div class="product">
+        <span>Product 3 - $20</span>
+        <input type="number" id="qty3" value="0" min="0" onchange="updateCart()">
+    </div>
+    
+    <h3>Cart</h3>
+    <div class="cart" id="cart"></div>
+    <h3>Total: $<span id="total">0</span></h3>
+    <button onclick="payWithPayPal()">PAY ON PAYPAL</button>
+
+    <script>
+        function updateCart() {
+            let qty1 = parseInt(document.getElementById('qty1').value) || 0;
+            let qty2 = parseInt(document.getElementById('qty2').value) || 0;
+            let qty3 = parseInt(document.getElementById('qty3').value) || 0;
+            
+            let total = (qty1 * 10) + (qty2 * 15) + (qty3 * 20);
+            document.getElementById('total').innerText = total;
+            
+            let cartContent = '';
+            if (qty1 > 0) cartContent += `Product 1 x ${qty1} = $${qty1 * 10}<br>`;
+            if (qty2 > 0) cartContent += `Product 2 x ${qty2} = $${qty2 * 15}<br>`;
+            if (qty3 > 0) cartContent += `Product 3 x ${qty3} = $${qty3 * 20}<br>`;
+            
+            document.getElementById('cart').innerHTML = cartContent || 'Cart is empty';
+        }
+
+        function payWithPayPal() {
+            alert('Redirecting to PayPal for payment...');
+        }
+    </script>
+</body>
+</html>
