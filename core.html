@@ -3,162 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Page</title>
+    <title>Shopping Cart</title>
     <style>
-        .cart-icon {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border: 1px solid black;
-            padding: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .cart-count {
-            background: red;
-            color: white;
-            border-radius: 50%;
-            padding: 5px;
-            font-size: 14px;
-        }
-
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .cart-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .close-cart {
-            float: right;
-            cursor: pointer;
-        }
-
-        .product {
-            text-align: center;
-            margin: 20px;
-        }
-
-        .product img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            margin: auto;
-        }
+        body { font-family: Arial, sans-serif; }
+        .cart { margin-top: 20px; }
+        .product { margin-bottom: 10px; }
+        button { background-color: #01ffff; border: none; padding: 5px 10px; cursor: pointer; }
     </style>
 </head>
 <body>
-
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-        🛒
-        <div class="cart-count" id="cart-count">0</div>
-    </div>
-
-    <!-- Cart Modal -->
-    <div class="cart-modal" id="cart-modal">
-        <div class="cart-content">
-            <button class="close-cart" onclick="toggleCart()">X</button>
-            <h2>Your Cart</h2>
-            <div id="cart-items"></div>
-            <p id="total-price">Total: $0</p>
-            <button class="proceed-btn" onclick="proceedToPayment()">Proceed to Payment</button>
-        </div>
-    </div>
-
-    <!-- Product Listing -->
+    <h2>Products</h2>
     <div class="product">
-        <img src="https://example.com/product1.jpg" alt="Product 1">
-        <p>Product 1 - $10</p>
-        <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
+        <span>Product 1 - $10</span>
+        <input type="number" id="qty1" value="0" min="0" onchange="updateCart()">
     </div>
-
     <div class="product">
-        <img src="https://example.com/product2.jpg" alt="Product 2">
-        <p>Product 2 - $20</p>
-        <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
+        <span>Product 2 - $15</span>
+        <input type="number" id="qty2" value="0" min="0" onchange="updateCart()">
     </div>
-
     <div class="product">
-        <img src="https://example.com/product3.jpg" alt="Product 3">
-        <p>Product 3 - $30</p>
-        <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
+        <span>Product 3 - $20</span>
+        <input type="number" id="qty3" value="0" min="0" onchange="updateCart()">
     </div>
+    
+    <h3>Cart</h3>
+    <div class="cart" id="cart"></div>
+    <h3>Total: $<span id="total">0</span></h3>
+    <button onclick="payWithPayPal()">PAY ON PAYPAL</button>
 
     <script>
-        let cart = [];
-
-        function addToCart(productName, productPrice) {
-            const existingProduct = cart.find(item => item.name === productName);
-            if (existingProduct) {
-                existingProduct.quantity += 1;
-            } else {
-                cart.push({ name: productName, price: productPrice, quantity: 1 });
-            }
-            updateCartCount();
-            alert(`${productName} has been added to your cart.`);
+        function updateCart() {
+            let qty1 = parseInt(document.getElementById('qty1').value) || 0;
+            let qty2 = parseInt(document.getElementById('qty2').value) || 0;
+            let qty3 = parseInt(document.getElementById('qty3').value) || 0;
+            
+            let total = (qty1 * 10) + (qty2 * 15) + (qty3 * 20);
+            document.getElementById('total').innerText = total;
+            
+            let cartContent = '';
+            if (qty1 > 0) cartContent += `Product 1 x ${qty1} = $${qty1 * 10}<br>`;
+            if (qty2 > 0) cartContent += `Product 2 x ${qty2} = $${qty2 * 15}<br>`;
+            if (qty3 > 0) cartContent += `Product 3 x ${qty3} = $${qty3 * 20}<br>`;
+            
+            document.getElementById('cart').innerHTML = cartContent || 'Cart is empty';
         }
 
-        function updateCartCount() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = cartCount;
-        }
-
-        function toggleCart() {
-            const cartModal = document.getElementById('cart-modal');
-            if (cartModal.style.display === 'flex') {
-                cartModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            } else {
-                cartModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                renderCartItems();
-            }
-        }
-
-        function renderCartItems() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            cartItemsContainer.innerHTML = '';
-            let totalPrice = 0;
-            cart.forEach(item => {
-                const cartItem = document.createElement('div');
-                cartItem.classList.add('cart-item');
-                cartItem.innerHTML = `
-                    <p>${item.name} x${item.quantity}</p>
-                    <p>$${item.price * item.quantity}</p>
-                `;
-                cartItemsContainer.appendChild(cartItem);
-                totalPrice += item.price * item.quantity;
-            });
-            document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
-        }
-
-        function proceedToPayment() {
-            alert('Proceeding to payment...');
+        function payWithPayPal() {
+            alert('Redirecting to PayPal for payment...');
         }
     </script>
-
 </body>
 </html>
