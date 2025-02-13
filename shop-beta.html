@@ -260,6 +260,36 @@
       width: 100%;
     }
 
+    /* Shipping Address Section */
+    .shipping-address {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .shipping-address input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .shipping-address button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    .shipping-address button:hover {
+      background-color: green;
+    }
+
     /* Expanded Profile */
     .profile.expanded {
       position: fixed;
@@ -485,6 +515,16 @@
       <h2>Your Cart</h2>
       <div id="cart-items"></div>
       <p id="total-price">Total: $0</p>
+      <!-- Shipping Address Button -->
+      <button class="proceed-btn" onclick="toggleShippingAddress()">+ Shipping Address</button>
+      <!-- Shipping Address Form -->
+      <div class="shipping-address" id="shipping-address">
+        <input type="text" id="address" placeholder="Address" required>
+        <input type="text" id="city" placeholder="City" required>
+        <input type="text" id="state" placeholder="State" required>
+        <input type="text" id="zip" placeholder="ZIP Code" required>
+        <button class="proceed-btn" onclick="saveShippingAddress()">Save Address</button>
+      </div>
       <div id="paypal-button-container"></div>
     </div>
   </div>
@@ -581,22 +621,20 @@
         cartItemsContainer.appendChild(cartItem);
         totalPrice += item.price * item.quantity;
       });
-      document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+      document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
       renderPayPalButton(totalPrice);
     }
 
     function renderPayPalButton(totalPrice) {
-      // Clear the container before rendering a new button
       document.getElementById('paypal-button-container').innerHTML = "";
 
-      // Only render the button if the total amount is greater than 0
       if (totalPrice > 0) {
         paypal.Buttons({
           createOrder: function(data, actions) {
             return actions.order.create({
               purchase_units: [{
                 amount: {
-                  value: totalPrice.toFixed(2) // Ensure the amount is in the correct format
+                  value: totalPrice.toFixed(2)
                 }
               }]
             });
@@ -613,6 +651,30 @@
             alert('An error occurred during the transaction. Please try again.');
           }
         }).render('#paypal-button-container');
+      }
+    }
+
+    // Shipping Address Functionality
+    function toggleShippingAddress() {
+      const shippingAddress = document.getElementById('shipping-address');
+      if (shippingAddress.style.display === 'block') {
+        shippingAddress.style.display = 'none';
+      } else {
+        shippingAddress.style.display = 'block';
+      }
+    }
+
+    function saveShippingAddress() {
+      const address = document.getElementById('address').value;
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+      const zip = document.getElementById('zip').value;
+
+      if (address && city && state && zip) {
+        alert('Shipping address saved successfully!');
+        toggleShippingAddress();
+      } else {
+        alert('Please fill out all fields.');
       }
     }
 
