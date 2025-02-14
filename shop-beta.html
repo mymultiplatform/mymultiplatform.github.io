@@ -1,745 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Mymultiplatform Shop</title>
-  <style>
-    /* Reset box-sizing for consistency */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: rgb(0, 0, 0);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Banner Styles */
-    .banner {
-      background-color: green;
-      color: white;
-      padding: 10px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: left;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1001;
-      height: 60px;
-      display: flex;
-      align-items: center;
-    }
-
-    .title {
-      margin-left: 20px;
-    }
-
-    /* Navbar Styles */
-    .navbar {
-      background: linear-gradient(to bottom, #666666, #000000);
-      text-align: center;
-      padding: 10px 0;
-      position: fixed;
-      top: 60px;
-      width: 100%;
-      z-index: 1000;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .navbar a {
-      color: white;
-      padding: 8px 16px;
-      text-decoration: none;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .navbar a:hover {
-      background-color: green;
-      border-radius: 4px;
-    }
-
-    /* Cart Icon */
-    .cart-icon {
-      margin-left: auto;
-      margin-right: 20px;
-      position: relative;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .cart-count {
-      position: absolute;
-      top: -5px;
-      right: -10px;
-      background-color: red;
-      color: white;
-      border-radius: 50%;
-      padding: 2px 6px;
-      font-size: 12px;
-    }
-
-    /* Dynamic Banner Styles */
-    .dynamic-banner {
-      position: fixed;
-      top: 110px;
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-      z-index: 999;
-    }
-
-    .banner-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      display: none;
-    }
-
-    .banner-slide.active {
-      display: block;
-    }
-
-    /* Main Content Styles */
-    .tab-content {
-      padding: 290px 20px 20px 20px;
-      color: white;
-    }
-
-    .tab-content h2 {
-      display: none;
-    }
-
-    .tab-content h2.active {
-      display: block;
-    }
-
-    /* Shop Section */
-    #Shop {
-      display: none;
-      padding: 2px;
-    }
-
-    #Shop .shop-profiles {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 200px;
-    }
-
-    .profile {
-      background-color: #222;
-      border: 1px solid #444;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 300px;
-      overflow: hidden;
-      position: relative;
-      transition: transform 0.3s ease, z-index 0.3s ease;
-    }
-
-    .profile img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    .profile img:hover {
-      transform: scale(1.05);
-    }
-
-    .product-info {
-      padding: 10px;
-      text-align: left;
-    }
-
-    .product-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 5px;
-    }
-
-    .product-price {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
-    .add-to-cart-btn {
-      background-color: #444;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      width: 100%;
-    }
-
-    .add-to-cart-btn:hover {
-      background-color: green;
-    }
-
-    /* Cart Modal */
-    .cart-modal {
-      display: none; /* Hidden by default */
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 1002;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .cart-content {
-      background-color: #fff;
-      color: #000;
-      padding: 20px;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 8px;
-      max-height: 80vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .cart-content h2 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    .close-cart {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-
-    .proceed-btn {
-      background-color: green;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    /* Shipping Address Section */
-    .shipping-address {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .shipping-address input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .shipping-address button {
-      background-color: #444;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      width: 100%;
-    }
-
-    .shipping-address button:hover {
-      background-color: green;
-    }
-
-    /* Expanded Profile */
-    .profile.expanded {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      z-index: 1001;
-      background-color: #333;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      width: 95vw;
-      max-width: 500px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      border-radius: 8px;
-      overflow-y: auto;
-      transition: transform 0.3s ease;
-    }
-
-    .profile.expanded img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-
-    .description {
-      width: 100%;
-      text-align: left;
-      color: #ddd;
-    }
-
-    .description h2 {
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .description p {
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .product-gallery {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 10px 0;
-    }
-
-    .product-gallery img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .product-gallery img:hover {
-      transform: scale(1.1);
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-
-    /* Footer */
-    footer {
-      padding: 20px;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .navbar a {
-        font-size: 16px;
-        padding: 6px 12px;
-      }
-
-      .banner {
-        font-size: 20px;
-        padding: 10px 15px;
-        height: 50px;
-      }
-
-      .navbar {
-        top: 50px;
-        height: 45px;
-      }
-
-      .dynamic-banner {
-        top: 95px;
-        height: 135px;
-      }
-
-      .tab-content {
-        padding: 230px 15px 15px 15px;
-      }
-    }
-  </style>
-  <!-- Include PayPal SDK with your Sandbox Client ID -->
-  <script src="https://www.paypal.com/sdk/js?client-id=AXijViFHPOnBzH3_mAtr0Z2tGyk5PmHb89npXqFZEzl58UFjn62JCDl9mSvhRZQsqEo5IXBc3xUUcpwH&currency=USD"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLSL Shader on GitHub Page</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <!-- Fixed Banner -->
-  <div class="banner">
-    <div class="title">Mymultiplatform Shop</div>
-  </div>
+    <canvas id="shaderCanvas"></canvas>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="#home" class="tab-link">Home</a>
-    <a href="#Shop" class="tab-link">Shop</a>
-    <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-      🛒
-      <div class="cart-count" id="cart-count">0</div>
-    </div>
-  </div>
+    <!-- GLSL Shader Code -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        precision highp float;
+        uniform vec2 iResolution;
+        uniform sampler2D iChannel0;
 
-  <!-- Dynamic Banner -->
-  <div class="dynamic-banner">
-    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
-    </div>
-    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
-    </div>
-  </div>
+        void mainImage(out vec4 O, vec2 u) {
+            vec2 R = iResolution.xy;
+            vec2 uv = u / R;
 
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
-  </div>
+            O = vec4(0.0);
 
-  <!-- Shop Section -->
-  <div id="Shop">
-    <h2 class="filter-icon" onclick="toggleFilter()" style="text-align: right;">⏚</h2>
-    <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
-    <div class="shop-profiles">
-      <!-- Product Template -->
-      <div class="profile" id="product1">
-        <img alt="Product 1" src="https://blogger.googleusercontent.com/img/a/AVvXsEgHG6mSzShiseIo3RiVJFq9bV16GKH1ksxwdjE6dvIZLgOiXRGUh-gbqjcNls0z19YB4fs3RNd8vedPxe96aiKf5yCpzREHvOBty7kcFd8CV8VRVJXGF8QRZuFhZU_K2JI-jAuQU2UrAe8J8ZkJAcdZWq6liZ_s-xF1UXsKDupqmhXemfNLZskfpfs3rJbx" onclick="toggleExpand(this)" />
-        <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
-          <p class="product-price">$10</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
-        </div>
-        <!-- Expanded Product Details -->
-        <div class="description" style="display: none;">
-          <h2>Product 1</h2>
-          <p>High-quality product 1 with excellent features and benefits.</p>
-          <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
-          </div>
-        </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-      </div>
+            float[] gk1s = float[](
+                0.003765, 0.015019, 0.023792, 0.015019, 0.003765,
+                0.015019, 0.059912, 0.094907, 0.059912, 0.015019,
+                0.023792, 0.094907, 0.150342, 0.094907, 0.023792,
+                0.015019, 0.059912, 0.094907, 0.059912, 0.015019,
+                0.003765, 0.015019, 0.023792, 0.015019, 0.003765
+            );
 
-      <!-- Repeat for other products -->
-      <div class="profile" id="product2">
-        <img alt="Product 2" src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" onclick="toggleExpand(this)" />
-        <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
-          <p class="product-price">$20</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
-        </div>
-        <div class="description" style="display: none;">
-          <h2>Product 2</h2>
-          <p>Premium product 2 with top-notch quality and design.</p>
-          <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhVzZKmIMBgV2tEcOXxiLNNtCZCOph1EP-XASoxhGkDYrrc8BPXPdl4v87Nl_XTIOX2OoaMS-vuCs4HIq5IaFKRA8C2_5FV6RL5hj0cIWmEca5eLIlb-DdzHiNAWErwAcTFBW3-_u6Apiegh-ZVyWIBP7hFjXsRi7AykjUcqh1sBMy7Fj8XVDeVMRsbozoM=w289-h314" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://s.alicdn.com/@sc04/kf/H2a0c3d071a864f6b9cc07b0f2fcdd1f7b.jpg_720x720q50.jpg" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhCMW6y8-B-lbO3cU00orlDTTnXUmOSGjQS1qL8DTwKGSU0YczgbPE7zYhwXB163DQLya49YDBpodSFx8U8DVZ9XIDfhG7Z1YbGnn7xC6KwnzeqQxAe39qWUTK3Ct8lWxnZmsW0r2fCGbBhHkSb1AbQ7rLm7gDY7FFQupS6LFMUw46gG5pHjp92-z_lkq8J" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
-          </div>
-        </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-      </div>
-
-      <!-- Example Product 3 -->
-      <div class="profile" id="product3">
-        <img alt="Product 3" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
-        <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
-          <p class="product-price">$30</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
-        </div>
-        <div class="description" style="display: none;">
-          <h2>Product 3</h2>
-          <p>Exclusive product 3 offering unmatched performance and style.</p>
-          <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
-          </div>
-        </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Cart Modal -->
-  <div class="cart-modal" id="cart-modal">
-    <div class="cart-content">
-      <button class="close-cart" onclick="toggleCart()">X</button>
-      <h2>Your Cart</h2>
-      <div id="cart-items"></div>
-      <p id="total-price">Total: $0</p>
-      <!-- Shipping Address Button -->
-      <button class="proceed-btn" onclick="toggleShippingAddress()">+ Shipping Address</button>
-      <!-- Shipping Address Form -->
-      <div class="shipping-address" id="shipping-address">
-        <input type="text" id="address" placeholder="Address" required>
-        <input type="text" id="city" placeholder="City" required>
-        <input type="text" id="state" placeholder="State" required>
-        <input type="text" id="zip" placeholder="ZIP Code" required>
-        <button class="proceed-btn" onclick="saveShippingAddress()">Save Address</button>
-      </div>
-      <div id="paypal-button-container"></div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>MYMULTIPLATFORM</p>
-  </footer>
-
-  <script>
-    // Tab Switching Functionality
-    function showTabContent(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
-      tabContents.forEach(content => {
-        if (content.id === tabId) {
-          content.style.display = "block";
-        } else {
-          content.style.display = "none";
+            for (int k = 0; k < 25; k++) {
+                vec2 offset = (vec2(float(k % 5), float(k / 5)) - 2.0) / R;
+                O += gk1s[k] * texture2D(iChannel0, uv + offset);
+            }
         }
-      });
 
-      const dynamicBanner = document.querySelector('.dynamic-banner');
-      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
-    }
+        void main() {
+            mainImage(gl_FragColor, gl_FragCoord.xy);
+        }
+    </script>
 
-    const tabLinks = document.querySelectorAll(".navbar a");
-    tabLinks.forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        const tabId = link.getAttribute("href").substring(1);
-        showTabContent(tabId);
-        history.pushState(null, null, `#${tabId}`);
-      });
-    });
+    <!-- WebGL and Shader Setup -->
+    <script>
+        const canvas = document.getElementById('shaderCanvas');
+        const gl = canvas.getContext('webgl');
 
-    // Dynamic Banner Animation
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".banner-slide");
+        if (!gl) {
+            console.error('WebGL not supported, falling back on experimental-webgl');
+            gl = canvas.getContext('experimental-webgl');
+        }
 
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, 5000);
+        if (!gl) {
+            alert('Your browser does not support WebGL');
+        }
 
-    // Initial Content Display
-    window.addEventListener("DOMContentLoaded", () => {
-      const initialTab = window.location.hash.substring(1) || "home";
-      showTabContent(initialTab);
-    });
-
-    // Cart Functionality
-    let cart = [];
-
-    function addToCart(productName, productPrice) {
-      const existingProduct = cart.find(item => item.name === productName);
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-      } else {
-        cart.push({ name: productName, price: productPrice, quantity: 1 });
-      }
-      updateCartCount();
-      alert(`${productName} has been added to your cart.`);
-    }
-
-    function updateCartCount() {
-      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-      document.getElementById('cart-count').textContent = cartCount;
-    }
-
-    function toggleCart() {
-      const cartModal = document.getElementById('cart-modal');
-      if (cartModal.style.display === 'flex') {
-        cartModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      } else {
-        cartModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        renderCartItems();
-      }
-    }
-
-    function renderCartItems() {
-      const cartItemsContainer = document.getElementById('cart-items');
-      cartItemsContainer.innerHTML = '';
-      let totalPrice = 0;
-      cart.forEach(item => {
-        const cartItem = document.createElement('div');
-        cartItem.classList.add('cart-item');
-        cartItem.innerHTML = `
-          <p>${item.name} x${item.quantity}</p>
-          <p>$${item.price * item.quantity}</p>
+        // Vertex Shader (Simple Pass-Through)
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
         `;
-        cartItemsContainer.appendChild(cartItem);
-        totalPrice += item.price * item.quantity;
-      });
-      document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
-      renderPayPalButton(totalPrice);
-    }
 
-    function renderPayPalButton(totalPrice) {
-      document.getElementById('paypal-button-container').innerHTML = "";
+        // Fragment Shader (Your GLSL Code)
+        const fragmentShaderSource = document.getElementById('fragmentShader').text;
 
-      if (totalPrice > 0) {
-        paypal.Buttons({
-          createOrder: function(data, actions) {
-            return actions.order.create({
-              purchase_units: [{
-                amount: {
-                  value: totalPrice.toFixed(2)
-                }
-              }]
-            });
-          },
-          onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-              alert('Transaction completed by ' + details.payer.name.given_name);
-              // Optionally, you can redirect the user to a thank-you page
-              // window.location.href = '/thank-you';
-            });
-          },
-          onError: function(err) {
-            console.error('PayPal Error:', err);
-            alert('An error occurred during the transaction. Please try again.');
-          }
-        }).render('#paypal-button-container');
-      }
-    }
+        // Compile Shaders
+        const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
 
-    // Shipping Address Functionality
-    function toggleShippingAddress() {
-      const shippingAddress = document.getElementById('shipping-address');
-      if (shippingAddress.style.display === 'block') {
-        shippingAddress.style.display = 'none';
-      } else {
-        shippingAddress.style.display = 'block';
-      }
-    }
+        // Create Program and Link Shaders
+        const program = createProgram(gl, vertexShader, fragmentShader);
+        gl.useProgram(program);
 
-    function saveShippingAddress() {
-      const address = document.getElementById('address').value;
-      const city = document.getElementById('city').value;
-      const state = document.getElementById('state').value;
-      const zip = document.getElementById('zip').value;
+        // Set Up Full-Screen Quad
+        const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = [
+            -1, -1,
+             1, -1,
+            -1,  1,
+             1,  1,
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(positionAttributeLocation);
+        gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
-      if (address && city && state && zip) {
-        alert('Shipping address saved successfully!');
-        toggleShippingAddress();
-      } else {
-        alert('Please fill out all fields.');
-      }
-    }
+        // Load Texture
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 0, 0, 255])); // Default red texture
 
-    // Profile Expansion Functionality
-    function toggleExpand(element) {
-      const profile = element.closest('.profile');
-      const isExpanded = profile.classList.contains('expanded');
+        const image = new Image();
+        image.src = 'https://i.imgur.com/XYZ1234.png'; // Replace with your image URL
+        image.onload = () => {
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            gl.generateMipmap(gl.TEXTURE_2D);
+        };
 
-      const expandedProfiles = document.querySelectorAll('.profile.expanded');
-      expandedProfiles.forEach((expProfile) => {
-        if (expProfile !== profile) {
-          expProfile.classList.remove('expanded');
-          toggleDescription(expProfile, false);
+        // Bind Texture to Shader
+        const iChannel0Location = gl.getUniformLocation(program, 'iChannel0');
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.uniform1i(iChannel0Location, 0);
+
+        // Set iResolution Uniform
+        const iResolutionLocation = gl.getUniformLocation(program, 'iResolution');
+        gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+
+        // Render Loop
+        function render() {
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+            requestAnimationFrame(render);
         }
-      });
 
-      if (!isExpanded) {
-        profile.classList.add('expanded');
-        toggleDescription(profile, true);
-        document.body.style.overflow = 'hidden';
-      } else {
-        profile.classList.remove('expanded');
-        toggleDescription(profile, false);
-        document.body.style.overflow = 'auto';
-      }
-    }
+        // Handle Window Resize
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-    function toggleDescription(profile, show) {
-      const description = profile.querySelector('.description');
-      const closeBtn = profile.querySelector('.close-btn');
-      if (show) {
-        description.style.display = 'block';
-        closeBtn.style.display = 'block';
-      } else {
-        description.style.display = 'none';
-        closeBtn.style.display = 'none';
-      }
-    }
+        // Start Rendering
+        render();
 
-    function closeExpand(button) {
-      const profile = button.closest('.profile');
-      profile.classList.remove('expanded');
-      toggleDescription(profile, false);
-      document.body.style.overflow = 'auto';
-    }
+        // Helper Functions
+        function compileShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
 
-    function changeMainImage(smallImg) {
-      const profile = smallImg.closest('.profile');
-      const mainImg = profile.querySelector('img');
-      mainImg.src = smallImg.src;
-    }
-
-    // Prevent image dragging
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      img.draggable = false;
-    });
-
-    // Allow touch interactions within expanded profiles
-    document.addEventListener('touchmove', function(event) {
-      const expanded = document.querySelector('.profile.expanded');
-      if (expanded && !expanded.contains(event.target)) {
-        event.preventDefault();
-      }
-    }, { passive: false });
-  </script>
+        function createProgram(gl, vertexShader, fragmentShader) {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Program linking error:', gl.getProgramInfoLog(program));
+                return null;
+            }
+            return program;
+        }
+    </script>
 </body>
 </html>
