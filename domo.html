@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLSL Shader on GitHub Page</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="shaderCanvas"></canvas>
+
+    <!-- GLSL Shader Code -->
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        void mainImage(out vec4 O, vec2 u) {
+            vec2 R = iResolution.xy,
+                uv = u/R;
+
+            O *= 0.;
+
+            float[] gk1s = float[](
+                0.003765, 0.015019, 0.023792, 0.015019, 0.003765,
+                0.015019, 0.059912, 0.094907, 0.059912, 0.015019,
+                0.023792, 0.094907, 0.150342, 0.094907, 0.023792,
+                0.015019, 0.059912, 0.094907, 0.059912, 0.015019,
+                0.003765, 0.015019, 0.023792, 0.015019, 0.003765
+            );
+
+            //golfed by fabriceneyret2
+            for (int k; k < 25; k++)      
+                O += gk1s[k] * texture(iChannel0, uv + ( vec2(k%5,k/5) - 2. ) / R );
+        }
+    </script>
+
+    <!-- WebGL and Shader Setup -->
+    <script>
+        const canvas = document.getElementById('shaderCanvas');
+        const gl = canvas.getContext('webgl');
+
+        if (!gl) {
+            console.error('WebGL not supported, falling back on experimental-webgl');
+            gl = canvas.getContext('experimental-webgl');
+        }
+
+        if (!gl) {
+            alert('Your browser does not support WebGL');
+        }
+
+        // Vertex Shader (Simple Pass-Through)
+        const vertexShaderSource = `
+            attribute vec4 a_position;
+            void main() {
+                gl_Position = a_position;
+            }
+        `;
+
+        // Fragment Shader (Your GLSL Code)
+        const fragmentShaderSource = document.getElementById('fragmentShader').text;
+
+        // Compile Shaders
+        const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+        // Create Program and Link Shaders
+        const program = createProgram(gl, vertexShader, fragmentShader);
+        gl.useProgram(program);
+
+        // Set Up Full-Screen Quad
+        const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        const positions = [
+            -1, -1,
+             1, -1,
+            -1,  1,
+             1,  1,
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(positionAttributeLocation);
+        gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+        // Render Loop
+        function render() {
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+            requestAnimationFrame(render);
+        }
+
+        // Handle Window Resize
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Start Rendering
+        render();
+
+        // Helper Functions
+        function compileShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
+
+        function createProgram(gl, vertexShader, fragmentShader) {
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(program));
+                return null;
+            }
+            return program;
+        }
+    </script>
+</body>
+</html>
