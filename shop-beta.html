@@ -535,6 +535,20 @@
   </footer>
 
   <script>
+ const style = document.createElement('style');
+  style.innerHTML = `
+    .filter-icon {
+      position: fixed;
+      top: 110px; /* Adjust based on banner and navbar height */
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1002; /* Ensure it's above other elements */
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 50%;
+    }
+
     // Tab Switching Functionality
     function showTabContent(tabId) {
       const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
