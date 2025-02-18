@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Labyrinth</title>
+    <title>3D House with X-ray</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -15,12 +15,12 @@
         // Scene setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
         // Camera position
-        camera.position.set(15, 15, 15);
+        camera.position.set(20, 20, 20);
         camera.lookAt(0, 0, 0);
 
         // Lighting
@@ -30,20 +30,24 @@
         pointLight.position.set(10, 10, 10);
         scene.add(pointLight);
 
-        const wallThickness = 1 / 90;
+        const wallThickness = 0.2;
         const unitSize = 1;
-        const gridSize = 30;
+        const gridSize = 20;
 
-        // Function to create a wall
-        function createWall(x, y, z, width, height, depth) {
+        // Function to create a wall with optional transparency
+        function createWall(x, y, z, width, height, depth, transparent = false) {
             const geometry = new THREE.BoxGeometry(width, height, depth);
-            const material = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+            const material = new THREE.MeshPhongMaterial({
+                color: transparent ? 0x00ff00 : 0x8B4513,
+                transparent: transparent,
+                opacity: transparent ? 0.2 : 1
+            });
             const wall = new THREE.Mesh(geometry, material);
             wall.position.set(x, y, z);
             scene.add(wall);
         }
 
-        // Create outer walls
+        // Create outer walls of the house
         createWall(0, 0, 0, gridSize * unitSize, wallThickness, gridSize * unitSize); // Floor
         createWall(0, gridSize * unitSize, 0, gridSize * unitSize, wallThickness, gridSize * unitSize); // Ceiling
         createWall(0, 0, 0, wallThickness, gridSize * unitSize, gridSize * unitSize); // Left wall
@@ -51,7 +55,7 @@
         createWall(0, 0, 0, gridSize * unitSize, gridSize * unitSize, wallThickness); // Back wall
         createWall(0, 0, gridSize * unitSize, gridSize * unitSize, gridSize * unitSize, wallThickness); // Front wall
 
-        // Create rooms
+        // Create rooms with doors and windows
         function createRoom(x, y, z, width, height, depth) {
             createWall(x, y, z, width, wallThickness, depth); // Floor
             createWall(x, y + height, z, width, wallThickness, depth); // Ceiling
@@ -59,12 +63,19 @@
             createWall(x + width, y, z, wallThickness, height, depth); // Right wall
             createWall(x, y, z, width, height, wallThickness); // Back wall
             createWall(x, y, z + depth, width, height, wallThickness); // Front wall
+
+            // Add a door
+            createWall(x + width / 2 - 1, y, z + depth, 2, height / 2, wallThickness, true);
+
+            // Add windows
+            createWall(x + width / 2 - 1, y + height / 2, z + depth, 2, height / 4, wallThickness, true);
+            createWall(x + width / 2 - 1, y + height * 3 / 4, z + depth, 2, height / 4, wallThickness, true);
         }
 
         // Example rooms
-        createRoom(5, 0, 5, 10, 5, 10); // Room 1
-        createRoom(15, 0, 5, 10, 5, 10); // Room 2
-        createRoom(10, 0, 15, 10, 5, 10); // Room 3 (Main room)
+        createRoom(5, 0, 5, 10, 5, 10); // Living Room
+        createRoom(15, 0, 5, 10, 5, 10); // Bedroom
+        createRoom(10, 0, 15, 10, 5, 10); // Kitchen
 
         // Render loop
         function animate() {
@@ -72,6 +83,15 @@
             renderer.render(scene, camera);
         }
         animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
     </script>
 </body>
 </html>
