@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D House with X-ray</title>
+    <title>3D House with OBJ Export</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
+        #export-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
+    <button id="export-button">Export as OBJ</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/exporters/OBJExporter.js"></script>
     <script>
         // Scene setup
         const scene = new THREE.Scene();
@@ -45,6 +58,7 @@
             const wall = new THREE.Mesh(geometry, material);
             wall.position.set(x, y, z);
             scene.add(wall);
+            return wall; // Return the wall for exporting
         }
 
         // Create outer walls of the house
@@ -91,6 +105,17 @@
             renderer.setSize(width, height);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
+        });
+
+        // Export as OBJ
+        document.getElementById('export-button').addEventListener('click', () => {
+            const exporter = new THREE.OBJExporter();
+            const result = exporter.parse(scene);
+            const blob = new Blob([result], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'house.obj';
+            link.click();
         });
     </script>
 </body>
