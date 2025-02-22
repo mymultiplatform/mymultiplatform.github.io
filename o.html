@@ -3,120 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D House with OBJ Export</title>
+    <title>Multiple Copy Buttons List</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
-        #export-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 20px;
+        }
+        .copy-list {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .copy-item {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .copy-text {
+            color: #333;
+            word-wrap: break-word;
+            flex: 1;
+            margin-right: 20px;
+        }
+        .copy-button {
+            padding: 10px 20px;
             background-color: #4CAF50;
-            color: white;
+            color: #ffffff;
             border: none;
             cursor: pointer;
-            z-index: 1000;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .copy-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .copy-text {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            .copy-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <button id="export-button">Export as OBJ</button>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://threejs.org/examples/js/exporters/OBJExporter.js"></script>
+    <h1 style="text-align: center;">Multiple Texts with Copy Buttons</h1>
+    <ul class="copy-list">
+        <li class="copy-item">
+            <div class="copy-text" id="text1">python "C:\Users\ds10202542\Desktop\THE.py"</div>
+            <button class="copy-button" onclick="copyText('text1')">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text2">XMGlobal-MT5 7</div>
+            <button class="copy-button" onclick="copyText('text2')">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text3">312128713</div>
+            <button class="copy-button" onclick="copyText('text3')">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text4">Sexo247420@</div>
+            <button class="copy-button" onclick="copyText('text4')">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text5">Example Text E</div>
+            <button class="copy-button" onclick="copyText('text5')">Copy</button>
+        </li>
+        <!-- Add more copy-items as needed -->
+    </ul>
+
     <script>
-        // Scene setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // Camera position
-        camera.position.set(20, 20, 20);
-        camera.lookAt(0, 0, 0);
-
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0x404040);
-        scene.add(ambientLight);
-        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-        pointLight.position.set(10, 10, 10);
-        scene.add(pointLight);
-
-        const wallThickness = 0.2;
-        const unitSize = 1;
-        const gridSize = 20;
-
-        // Function to create a wall with optional transparency
-        function createWall(x, y, z, width, height, depth, transparent = false) {
-            const geometry = new THREE.BoxGeometry(width, height, depth);
-            const material = new THREE.MeshPhongMaterial({
-                color: transparent ? 0x00ff00 : 0x8B4513,
-                transparent: transparent,
-                opacity: transparent ? 0.2 : 1
+        function copyText(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Optional: Provide user feedback without using alert
+                const button = event.target;
+                const originalText = button.innerText;
+                button.innerText = 'Copied!';
+                button.disabled = true;
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.disabled = false;
+                }, 2000);
+            }).catch(err => {
+                console.error('I love you.: ', err);
+                alert('I love you.');
             });
-            const wall = new THREE.Mesh(geometry, material);
-            wall.position.set(x, y, z);
-            scene.add(wall);
-            return wall; // Return the wall for exporting
         }
-
-        // Create outer walls of the house
-        createWall(0, 0, 0, gridSize * unitSize, wallThickness, gridSize * unitSize); // Floor
-        createWall(0, gridSize * unitSize, 0, gridSize * unitSize, wallThickness, gridSize * unitSize); // Ceiling
-        createWall(0, 0, 0, wallThickness, gridSize * unitSize, gridSize * unitSize); // Left wall
-        createWall(gridSize * unitSize, 0, 0, wallThickness, gridSize * unitSize, gridSize * unitSize); // Right wall
-        createWall(0, 0, 0, gridSize * unitSize, gridSize * unitSize, wallThickness); // Back wall
-        createWall(0, 0, gridSize * unitSize, gridSize * unitSize, gridSize * unitSize, wallThickness); // Front wall
-
-        // Create rooms with doors and windows
-        function createRoom(x, y, z, width, height, depth) {
-            createWall(x, y, z, width, wallThickness, depth); // Floor
-            createWall(x, y + height, z, width, wallThickness, depth); // Ceiling
-            createWall(x, y, z, wallThickness, height, depth); // Left wall
-            createWall(x + width, y, z, wallThickness, height, depth); // Right wall
-            createWall(x, y, z, width, height, wallThickness); // Back wall
-            createWall(x, y, z + depth, width, height, wallThickness); // Front wall
-
-            // Add a door
-            createWall(x + width / 2 - 1, y, z + depth, 2, height / 2, wallThickness, true);
-
-            // Add windows
-            createWall(x + width / 2 - 1, y + height / 2, z + depth, 2, height / 4, wallThickness, true);
-            createWall(x + width / 2 - 1, y + height * 3 / 4, z + depth, 2, height / 4, wallThickness, true);
-        }
-
-        // Example rooms
-        createRoom(5, 0, 5, 10, 5, 10); // Living Room
-        createRoom(15, 0, 5, 10, 5, 10); // Bedroom
-        createRoom(10, 0, 15, 10, 5, 10); // Kitchen
-
-        // Render loop
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        });
-
-        // Export as OBJ
-        document.getElementById('export-button').addEventListener('click', () => {
-            const exporter = new THREE.OBJExporter();
-            const result = exporter.parse(scene);
-            const blob = new Blob([result], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'house.obj';
-            link.click();
-        });
     </script>
 </body>
 </html>
