@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moving Sphere</title>
+    <title>Slime Enemy Prototype</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body { margin: 0; overflow: hidden; background: #000; text-align: center; color: white; }
@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <h1>MOVING SPHERE</h1>
+    <h1>SLIME ENEMY PROTOTYPE</h1>
     <div>___________________________________________________________</div>
     <div id="scene-container"></div>
     <div>___________________________________________________________</div>
@@ -35,33 +35,62 @@
         const planeGeometry = new THREE.PlaneGeometry(10, 10);
         const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide });
         const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -Math.PI / 2; // Make it horizontal
+        plane.rotation.x = -Math.PI / 2;
         scene.add(plane);
 
-        // Create a Sphere
-        const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        scene.add(sphere);
+        // Create a Static Blue Sphere (Obstacle)
+        const blueSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const blueSphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+        const blueSphere = new THREE.Mesh(blueSphereGeometry, blueSphereMaterial);
+        blueSphere.position.set(0, 0.5, 0);
+        scene.add(blueSphere);
+
+        // Create a Moving Red Sphere (Slime Enemy)
+        const redSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const redSphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const redSphere = new THREE.Mesh(redSphereGeometry, redSphereMaterial);
+        scene.add(redSphere);
 
         // Position Camera
         camera.position.set(0, 5, 7);
         camera.lookAt(0, 0, 0);
 
-        // Random Movement
+        // Movement Logic
         let targetX = (Math.random() - 0.5) * 8;
         let targetZ = (Math.random() - 0.5) * 8;
         const speed = 0.02;
+        let scaling = false;
+        let scaleDirection = 1;
 
         function animate() {
             requestAnimationFrame(animate);
 
-            // Move the sphere towards the target position
-            sphere.position.x += (targetX - sphere.position.x) * speed;
-            sphere.position.z += (targetZ - sphere.position.z) * speed;
+            // Move the red sphere towards the target position
+            redSphere.position.x += (targetX - redSphere.position.x) * speed;
+            redSphere.position.z += (targetZ - redSphere.position.z) * speed;
 
-            // When close to the target, pick a new random position
-            if (Math.abs(sphere.position.x - targetX) < 0.1 && Math.abs(sphere.position.z - targetZ) < 0.1) {
+            // Collision detection with the blue sphere
+            let distance = redSphere.position.distanceTo(blueSphere.position);
+            if (distance < 1) {
+                scaling = true;
+            }
+
+            // Inflation-Deflation animation upon collision
+            if (scaling) {
+                redSphere.scale.x += 0.01 * scaleDirection;
+                redSphere.scale.y += 0.01 * scaleDirection;
+                redSphere.scale.z += 0.01 * scaleDirection;
+                
+                if (redSphere.scale.x > 1.2 || redSphere.scale.x < 0.8) {
+                    scaleDirection *= -1;
+                }
+                if (redSphere.scale.x === 1) {
+                    scaling = false;
+                }
+            }
+
+            // Pick a new target when close
+            if (Math.abs(redSphere.position.x - targetX) < 0.1 && Math.abs(redSphere.position.z - targetZ) < 0.1) {
                 targetX = (Math.random() - 0.5) * 8;
                 targetZ = (Math.random() - 0.5) * 8;
             }
@@ -79,6 +108,5 @@
         });
 
     </script>
-
 </body>
 </html>
