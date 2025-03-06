@@ -1,120 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slime Enemy Prototype</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        body { margin: 0; overflow: hidden; background: #000; text-align: center; color: white; }
-        canvas { display: block; }
-        h1 { margin-top: 20px; }
-    </style>
-</head>
-<body>
+using UnityEngine;
 
-    <h1>SLIME ENEMY PROTOTYPE</h1>
-    <div>___________________________________________________________</div>
-    <div id="scene-container"></div>
-    <div>___________________________________________________________</div>
+public class PerfectSlime : MonoBehaviour
+{
+    [Header("Slime Settings")]
+    public int sphereCount = 10; // Reduced number of spheres for stability
+    public float sphereRadius = 0.1f; // Radius of each small sphere
+    public float clusterRadius = 1f; // Radius of the slime cluster
+    public float slimeMovementSpeed = 2f; // Speed of slime movement
+    public float slimeJiggleIntensity = 0.05f; // Reduced intensity for smoother jiggle
+    public float slimePushForce = 5f; // Force applied when slime collides with player
 
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight * 0.8);
-        document.body.appendChild(renderer.domElement);
+    private Transform[] spheres; // Array to store the small spheres
+    private Vector3 targetPosition; // Target position for slime movement
+    private Cloth slimeCloth; // Cloth component for the slime skin
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(1, 1, 1).normalize();
-        scene.add(light);
+    void Start()
+    {
+        // Create the cluster of small spheres
+        CreateSphereCluster();
 
-        const planeGeometry = new THREE.PlaneGeometry(10, 10);
-        const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide });
-        const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -Math.PI / 2;
-        scene.add(plane);
+        // Add a cloth mesh for the slime skin
+        AddClothMesh();
 
-        const blueSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const blueSphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
-        const blueSphere = new THREE.Mesh(blueSphereGeometry, blueSphereMaterial);
-        blueSphere.position.set(0, 0.5, 0);
-        scene.add(blueSphere);
+        // Set initial target position
+        SetNewTargetPosition();
+    }
 
-        const redSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const redSphereMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        const redSphere = new THREE.Mesh(redSphereGeometry, redSphereMaterial);
-        scene.add(redSphere);
+    void Update()
+    {
+        // Move the slime towards the target position
+        MoveTowardsTarget();
 
-        const arms = [];
-        const armMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        for (let i = 0; i < 3; i++) {
-            const armGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32);
-            const arm = new THREE.Mesh(armGeometry, armMaterial);
-            arm.position.set(Math.cos(i * (Math.PI * 2 / 3)) * 0.3, 0.8, Math.sin(i * (Math.PI * 2 / 3)) * 0.3);
-            arm.rotation.x = Math.PI / 2;
-            redSphere.add(arm);
-            arms.push(arm);
+        // Jiggle the spheres to simulate slime movement
+        JiggleSpheres();
+
+        // Check if the slime has reached the target position
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        {
+            SetNewTargetPosition();
+        }
+    }
+
+    void CreateSphereCluster()
+    {
+        spheres = new Transform[sphereCount];
+
+        for (int i = 0; i < sphereCount; i++)
+        {
+            // Create a small sphere
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphere.transform.SetParent(transform);
+            sphere.transform.localScale = Vector3.one * sphereRadius;
+
+            // Randomize the position of the sphere within the cluster radius
+            Vector3 randomPosition = Random.insideUnitSphere * clusterRadius;
+            sphere.transform.localPosition = randomPosition;
+
+            // Add a rigidbody for physics
+            Rigidbody rb = sphere.AddComponent<Rigidbody>();
+            rb.mass = 0.1f; // Lightweight spheres
+            rb.drag = 5f; // Increased drag for slime-like resistance
+            rb.angularDrag = 5f; // Increased angular drag to reduce spinning
+
+            // Add a sphere collider (if not already added by CreatePrimitive)
+            SphereCollider collider = sphere.GetComponent<SphereCollider>();
+            collider.radius = 1f; // Ensure collider matches sphere size
+
+            // Store the sphere in the array
+            spheres[i] = sphere.transform;
+        }
+    }
+
+    void AddClothMesh()
+    {
+        // Create a cloth mesh for the slime skin
+        GameObject clothObject = new GameObject("SlimeCloth");
+        clothObject.transform.SetParent(transform);
+        clothObject.transform.localPosition = Vector3.zero;
+
+        // Add a Cloth component
+        slimeCloth = clothObject.AddComponent<Cloth>();
+
+        // Create a simple procedural mesh for the cloth
+        Mesh mesh = new Mesh();
+        Vector3[] vertices = new Vector3[sphereCount];
+        int[] triangles = new int[sphereCount * 3];
+
+        for (int i = 0; i < sphereCount; i++)
+        {
+            vertices[i] = spheres[i].localPosition;
+            triangles[i * 3] = i;
+            triangles[i * 3 + 1] = (i + 1) % sphereCount;
+            triangles[i * 3 + 2] = (i + 2) % sphereCount;
         }
 
-        camera.position.set(0, 5, 7);
-        camera.lookAt(0, 0, 0);
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
 
-        let targetX = (Math.random() - 0.5) * 8;
-        let targetZ = (Math.random() - 0.5) * 8;
-        const speed = 0.02;
-        let scaling = false;
-        let scaleDirection = 1;
-        let collisionPoint = null;
+        // Assign the mesh to a MeshFilter and MeshRenderer
+        MeshFilter meshFilter = clothObject.AddComponent<MeshFilter>();
+        meshFilter.mesh = mesh;
 
-        function animate() {
-            requestAnimationFrame(animate);
+        MeshRenderer meshRenderer = clothObject.AddComponent<MeshRenderer>();
+        meshRenderer.material = new Material(Shader.Find("Standard"));
 
-            redSphere.position.x += (targetX - redSphere.position.x) * speed;
-            redSphere.position.z += (targetZ - redSphere.position.z) * speed;
+        // Configure the cloth settings
+        slimeCloth.stretchingStiffness = 0.8f; // Increased stiffness for better containment
+        slimeCloth.bendingStiffness = 0.8f; // Increased bending stiffness
+        slimeCloth.damping = 0.7f; // Increased damping for smoother movement
+        slimeCloth.worldVelocityScale = 0.5f;
+        slimeCloth.worldAccelerationScale = 0.5f;
 
-            let distance = redSphere.position.distanceTo(blueSphere.position);
-            if (distance < 1) {
-                scaling = true;
-                collisionPoint = blueSphere.position.clone();
-            }
-
-            if (scaling) {
-                redSphere.scale.x += 0.01 * scaleDirection;
-                redSphere.scale.y += 0.01 * scaleDirection;
-                redSphere.scale.z += 0.01 * scaleDirection;
-                
-                if (redSphere.scale.x > 1.2 || redSphere.scale.x < 0.8) {
-                    scaleDirection *= -1;
-                }
-                if (Math.abs(redSphere.scale.x - 1) < 0.01) {
-                    scaling = false;
-                }
-            }
-
-            if (collisionPoint) {
-                arms.forEach(arm => {
-                    let direction = new THREE.Vector3().subVectors(collisionPoint, redSphere.position).normalize();
-                    let angle = Math.atan2(direction.z, direction.x);
-                    arm.rotation.y = -angle;
-                });
-            }
-
-            if (Math.abs(redSphere.position.x - targetX) < 0.1 && Math.abs(redSphere.position.z - targetZ) < 0.1) {
-                targetX = (Math.random() - 0.5) * 8;
-                targetZ = (Math.random() - 0.5) * 8;
-            }
-
-            renderer.render(scene, camera);
+        // Attach the cloth to the spheres
+        ClothSphereColliderPair[] colliders = new ClothSphereColliderPair[sphereCount];
+        for (int i = 0; i < sphereCount; i++)
+        {
+            colliders[i] = new ClothSphereColliderPair(spheres[i].GetComponent<SphereCollider>());
         }
+        slimeCloth.sphereColliders = colliders;
+    }
 
-        animate();
+    void MoveTowardsTarget()
+    {
+        // Smoothly move towards the target position
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, slimeMovementSpeed * Time.deltaTime);
+    }
 
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight * 0.8);
-            camera.aspect = window.innerWidth / (window.innerHeight * 0.8);
-            camera.updateProjectionMatrix();
-        });
-    </script>
-</body>
-</html>
+    void SetNewTargetPosition()
+    {
+        // Set a new random target position within a defined area
+        targetPosition = new Vector3(
+            Random.Range(-5f, 5f),
+            0f,
+            Random.Range(-5f, 5f)
+        );
+    }
+
+    void JiggleSpheres()
+    {
+        // Add a small random force to each sphere to simulate jiggling
+        foreach (Transform sphere in spheres)
+        {
+            Rigidbody rb = sphere.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 randomForce = new Vector3(
+                    Random.Range(-slimeJiggleIntensity, slimeJiggleIntensity),
+                    Random.Range(-slimeJiggleIntensity, slimeJiggleIntensity),
+                    Random.Range(-slimeJiggleIntensity, slimeJiggleIntensity)
+                );
+                rb.AddForce(randomForce, ForceMode.Impulse);
+            }
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // Check if the slime collides with the player (or another object)
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Push the player away
+            Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            if (playerRb != null)
+            {
+                Vector3 pushDirection = (collision.transform.position - transform.position).normalized;
+                playerRb.AddForce(pushDirection * slimePushForce, ForceMode.Impulse);
+            }
+        }
+    }
+}
