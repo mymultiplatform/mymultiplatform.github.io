@@ -3,74 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burger Filter</title>
+    <title>Burger Menu</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        .filter-btn {
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            background-color: #ff9900;
-            color: white;
-            border-radius: 5px;
-        }
-        .filter-btn:hover {
-            background-color: #cc7700;
+            font-family: sans-serif;
         }
         .burger {
-            display: none;
-            margin: 10px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            font-size: 54px;
+            background-color: #002d00;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            width: 60px;
         }
-        .burger img {
-            width: 100px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+        .menu {
+            display: none;
+            list-style: none;
+            padding: 0;
+        }
+        .menu li {
+            padding: 8px;
+        }
+        .submenu {
+            padding-left: 20px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Burger Filter</h1>
-    <button class="filter-btn" onclick="filterBurgers('all')">All</button>
-    <button class="filter-btn" onclick="filterBurgers('beef')">Beef</button>
-    <button class="filter-btn" onclick="filterBurgers('chicken')">Chicken</button>
-    <button class="filter-btn" onclick="filterBurgers('veggie')">Veggie</button>
-
-    <div id="burger-list">
-        <div class="burger beef">
-            <img src="beef-burger.jpg" alt="Beef Burger">
-            <p>Classic Beef Burger</p>
-        </div>
-        <div class="burger chicken">
-            <img src="chicken-burger.jpg" alt="Chicken Burger">
-            <p>Grilled Chicken Burger</p>
-        </div>
-        <div class="burger veggie">
-            <img src="veggie-burger.jpg" alt="Veggie Burger">
-            <p>Healthy Veggie Burger</p>
-        </div>
-    </div>
+    <h1>PAGE TITLE</h1>
+    <div class="burger" onclick="toggleMenu()">≡</div>
+    <ul class="menu" id="menu">
+        <li onclick="toggleSubmenu(this)">Products one
+            <ul class="submenu">
+                <li>sub product</li>
+            </ul>
+        </li>
+        <li onclick="toggleSubmenu(this)">Products two
+            <ul class="submenu">
+                <li>sub product</li>
+            </ul>
+        </li>
+        <li onclick="toggleSubmenu(this)">Products three
+            <ul class="submenu">
+                <li>sub product</li>
+            </ul>
+        </li>
+        <li onclick="toggleSubmenu(this)">Products four
+            <ul class="submenu">
+                <li>sub product</li>
+            </ul>
+        </li>
+    </ul>
 
     <script>
-        function filterBurgers(category) {
-            let burgers = document.querySelectorAll('.burger');
-            burgers.forEach(burger => {
-                if (category === 'all' || burger.classList.contains(category)) {
-                    burger.style.display = 'block';
-                } else {
-                    burger.style.display = 'none';
-                }
-            });
+        function toggleMenu() {
+            let menu = document.getElementById("menu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
-        filterBurgers('all');
+        
+        function toggleSubmenu(element) {
+            let submenu = element.querySelector(".submenu");
+            submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+        }
     </script>
 </body>
 </html>
