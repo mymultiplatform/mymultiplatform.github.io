@@ -409,7 +409,7 @@
     /* Filter Burger Menu Styles */
     .filter-burger {
       font-size: 54px;
-      background-color: #002d00;
+      background-color: black;
       color: white;
       text-align: center;
       cursor: pointer;
@@ -418,6 +418,7 @@
       top: 110px;
       right: 20px;
       z-index: 1001;
+      display: none;
     }
 
     .filter-menu-container {
@@ -615,6 +616,10 @@
 
       const dynamicBanner = document.querySelector('.dynamic-banner');
       dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+      
+      // Show/hide filter burger based on active tab
+      const filterBurger = document.querySelector('.filter-burger');
+      filterBurger.style.display = tabId === "Shop" ? "block" : "none";
     }
 
     const tabLinks = document.querySelectorAll(".navbar a");
