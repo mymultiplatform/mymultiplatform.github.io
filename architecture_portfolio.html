@@ -1,92 +1,131 @@
-<!-- Original HTML stays as-is up to this point -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Architecture Portfolio by Dante Sanchez</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    #portfolioContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .page {
+      flex: 1;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .page-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      font-weight: bold;
+      text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
+    }
+    #coverImage {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: filter 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    #coverImage.blurred {
+      filter: blur(8px);
+    }
+    #navControls {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      padding: 10px;
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    @media (max-width: 768px) {
+      .page-label {
+        font-size: 3rem;
+      }
+      .page {
+        flex: none;
+        width: 100vw;
+      }
+      #portfolioContainer {
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+      }
+      .page {
+        scroll-snap-align: start;
+      }
+    }
+  </style>
+</head>
+<body>
 
-<p></p>
-<div class="separator" style="clear: both; text-align: center;"><br /></div>
-<div class="separator" style="clear: both; text-align: center;">WEB ARCHITECTURE PORTFOLIO</div>
-<div class="separator" style="clear: both; text-align: center;">&nbsp;by Dante Sanchez&nbsp;</div>
-<div class="separator" style="clear: both; text-align: center;"><br /></div>
-<div class="separator" style="clear: both; text-align: center;">
-  <a id="coverLink" href="javascript:void(0);" onclick="openPortfolio()">
-    <img
-      id="coverImage"
-      alt="Portfolio Cover"
-      data-original-height="5808"
-      data-original-width="3678"
-      height="626"
-      src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-      width="397"
-    />
-  </a>
+<img id="coverImage" src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626" alt="Portfolio Cover" onclick="openPortfolio()">
+
+<div id="portfolioContainer" style="display: none;">
+  <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
+    <div class="page-label">A</div>
+  </div>
+  <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
+    <div class="page-label">B</div>
+  </div>
 </div>
 
-<!-- Hidden portfolio content revealed on click -->
-<div id="portfolioPages" style="display: none; text-align: center; margin-top: 40px;">
-  <div id="navControls" style="text-align: center; margin-bottom: 10px;">
-    <button onclick="nextPages()" style="font-size: 24px; cursor: pointer;">➡️</button>
-  </div>
-
-  <!-- Pages Container -->
-  <div id="pageSpread" style="display: flex; justify-content: center; gap: 20px;">
-    <div class="page" style="position: relative;">
-      <img
-        src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-        width="397"
-        height="626"
-      />
-      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                  font-size: 64px; font-weight: bold; color: white; text-shadow: 2px 2px 4px #000;">
-        A
-      </div>
-    </div>
-    <div class="page" style="position: relative;">
-      <img
-        src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-        width="397"
-        height="626"
-      />
-      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                  font-size: 64px; font-weight: bold; color: white; text-shadow: 2px 2px 4px #000;">
-        B
-      </div>
-    </div>
-  </div>
+<div id="navControls" style="display: none;">
+  <button onclick="nextPages()">➡️</button>
 </div>
 
 <script>
-  let currentPage = 1;
+let currentPage = 1;
 
-  function openPortfolio() {
-    document.getElementById("portfolioPages").style.display = "block";
-    document.getElementById("coverLink").style.display = "none";
-  }
+function openPortfolio() {
+  const cover = document.getElementById('coverImage');
+  cover.classList.add('blurred');
+  setTimeout(() => {
+    cover.style.display = 'none';
+    document.getElementById('portfolioContainer').style.display = 'flex';
+    document.getElementById('navControls').style.display = 'block';
+  }, 1200);
+}
 
-  function nextPages() {
-    currentPage++;
-
-    const pageSpread = document.getElementById("pageSpread");
-    pageSpread.innerHTML = `
-      <div class="page" style="position: relative;">
-        <img
-          src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-          width="397"
-          height="626"
-        />
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    font-size: 64px; font-weight: bold; color: white; text-shadow: 2px 2px 4px #000;">
-          ${String.fromCharCode(64 + currentPage * 2 - 2)}
-        </div>
-      </div>
-      <div class="page" style="position: relative;">
-        <img
-          src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-          width="397"
-          height="626"
-        />
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    font-size: 64px; font-weight: bold; color: white; text-shadow: 2px 2px 4px #000;">
-          ${String.fromCharCode(64 + currentPage * 2 - 1)}
-        </div>
-      </div>
-    `;
-  }
+function nextPages() {
+  currentPage++;
+  document.getElementById('portfolioContainer').innerHTML = `
+    <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
+      <div class="page-label">${String.fromCharCode(64 + currentPage * 2 - 2)}</div>
+    </div>
+    <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
+      <div class="page-label">${String.fromCharCode(64 + currentPage * 2 - 1)}</div>
+    </div>
+  `;
+}
 </script>
+</body>
+</html>
