@@ -9,9 +9,9 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-      background: #000;
-      color: #fff;
+      font-family: 'Segoe UI', 'Arial Rounded MT Bold', Arial, sans-serif;
+      background: #111;
+      color: #222;
     }
     #homeOverlay {
       position: fixed;
@@ -20,7 +20,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.72);
       z-index: 20;
       flex-direction: column;
       transition: opacity 1s cubic-bezier(.68,-0.55,.27,1.55);
@@ -42,50 +42,67 @@
       opacity: 0;
       pointer-events: none;
     }
-    .home-content {
-      text-align: center;
+    .home-content-flex {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2.4em;
       z-index: 30;
-      max-width: 90vw;
+      background: rgba(250,250,250,0.89);
+      border-radius: 20px;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.16);
+      padding: 2.6em 2.4em;
+      max-width: 780px;
+      min-width: 340px;
+      margin: 0 auto;
+    }
+    .home-thumb {
+      width: 170px;
+      min-width: 130px;
+      max-width: 200px;
+      aspect-ratio: 3/5;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.32);
+      object-fit: cover;
+      cursor: pointer;
+      border: 2.5px solid #d1d1d1;
+      transition: box-shadow 0.23s, border 0.23s;
+    }
+    .home-thumb:hover {
+      box-shadow: 0 8px 36px rgba(0,0,0,0.35);
+      border: 2.5px solid #0066b3;
+    }
+    .home-text {
+      text-align: left;
+      color: #222;
+      max-width: 430px;
     }
     .home-title {
-      font-size: 3rem;
-      letter-spacing: 2px;
-      margin-bottom: 0.4em;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.18em;
       font-weight: bold;
-      text-shadow: 2px 2px 8px #111;
+      text-shadow: 1px 1px 7px #eee;
     }
     .home-subtitle {
-      font-size: 1.5rem;
-      margin-bottom: 1.2em;
-      letter-spacing: 1px;
-      color: #fafafa;
-      text-shadow: 1px 1px 8px #111;
+      font-size: 1.25rem;
+      margin-bottom: 1.1em;
+      letter-spacing: 0.5px;
+      color: #555;
+      font-weight: 600;
     }
     .home-desc {
-      font-size: 1.1rem;
-      margin-bottom: 2em;
-      color: #ddd;
-      max-width: 540px;
-      margin-left: auto;
-      margin-right: auto;
-      text-shadow: 0 0 8px #222;
+      font-size: 1.04rem;
+      margin-bottom: 1.5em;
+      color: #444;
+      line-height: 1.6;
+      text-shadow: 0 0 5px #fff2;
     }
-    .enter-btn {
-      font-size: 1.2rem;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 2em;
-      background: linear-gradient(90deg,#fff,#eee 90%);
-      color: #111;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 6px 32px rgba(0,0,0,0.44);
-      transition: background 0.3s, color 0.3s;
-      margin-top: 1em;
-    }
-    .enter-btn:hover {
-      background: linear-gradient(90deg,#111,#666 90%);
-      color: #fff;
+    .home-hint {
+      color: #0066b3;
+      font-weight: 700;
+      font-size: 1rem;
     }
     #portfolioContainer {
       display: flex;
@@ -126,17 +143,30 @@
     button {
       background: rgba(255,255,255,0.15);
       border: none;
-      color: #fff;
+      color: #333;
       padding: 10px 12px;
       font-size: 2rem;
       cursor: pointer;
       border-radius: 50%;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.33);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
       margin: 8px 0;
+      transition: background 0.18s, color 0.18s;
+    }
+    button:hover {
+      background: #0066b3;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .home-content-flex {
+        flex-direction: column;
+        gap: 1.5em;
+        padding: 2em 1em;
+      }
+      .home-thumb { width: 130px; }
     }
     @media (max-width: 768px) {
-      .home-title { font-size: 2rem; }
-      .home-subtitle { font-size: 1.1rem; }
+      .home-title { font-size: 1.5rem; }
+      .home-subtitle { font-size: 1rem; }
       .page-label { font-size: 2.2rem; }
       .page { flex: none; width: 100vw; }
       #portfolioContainer {
@@ -144,6 +174,8 @@
         scroll-snap-type: x mandatory;
       }
       .page { scroll-snap-align: start; }
+      .home-content-flex { min-width: unset; max-width: 96vw; }
+      .home-thumb { width: 90px; }
     }
   </style>
 </head>
@@ -154,14 +186,25 @@
      alt="Portfolio Cover">
 
 <div id="homeOverlay">
-  <div class="home-content">
-    <div class="home-title">Dante Sanchez</div>
-    <div class="home-subtitle">Web Architecture Portfolio</div>
-    <div class="home-desc">
-      Welcome to my digital portfolio showcasing select works in web architecture, creative digital spaces, and visual storytelling. <br>
-      <span style="color:#fff;font-weight:600;">Click "Enter Portfolio" to begin.</span>
+  <div class="home-content-flex">
+    <img
+      src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
+      alt="Portfolio Thumbnail"
+      class="home-thumb"
+      onclick="openPortfolio()"
+      title="Enter Portfolio"
+      tabindex="0"
+      onkeydown="if(event.key==='Enter'){openPortfolio();}"
+      style="outline: none;"
+    />
+    <div class="home-text">
+      <div class="home-title">Dante Sanchez</div>
+      <div class="home-subtitle">Web Architecture Portfolio</div>
+      <div class="home-desc">
+        Welcome to my digital portfolio showcasing select works in web architecture, creative digital spaces, and visual storytelling.
+      </div>
+      <div class="home-hint">Click the cover image to enter the portfolio</div>
     </div>
-    <button class="enter-btn" onclick="openPortfolio()">Enter Portfolio</button>
   </div>
 </div>
 
@@ -182,7 +225,6 @@
 let currentPage = 1;
 
 function openPortfolio() {
-  // Animate blur and hide home overlay after delay
   document.getElementById('coverImage').classList.add('blurred');
   document.getElementById('homeOverlay').classList.add('hide');
   setTimeout(() => {
