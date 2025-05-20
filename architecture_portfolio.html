@@ -6,17 +6,23 @@
   <title>Web Architecture Portfolio by Dante Sanchez</title>
   <style>
     html, body {
+      width: 100dvw;
+      height: 100dvh;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
       overflow: hidden;
       font-family: 'Segoe UI', 'Arial Rounded MT Bold', Arial, sans-serif;
       background: #111;
       color: #222;
     }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
     #homeOverlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      width: 100vw; height: 100vh;
+      width: 100dvw; height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -26,8 +32,8 @@
       transition: opacity 1s cubic-bezier(.68,-0.55,.27,1.55);
     }
     #coverImage {
-      width: 100vw;
-      height: 100vh;
+      width: 100dvw;
+      height: 100dvh;
       object-fit: cover;
       position: fixed;
       top: 0; left: 0;
@@ -69,9 +75,10 @@
       border: 2.5px solid #d1d1d1;
       transition: box-shadow 0.23s, border 0.23s;
     }
-    .home-thumb:hover {
+    .home-thumb:hover, .home-thumb:focus {
       box-shadow: 0 8px 36px rgba(0,0,0,0.35);
       border: 2.5px solid #0066b3;
+      outline: none;
     }
     .home-text {
       text-align: left;
@@ -108,15 +115,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100vw;
-      height: 100vh;
+      width: 100dvw;
+      height: 100dvh;
+      min-width: 0;
+      min-height: 0;
       position: relative;
       z-index: 1;
       background: #000;
+      overflow: hidden;
     }
     .page {
       flex: 1;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
       background-size: cover;
       background-position: center;
       position: relative;
@@ -131,6 +144,8 @@
       color: #fff;
       text-shadow: 3px 3px 12px rgba(0,0,0,0.85);
       letter-spacing: 6px;
+      user-select: none;
+      pointer-events: none;
     }
     #navControls {
       position: fixed;
@@ -168,7 +183,7 @@
       .home-title { font-size: 1.5rem; }
       .home-subtitle { font-size: 1rem; }
       .page-label { font-size: 2.2rem; }
-      .page { flex: none; width: 100vw; }
+      .page { flex: none; width: 100dvw; height: 100dvh; }
       #portfolioContainer {
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
