@@ -33,6 +33,18 @@
 </head>
 <body>
   <h1>🚀 Live Python App</h1>
-  <iframe src="https://c97c9316811c.ngrok-free.app" allowfullscreen></iframe>
+  <iframe id="liveApp" src="" allowfullscreen></iframe>
+
+  <script>
+    fetch("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/public_url.txt")
+      .then(res => res.text())
+      .then(url => {
+        document.getElementById("liveApp").src = url.trim();
+      })
+      .catch(err => {
+        document.body.innerHTML = "<h2>Failed to load app URL</h2>";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
