@@ -1,101 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burger Menu Popup</title>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-        .burger {
-            font-size: 54px;
-            background-color: #002d00;
-            color: white;
-            text-align: center;
-            cursor: pointer;
-            width: 60px;
-        }
-        /* Popup menu styles */
-        .menu-container {
-            display: none;
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            width: 250px;
-            z-index: 1000;
-        }
-        .menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .menu li {
-            padding: 8px;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
-        }
-        .menu li:last-child {
-            border-bottom: none;
-        }
-        .submenu {
-            padding-left: 20px;
-            display: none;
-        }
-        .close-btn {
-            text-align: right;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MYMULTIPLATFORM</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>PAGE TITLE</h1>
-    <div class="burger" onclick="toggleMenu()">≡</div>
-    
-    <!-- Popup Menu Container -->
-    <div class="menu-container" id="menuContainer">
-        <div class="close-btn" onclick="toggleMenu()">✖</div>
-        <ul class="menu">
-            <li onclick="toggleSubmenu(this)">Products one
-                <ul class="submenu">
-                    <li>sub product</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)">Products two
-                <ul class="submenu">
-                    <li>sub product</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)">Products three
-                <ul class="submenu">
-                    <li>sub product</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)">Products four
-                <ul class="submenu">
-                    <li>sub product</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <script>
-        function toggleMenu() {
-            let menuContainer = document.getElementById("menuContainer");
-            menuContainer.style.display = menuContainer.style.display === "block" ? "none" : "block";
-        }
-
-        function toggleSubmenu(element) {
-            let submenu = element.querySelector(".submenu");
-            submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-        }
-    </script>
+  <iframe src="https://7d5064e2eca8.ngrok-free.app" allowfullscreen></iframe>
 </body>
 </html>
