@@ -3,45 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My MultiPlatform App</title>
+  <title>MYMULTIPLATFORM</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      color: white;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
 
     iframe {
+      width: 90%;
+      height: 90vh;
       border: none;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .warning {
-      padding: 2rem;
-      text-align: center;
-      background: #ffeb3b;
-      color: #000;
-      font-weight: bold;
-      display: none;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="warning" id="warning">
-    🔒 This app may not load correctly if the ngrok tunnel is offline.
-  </div>
-
-  <iframe src="https://7d5064e2eca8.ngrok-free.app" id="appFrame" allowfullscreen></iframe>
-
-  <script>
-    // Optionally detect if iframe failed to load (ngrok offline)
-    document.getElementById("appFrame").onerror = function() {
-      document.getElementById("warning").style.display = "block";
-    };
-  </script>
+  <h1>🚀 Live Python App</h1>
+  <iframe src="https://c97c9316811c.ngrok-free.app" allowfullscreen></iframe>
 </body>
 </html>
