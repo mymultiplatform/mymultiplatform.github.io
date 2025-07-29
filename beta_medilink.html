@@ -200,8 +200,8 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="#home" class="tab-link">Home</a>
-    <a href="#Profiles" class="tab-link">Profiles</a>
+    <a href="#home" class="tab-link">Inicio</a>
+    <a href="#Profiles" class="tab-link">Perfiles</a>
     <a href="#info" class="tab-link">Info</a>
   </div>
 
@@ -210,36 +210,36 @@
     <!-- Home Tab -->
     <h2 id="home" class="active">
       <div id="loginForm">
-        <p>Please Log in</p>
-        <input type="text" placeholder="User 1" id="username" value="User 1">
-        <input type="password" placeholder="Password" id="password" value="yes123@">
-        <button onclick="simulateLogin()">Log in</button>
+        <p>Por favor inicie sesión</p>
+        <input type="text" placeholder="Usuario 1" id="username" value="User 1">
+        <input type="password" placeholder="Contraseña" id="password" value="yes123@">
+        <button onclick="simulateLogin()">Iniciar sesión</button>
       </div>
     </h2>
 
     <!-- Profiles Tab -->
     <div id="Profiles">
-      <p style="text-align: center; font-size: 1.6rem; margin-bottom: 20px;">Profiles</p>
+      <p style="text-align: center; font-size: 1.6rem; margin-bottom: 20px;">Perfiles</p>
       <div class="shop-profiles">
         <!-- Profile 1 -->
         <div class="profile">
-          <img src="https://via.placeholder.com/300x180?text=Profile+1" alt="Profile 1">
+          <img src="https://via.placeholder.com/300x180?text=Profile+1" alt="Perfil 1">
           <div class="product-info">
-            <p class="product-title">Profile 1</p>
-            <p class="product-status">Current License Available</p>
-            <p>Issued: 7/01/2025</p>
-            <p>Expires: 10/01/2025</p>
+            <p class="product-title">Perfil 1</p>
+            <p class="product-status">Licencia actual disponible</p>
+            <p>Emitida: 01/07/2025</p>
+            <p>Expira: 01/10/2025</p>
             <p class="countdown" id="countdown"></p>
           </div>
         </div>
 
         <!-- Profile 2 -->
         <div class="profile">
-          <img src="https://via.placeholder.com/300x180?text=Profile+2" alt="Profile 2">
+          <img src="https://via.placeholder.com/300x180?text=Profile+2" alt="Perfil 2">
           <div class="product-info">
-            <p class="product-title">Profile 2</p>
-            <p class="product-status">Past Licensed - Not Currently Available</p>
-            <p>Expired: 6/20/2025</p>
+            <p class="product-title">Perfil 2</p>
+            <p class="product-status">Licencia pasada - No disponible actualmente</p>
+            <p>Expirada: 20/06/2025</p>
           </div>
         </div>
       </div>
@@ -247,15 +247,15 @@
 
     <!-- Info Tab -->
     <div id="info">
-      <h2>Dr. Jane Smith</h2>
-      <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhwKaP-jPMNipijTqCf8xBtJCn5DvD0HWzu42qgKaJy1EAAu5pER82VVzAEEeHlpqUMNl86tQNEuHd6YuVMyI38hAvyHTeco1P9ie6mYafX90RO3weCd6-Gl3NxmPXfDoTbLC6xiEZ0neyklvmSZmOquLaNAXb3hjKHosIYJ0TEP4dCGxLExdE51fBc2PR6=w94-h125" width="94" height="125" alt="Dr. Jane Smith">
-      <p>Dr. Jane Smith is the licensed medical director responsible for reviewing and issuing professional licenses through the MEDILINK system. With over 15 years of clinical and administrative experience, Dr. Smith ensures each profile meets rigorous standards and compliance protocols.</p>
+      <h2>Dra. Jane Smith</h2>
+      <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhwKaP-jPMNipijTqCf8xBtJCn5DvD0HWzu42qgKaJy1EAAu5pER82VVzAEEeHlpqUMNl86tQNEuHd6YuVMyI38hAvyHTeco1P9ie6mYafX90RO3weCd6-Gl3NxmPXfDoTbLC6xiEZ0neyklvmSZmOquLaNAXb3hjKHosIYJ0TEP4dCGxLExdE51fBc2PR6=w94-h125" width="94" height="125" alt="Dra. Jane Smith">
+      <p>La Dra. Jane Smith es la directora médica licenciada responsable de revisar y emitir licencias profesionales a través del sistema MEDILINK. Con más de 15 años de experiencia clínica y administrativa, la Dra. Smith garantiza que cada perfil cumpla con rigurosos estándares y protocolos de cumplimiento.</p>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>MEDILINK — Powered by MYMULTIPLATFORM</p>
+    <p>MEDILINK — Desarrollado por MYMULTIPLATFORM</p>
   </footer>
 
   <script>
@@ -292,7 +292,7 @@
       const userInfoDiv = document.getElementById("userInfo");
       const loginForm = document.getElementById("loginForm");
 
-      userInfoDiv.textContent = "User 1 Raul Ricardo Perez";
+      userInfoDiv.textContent = "Usuario 1 Raul Ricardo Perez";
       loginForm.style.display = "none";
     }
 
@@ -305,7 +305,7 @@
         const distance = expirationDate - now;
 
         if (distance <= 0) {
-          countdownElement.textContent = "License expired";
+          countdownElement.textContent = "Licencia expirada";
           clearInterval(interval);
           return;
         }
@@ -315,7 +315,7 @@
         const minutes = Math.floor((distance / (1000 * 60)) % 60);
         const seconds = Math.floor((distance / 1000) % 60);
 
-        countdownElement.textContent = `Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        countdownElement.textContent = `Tiempo restante: ${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
 
       updateCountdown();
