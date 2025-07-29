@@ -18,7 +18,7 @@
     }
 
     .banner {
-      background-color: #ADD8E6; /* Light Blue */
+      background-color: #ADD8E6;
       color: black;
       padding: 10px 20px;
       font-size: 20px;
@@ -31,10 +31,17 @@
       height: 50px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
 
     .title {
       margin-left: 10px;
+    }
+
+    .user-info {
+      font-size: 16px;
+      font-weight: normal;
+      margin-right: 10px;
     }
 
     .navbar {
@@ -123,7 +130,12 @@
       margin-bottom: 10px;
     }
 
-    /* Info Tab Styling */
+    .countdown {
+      color: #0f0;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
     #info {
       display: none;
     }
@@ -133,12 +145,48 @@
       line-height: 1.6;
     }
 
+    #info img {
+      display: block;
+      margin: 10px auto;
+      border-radius: 8px;
+    }
+
     footer {
       padding: 15px;
       background-color: #000;
       color: #fff;
       text-align: center;
       font-size: 0.9rem;
+    }
+
+    #loginForm {
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    #loginForm input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #loginForm button {
+      background-color: #a2c4c9;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #loginForm button:hover {
+      background-color: #c0dfe2;
     }
   </style>
 </head>
@@ -147,6 +195,7 @@
   <!-- Banner -->
   <div class="banner">
     <div class="title">MEDILINK</div>
+    <div class="user-info" id="userInfo"></div>
   </div>
 
   <!-- Navbar -->
@@ -159,7 +208,14 @@
   <!-- Tab Content -->
   <div class="tab-content">
     <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to MEDILINK</h2>
+    <h2 id="home" class="active">
+      <div id="loginForm">
+        <p>Please Log in</p>
+        <input type="text" placeholder="User 1" id="username" value="User 1">
+        <input type="password" placeholder="Password" id="password" value="yes123@">
+        <button onclick="simulateLogin()">Log in</button>
+      </div>
+    </h2>
 
     <!-- Profiles Tab -->
     <div id="Profiles">
@@ -171,6 +227,9 @@
           <div class="product-info">
             <p class="product-title">Profile 1</p>
             <p class="product-status">Current License Available</p>
+            <p>Issued: 7/01/2025</p>
+            <p>Expires: 10/01/2025</p>
+            <p class="countdown" id="countdown"></p>
           </div>
         </div>
 
@@ -180,6 +239,7 @@
           <div class="product-info">
             <p class="product-title">Profile 2</p>
             <p class="product-status">Past Licensed - Not Currently Available</p>
+            <p>Expired: 6/20/2025</p>
           </div>
         </div>
       </div>
@@ -188,6 +248,7 @@
     <!-- Info Tab -->
     <div id="info">
       <h2>Dr. Jane Smith</h2>
+      <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhwKaP-jPMNipijTqCf8xBtJCn5DvD0HWzu42qgKaJy1EAAu5pER82VVzAEEeHlpqUMNl86tQNEuHd6YuVMyI38hAvyHTeco1P9ie6mYafX90RO3weCd6-Gl3NxmPXfDoTbLC6xiEZ0neyklvmSZmOquLaNAXb3hjKHosIYJ0TEP4dCGxLExdE51fBc2PR6=w94-h125" width="94" height="125" alt="Dr. Jane Smith">
       <p>Dr. Jane Smith is the licensed medical director responsible for reviewing and issuing professional licenses through the MEDILINK system. With over 15 years of clinical and administrative experience, Dr. Smith ensures each profile meets rigorous standards and compliance protocols.</p>
     </div>
   </div>
@@ -224,7 +285,42 @@
     window.addEventListener("DOMContentLoaded", () => {
       const initialTab = window.location.hash.substring(1) || "home";
       showTabContent(initialTab);
+      startCountdown();
     });
+
+    function simulateLogin() {
+      const userInfoDiv = document.getElementById("userInfo");
+      const loginForm = document.getElementById("loginForm");
+
+      userInfoDiv.textContent = "User 1 Raul Ricardo Perez";
+      loginForm.style.display = "none";
+    }
+
+    function startCountdown() {
+      const countdownElement = document.getElementById("countdown");
+      const expirationDate = new Date("2025-10-01T00:00:00");
+
+      function updateCountdown() {
+        const now = new Date();
+        const distance = expirationDate - now;
+
+        if (distance <= 0) {
+          countdownElement.textContent = "License expired";
+          clearInterval(interval);
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+
+        countdownElement.textContent = `Time left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      updateCountdown();
+      const interval = setInterval(updateCountdown, 1000);
+    }
   </script>
 </body>
 </html>
