@@ -16,6 +16,7 @@
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
+
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
     camera.position.set(0, -2000, 1500);
     camera.lookAt(scene.position);
@@ -29,14 +30,14 @@
     controls.update();
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
     dirLight.position.set(1000, 1000, 2000);
     scene.add(dirLight);
 
-    // Koch Snowflake generation
+    // Koch Snowflake generator
     function kochCurve(p1, p2, order) {
         if (order === 0) return [p1, p2];
 
@@ -73,55 +74,78 @@
         return pts1.concat(pts2, pts3);
     }
 
-    // Geometry creation
+    // Building parameters
     const baseWidth = 600;  // in inches
-    const heightPerLevel = 120;  // 10 feet
+    const heightPerLevel = 120;  // in inches (10 feet)
     const numLevels = 20;
     const totalHeight = numLevels * heightPerLevel;
 
+    // Create the shape from snowflake
     const shapePoints = generateKochSnowflake(2, baseWidth);
-
     const shape = new THREE.Shape();
     shape.moveTo(shapePoints[0].x, shapePoints[0].y);
     for (let i = 1; i < shapePoints.length; i++) {
         shape.lineTo(shapePoints[i].x, shapePoints[i].y);
     }
-    shape.lineTo(shapePoints[0].x, shapePoints[0].y);  // close the shape
+    // Ensure closure
+    if (!shapePoints[0].equals(shapePoints[shapePoints.length - 1])) {
+        shape.lineTo(shapePoints[0].x, shapePoints[0].y);
+    }
 
+    // Extrude shape
     const extrudeSettings = {
         steps: 1,
         depth: totalHeight,
         bevelEnabled: false
     };
-
     const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+    geometry.center();
+
     const material = new THREE.MeshPhongMaterial({ color: 0x6699cc, flatShading: true });
     const tower = new THREE.Mesh(geometry, material);
-
-    // Center and rotate tower
-    geometry.center();
-    tower.rotation.x = Math.PI;
-
+    tower.rotation.x = Math.PI;  // Flip upright
     scene.add(tower);
 
-    // Axes Helper (optional)
-    const axesHelper = new THREE.AxesHelper(500);
+    // Floor and roof caps
+    const shapeGeom = new THREE.ShapeGeometry(shape);
+    const floor = new THREE.Mesh(shapeGeom, material);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.z = 0;
+    scene.add(floor);
+
+    const roof = new THREE.Mesh(shapeGeom, material);
+    roof.rotation.x = -Math.PI / 2;
+    roof.position.z = totalHeight;
+    scene.add(roof);
+
+    // Optional: floor plates for each level
+    for (let i = 1; i < numLevels; i++) {
+        const plate = new THREE.Mesh(
+            shapeGeom,
+            new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true, opacity: 0.4, transparent: true })
+        );
+        plate.rotation.x = -Math.PI / 2;
+        plate.position.z = i * heightPerLevel;
+        scene.add(plate);
+    }
+
+    // Axes helper (optional)
+    const axesHelper = new THREE.AxesHelper(300);
     scene.add(axesHelper);
 
-    // Render loop
+    // Animation loop
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
     animate();
 
-    // Handle window resize
+    // Handle resizing
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
     </script>
 </body>
 </html>
