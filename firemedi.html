@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MEDILIS DEV TEAM — Counter Debug</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <meta charset="UTF-8">
+  <title>Medilink Debug Counter</title>
   <style>
-    body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:32px; }
-    h1,h2 { margin:0 0 16px 0; }
-    .wrap { max-width: 720px; }
-    .box { background:#000; color:#ff0000; padding:20px; border-radius:10px; margin-top:16px; font-weight:bold; }
+    body {
+      background-color: red;
+      color: black;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
   </style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
-    <h2>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</h2>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <div class="box" id="loginCount">loginCount: loading…</div>
-    <div class="box" id="perfilCount">perfilCount: loading…</div>
-  </div>
-
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
       authDomain: "mymultipaltform.firebaseapp.com",
-      projectId: "mymultipaltform"
+      projectId: "mymultipaltform",
+      storageBucket: "mymultipaltform.firebasestorage.app",
+      messagingSenderId: "645043124596",
+      appId: "1:645043124596:android:39602d0b93bf1fa7d85421"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const ref = db.collection("appStats").doc("medilink");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    ref.onSnapshot(doc => {
-      if (!doc.exists) return;
-      const d = doc.data() || {};
-      document.getElementById("loginCount").textContent  = "loginCount : "  + (d.loginCount ?? 0);
-      document.getElementById("perfilCount").textContent = "perfilCount : " + (d.perfilCount ?? 0);
+    onSnapshot(doc(db, "appStats", "medilink"), (docSnap) => {
+      if (docSnap.exists()) {
+        document.getElementById("loginCount").textContent = docSnap.data().loginCount;
+        document.getElementById("perfilCount").textContent = docSnap.data().perfilCount;
+      }
     });
   </script>
+</head>
+<body>
+  <h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
+  <p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM!</p>
+  <p><code>loginCount</code>: Number → <span id="loginCount">0</span></p>
+  <p><code>perfilCount</code>: Number → <span id="perfilCount">0</span></p>
 </body>
 </html>
