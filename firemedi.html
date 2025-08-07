@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Medilink Debug Counter</title>
+  <meta charset="UTF-8" />
+  <title>MEDILIS DEV TEAM — Counter Debug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      background-color: red;
-      color: black;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+    body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:24px; }
+    .box { background:#000; color:#ff0000; padding:18px; border-radius:10px; font-weight:bold; margin-top:12px; }
   </style>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+    // You also have this JSON saved to Desktop as web-firebaseConfig.json by the PowerShell script
     const firebaseConfig = {
       apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
       authDomain: "mymultipaltform.firebaseapp.com",
@@ -26,19 +24,24 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const ref = doc(db, "appStats", "medilink");
 
-    onSnapshot(doc(db, "appStats", "medilink"), (docSnap) => {
-      if (docSnap.exists()) {
-        document.getElementById("loginCount").textContent = docSnap.data().loginCount;
-        document.getElementById("perfilCount").textContent = docSnap.data().perfilCount;
-      }
+    // Ensure the doc exists (safe if already present)
+    setDoc(ref, { loginCount: 0, perfilCount: 0 }, { merge: true }).catch(()=>{});
+
+    onSnapshot(ref, (snap) => {
+      if (!snap.exists()) return;
+      const d = snap.data() || {};
+      document.getElementById("login").textContent  = d.loginCount ?? 0;
+      document.getElementById("perfil").textContent = d.perfilCount ?? 0;
     });
   </script>
 </head>
 <body>
   <h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
-  <p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM!</p>
-  <p><code>loginCount</code>: Number → <span id="loginCount">0</span></p>
-  <p><code>perfilCount</code>: Number → <span id="perfilCount">0</span></p>
+  <p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</p>
+
+  <div class="box">loginCount : <span id="login">0</span></div>
+  <div class="box">perfilCount : <span id="perfil">0</span></div>
 </body>
 </html>
