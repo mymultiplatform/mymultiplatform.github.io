@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MEDILIS DEV TEAM — Counter Debug</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:24px; }
-    .box { background:#000; color:#ff0000; padding:18px; border-radius:10px; font-weight:bold; margin-top:12px; }
-  </style>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<meta charset="UTF-8" />
+<title>MEDILIS DEV TEAM — Counter Debug</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:24px; }
+  .box { background:#000; color:#ff0000; padding:18px; border-radius:10px; font-weight:bold; margin-top:12px; }
+  button { background:#000; color:#ff0000; padding:10px 20px; margin-top:10px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+</style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // You also have this JSON saved to Desktop as web-firebaseConfig.json by the PowerShell script
-    const firebaseConfig = {
-      apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
-      authDomain: "mymultipaltform.firebaseapp.com",
-      projectId: "mymultipaltform",
-      storageBucket: "mymultipaltform.firebasestorage.app",
-      messagingSenderId: "645043124596",
-      appId: "1:645043124596:android:39602d0b93bf1fa7d85421"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
+  authDomain: "mymultipaltform.firebaseapp.com",
+  projectId: "mymultipaltform",
+  storageBucket: "mymultipaltform.firebasestorage.app",
+  messagingSenderId: "645043124596",
+  appId: "1:645043124596:android:39602d0b93bf1fa7d85421"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const ref = doc(db, "appStats", "medilink");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const ref = doc(db, "appStats", "medilink");
 
-    // Ensure the doc exists (safe if already present)
-    setDoc(ref, { loginCount: 0, perfilCount: 0 }, { merge: true }).catch(()=>{});
+// Ensure doc exists
+setDoc(ref, { loginCount: 0, perfilCount: 0 }, { merge: true });
 
-    onSnapshot(ref, (snap) => {
-      if (!snap.exists()) return;
-      const d = snap.data() || {};
-      document.getElementById("login").textContent  = d.loginCount ?? 0;
-      document.getElementById("perfil").textContent = d.perfilCount ?? 0;
-    });
-  </script>
+function incLogin() {
+  updateDoc(ref, { loginCount: increment(1) });
+}
+function incPerfil() {
+  updateDoc(ref, { perfilCount: increment(1) });
+}
+
+// Live updates
+onSnapshot(ref, (snap) => {
+  if (!snap.exists()) return;
+  const d = snap.data();
+  document.getElementById("login").textContent = d.loginCount ?? 0;
+  document.getElementById("perfil").textContent = d.perfilCount ?? 0;
+});
+</script>
 </head>
 <body>
-  <h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
-  <p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</p>
+<h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
+<p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</p>
 
-  <div class="box">loginCount : <span id="login">0</span></div>
-  <div class="box">perfilCount : <span id="perfil">0</span></div>
+<div class="box">loginCount : <span id="login">0</span></div>
+<button onclick="incLogin()">Login Click</button>
+
+<div class="box">perfilCount : <span id="perfil">0</span></div>
+<button onclick="incPerfil()">Perfil Click</button>
+
 </body>
 </html>
