@@ -1,59 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>MEDILIS DEV TEAM — Counter Debug</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:24px; }
-  .box { background:#000; color:#ff0000; padding:18px; border-radius:10px; font-weight:bold; margin-top:12px; }
-  button { background:#000; color:#ff0000; padding:10px 20px; margin-top:10px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-</style>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, onSnapshot, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
-  authDomain: "mymultipaltform.firebaseapp.com",
-  projectId: "mymultipaltform",
-  storageBucket: "mymultipaltform.firebasestorage.app",
-  messagingSenderId: "645043124596",
-  appId: "1:645043124596:android:39602d0b93bf1fa7d85421"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const ref = doc(db, "appStats", "medilink");
-
-// Ensure doc exists
-setDoc(ref, { loginCount: 0, perfilCount: 0 }, { merge: true });
-
-function incLogin() {
-  updateDoc(ref, { loginCount: increment(1) });
-}
-function incPerfil() {
-  updateDoc(ref, { perfilCount: increment(1) });
-}
-
-// Live updates
-onSnapshot(ref, (snap) => {
-  if (!snap.exists()) return;
-  const d = snap.data();
-  document.getElementById("login").textContent = d.loginCount ?? 0;
-  document.getElementById("perfil").textContent = d.perfilCount ?? 0;
-});
-</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MEDILIS DEV TEAM — Counter Debug</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <style>
+    body { background:#ff0000; color:#000; font-family: Arial, Helvetica, sans-serif; padding:32px; }
+    h1,h2 { margin:0 0 16px 0; }
+    .wrap { max-width: 720px; }
+    .box { background:#000; color:#ff0000; padding:20px; border-radius:10px; margin-top:16px; font-weight:bold; }
+  </style>
 </head>
 <body>
-<h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
-<p>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</p>
+  <div class="wrap">
+    <h1>SIMPLE COUNTER FOR DEBUG MEDILINK</h1>
+    <h2>HI WELCOME TO THE GITHUB PAGE FOR : MEDILIS DEV TEAM !</h2>
 
-<div class="box">loginCount : <span id="login">0</span></div>
-<button onclick="incLogin()">Login Click</button>
+    <div class="box" id="loginCount">loginCount: loading…</div>
+    <div class="box" id="perfilCount">perfilCount: loading…</div>
+  </div>
 
-<div class="box">perfilCount : <span id="perfil">0</span></div>
-<button onclick="incPerfil()">Perfil Click</button>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvQARyKCuFwN_BRza4awer_KTca2ov1Sk",
+      authDomain: "mymultipaltform.firebaseapp.com",
+      projectId: "mymultipaltform"
+    };
 
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const ref = db.collection("appStats").doc("medilink");
+
+    ref.onSnapshot(doc => {
+      if (!doc.exists) return;
+      const d = doc.data() || {};
+      document.getElementById("loginCount").textContent  = "loginCount : "  + (d.loginCount ?? 0);
+      document.getElementById("perfilCount").textContent = "perfilCount : " + (d.perfilCount ?? 0);
+    });
+  </script>
 </body>
 </html>
