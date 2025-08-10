@@ -1,276 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Architecture Portfolio by Dante Sanchez</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dante Sanchez Architecture Portfolio</title>
+  <meta name="description" content="Architecture portfolio by Dante Sanchez — horizontal preview gallery." />
   <style>
-    html, body {
-      width: 100dvw;
-      height: 100dvh;
+    :root {
+      --bg: #0f0f10;
+      --fg: #f5f5f5;
+      --muted: #a7a7a7;
+      --accent: #1f6feb;
+      --card: #16181d;
+      --shadow: 0 6px 28px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      overflow: hidden;
-      font-family: 'Segoe UI', 'Arial Rounded MT Bold', Arial, sans-serif;
-      background: #111;
-      color: #222;
-    }
-    *, *::before, *::after {
-      box-sizing: inherit;
-    }
-    #homeOverlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      width: 100dvw; height: 100dvh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0,0,0,0.72);
-      z-index: 20;
-      flex-direction: column;
-      transition: opacity 1s cubic-bezier(.68,-0.55,.27,1.55);
-    }
-    #coverImage {
-      width: 100dvw;
-      height: 100dvh;
-      object-fit: cover;
-      position: fixed;
-      top: 0; left: 0;
-      z-index: 10;
-      transition: filter 1.2s cubic-bezier(.68,-0.55,.27,1.55), opacity 1.2s;
-    }
-    #coverImage.blurred {
-      filter: blur(8px);
-      opacity: 0.4;
-    }
-    #homeOverlay.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .home-content-flex {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 2.4em;
-      z-index: 30;
-      background: rgba(250,250,250,0.89);
-      border-radius: 20px;
-      box-shadow: 0 8px 36px rgba(0,0,0,0.16);
-      padding: 2.6em 2.4em;
-      max-width: 780px;
-      min-width: 340px;
-      margin: 0 auto;
-    }
-    .home-thumb {
-      width: 170px;
-      min-width: 130px;
-      max-width: 200px;
-      aspect-ratio: 3/5;
-      border-radius: 16px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.32);
-      object-fit: cover;
-      cursor: pointer;
-      border: 2.5px solid #d1d1d1;
-      transition: box-shadow 0.23s, border 0.23s;
-    }
-    .home-thumb:hover, .home-thumb:focus {
-      box-shadow: 0 8px 36px rgba(0,0,0,0.35);
-      border: 2.5px solid #0066b3;
-      outline: none;
-    }
-    .home-text {
-      text-align: left;
-      color: #222;
-      max-width: 430px;
-    }
-    .home-title {
-      font-size: 2.5rem;
-      letter-spacing: 1px;
-      margin-bottom: 0.18em;
-      font-weight: bold;
-      text-shadow: 1px 1px 7px #eee;
-    }
-    .home-subtitle {
-      font-size: 1.25rem;
-      margin-bottom: 1.1em;
-      letter-spacing: 0.5px;
-      color: #555;
-      font-weight: 600;
-    }
-    .home-desc {
-      font-size: 1.04rem;
-      margin-bottom: 1.5em;
-      color: #444;
-      line-height: 1.6;
-      text-shadow: 0 0 5px #fff2;
-    }
-    .home-hint {
-      color: #0066b3;
-      font-weight: 700;
-      font-size: 1rem;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #1b2331, #0f1116 60%, #0b0b0c 100%), var(--bg);
+      color: var(--fg);
+      overflow: hidden; /* we’ll manage overflow in the gallery wrapper */
     }
 
-    /* DEBUG BLACK MARGIN */
-    #portfolioContainer {
+    /* Top header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(160%) blur(8px);
+      background: linear-gradient(180deg, rgba(8,10,14,.82), rgba(8,10,14,.58));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7ab1ff, #1f6feb);
+      box-shadow: 0 0 22px rgba(31,111,235,.65);
+      flex: 0 0 auto;
+    }
+    h1 {
+      font-size: clamp(16px, 2.6vw, 24px);
+      margin: 0;
+      letter-spacing: .4px;
+      font-weight: 700;
+    }
+    .sub {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    /* Gallery wrapper */
+    .wrap {
+      position: relative;
+      height: calc(100dvh - 58px); /* viewport minus header */
+      display: grid;
+      grid-template-rows: 1fr auto; /* main gallery + thumbs strip */
+      overflow: hidden;
+    }
+
+    /* Main horizontal gallery */
+    .gallery {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(92vw, 1200px);
+      gap: 28px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding: 28px 80px; /* leave room for arrows */
+      scrollbar-width: thin;
+      scrollbar-color: #2a2f39 transparent;
+    }
+    .gallery::-webkit-scrollbar { height: 10px; }
+    .gallery::-webkit-scrollbar-thumb { background: #2a2f39; border-radius: 999px; }
+    .gallery::-webkit-scrollbar-track { background: transparent; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      scroll-snap-align: center;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: calc(100dvw - 40px);
-      height: calc(100dvh - 40px);
-      margin: 20px;
-      background: #000; /* Black debug margin */
-      box-sizing: border-box;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      border-radius: 14px;
-      transition: background 0.3s;
+      aspect-ratio: 17 / 22; /* matches your 1700x2200 ratio */
     }
-    .page {
-      flex: 1;
-      width: 100%;
-      height: 100%;
-      min-width: 0;
-      min-height: 0;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      box-shadow: 0 0 0 3px #000 inset; /* Black inner border for clarity */
+
+    .card img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      background: #0b0d10;
+      user-select: none;
+      -webkit-user-drag: none;
     }
-    .page-label {
+
+    /* Prev/Next buttons */
+    .nav {
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* only buttons clickable */
+    }
+    .btn {
+      pointer-events: auto;
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 3px 3px 12px rgba(0,0,0,0.85);
-      letter-spacing: 6px;
-      user-select: none;
-      pointer-events: none;
-    }
-    #navControls {
-      position: fixed;
-      top: 50%;
-      right: 20px;
       transform: translateY(-50%);
-      z-index: 10;
-      display: none;
-    }
-    button {
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: #333;
-      padding: 10px 12px;
-      font-size: 2rem;
-      cursor: pointer;
+      width: 48px; height: 48px;
       border-radius: 50%;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-      margin: 8px 0;
-      transition: background 0.18s, color 0.18s;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(14,16,20,.6);
+      backdrop-filter: blur(6px);
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      font-size: 20px;
+      color: #e7e7e7;
     }
-    button:hover {
-      background: #0066b3;
-      color: #fff;
+    .btn:hover { background: rgba(28,32,40,.8); border-color: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.05); }
+    .prev { left: 18px; }
+    .next { right: 18px; }
+
+    /* Thumbnails strip (auto-scrolling preview) */
+    .thumbs {
+      position: relative;
+      height: 84px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(8,10,14,.65), rgba(8,10,14,.85));
     }
-    @media (max-width: 900px) {
-      .home-content-flex {
-        flex-direction: column;
-        gap: 1.5em;
-        padding: 2em 1em;
+    .track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      animation: marquee 26s linear infinite;
+    }
+    .thumb {
+      flex: 0 0 auto;
+      height: 64px;
+      aspect-ratio: 17 / 22;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      opacity: .75;
+      transition: opacity .12s ease, transform .12s ease, border-color .12s ease;
+      cursor: pointer;
+      background: #0b0d10;
+    }
+    .thumb:hover { opacity: 1; transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+    .thumb img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* because we duplicate the row */
+    }
+
+    /* Small screens */
+    @media (max-width: 720px) {
+      .gallery {
+        grid-auto-columns: 92vw;
+        padding: 18px 64px;
+        gap: 18px;
       }
-      .home-thumb { width: 130px; }
-    }
-    @media (max-width: 768px) {
-      .home-title { font-size: 1.5rem; }
-      .home-subtitle { font-size: 1rem; }
-      .page-label { font-size: 2.2rem; }
-      .page { flex: none; width: 100dvw; height: 100dvh; }
-      #portfolioContainer {
-        width: 100dvw !important;
-        height: 100dvh !important;
-        margin: 0 !important;
-        border-radius: 0;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        background: #000 !important;
-      }
-      .page { scroll-snap-align: start; }
-      .home-content-flex { min-width: unset; max-width: 96vw; }
-      .home-thumb { width: 90px; }
+      .btn { width: 42px; height: 42px; }
     }
   </style>
 </head>
 <body>
-
-<img id="coverImage"
-     src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-     alt="Portfolio Cover">
-
-<div id="homeOverlay">
-  <div class="home-content-flex">
-    <img
-      src="https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626"
-      alt="Portfolio Thumbnail"
-      class="home-thumb"
-      onclick="openPortfolio()"
-      title="Enter Portfolio"
-      tabindex="0"
-      onkeydown="if(event.key==='Enter'){openPortfolio();}"
-      style="outline: none;"
-    />
-    <div class="home-text">
-      <div class="home-title">Dante Sanchez</div>
-      <div class="home-subtitle">Web Architecture Portfolio</div>
-      <div class="home-desc">
-        Welcome to my digital portfolio showcasing select works in web architecture, creative digital spaces, and visual storytelling.
-      </div>
-      <div class="home-hint">Click the cover image to enter the portfolio</div>
+  <header>
+    <div class="bar">
+      <span class="dot"></span>
+      <h1>Dante Sanchez Architecture Portfolio</h1>
+      <span class="sub">Horizontal preview · Use ← → or drag</span>
     </div>
-  </div>
-</div>
+  </header>
 
-<div id="portfolioContainer" style="display: none;">
-  <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
-    <div class="page-label">A</div>
-  </div>
-  <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
-    <div class="page-label">B</div>
-  </div>
-</div>
+  <main class="wrap" aria-label="Portfolio gallery">
+    <!-- Main horizontal gallery -->
+    <section class="gallery" id="gallery" role="list"></section>
 
-<div id="navControls">
-  <button onclick="nextPages()" title="Next Pages">➡️</button>
-</div>
-
-<script>
-let currentPage = 1;
-
-function openPortfolio() {
-  document.getElementById('coverImage').classList.add('blurred');
-  document.getElementById('homeOverlay').classList.add('hide');
-  setTimeout(() => {
-    document.getElementById('coverImage').style.display = 'none';
-    document.getElementById('homeOverlay').style.display = 'none';
-    document.getElementById('portfolioContainer').style.display = 'flex';
-    document.getElementById('navControls').style.display = 'block';
-  }, 1100);
-}
-
-function nextPages() {
-  currentPage++;
-  document.getElementById('portfolioContainer').innerHTML = `
-    <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
-      <div class="page-label">${String.fromCharCode(64 + currentPage * 2 - 2)}</div>
+    <!-- Overlay nav buttons -->
+    <div class="nav" aria-hidden="false">
+      <button class="btn prev" id="prevBtn" aria-label="Previous page" title="Previous (←)">&#x2039;</button>
+      <button class="btn next" id="nextBtn" aria-label="Next page" title="Next (→)">&#x203A;</button>
     </div>
-    <div class="page" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEig6HePXEc_-2XC32gjzSms17u6G-Z3g7SXqGmjO9iOc8bUEQH8R_1Q9_CcERV4Do6V57V3bDm6osAmhC6do-cCKS1AwLwqWGJLckIGigHf25Xxwz5R27JrubAJqSTfpaPWL7-PEPViSyyjgTm7bsxJdUPZdCDCN2jhg6uCo7KjLaLulAzNWGGQBRC59EU4=w397-h626');">
-      <div class="page-label">${String.fromCharCode(64 + currentPage * 2 - 1)}</div>
-    </div>
-  `;
-}
-</script>
+
+    <!-- Auto-scrolling thumbnail preview -->
+    <aside class="thumbs" aria-label="Thumbnails strip">
+      <div class="track" id="thumbTrack"></div>
+    </aside>
+  </main>
+
+  <script>
+    // Your Blogger-hosted PNGs (full-size)
+    const PAGES = [
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s2200/Dante_S_Arch_Portfolio_5MB-18.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s2200/Dante_S_Arch_Portfolio_5MB-17.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYVsS4XSsSc9kmo0E-onjPPjHFbVtqwhaf8TMFX4SOdm82mmPRxu48Ulo2jcuPXKZTdM7omOdARj1EhHSs83h_ukO7Bm-kfhJK-QY4caGsqHvHLUGdgX4wgJnSt9THKHsV12iyvefxH-sOpMFMkclDrNVY-T3RGCrTenZG-jh9ZDCrpDGAKlCCDk4WA9dP/s2200/Dante_S_Arch_Portfolio_5MB-16.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvlbWf-ENTvheX7RqxDTbACV5j8dKkeABmGVsqp5yH2WquTUnql87KooDAFekTLDh5izPc3oimSG_ZTy8PcJ3DSgaOxqnldK32r_j657hQCxSn5qfh3MdgmGf3L3tisQEbZKdnhahNQiDE-dDJDeZVFdDvuX_eVhvebFG0cH27GNrJCM8EdOGV_FI4Ic_m/s2200/Dante_S_Arch_Portfolio_5MB-15.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6sfUIkqUfyxAxJP4GnqJ7zzeqczbvH6lNNpHFOyaO82ghTTPo8ZvfUvZR9sAuBuBRiUOT_OTCEb7wqBQ0aAVC76ILyv6p6FAIE0YUiJx4o7VyFnkrlertM72NoQIokPSNUifLBhYLIYAuLCa66-5RY_OuDNLDPdCc5Jh0XvicustSMaNxajoOUB9udxjn/s2200/Dante_S_Arch_Portfolio_5MB-14.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhT8O99aEeEC7ZB2Dv6bQM-_oQQOaTEmGdIg6m8AlMOV9cKRI2pgCZsfOROU9_IOAa71lWFFsMpMoz67xyy2sZJWj9nUeJVZP6cp0hUuN5G-ijT7gg_ZHfJ2kllwyGXCt3lxr78mu5g_LMy_VTnScW1T0grJfAbahS00rFcuTQncEwpPyNB_eJTTnShjCrk/s2200/Dante_S_Arch_Portfolio_5MB-13.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1rAu4ihodrtZaBQPh24rnPOllaAVrxIxk8tITCZrPxAkOEL4W11R1NDuhagXJdeWQ2Wq-wrCmrEFiL_U_b3q4bWd2QUnn8QUJP9RVQswewAkviBE5RJNYgX8arTn5saZo5tucu5qTpaFaPyV-wfE9zPTpanWyB0eyTQN9af5xJAfMgo2JMz2mkr0xiPGL/s2200/Dante_S_Arch_Portfolio_5MB-12.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiubfWwsgbEa4ItV-g6jwgZPHdNEwGjGQ3iWijdY5lczcpCdMpkjcmQgVHy-ykUCOE2E4hOYa8gqZRTPSrQiU-nDp3IMddUpM3mYlzHjUIGxlfkHa0OlEE3dlXfHMWn1KpyzsdrK9WqVkbOLtRJIjJJUP3w0_9nMSIjmZJTJxZcTEC2KtXonnzXmzAVrSdH/s2200/Dante_S_Arch_Portfolio_5MB-11.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7Q5gvxeYQQPE4cJut3L7saM7yPaDyu-Lq2_Mz-aFrkrl7_GbsYu3dVmIlnhhtK8yLtzRJpLiqaqqUTvIyAM47LSufqvvRP_pme3kSPD_-gdsOp9TFDqXYgZ1U6xoUoahJCE6OFZSoTDLMXkugdrhcZ073sKetM6b9QZsy-rLLJqFQb5H5mBpaxsN8U6wc/s2200/Dante_S_Arch_Portfolio_5MB-10.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDoZ6aFcWL5VlFtRWa_0_gFeSi0aRaiyvGIaSJxsctYWevo588zLnutHVIVvEaY8sjgA2fBcgiDQQbnPoaCXwuOJosiJGPGP1LMJiighgJIsM_NAlTm3QGIcT4jX9Xf5Ll17Yw9DlwN0KGX37q_YBET0aabVno2hX4hHbbesOY0VnaFT6XFnrOz3-pRjrW/s2200/Dante_S_Arch_Portfolio_5MB-09.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9EwgpSmcfOsRgKQ53ouwu8AbDejSuFItU1AZycWgWCTzSi1O25lpxIiQbIZfzQtHhX8dajvsMc8hQvhjti_2oydGSKBervteePkgZXUm_PsQFSkFYEx5KDcuXABxHGaIqg6bQ39mUOfYxlhE_m2Zs9s49p4YgO-GzyY-Xw25VMA9LTtqrZuGp6DC59NGA/s2200/Dante_S_Arch_Portfolio_5MB-08.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNSe_tixwC-7oKXhEX1s6duh1YAmtYo1rhaZsT7F-22fRU-woihkPzUkevTIFnjMwoZwFDHb-ml-JJHTl8893oINX55pKlkG-HqLOSbclH92rAHsuW2MpwREc_GvtbdmMIGTjNKiIDdW4hnr2qky5KB4UvVWd4XIg5VNVSzIfdzSxHmdlupKYM63Vw652E/s2200/Dante_S_Arch_Portfolio_5MB-07.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVlUFbELgbfpnHig3xlofDov_8WJWgw9oAViP4kz7RyIkfeuCSl1dRCsCqyIUlBu6-P-35Ys1dVdwYB-KkenHYsVcE-5Rual1J7wXEvUnQsPwD6kqUuCsd9GfzFE6YSM84Cu56suGIEd6oIfIWlUzFNWOUCDidF5b3J-cleCXdVaOIysRkGKVzJxwUqrVt/s2200/Dante_S_Arch_Portfolio_5MB-06.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidGH_aAHrfs12LFlT1QwkIIkRsVxgsKxJ2tjhKtzSe4ICkqBZ4VuGmAFtiOtZ9HxO6uxZSS-xCqOeXt7SZU5WZHAf1G7XwLy1qHrI30W-f3tuAWZ0HhNuA0rEEs9ENBBgGPFtyt-rTvPtWcG2nr7_yvJUXINlIEE9831O_2rMk7kpHzo2m2EUP7qnlRnIH/s2200/Dante_S_Arch_Portfolio_5MB-05.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLAKe5zT_VzjiuMTFLAg644YPVYimCLQiqY6_J8BgmbvrAiIq2J6vcgVuRHPrXIxOHCWkjo3ySx19YjlSYX3qdOgB0FWme2is5tTkYAsbIT_LWP3yHbIrnQU0Xaz6LJedg-fO8ibx4TXaKstWhvnqFjxucxsHAVhyoQKR-F4qykIlM7F9awHSo2mAARTBZ/s2200/Dante_S_Arch_Portfolio_5MB-04.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX2Dmoj5ily2uQkIukmyR2l8AaFBKbhKddSY9RutmwDOmISr441srE81kXdxO9iUzsNGv0F13KdGBcNKIrF8GErrXGTkKzZYY7UMSflSU8Pvsx0auhkYVtE-cmNKcP981TQ1gvbuqxbSnFUp4o7Gmdqx-fcIDqDctgPptdWz6dt6E8Dy8DF3u5MKryZ-A6/s2200/Dante_S_Arch_Portfolio_5MB-03.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyqudLiP8zsSCo_6xJcp4_0iwVyrFEA8-99d0IbOC3q00yaw3gmGyY2vc8G73RRKUc8fYT1nF3qk-VFEQz96jITcEdsmDDJSqTTw8OrkwqdLfu19zbdn-2Kud7MOjSzOlINtwuQ9xwJMj-2gRPJsE2BAqr34k3UyH64oqb24rP9kzu17VnSSGauUWOa84J/s2200/Dante_S_Arch_Portfolio_5MB-02.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
+    ];
+
+    // Thumbnail versions (smaller). Blogger gives you /s320/ variants in your snippet.
+    const THUMBS = [
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s320/Dante_S_Arch_Portfolio_5MB-18.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s320/Dante_S_Arch_Portfolio_5MB-17.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYVsS4XSsSc9kmo0E-onjPPjHFbVtqwhaf8TMFX4SOdm82mmPRxu48Ulo2jcuPXKZTdM7omOdARj1EhHSs83h_ukO7Bm-kfhJK-QY4caGsqHvHLUGdgX4wgJnSt9THKHsV12iyvefxH-sOpMFMkclDrNVY-T3RGCrTenZG-jh9ZDCrpDGAKlCCDk4WA9dP/s320/Dante_S_Arch_Portfolio_5MB-16.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvlbWf-ENTvheX7RqxDTbACV5j8dKkeABmGVsqp5yH2WquTUnql87KooDAFekTLDh5izPc3oimSG_ZTy8PcJ3DSgaOxqnldK32r_j657hQCxSn5qfh3MdgmGf3L3tisQEbZKdnhahNQiDE-dDJDeZVFdDvuX_eVhvebFG0cH27GNrJCM8EdOGV_FI4Ic_m/s320/Dante_S_Arch_Portfolio_5MB-15.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6sfUIkqUfyxAxJP4GnqJ7zzeqczbvH6lNNpHFOyaO82ghTTPo8ZvfUvZR9sAuBuBRiUOT_OTCEb7wqBQ0aAVC76ILyv6p6FAIE0YUiJx4o7VyFnkrlertM72NoQIokPSNUifLBhYLIYAuLCa66-5RY_OuDNLDPdCc5Jh0XvicustSMaNxajoOUB9udxjn/s320/Dante_S_Arch_Portfolio_5MB-14.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhT8O99aEeEC7ZB2Dv6bQM-_oQQOaTEmGdIg6m8AlMOV9cKRI2pgCZsfOROU9_IOAa71lWFFsMpMoz67xyy2sZJWj9nUeJVZP6cp0hUuN5G-ijT7gg_ZHfJ2kllwyGXCt3lxr78mu5g_LMy_VTnScW1T0grJfAbahS00rFcuTQncEwpPyNB_eJTTnShjCrk/s320/Dante_S_Arch_Portfolio_5MB-13.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1rAu4ihodrtZaBQPh24rnPOllaAVrxIxk8tITCZrPxAkOEL4W11R1NDuhagXJdeWQ2Wq-wrCmrEFiL_U_b3q4bWd2QUnn8QUJP9RVQswewAkviBE5RJNYgX8arTn5saZo5tucu5qTpaFaPyV-wfE9zPTpanWyB0eyTQN9af5xJAfMgo2JMz2mkr0xiPGL/s320/Dante_S_Arch_Portfolio_5MB-12.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiubfWwsgbEa4ItV-g6jwgZPHdNEwGjGQ3iWijdY5lczcpCdMpkjcmQgVHy-ykUCOE2E4hOYa8gqZRTPSrQiU-nDp3IMddUpM3mYlzHjUIGxlfkHa0OlEE3dlXfHMWn1KpyzsdrK9WqVkbOLtRJIjJJUP3w0_9nMSIjmZJTJxZcTEC2KtXonnzXmzAVrSdH/s320/Dante_S_Arch_Portfolio_5MB-11.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7Q5gvxeYQQPE4cJut3L7saM7yPaDyu-Lq2_Mz-aFrkrl7_GbsYu3dVmIlnhhtK8yLtzRJpLiqaqqUTvIyAM47LSufqvvRP_pme3kSPD_-gdsOp9TFDqXYgZ1U6xoUoahJCE6OFZSoTDLMXkugdrhcZ073sKetM6b9QZsy-rLLJqFQb5H5mBpaxsN8U6wc/s320/Dante_S_Arch_Portfolio_5MB-10.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDoZ6aFcWL5VlFtRWa_0_gFeSi0aRaiyvGIaSJxsctYWevo588zLnutHVIVvEaY8sjgA2fBcgiDQQbnPoaCXwuOJosiJGPGP1LMJiighgJIsM_NAlTm3QGIcT4jX9Xf5Ll17Yw9DlwN0KGX37q_YBET0aabVno2hX4hHbbesOY0VnaFT6XFnrOz3-pRjrW/s320/Dante_S_Arch_Portfolio_5MB-09.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9EwgpSmcfOsRgKQ53ouwu8AbDejSuFItU1AZycWgWCTzSi1O25lpxIiQbIZfzQtHhX8dajvsMc8hQvhjti_2oydGSKBervteePkgZXUm_PsQFSkFYEx5KDcuXABxHGaIqg6bQ39mUOfYxlhE_m2Zs9s49p4YgO-GzyY-Xw25VMA9LTtqrZuGp6DC59NGA/s320/Dante_S_Arch_Portfolio_5MB-08.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNSe_tixwC-7oKXhEX1s6duh1YAmtYo1rhaZsT7F-22fRU-woihkPzUkevTIFnjMwoZwFDHb-ml-JJHTl8893oINX55pKlkG-HqLOSbclH92rAHsuW2MpwREc_GvtbdmMIGTjNKiIDdW4hnr2qky5KB4UvVWd4XIg5VNVSzIfdzSxHmdlupKYM63Vw652E/s320/Dante_S_Arch_Portfolio_5MB-07.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVlUFbELgbfpnHig3xlofDov_8WJWgw9oAViP4kz7RyIkfeuCSl1dRCsCqyIUlBu6-P-35Ys1dVdwYB-KkenHYsVcE-5Rual1J7wXEvUnQsPwD6kqUuCsd9GfzFE6YSM84Cu56suGIEd6oIfIWlUzFNWOUCDidF5b3J-cleCXdVaOIysRkGKVzJxwUqrVt/s320/Dante_S_Arch_Portfolio_5MB-06.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidGH_aAHrfs12LFlT1QwkIIkRsVxgsKxJ2tjhKtzSe4ICkqBZ4VuGmAFtiOtZ9HxO6uxZSS-xCqOeXt7SZU5WZHAf1G7XwLy1qHrI30W-f3tuAWZ0HhNuA0rEEs9ENBBgGPFtyt-rTvPtWcG2nr7_yvJUXINlIEE9831O_2rMk7kpHzo2m2EUP7qnlRnIH/s320/Dante_S_Arch_Portfolio_5MB-05.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLAKe5zT_VzjiuMTFLAg644YPVYimCLQiqY6_J8BgmbvrAiIq2J6vcgVuRHPrXIxOHCWkjo3ySx19YjlSYX3qdOgB0FWme2is5tTkYAsbIT_LWP3yHbIrnQU0Xaz6LJedg-fO8ibx4TXaKstWhvnqFjxucxsHAVhyoQKR-F4qykIlM7F9awHSo2mAARTBZ/s320/Dante_S_Arch_Portfolio_5MB-04.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX2Dmoj5ily2uQkIukmyR2l8AaFBKbhKddSY9RutmwDOmISr441srE81kXdxO9iUzsNGv0F13KdGBcNKIrF8GErrXGTkKzZYY7UMSflSU8Pvsx0auhkYVtE-cmNKcP981TQ1gvbuqxbSnFUp4o7Gmdqx-fcIDqDctgPptdWz6dt6E8Dy8DF3u5MKryZ-A6/s320/Dante_S_Arch_Portfolio_5MB-03.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyqudLiP8zsSCo_6xJcp4_0iwVyrFEA8-99d0IbOC3q00yaw3gmGyY2vc8G73RRKUc8fYT1nF3qk-VFEQz96jITcEdsmDDJSqTTw8OrkwqdLfu19zbdn-2Kud7MOjSzOlINtwuQ9xwJMj-2gRPJsE2BAqr34k3UyH64oqb24rP9kzu17VnSSGauUWOa84J/s320/Dante_S_Arch_Portfolio_5MB-02.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s320/Dante_S_Arch_Portfolio_5MB-01.png"
+    ];
+
+    const galleryEl = document.getElementById('gallery');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const thumbTrack = document.getElementById('thumbTrack');
+
+    // Render main cards
+    PAGES.forEach((src, i) => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('aria-label', `Page ${i + 1} of ${PAGES.length}`);
+
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = `Portfolio page ${i + 1}`;
+      img.src = src;
+
+      card.appendChild(img);
+      galleryEl.appendChild(card);
+    });
+
+    // Render thumbs (duplicated once for smooth infinite marquee)
+    function renderThumbRow(offset = 0) {
+      THUMBS.forEach((src, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb';
+        t.title = `Go to page ${i + 1}`;
+        t.addEventListener('click', () => scrollToIndex(i));
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = `Thumbnail page ${i + 1}`;
+        img.src = src;
+        t.appendChild(img);
+        thumbTrack.appendChild(t);
+      });
+    }
+    renderThumbRow();
+    renderThumbRow(); // duplicate so animation can wrap seamlessly
+
+    // Helpers
+    function scrollToIndex(i) {
+      const child = galleryEl.children[i];
+      if (!child) return;
+      const left = child.offsetLeft - (galleryEl.clientWidth - child.clientWidth) / 2;
+      galleryEl.scrollTo({ left, behavior: 'smooth' });
+    }
+    function next() {
+      const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
+      galleryEl.scrollBy({ left: cardWidth + 28, behavior: 'smooth' });
+    }
+    function prev() {
+      const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
+      galleryEl.scrollBy({ left: -cardWidth - 28, behavior: 'smooth' });
+    }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    // Allow wheel horizontal scroll (trackpads/mice)
+    galleryEl.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+        galleryEl.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+  </script>
 </body>
 </html>
