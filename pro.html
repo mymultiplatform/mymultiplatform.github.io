@@ -15,6 +15,7 @@
   input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none}
   input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0}
   .small{opacity:.8;font-size:12px}
+  .err{color:#fca5a5}
 </style>
 </head>
 <body>
@@ -24,20 +25,28 @@
       <input id="slider" type="range" min="0" max="0" step="1" value="0" aria-label="Frame" />
       <span id="out" class="small">0/0</span>
     </div>
+    <div id="status" class="small"></div>
   </div>
 
 <script type="module">
-// Use your same-origin hosted GIF on GitHub Pages
-const GIF_URL = './assets/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif';
+/* Absolute path so it works at /, /pro, etc. */
+const GIF_URL = '/assets/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif';
 
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d', { willReadFrequently: true });
 const slider = document.getElementById('slider');
 const out = document.getElementById('out');
+const statusEl = document.getElementById('status');
 
 let frames = [];
 let idx = 0;
 
+function drawFrameBitmap(bmp){
+  const cw=cv.width, ch=cv.height, iw=bmp.width, ih=bmp.height;
+  const s=Math.max(cw/iw, ch/ih), W=iw*s, H=ih*s, x=(cw-W)/2, y=(ch-H)/2;
+  ctx.clearRect(0,0,cw,ch);
+  ctx.drawImage(bmp, x, y, W, H);
+}
 function drawFrameRGBA(patch, w, h){
   const cw=cv.width, ch=cv.height, s=Math.max(cw/w, ch/h), W=w*s, H=h*s, x=(cw-W)/2, y=(ch-H)/2;
   const imgData = new ImageData(patch, w, h);
@@ -55,30 +64,73 @@ function updateUI(){
   slider.max = String(frames.length-1);
   out.textContent = (idx+1) + '/' + frames.length;
 }
-
 function setFrame(i){
   if (!frames.length) return;
   idx = ((i % frames.length) + frames.length) % frames.length;
   const f = frames[idx];
-  drawFrameRGBA(f.patch, f.w, f.h);
+  if ('bitmap' in f) drawFrameBitmap(f.bitmap); else drawFrameRGBA(f.patch, f.w, f.h);
   updateUI();
 }
 
-async function load(){
-  const res = await fetch(GIF_URL, { mode:'same-origin' });
-  if (!res.ok) throw new Error('Failed to load GIF');
-  const bytes = await res.arrayBuffer();
+/* Try WebCodecs first (fast), then gifuct-js */
+async function tryWebCodecs(bytes){
+  if (!('ImageDecoder' in window)) return false;
+  try{
+    const dec = new ImageDecoder({ type:'image/gif', data: new Blob([bytes]) });
+    await dec.tracks.ready;
+    const n = dec.tracks.selected?.frameCount ?? 0;
+    if (!n) return false;
+    statusEl.textContent = `WebCodecs · ${n} frames`;
+    frames = [];
+    for (let i=0;i<n;i++){
+      const { image } = await dec.decode({ frameIndex: i });
+      const bmp = await createImageBitmap(image);
+      frames.push({ bitmap: bmp });
+      image.close();
+    }
+    return true;
+  }catch(e){
+    console.warn(e); return false;
+  }
+}
+async function tryGifuct(bytes){
+  try{
+    const { parseGIF, decompressFrames } =
+      await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
+    const gif = parseGIF(bytes);
+    const fs = decompressFrames(gif, { buildImagePatches:true });
+    statusEl.textContent = `gifuct-js · ${fs.length} frames`;
+    frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
+    return true;
+  }catch(e){
+    statusEl.innerHTML = `<span class="err">gifuct-js failed: ${e.message}</span>`;
+    return false;
+  }
+}
 
-  const { parseGIF, decompressFrames } = await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
-  const gif = parseGIF(bytes);
-  const fs = decompressFrames(gif, { buildImagePatches:true });
-  frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
+async function load(){
+  statusEl.textContent = 'Fetching GIF…';
+  let bytes;
+  try{
+    const res = await fetch(GIF_URL, { mode:'same-origin' });
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    bytes = await res.arrayBuffer();
+  }catch(e){
+    statusEl.innerHTML = `<span class="err">Fetch failed: ${e.message}. Check the path and that the GIF exists at ${GIF_URL}.</span>`;
+    return;
+  }
+
+  const ok = (await tryWebCodecs(bytes)) || (await tryGifuct(bytes));
+  if (!ok){
+    statusEl.innerHTML = '<span class="err">Could not decode GIF.</span>';
+    return;
+  }
 
   setFrame(0);
   slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
 }
 
-load().catch(err=>console.error(err));
+load().catch(e => statusEl.innerHTML = `<span class="err">${e.message}</span>`);
 </script>
 </body>
 </html>
