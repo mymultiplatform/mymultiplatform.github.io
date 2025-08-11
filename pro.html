@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SHOWCASE PRODUCT DEV</title>
+    <meta name="description" content="Static 360° product viewer for GitHub Pages using a sliced GIF/WebP/JPG spritesheet and a slider." />
+
+    <style>
+      :root {
+        --bg: #0b0c10;
+        --fg: #eaf0f6;
+        --muted: #9aa4b2;
+        --accent: #7dd3fc;
+        --rail: #1f2430;
+        --thumb: #e5e7eb;
+        --card: #111827;
+        --radius: 18px;
+      }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        background: radial-gradient(60% 80% at 50% 0%, #0e1726 0%, #05070c 100%);
+        color: var(--fg);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      .wrap {
+        display: grid;
+        grid-template-rows: auto auto auto;
+        gap: 22px;
+        min-height: 100dvh;
+        padding: clamp(16px, 2vw, 32px);
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      header h1 {
+        font-size: clamp(20px, 3.2vw, 40px);
+        letter-spacing: 0.02em;
+        margin: 0 0 4px 0;
+      }
+      header p { color: var(--muted); margin: 0; }
+
+      .viewer-card {
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: var(--radius);
+        box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,0.04);
+        padding: clamp(12px, 1.6vw, 18px);
+      }
+
+      /* The stage that shows a single frame from the spritesheet */
+      .stage {
+        position: relative;
+        aspect-ratio: 16 / 9; /* You can change this to match your product framing */
+        width: 100%;
+        border-radius: calc(var(--radius) - 6px);
+        overflow: hidden;
+        background: #0c1220;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .stage__frame {
+        position: absolute;
+        inset: 0;
+        background-repeat: no-repeat;
+        background-size: cover; /* Will be updated to exact sheet size when image loads */
+        image-rendering: auto; /* keeps it crisp for 4K */
+        transition: background-position 0.02s linear; /* tiny smoothing for slider */
+      }
+
+      /* UI */
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .meta {
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        background: var(--rail);
+        border-radius: 999px;
+        outline: none;
+      }
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px; height: 22px; border-radius: 50%;
+        background: var(--thumb);
+        border: 1px solid rgba(0,0,0,.35);
+        box-shadow: 0 6px 18px rgba(0,0,0,.35);
+        cursor: pointer;
+      }
+      .slider::-moz-range-thumb {
+        width: 22px; height: 22px; border-radius: 50%;
+        background: var(--thumb);
+        border: 1px solid rgba(0,0,0,.35);
+        box-shadow: 0 6px 18px rgba(0,0,0,.35);
+        cursor: pointer;
+      }
+
+      .hint {
+        margin-top: 2px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      footer { opacity: .8; font-size: 12px; text-align: center; margin-top: 8px; }
+      a, a:visited { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>SHOWCASE PRODUCT DEV</h1>
+        <p>Static 360° viewer powered by an image <em>spritesheet</em>. No video. No WebGL. GitHub Pages‑friendly.</p>
+      </header>
+
+      <section class="viewer-card">
+        <!--
+          HOW THIS WORKS
+          ==================
+          You provide a single large spritesheet image that contains every frame of your 360° spin.
+          Frames are laid out in a grid (rows × columns) from left‑to‑right, top‑to‑bottom.
+          Example layout for 72 frames using 12 columns × 6 rows:
+
+            [0] [1] [2] ... [11]
+            [12] ...                [23]
+            ...
+            [60] ...                [71]
+
+          Then the slider (or drag) sets a frame index, and we compute the background‑position to “slice” the correct tile.
+
+          🔧 PREP your spritesheet (offline) and drop it into this repo, e.g. /assets/product_360_spritesheet.webp
+          Best results: 4K master frames assembled into a WebP (lossy q≈85) or PNG. Try to keep the final file < 12–20 MB for web.
+
+          If you only have an animated GIF: convert it to a spritesheet first (e.g., in Photoshop > Import > Video frames to layers, or via ffmpeg/gifsicle, then export a grid).
+        -->
+
+        <div id="stage" class="stage" aria-label="360° product viewer" draggable="false">
+          <div id="frame" class="stage__frame" draggable="false"></div>
+        </div>
+
+        <div class="controls">
+          <input id="slider" class="slider" type="range" min="0" max="71" step="1" value="0" aria-label="Frame" />
+          <div class="meta"><span id="readout">Frame 1 / 72</span></div>
+        </div>
+        <div class="hint">Tip: drag left/right on the image to rotate. Shift‑drag for finer control.</div>
+      </section>
+
+      <footer>
+        Built for GitHub Pages. Drop this <code>index.html</code> in your repo. No dependencies. Works offline.
+      </footer>
+    </div>
+
+    <script>
+      // === CONFIG – tweak these to match your spritesheet ===
+      const CONFIG = {
+        // Replace with your own spritesheet path in the repo (WebP/PNG/JPG all fine)
+        // Using the provided GIF URL here as a placeholder. Replace ASAP with a proper grid spritesheet.
+        sheetUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjg3sfw45rBH4ilEY3nUnaREwzF6KMGZCmwy_8dqFysWBTAvENlXUAqov08IjR506Z0hH8NIm6VUNt8Fu9baNaiV7Nzk6rKuQIs4BfC0vTTMWIqWdM-g8aOLkC6WsCYnqftOsc6hHEA7AKdroEteULALJzM7PBpo52PlEB-ipYsQnJh1jFrNbTY7f6kABVL/s1600/Mandelbrot_sequence_new.gif",
+        rows: 6,     // how many rows in your grid
+        cols: 12,    // how many columns in your grid
+        total: 72,   // total frames (rows * cols or fewer)
+        cover: true, // if true, scales sheet to cover stage; if false, contain
+      };
+
+      // === RUNTIME ===
+      const stageEl = document.getElementById('stage');
+      const frameEl = document.getElementById('frame');
+      const sliderEl = document.getElementById('slider');
+      const readoutEl = document.getElementById('readout');
+
+      // Ensure slider max matches CONFIG.total
+      sliderEl.max = String(CONFIG.total - 1);
+
+      const sheetImg = new Image();
+      sheetImg.crossOrigin = 'anonymous';
+      sheetImg.decoding = 'async';
+      sheetImg.src = CONFIG.sheetUrl;
+
+      let sheetW = 0, sheetH = 0, tileW = 0, tileH = 0;
+
+      function updateFrame(idx) {
+        idx = Math.max(0, Math.min(CONFIG.total - 1, idx|0));
+        const c = CONFIG.cols;
+        const r = CONFIG.rows;
+        const col = idx % c;
+        const row = Math.floor(idx / c);
+
+        // Compute background position to show the tile at (col,row)
+        const x = -col * tileW;
+        const y = -row * tileH;
+        frameEl.style.backgroundPosition = `${x}px ${y}px`;
+
+        // Update display
+        readoutEl.textContent = `Frame ${idx + 1} / ${CONFIG.total}`;
+        sliderEl.value = String(idx);
+      }
+
+      sheetImg.addEventListener('load', () => {
+        sheetW = sheetImg.naturalWidth;
+        sheetH = sheetImg.naturalHeight;
+        tileW = Math.round(sheetW / CONFIG.cols);
+        tileH = Math.round(sheetH / CONFIG.rows);
+
+        frameEl.style.backgroundImage = `url(${CONFIG.sheetUrl})`;
+        frameEl.style.backgroundSize = `${sheetW}px ${sheetH}px`;
+        frameEl.style.backgroundRepeat = 'no-repeat';
+
+        // If you want to letterbox instead of crop, switch to 'contain'
+        frameEl.style.backgroundSize = CONFIG.cover ? `${sheetW}px ${sheetH}px` : 'contain';
+
+        // Start at frame 0
+        updateFrame(0);
+      });
+
+      // Slider control
+      sliderEl.addEventListener('input', (e) => {
+        updateFrame(parseInt(e.target.value, 10));
+      });
+
+      // Drag to rotate
+      let dragging = false;
+      let lastX = 0;
+      let currentIdx = 0;
+
+      const getSpeed = (evt) => (evt.shiftKey ? 0.25 : 1); // shift = fine control
+
+      const onDown = (x) => { dragging = true; lastX = x; };
+      const onMove = (x, evt) => {
+        if (!dragging) return;
+        const dx = x - lastX; // pixels moved
+        lastX = x;
+        const stageW = stageEl.clientWidth || 1;
+        const framesPerWidth = CONFIG.total; // one full swipe across = full rotation
+        const delta = (dx / stageW) * framesPerWidth * getSpeed(evt || {shiftKey:false});
+        currentIdx = (Math.round(currentIdx + delta) + CONFIG.total) % CONFIG.total;
+        updateFrame(currentIdx);
+      };
+      const onUp = () => { dragging = false; };
+
+      stageEl.addEventListener('mousedown', (e) => onDown(e.clientX));
+      window.addEventListener('mousemove', (e) => onMove(e.clientX, e));
+      window.addEventListener('mouseup', onUp);
+
+      stageEl.addEventListener('touchstart', (e) => onDown(e.touches[0].clientX), {passive:true});
+      stageEl.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX, e.touches[0]), {passive:true});
+      stageEl.addEventListener('touchend', onUp);
+
+      // Keyboard left/right
+      stageEl.tabIndex = 0;
+      stageEl.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          const dir = e.key === 'ArrowRight' ? 1 : -1;
+          currentIdx = (currentIdx + dir + CONFIG.total) % CONFIG.total;
+          updateFrame(currentIdx);
+          e.preventDefault();
+        }
+      });
+
+      // Keep JS and slider in sync when user drags
+      sliderEl.addEventListener('change', (e) => {
+        currentIdx = parseInt(e.target.value, 10) || 0;
+      });
+
+      // Resize handling (no heavy work needed; background-position is pixel based)
+      window.addEventListener('resize', () => {});
+    </script>
+  </body>
+</html>
