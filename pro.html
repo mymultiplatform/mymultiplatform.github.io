@@ -3,33 +3,48 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GIF Frame Scrubber · Minimal</title>
+<title>GIF Scrubber · Deep Debug</title>
 <style>
   :root{--bg:#0b0c10;--fg:#e5e7eb;--rail:#1f2430;--thumb:#f3f4f6}
   html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-  .wrap{max-width:720px;margin:0 auto;padding:20px}
+  .wrap{max-width:900px;margin:0 auto;padding:20px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .panel{padding:12px;border-radius:10px;background:#111827}
   .stage{width:100%;aspect-ratio:1/1;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
   canvas{width:100%;height:100%;image-rendering:pixelated}
   .bar{margin:12px 0;display:flex;gap:12px;align-items:center}
   input[type=range]{width:100%;height:8px;border-radius:999px;background:var(--rail);-webkit-appearance:none;appearance:none}
   input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none}
   input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0}
-  .small{opacity:.8;font-size:12px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+  .small{opacity:.85;font-size:12px}
   .err{color:#fca5a5}
+  .ok{color:#86efac}
+  img.preview{max-width:100%;height:auto;border-radius:8px;background:#0f172a}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="stage"><canvas id="cv" width="640" height="640"></canvas></div>
-    <div class="bar">
-      <input id="slider" type="range" min="0" max="0" step="1" value="0" aria-label="Frame" />
-      <span id="out" class="small">0/0</span>
+    <div class="grid">
+      <div class="panel">
+        <div class="stage"><canvas id="cv" width="640" height="640"></canvas></div>
+        <div class="bar">
+          <input id="slider" type="range" min="0" max="0" step="1" value="0" aria-label="Frame" />
+          <span id="out" class="small">0/0</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="small">Network + header probe</div>
+        <div id="status" class="mono"></div>
+        <hr style="border:none;border-top:1px solid #1f2937;margin:12px 0">
+        <div class="small">Image tag preview (what the browser shows if used as <img>)</div>
+        <img id="imgPreview" class="preview" alt="img tag preview (loads separately)" />
+      </div>
     </div>
-    <div id="status" class="small"></div>
   </div>
 
 <script type="module">
-// ✅ Your GIF served from your site (works with fetch + decoding)
+/** UPDATE ONLY IF YOUR URL CHANGES **/
 const GIF_URL = 'https://www.mymultiplatform.com/assets/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif';
 
 const cv = document.getElementById('cv');
@@ -37,89 +52,118 @@ const ctx = cv.getContext('2d', { willReadFrequently: true });
 const slider = document.getElementById('slider');
 const out = document.getElementById('out');
 const statusEl = document.getElementById('status');
+const imgPreview = document.getElementById('imgPreview');
 
-let frames = [];
-let idx = 0;
+let frames = [], idx = 0;
 
-function drawFrameBitmap(bmp){
-  const cw=cv.width, ch=cv.height, iw=bmp.width, ih=bmp.height;
-  const s=Math.max(cw/iw, ch/ih), W=iw*s, H=ih*s, x=(cw-W)/2, y=(ch-H)/2;
-  ctx.clearRect(0,0,cw,ch);
-  ctx.drawImage(bmp, x, y, W, H);
+function fitDrawRect(srcW, srcH, dstW, dstH){
+  const s = Math.max(dstW/srcW, dstH/srcH);
+  const W = Math.round(srcW*s), H = Math.round(srcH*s);
+  return { x: Math.floor((dstW-W)/2), y: Math.floor((dstH-H)/2), W, H };
 }
+
 function drawFrameRGBA(patch, w, h){
-  const cw=cv.width, ch=cv.height, s=Math.max(cw/w, ch/h), W=w*s, H=h*s, x=(cw-W)/2, y=(ch-H)/2;
+  const { x, y, W, H } = fitDrawRect(w, h, cv.width, cv.height);
   const imgData = new ImageData(patch, w, h);
   const off = typeof OffscreenCanvas !== 'undefined'
     ? new OffscreenCanvas(w, h)
-    : (()=>{const c=document.createElement('canvas'); c.width=w; c.height=h; return c;})();
+    : Object.assign(document.createElement('canvas'), { width:w, height:h });
   const octx = off.getContext('2d');
   octx.putImageData(imgData, 0, 0);
-  ctx.clearRect(0,0,cw,ch);
+  ctx.clearRect(0,0,cv.width,cv.height);
   ctx.drawImage(off, x, y, W, H);
 }
 
 function updateUI(){
-  if (!frames.length) return;
-  slider.max = String(frames.length-1);
-  out.textContent = (idx+1) + '/' + frames.length;
+  slider.max = String(Math.max(frames.length-1, 0));
+  out.textContent = frames.length ? `${idx+1}/${frames.length}` : '0/0';
 }
+
 function setFrame(i){
   if (!frames.length) return;
   idx = ((i % frames.length) + frames.length) % frames.length;
   const f = frames[idx];
-  if ('bitmap' in f) drawFrameBitmap(f.bitmap); else drawFrameRGBA(f.patch, f.w, f.h);
+  drawFrameRGBA(f.patch, f.w, f.h);
   updateUI();
 }
 
-// Try WebCodecs first (fast). Fallback to gifuct-js.
-async function tryWebCodecs(bytes){
-  if (!('ImageDecoder' in window)) return false;
-  try{
-    const dec = new ImageDecoder({ type:'image/gif', data: new Blob([bytes]) });
-    await dec.tracks.ready;
-    const n = dec.tracks.selected?.frameCount ?? 0;
-    if (!n) return false;
-    statusEl.textContent = `WebCodecs · ${n} frames`;
-    frames = [];
-    for (let i=0;i<n;i++){
-      const { image } = await dec.decode({ frameIndex: i });
-      const bmp = await createImageBitmap(image);
-      frames.push({ bitmap: bmp });
-      image.close();
-    }
-    return true;
-  }catch(e){ console.warn('WebCodecs failed:', e); return false; }
-}
+function hex(bytes){ return [...bytes].map(b=>b.toString(16).padStart(2,'0')).join(' '); }
+function addLine(line){ statusEl.textContent += (statusEl.textContent ? '\n' : '') + line; }
+
 async function tryGifuct(bytes){
   try{
     const { parseGIF, decompressFrames } =
       await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
     const gif = parseGIF(bytes);
     const fs = decompressFrames(gif, { buildImagePatches:true });
-    statusEl.textContent = `gifuct-js · ${fs.length} frames`;
     frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
+    addLine(`gifuct-js: frames=${frames.length} ${frames.length>0 ? '✅' : '❌'}`);
     return frames.length>0;
-  }catch(e){ statusEl.innerHTML = `<span class="err">gifuct-js failed: ${e.message}</span>`; return false; }
+  }catch(e){
+    addLine(`gifuct-js error: ${e && e.message ? e.message : e}`);
+    return false;
+  }
+}
+
+async function tryWebCodecs(bytes){
+  if (!('ImageDecoder' in window)) { addLine('WebCodecs: not supported'); return false; }
+  try{
+    const dec = new ImageDecoder({ type:'image/gif', data: new Blob([bytes]) });
+    await dec.tracks.ready;
+    const n = dec.tracks.selected?.frameCount ?? 0;
+    addLine(`WebCodecs: frames=${n} ${n>0 ? '✅' : '❌'}`);
+    return n > 0;
+  }catch(e){
+    addLine(`WebCodecs error: ${e && e.message ? e.message : e}`);
+    return false;
+  }
 }
 
 async function load(){
-  statusEl.textContent = 'Fetching GIF…';
-  let bytes;
+  // Show how <img> renders it (independent path)
+  imgPreview.src = GIF_URL;
+
+  addLine(`Fetching: ${GIF_URL}`);
+  let res, bytes;
   try{
-    const res = await fetch(GIF_URL, { mode:'cors' });
+    res = await fetch(GIF_URL, { mode:'cors', redirect:'follow', cache:'no-cache' });
+    addLine(`Response URL: ${res.url}`);
+    addLine(`HTTP status: ${res.status}`);
+    addLine(`Content-Type: ${res.headers.get('content-type') || 'unknown'}`);
+    addLine(`CORS ACAO: ${res.headers.get('access-control-allow-origin') || '(none)'}`);
     if (!res.ok) throw new Error('HTTP '+res.status);
     bytes = await res.arrayBuffer();
+    addLine(`Bytes length: ${bytes.byteLength.toLocaleString()}`);
   }catch(e){
-    statusEl.innerHTML = `<span class="err">Fetch failed: ${e.message}<br>${GIF_URL}</span>`;
+    addLine(`Fetch failed ❌: ${e.message || e}`);
     return;
   }
 
-  const ok = (await tryWebCodecs(bytes)) || (await tryGifuct(bytes));
-  if (!ok){ statusEl.innerHTML = '<span class="err">Could not decode GIF.</span>'; return; }
+  // Inspect header bytes
+  const sig = new Uint8Array(bytes.slice(0, 6));
+  const sigText = String.fromCharCode(...sig);
+  addLine(`Header bytes: ${hex(sig)} (expect 47 49 46 38 39 61 or 47 49 46 38 37 61)`);
+  addLine(`Header text: "${sigText}" ${ (sigText==='GIF89a'||sigText==='GIF87a') ? '✅' : '❌ NOT GIF' }`);
 
-  setFrame(0);
-  slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
+  if (sigText !== 'GIF89a' && sigText !== 'GIF87a'){
+    addLine('This payload is not a real GIF (maybe HTML, WEBP, or a redirect). Cannot decode.');
+    return;
+  }
+
+  // Try both decoders and report
+  const okWC = await tryWebCodecs(bytes);
+  const okGF = await tryGifuct(bytes);
+  if (!(okWC || okGF)){
+    addLine('Final: Could not decode GIF ❌');
+    return;
+  }
+
+  // If gifuct succeeded, render frames
+  if (frames.length){
+    addLine('Render: drawing first frame ✅');
+    setFrame(0);
+    slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
+  }
 }
 
 load();
