@@ -8,45 +8,32 @@
   :root{--bg:#0b0c10;--fg:#e5e7eb;--rail:#1f2430;--thumb:#f3f4f6}
   html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
   .wrap{max-width:720px;margin:0 auto;padding:20px}
-  h1{font-size:18px;margin:0 0 12px}
-  .stage{position:relative;width:100%;aspect-ratio:1/1;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+  .stage{width:100%;aspect-ratio:1/1;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
   canvas{width:100%;height:100%;image-rendering:pixelated}
   .bar{margin:12px 0;display:flex;gap:12px;align-items:center}
   input[type=range]{width:100%;height:8px;border-radius:999px;background:var(--rail);-webkit-appearance:none;appearance:none}
-  input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none;cursor:pointer}
-  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0}
   .small{opacity:.8;font-size:12px}
-  .err{color:#fca5a5}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>GIF Frame Scrubber</h1>
-
-    <div class="stage">
-      <canvas id="cv" width="640" height="640"></canvas>
-    </div>
-
+    <div class="stage"><canvas id="cv" width="640" height="640"></canvas></div>
     <div class="bar">
       <input id="slider" type="range" min="0" max="0" step="1" value="0" aria-label="Frame" />
       <span id="out" class="small">0/0</span>
     </div>
-
-    <div id="status" class="small"></div>
   </div>
 
 <script type="module">
-// IMPORTANT: For reliable scrubbing on GitHub Pages, host the GIF in the same repo
-// (same origin) and point GIF_URL to that relative path, e.g. './assets/my.gif'.
-// Cross-origin hosts must send Access-Control-Allow-Origin:* for fetch+decode to work.
-const urlGIF = new URL(location.href).searchParams.get('gif');
-const GIF_URL = urlGIF || './your-gif.gif'; // ✅ replace with your local path
+// Use your same-origin hosted GIF on GitHub Pages
+const GIF_URL = './assets/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif';
 
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d', { willReadFrequently: true });
 const slider = document.getElementById('slider');
 const out = document.getElementById('out');
-const statusEl = document.getElementById('status');
 
 let frames = [];
 let idx = 0;
@@ -54,7 +41,9 @@ let idx = 0;
 function drawFrameRGBA(patch, w, h){
   const cw=cv.width, ch=cv.height, s=Math.max(cw/w, ch/h), W=w*s, H=h*s, x=(cw-W)/2, y=(ch-H)/2;
   const imgData = new ImageData(patch, w, h);
-  const off = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(w, h) : (()=>{const c=document.createElement('canvas'); c.width=w; c.height=h; return c;})()
+  const off = typeof OffscreenCanvas !== 'undefined'
+    ? new OffscreenCanvas(w, h)
+    : (()=>{const c=document.createElement('canvas'); c.width=w; c.height=h; return c;})();
   const octx = off.getContext('2d');
   octx.putImageData(imgData, 0, 0);
   ctx.clearRect(0,0,cw,ch);
@@ -76,34 +65,20 @@ function setFrame(i){
 }
 
 async function load(){
-  statusEl.textContent = 'Fetching GIF…';
-  let bytes;
-  try{
-    const res = await fetch(GIF_URL, { mode:'cors' });
-    if (!res.ok) throw new Error('HTTP '+res.status);
-    bytes = await res.arrayBuffer();
-  }catch(e){
-    statusEl.innerHTML = `<span class="err">Failed to fetch GIF. Host it on the same origin (GitHub Pages repo) or enable CORS. (${e.message})</span>`;
-    return;
-  }
+  const res = await fetch(GIF_URL, { mode:'same-origin' });
+  if (!res.ok) throw new Error('Failed to load GIF');
+  const bytes = await res.arrayBuffer();
 
-  try{
-    const { parseGIF, decompressFrames } = await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
-    const gif = parseGIF(bytes);
-    const fs = decompressFrames(gif, { buildImagePatches:true });
-    statusEl.textContent = `Decoded ${fs.length} frames`;
-    frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
-  }catch(e){
-    statusEl.innerHTML = `<span class="err">Could not decode GIF frames. (${e.message})</span>`;
-    return;
-  }
+  const { parseGIF, decompressFrames } = await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
+  const gif = parseGIF(bytes);
+  const fs = decompressFrames(gif, { buildImagePatches:true });
+  frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
 
-  // Initial draw and hook up slider
   setFrame(0);
   slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
 }
 
-load();
+load().catch(err=>console.error(err));
 </script>
 </body>
 </html>
