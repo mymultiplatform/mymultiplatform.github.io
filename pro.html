@@ -5,24 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>GIF Frame Scrubber · Blogger/GitHub Pages</title>
 <style>
-  :root{--bg:#0b0c10;--fg:#e5e7eb;--rail:#1f2430;--thumb:#f3f4f6;--accent:#94a3b8}
+  :root{--bg:#0b0c10;--fg:#e5e7eb;--rail:#1f2430;--thumb:#f3f4f6}
   html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
   .wrap{max-width:980px;margin:0 auto;padding:20px}
   h1{font-size:18px;margin:0 0 12px}
-  .stage{position:relative;width:100%;aspect-ratio:16/9;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
+  .stage{position:relative;width:100%;aspect-ratio:1/1;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
   canvas{width:100%;height:100%;image-rendering:pixelated}
-  /* bottom scrollbar (slider line) */
   .bar{margin:12px 0;display:flex;gap:12px;align-items:center}
   input[type=range]{width:100%;height:8px;border-radius:999px;background:var(--rail);-webkit-appearance:none;appearance:none}
   input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none}
   input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0}
-  /* side scroll line (vertical scrub bar) */
-  .sideTrack{
-    position:absolute;top:10px;bottom:10px;right:10px;width:6px;border-radius:999px;background:var(--rail);opacity:.8
-  }
-  .sideThumb{
-    position:absolute;left:-4px;width:14px;height:14px;border-radius:50%;background:var(--thumb);box-shadow:0 0 0 1px rgba(0,0,0,.2)
-  }
+  /* vertical side line */
+  .sideTrack{position:absolute;top:10px;bottom:10px;right:10px;width:6px;border-radius:999px;background:var(--rail);opacity:.8}
+  .sideThumb{position:absolute;left:-4px;width:14px;height:14px;border-radius:50%;background:var(--thumb);box-shadow:0 0 0 1px rgba(0,0,0,.2)}
   .sideHint{position:absolute;right:34px;top:10px;font-size:12px;opacity:.7}
   .small{opacity:.8;font-size:12px}
   .err{color:#fca5a5}
@@ -30,15 +25,12 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>GIF Frame Scrubber (Blogger/GitHub Pages, WebCodecs + gifuct-js)</h1>
+    <h1>GIF Frame Scrubber (WebCodecs + gifuct-js)</h1>
 
     <div class="stage" id="stage">
-      <canvas id="cv" width="960" height="540"></canvas>
-
-      <!-- side scroll line + thumb -->
-      <div class="sideTrack" id="sideTrack" aria-label="Vertical scrub bar">
-        <div class="sideThumb" id="sideThumb" style="top:0"></div>
-      </div>
+      <canvas id="cv" width="640" height="640"></canvas>
+      <img id="fallback" alt="GIF fallback" style="display:none;max-width:100%;height:auto" />
+      <div class="sideTrack" id="sideTrack"><div class="sideThumb" id="sideThumb"></div></div>
       <div class="sideHint">Drag bar or use slider</div>
     </div>
 
@@ -47,16 +39,13 @@
       <span id="out" class="small">0/0</span>
     </div>
 
-    <div class="small">Drag left/right on the image to scrub. Hold Shift for fine control. Vertical side line is also draggable.</div>
+    <div class="small">Drag left/right on the image to scrub. Shift = finer control.</div>
     <div id="status" class="small"></div>
   </div>
 
 <script type="module">
-/* ====== CONFIG ====== */
-const GIF_URL =
-  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjg3sfw45rBH4ilEY3nUnaREwzF6KMGZCmwy_8dqFysWBTAvENlXUAqov08IjR506Z0hH8NIm6VUNt8Fu9baNaiV7Nzk6rKuQIs4BfC0vTTMWIqWdM-g8aOLkC6WsCYnqftOsc6hHEA7AKdroEteULALJzM7PBpo52PlEB-ipYsQnJh1jFrNbTY7f6kABVL/s1600/Mandelbrot_sequence_new.gif";
+const GIF_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzAgeir42XPOwn9KRqxD6yomhomX2BW2fAD0QYOSidGbWmz5qREyOMkmuVofdhacWdweeI7x2yuE3jShyphenhyphenZ5WZXdQL3kaSlPSCUCqplv1YigsH-qz-EmDesQjmvfl0kXdpTWDA8qTSCUUzuxu27AUxogKR-WhryP1_7e1WeMXGRPiDqoYp4oSXrMFyh60rY/s1600/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif";
 
-/* ====== ELEMENTS ====== */
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d', { willReadFrequently: true });
 const slider = document.getElementById('slider');
@@ -65,12 +54,11 @@ const statusEl = document.getElementById('status');
 const stage = document.getElementById('stage');
 const sideTrack = document.getElementById('sideTrack');
 const sideThumb = document.getElementById('sideThumb');
+const fallbackImg = document.getElementById('fallback');
 
-/* ====== STATE ====== */
-let frames = [];   // [{bitmap:ImageBitmap}] OR [{patch:Uint8ClampedArray,w,h}]
+let frames = [];
 let idx = 0;
 
-/* ====== DRAWING ====== */
 function drawFrameBitmap(bmp){
   const cw=cv.width, ch=cv.height, iw=bmp.width, ih=bmp.height;
   const s=Math.max(cw/iw, ch/ih), w=iw*s, h=ih*s, x=(cw-w)/2, y=(ch-h)/2;
@@ -87,18 +75,17 @@ function drawFrameRGBA(patch, w, h){
   ctx.drawImage(off, x, y, W, H);
 }
 
-/* ====== UI ====== */
 function updateUI(){
   if (!frames.length) return;
   slider.max = String(frames.length-1);
   out.textContent = (idx+1) + "/" + frames.length;
 
-  // position side thumb
-  const trackRect = sideTrack.getBoundingClientRect();
+  const rect = sideTrack.getBoundingClientRect();
   const frac = idx / (frames.length - 1 || 1);
-  const y = Math.round(frac * (trackRect.height - sideThumb.offsetHeight));
+  const y = Math.round(frac * (rect.height - sideThumb.offsetHeight));
   sideThumb.style.top = y + "px";
 }
+
 function setFrame(i){
   if (!frames.length) return;
   idx = ((i % frames.length) + frames.length) % frames.length;
@@ -107,7 +94,6 @@ function setFrame(i){
   updateUI();
 }
 
-/* ====== DECODERS ====== */
 async function tryWebCodecs(bytes){
   if (!('ImageDecoder' in window)) return false;
   try{
@@ -115,7 +101,6 @@ async function tryWebCodecs(bytes){
     await dec.tracks.ready;
     const count = dec.tracks.selected?.frameCount ?? 0;
     if (!count) return false;
-
     statusEl.textContent = `WebCodecs · ${count} frames`;
     frames = [];
     for (let i=0;i<count;i++){
@@ -130,6 +115,7 @@ async function tryWebCodecs(bytes){
     return false;
   }
 }
+
 async function tryGifuct(bytes){
   try{
     const { parseGIF, decompressFrames } =
@@ -145,7 +131,6 @@ async function tryGifuct(bytes){
   }
 }
 
-/* ====== LOAD & INIT ====== */
 async function load(){
   statusEl.textContent = 'Fetching GIF…';
   let bytes;
@@ -154,24 +139,31 @@ async function load(){
     if (!res.ok) throw new Error('HTTP '+res.status);
     bytes = await res.arrayBuffer();
   }catch(e){
-    statusEl.innerHTML =
-      `<span class="err">CORS/Network error fetching GIF. Host must allow CORS. (${e.message})</span>`;
+    // Fallback: show the normal animated GIF so the user sees *something*
+    fallbackImg.src = GIF_URL;
+    fallbackImg.style.display = 'block';
+    cv.style.display = 'none';
+    statusEl.innerHTML = `<span class="err">CORS/Network error fetching GIF; showing fallback animation only. (${e.message})</span>`;
+    // Disable controls visually
+    slider.disabled = true;
     return;
   }
 
   const ok = (await tryWebCodecs(bytes)) || (await tryGifuct(bytes));
   if (!ok){
-    statusEl.innerHTML =
-      `<span class="err">Could not decode GIF (WebCodecs+gifuct failed). Likely CORS or unsupported browser.</span>`;
+    fallbackImg.src = GIF_URL;
+    fallbackImg.style.display = 'block';
+    cv.style.display = 'none';
+    slider.disabled = true;
+    statusEl.innerHTML = `<span class="err">Could not decode GIF (CORS or browser support). Showing fallback animation.</span>`;
     return;
   }
 
   setFrame(0);
 
-  /* slider (bottom line) */
   slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
 
-  /* drag on canvas */
+  // Drag-scrub on stage
   let down=false, lastX=0;
   const speed = (ev)=> ev && ev.shiftKey ? 0.25 : 1;
   stage.addEventListener('mousedown', e => { down=true; lastX=e.clientX; });
@@ -190,7 +182,7 @@ async function load(){
     setFrame(Math.round(idx+delta));
   }, {passive:true});
 
-  /* side scroll line (vertical scrub) */
+  // Vertical side scroll line
   const onSide = (clientY)=>{
     const rect = sideTrack.getBoundingClientRect();
     const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
@@ -201,7 +193,6 @@ async function load(){
   sideTrack.addEventListener('mousedown', e => { sideDrag=true; onSide(e.clientY); });
   window.addEventListener('mousemove', e => { if(sideDrag) onSide(e.clientY); });
   window.addEventListener('mouseup', ()=> sideDrag=false);
-
   sideTrack.addEventListener('touchstart', e => { onSide(e.touches[0].clientY); }, {passive:true});
   sideTrack.addEventListener('touchmove',  e => { onSide(e.touches[0].clientY); }, {passive:true});
 }
