@@ -3,35 +3,28 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GIF Frame Scrubber · Blogger/GitHub Pages</title>
+<title>GIF Frame Scrubber · Minimal</title>
 <style>
   :root{--bg:#0b0c10;--fg:#e5e7eb;--rail:#1f2430;--thumb:#f3f4f6}
   html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  .wrap{max-width:720px;margin:0 auto;padding:20px}
   h1{font-size:18px;margin:0 0 12px}
   .stage{position:relative;width:100%;aspect-ratio:1/1;background:#0f172a;border-radius:12px;display:grid;place-items:center;overflow:hidden}
   canvas{width:100%;height:100%;image-rendering:pixelated}
   .bar{margin:12px 0;display:flex;gap:12px;align-items:center}
   input[type=range]{width:100%;height:8px;border-radius:999px;background:var(--rail);-webkit-appearance:none;appearance:none}
-  input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none}
-  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0}
-  /* vertical side line */
-  .sideTrack{position:absolute;top:10px;bottom:10px;right:10px;width:6px;border-radius:999px;background:var(--rail);opacity:.8}
-  .sideThumb{position:absolute;left:-4px;width:14px;height:14px;border-radius:50%;background:var(--thumb);box-shadow:0 0 0 1px rgba(0,0,0,.2)}
-  .sideHint{position:absolute;right:34px;top:10px;font-size:12px;opacity:.7}
+  input[type=range]::-webkit-slider-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;-webkit-appearance:none;appearance:none;cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--thumb);border:0;cursor:pointer}
   .small{opacity:.8;font-size:12px}
   .err{color:#fca5a5}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>GIF Frame Scrubber (WebCodecs + gifuct-js)</h1>
+    <h1>GIF Frame Scrubber</h1>
 
-    <div class="stage" id="stage">
+    <div class="stage">
       <canvas id="cv" width="640" height="640"></canvas>
-      <img id="fallback" alt="GIF fallback" style="display:none;max-width:100%;height:auto" />
-      <div class="sideTrack" id="sideTrack"><div class="sideThumb" id="sideThumb"></div></div>
-      <div class="sideHint">Drag bar or use slider</div>
     </div>
 
     <div class="bar">
@@ -39,36 +32,29 @@
       <span id="out" class="small">0/0</span>
     </div>
 
-    <div class="small">Drag left/right on the image to scrub. Shift = finer control.</div>
     <div id="status" class="small"></div>
   </div>
 
 <script type="module">
-const GIF_URL = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzAgeir42XPOwn9KRqxD6yomhomX2BW2fAD0QYOSidGbWmz5qREyOMkmuVofdhacWdweeI7x2yuE3jShyphenhyphenZ5WZXdQL3kaSlPSCUCqplv1YigsH-qz-EmDesQjmvfl0kXdpTWDA8qTSCUUzuxu27AUxogKR-WhryP1_7e1WeMXGRPiDqoYp4oSXrMFyh60rY/s1600/96633009-d1818000-1318-11eb-9f1d-7f914f4ccb16.gif";
+// IMPORTANT: For reliable scrubbing on GitHub Pages, host the GIF in the same repo
+// (same origin) and point GIF_URL to that relative path, e.g. './assets/my.gif'.
+// Cross-origin hosts must send Access-Control-Allow-Origin:* for fetch+decode to work.
+const urlGIF = new URL(location.href).searchParams.get('gif');
+const GIF_URL = urlGIF || './your-gif.gif'; // ✅ replace with your local path
 
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d', { willReadFrequently: true });
 const slider = document.getElementById('slider');
 const out = document.getElementById('out');
 const statusEl = document.getElementById('status');
-const stage = document.getElementById('stage');
-const sideTrack = document.getElementById('sideTrack');
-const sideThumb = document.getElementById('sideThumb');
-const fallbackImg = document.getElementById('fallback');
 
 let frames = [];
 let idx = 0;
 
-function drawFrameBitmap(bmp){
-  const cw=cv.width, ch=cv.height, iw=bmp.width, ih=bmp.height;
-  const s=Math.max(cw/iw, ch/ih), w=iw*s, h=ih*s, x=(cw-w)/2, y=(ch-h)/2;
-  ctx.clearRect(0,0,cw,ch);
-  ctx.drawImage(bmp, x, y, w, h);
-}
 function drawFrameRGBA(patch, w, h){
   const cw=cv.width, ch=cv.height, s=Math.max(cw/w, ch/h), W=w*s, H=h*s, x=(cw-W)/2, y=(ch-H)/2;
   const imgData = new ImageData(patch, w, h);
-  const off = new OffscreenCanvas(w, h);
+  const off = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(w, h) : (()=>{const c=document.createElement('canvas'); c.width=w; c.height=h; return c;})()
   const octx = off.getContext('2d');
   octx.putImageData(imgData, 0, 0);
   ctx.clearRect(0,0,cw,ch);
@@ -78,57 +64,15 @@ function drawFrameRGBA(patch, w, h){
 function updateUI(){
   if (!frames.length) return;
   slider.max = String(frames.length-1);
-  out.textContent = (idx+1) + "/" + frames.length;
-
-  const rect = sideTrack.getBoundingClientRect();
-  const frac = idx / (frames.length - 1 || 1);
-  const y = Math.round(frac * (rect.height - sideThumb.offsetHeight));
-  sideThumb.style.top = y + "px";
+  out.textContent = (idx+1) + '/' + frames.length;
 }
 
 function setFrame(i){
   if (!frames.length) return;
   idx = ((i % frames.length) + frames.length) % frames.length;
   const f = frames[idx];
-  if ('bitmap' in f) drawFrameBitmap(f.bitmap); else drawFrameRGBA(f.patch, f.w, f.h);
+  drawFrameRGBA(f.patch, f.w, f.h);
   updateUI();
-}
-
-async function tryWebCodecs(bytes){
-  if (!('ImageDecoder' in window)) return false;
-  try{
-    const dec = new ImageDecoder({ type:'image/gif', data: new Blob([bytes]) });
-    await dec.tracks.ready;
-    const count = dec.tracks.selected?.frameCount ?? 0;
-    if (!count) return false;
-    statusEl.textContent = `WebCodecs · ${count} frames`;
-    frames = [];
-    for (let i=0;i<count;i++){
-      const { image } = await dec.decode({ frameIndex: i });
-      const bmp = await createImageBitmap(image);
-      frames.push({ bitmap: bmp });
-      image.close();
-    }
-    return true;
-  }catch(e){
-    console.warn('WebCodecs failed:', e);
-    return false;
-  }
-}
-
-async function tryGifuct(bytes){
-  try{
-    const { parseGIF, decompressFrames } =
-      await import('https://unpkg.com/gifuct-js/dist/gifuct.esm.js');
-    const gif = parseGIF(bytes);
-    const fs = decompressFrames(gif, { buildImagePatches:true });
-    statusEl.textContent = `gifuct-js · ${fs.length} frames`;
-    frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
-    return true;
-  }catch(e){
-    console.warn('gifuct-js failed:', e);
-    return false;
-  }
 }
 
 async function load(){
@@ -139,62 +83,24 @@ async function load(){
     if (!res.ok) throw new Error('HTTP '+res.status);
     bytes = await res.arrayBuffer();
   }catch(e){
-    // Fallback: show the normal animated GIF so the user sees *something*
-    fallbackImg.src = GIF_URL;
-    fallbackImg.style.display = 'block';
-    cv.style.display = 'none';
-    statusEl.innerHTML = `<span class="err">CORS/Network error fetching GIF; showing fallback animation only. (${e.message})</span>`;
-    // Disable controls visually
-    slider.disabled = true;
+    statusEl.innerHTML = `<span class="err">Failed to fetch GIF. Host it on the same origin (GitHub Pages repo) or enable CORS. (${e.message})</span>`;
     return;
   }
 
-  const ok = (await tryWebCodecs(bytes)) || (await tryGifuct(bytes));
-  if (!ok){
-    fallbackImg.src = GIF_URL;
-    fallbackImg.style.display = 'block';
-    cv.style.display = 'none';
-    slider.disabled = true;
-    statusEl.innerHTML = `<span class="err">Could not decode GIF (CORS or browser support). Showing fallback animation.</span>`;
+  try{
+    const { parseGIF, decompressFrames } = await import('https://unpkg.com/gifuct-js@2.1.2/dist/gifuct.esm.js');
+    const gif = parseGIF(bytes);
+    const fs = decompressFrames(gif, { buildImagePatches:true });
+    statusEl.textContent = `Decoded ${fs.length} frames`;
+    frames = fs.map(f => ({ patch: f.patch, w: f.dims.width, h: f.dims.height }));
+  }catch(e){
+    statusEl.innerHTML = `<span class="err">Could not decode GIF frames. (${e.message})</span>`;
     return;
   }
 
+  // Initial draw and hook up slider
   setFrame(0);
-
   slider.addEventListener('input', e => setFrame(parseInt(e.target.value,10)));
-
-  // Drag-scrub on stage
-  let down=false, lastX=0;
-  const speed = (ev)=> ev && ev.shiftKey ? 0.25 : 1;
-  stage.addEventListener('mousedown', e => { down=true; lastX=e.clientX; });
-  window.addEventListener('mouseup', ()=> down=false);
-  window.addEventListener('mousemove', e => {
-    if(!down) return;
-    const w=stage.clientWidth||1;
-    const d=(e.clientX-lastX); lastX=e.clientX;
-    const delta=(d/w)*frames.length*speed(e);
-    setFrame(Math.round(idx+delta));
-  });
-  stage.addEventListener('touchstart', e=>{ lastX=e.touches[0].clientX; }, {passive:true});
-  stage.addEventListener('touchmove', e=>{
-    const x=e.touches[0].clientX; const w=stage.clientWidth||1;
-    const d=x-lastX; lastX=x; const delta=(d/w)*frames.length;
-    setFrame(Math.round(idx+delta));
-  }, {passive:true});
-
-  // Vertical side scroll line
-  const onSide = (clientY)=>{
-    const rect = sideTrack.getBoundingClientRect();
-    const y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
-    const frac = y / rect.height;
-    setFrame(Math.round(frac * (frames.length - 1)));
-  };
-  let sideDrag=false;
-  sideTrack.addEventListener('mousedown', e => { sideDrag=true; onSide(e.clientY); });
-  window.addEventListener('mousemove', e => { if(sideDrag) onSide(e.clientY); });
-  window.addEventListener('mouseup', ()=> sideDrag=false);
-  sideTrack.addEventListener('touchstart', e => { onSide(e.touches[0].clientY); }, {passive:true});
-  sideTrack.addEventListener('touchmove',  e => { onSide(e.touches[0].clientY); }, {passive:true});
 }
 
 load();
