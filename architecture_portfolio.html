@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dante Sanchez Architecture Portfolio</title>
+  <meta name="description" content="Architecture portfolio by Dante Sanchez — horizontal preview gallery." />
+  <style>
+    :root {
+      --bg: #0f0f10;
+      --fg: #f5f5f5;
+      --muted: #a7a7a7;
+      --accent: #1f6feb;
+      --card: #16181d;
+      --shadow: 0 6px 28px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #1b2331, #0f1116 60%, #0b0b0c 100%), var(--bg);
+      color: var(--fg);
+      overflow: hidden; /* we’ll manage overflow in the gallery wrapper */
+    }
+
+    /* Top header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(160%) blur(8px);
+      background: linear-gradient(180deg, rgba(8,10,14,.82), rgba(8,10,14,.58));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7ab1ff, #1f6feb);
+      box-shadow: 0 0 22px rgba(31,111,235,.65);
+      flex: 0 0 auto;
+    }
+    h1 {
+      font-size: clamp(16px, 2.6vw, 24px);
+      margin: 0;
+      letter-spacing: .4px;
+      font-weight: 700;
+    }
+    .sub {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    /* Gallery wrapper */
+    .wrap {
+      position: relative;
+      height: calc(100dvh - 58px); /* viewport minus header */
+      display: grid;
+      grid-template-rows: 1fr auto; /* main gallery + thumbs strip */
+      overflow: hidden;
+    }
+
+    /* Main horizontal gallery */
+    .gallery {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(92vw, 1200px);
+      gap: 28px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding: 28px 80px; /* leave room for arrows */
+      scrollbar-width: thin;
+      scrollbar-color: #2a2f39 transparent;
+    }
+    .gallery::-webkit-scrollbar { height: 10px; }
+    .gallery::-webkit-scrollbar-thumb { background: #2a2f39; border-radius: 999px; }
+    .gallery::-webkit-scrollbar-track { background: transparent; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      scroll-snap-align: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      aspect-ratio: 17 / 22; /* matches your 1700x2200 ratio */
+    }
+
+    .card img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      background: #0b0d10;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* Prev/Next buttons */
+    .nav {
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* only buttons clickable */
+    }
+    .btn {
+      pointer-events: auto;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(14,16,20,.6);
+      backdrop-filter: blur(6px);
+      display: grid; place-items: center;
+      cursor: pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      font-size: 20px;
+      color: #e7e7e7;
+    }
+    .btn:hover { background: rgba(28,32,40,.8); border-color: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.05); }
+    .prev { left: 18px; }
+    .next { right: 18px; }
+
+    /* Thumbnails strip (auto-scrolling preview) */
+    .thumbs {
+      position: relative;
+      height: 84px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(8,10,14,.65), rgba(8,10,14,.85));
+    }
+    .track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      animation: marquee 26s linear infinite;
+    }
+    .thumb {
+      flex: 0 0 auto;
+      height: 64px;
+      aspect-ratio: 17 / 22;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      opacity: .75;
+      transition: opacity .12s ease, transform .12s ease, border-color .12s ease;
+      cursor: pointer;
+      background: #0b0d10;
+    }
+    .thumb:hover { opacity: 1; transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+    .thumb img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* because we duplicate the row */
+    }
+
+    /* Small screens */
+    @media (max-width: 720px) {
+      .gallery {
+        grid-auto-columns: 92vw;
+        padding: 18px 64px;
+        gap: 18px;
+      }
+      .btn { width: 42px; height: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <span class="dot"></span>
+      <h1>Dante Sanchez Architecture Portfolio</h1>
+      <span class="sub">Horizontal preview · Use ← → or drag</span>
+    </div>
+  </header>
+
+  <main class="wrap" aria-label="Portfolio gallery">
+    <!-- Main horizontal gallery -->
+    <section class="gallery" id="gallery" role="list"></section>
+
+    <!-- Overlay nav buttons -->
+    <div class="nav" aria-hidden="false">
+      <button class="btn prev" id="prevBtn" aria-label="Previous page" title="Previous (←)">&#x2039;</button>
+      <button class="btn next" id="nextBtn" aria-label="Next page" title="Next (→)">&#x203A;</button>
+    </div>
+
+    <!-- Auto-scrolling thumbnail preview -->
+    <aside class="thumbs" aria-label="Thumbnails strip">
+      <div class="track" id="thumbTrack"></div>
+    </aside>
+  </main>
+
+  <script>
+    // Your Blogger-hosted PNGs (full-size)
+    const PAGES = [
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s2200/Dante_S_Arch_Portfolio_5MB-18.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s2200/Dante_S_Arch_Portfolio_5MB-17.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYVsS4XSsSc9kmo0E-onjPPjHFbVtqwhaf8TMFX4SOdm82mmPRxu48Ulo2jcuPXKZTdM7omOdARj1EhHSs83h_ukO7Bm-kfhJK-QY4caGsqHvHLUGdgX4wgJnSt9THKHsV12iyvefxH-sOpMFMkclDrNVY-T3RGCrTenZG-jh9ZDCrpDGAKlCCDk4WA9dP/s2200/Dante_S_Arch_Portfolio_5MB-16.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvlbWf-ENTvheX7RqxDTbACV5j8dKkeABmGVsqp5yH2WquTUnql87KooDAFekTLDh5izPc3oimSG_ZTy8PcJ3DSgaOxqnldK32r_j657hQCxSn5qfh3MdgmGf3L3tisQEbZKdnhahNQiDE-dDJDeZVFdDvuX_eVhvebFG0cH27GNrJCM8EdOGV_FI4Ic_m/s2200/Dante_S_Arch_Portfolio_5MB-15.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6sfUIkqUfyxAxJP4GnqJ7zzeqczbvH6lNNpHFOyaO82ghTTPo8ZvfUvZR9sAuBuBRiUOT_OTCEb7wqBQ0aAVC76ILyv6p6FAIE0YUiJx4o7VyFnkrlertM72NoQIokPSNUifLBhYLIYAuLCa66-5RY_OuDNLDPdCc5Jh0XvicustSMaNxajoOUB9udxjn/s2200/Dante_S_Arch_Portfolio_5MB-14.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhT8O99aEeEC7ZB2Dv6bQM-_oQQOaTEmGdIg6m8AlMOV9cKRI2pgCZsfOROU9_IOAa71lWFFsMpMoz67xyy2sZJWj9nUeJVZP6cp0hUuN5G-ijT7gg_ZHfJ2kllwyGXCt3lxr78mu5g_LMy_VTnScW1T0grJfAbahS00rFcuTQncEwpPyNB_eJTTnShjCrk/s2200/Dante_S_Arch_Portfolio_5MB-13.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1rAu4ihodrtZaBQPh24rnPOllaAVrxIxk8tITCZrPxAkOEL4W11R1NDuhagXJdeWQ2Wq-wrCmrEFiL_U_b3q4bWd2QUnn8QUJP9RVQswewAkviBE5RJNYgX8arTn5saZo5tucu5qTpaFaPyV-wfE9zPTpanWyB0eyTQN9af5xJAfMgo2JMz2mkr0xiPGL/s2200/Dante_S_Arch_Portfolio_5MB-12.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiubfWwsgbEa4ItV-g6jwgZPHdNEwGjGQ3iWijdY5lczcpCdMpkjcmQgVHy-ykUCOE2E4hOYa8gqZRTPSrQiU-nDp3IMddUpM3mYlzHjUIGxlfkHa0OlEE3dlXfHMWn1KpyzsdrK9WqVkbOLtRJIjJJUP3w0_9nMSIjmZJTJxZcTEC2KtXonnzXmzAVrSdH/s2200/Dante_S_Arch_Portfolio_5MB-11.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7Q5gvxeYQQPE4cJut3L7saM7yPaDyu-Lq2_Mz-aFrkrl7_GbsYu3dVmIlnhhtK8yLtzRJpLiqaqqUTvIyAM47LSufqvvRP_pme3kSPD_-gdsOp9TFDqXYgZ1U6xoUoahJCE6OFZSoTDLMXkugdrhcZ073sKetM6b9QZsy-rLLJqFQb5H5mBpaxsN8U6wc/s2200/Dante_S_Arch_Portfolio_5MB-10.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDoZ6aFcWL5VlFtRWa_0_gFeSi0aRaiyvGIaSJxsctYWevo588zLnutHVIVvEaY8sjgA2fBcgiDQQbnPoaCXwuOJosiJGPGP1LMJiighgJIsM_NAlTm3QGIcT4jX9Xf5Ll17Yw9DlwN0KGX37q_YBET0aabVno2hX4hHbbesOY0VnaFT6XFnrOz3-pRjrW/s2200/Dante_S_Arch_Portfolio_5MB-09.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9EwgpSmcfOsRgKQ53ouwu8AbDejSuFItU1AZycWgWCTzSi1O25lpxIiQbIZfzQtHhX8dajvsMc8hQvhjti_2oydGSKBervteePkgZXUm_PsQFSkFYEx5KDcuXABxHGaIqg6bQ39mUOfYxlhE_m2Zs9s49p4YgO-GzyY-Xw25VMA9LTtqrZuGp6DC59NGA/s2200/Dante_S_Arch_Portfolio_5MB-08.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNSe_tixwC-7oKXhEX1s6duh1YAmtYo1rhaZsT7F-22fRU-woihkPzUkevTIFnjMwoZwFDHb-ml-JJHTl8893oINX55pKlkG-HqLOSbclH92rAHsuW2MpwREc_GvtbdmMIGTjNKiIDdW4hnr2qky5KB4UvVWd4XIg5VNVSzIfdzSxHmdlupKYM63Vw652E/s2200/Dante_S_Arch_Portfolio_5MB-07.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVlUFbELgbfpnHig3xlofDov_8WJWgw9oAViP4kz7RyIkfeuCSl1dRCsCqyIUlBu6-P-35Ys1dVdwYB-KkenHYsVcE-5Rual1J7wXEvUnQsPwD6kqUuCsd9GfzFE6YSM84Cu56suGIEd6oIfIWlUzFNWOUCDidF5b3J-cleCXdVaOIysRkGKVzJxwUqrVt/s2200/Dante_S_Arch_Portfolio_5MB-06.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidGH_aAHrfs12LFlT1QwkIIkRsVxgsKxJ2tjhKtzSe4ICkqBZ4VuGmAFtiOtZ9HxO6uxZSS-xCqOeXt7SZU5WZHAf1G7XwLy1qHrI30W-f3tuAWZ0HhNuA0rEEs9ENBBgGPFtyt-rTvPtWcG2nr7_yvJUXINlIEE9831O_2rMk7kpHzo2m2EUP7qnlRnIH/s2200/Dante_S_Arch_Portfolio_5MB-05.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLAKe5zT_VzjiuMTFLAg644YPVYimCLQiqY6_J8BgmbvrAiIq2J6vcgVuRHPrXIxOHCWkjo3ySx19YjlSYX3qdOgB0FWme2is5tTkYAsbIT_LWP3yHbIrnQU0Xaz6LJedg-fO8ibx4TXaKstWhvnqFjxucxsHAVhyoQKR-F4qykIlM7F9awHSo2mAARTBZ/s2200/Dante_S_Arch_Portfolio_5MB-04.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX2Dmoj5ily2uQkIukmyR2l8AaFBKbhKddSY9RutmwDOmISr441srE81kXdxO9iUzsNGv0F13KdGBcNKIrF8GErrXGTkKzZYY7UMSflSU8Pvsx0auhkYVtE-cmNKcP981TQ1gvbuqxbSnFUp4o7Gmdqx-fcIDqDctgPptdWz6dt6E8Dy8DF3u5MKryZ-A6/s2200/Dante_S_Arch_Portfolio_5MB-03.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyqudLiP8zsSCo_6xJcp4_0iwVyrFEA8-99d0IbOC3q00yaw3gmGyY2vc8G73RRKUc8fYT1nF3qk-VFEQz96jITcEdsmDDJSqTTw8OrkwqdLfu19zbdn-2Kud7MOjSzOlINtwuQ9xwJMj-2gRPJsE2BAqr34k3UyH64oqb24rP9kzu17VnSSGauUWOa84J/s2200/Dante_S_Arch_Portfolio_5MB-02.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
+    ];
+
+    // Thumbnail versions (smaller). Blogger gives you /s320/ variants in your snippet.
+    const THUMBS = [
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s320/Dante_S_Arch_Portfolio_5MB-18.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s320/Dante_S_Arch_Portfolio_5MB-17.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYVsS4XSsSc9kmo0E-onjPPjHFbVtqwhaf8TMFX4SOdm82mmPRxu48Ulo2jcuPXKZTdM7omOdARj1EhHSs83h_ukO7Bm-kfhJK-QY4caGsqHvHLUGdgX4wgJnSt9THKHsV12iyvefxH-sOpMFMkclDrNVY-T3RGCrTenZG-jh9ZDCrpDGAKlCCDk4WA9dP/s320/Dante_S_Arch_Portfolio_5MB-16.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhvlbWf-ENTvheX7RqxDTbACV5j8dKkeABmGVsqp5yH2WquTUnql87KooDAFekTLDh5izPc3oimSG_ZTy8PcJ3DSgaOxqnldK32r_j657hQCxSn5qfh3MdgmGf3L3tisQEbZKdnhahNQiDE-dDJDeZVFdDvuX_eVhvebFG0cH27GNrJCM8EdOGV_FI4Ic_m/s320/Dante_S_Arch_Portfolio_5MB-15.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6sfUIkqUfyxAxJP4GnqJ7zzeqczbvH6lNNpHFOyaO82ghTTPo8ZvfUvZR9sAuBuBRiUOT_OTCEb7wqBQ0aAVC76ILyv6p6FAIE0YUiJx4o7VyFnkrlertM72NoQIokPSNUifLBhYLIYAuLCa66-5RY_OuDNLDPdCc5Jh0XvicustSMaNxajoOUB9udxjn/s320/Dante_S_Arch_Portfolio_5MB-14.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhT8O99aEeEC7ZB2Dv6bQM-_oQQOaTEmGdIg6m8AlMOV9cKRI2pgCZsfOROU9_IOAa71lWFFsMpMoz67xyy2sZJWj9nUeJVZP6cp0hUuN5G-ijT7gg_ZHfJ2kllwyGXCt3lxr78mu5g_LMy_VTnScW1T0grJfAbahS00rFcuTQncEwpPyNB_eJTTnShjCrk/s320/Dante_S_Arch_Portfolio_5MB-13.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1rAu4ihodrtZaBQPh24rnPOllaAVrxIxk8tITCZrPxAkOEL4W11R1NDuhagXJdeWQ2Wq-wrCmrEFiL_U_b3q4bWd2QUnn8QUJP9RVQswewAkviBE5RJNYgX8arTn5saZo5tucu5qTpaFaPyV-wfE9zPTpanWyB0eyTQN9af5xJAfMgo2JMz2mkr0xiPGL/s320/Dante_S_Arch_Portfolio_5MB-12.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiubfWwsgbEa4ItV-g6jwgZPHdNEwGjGQ3iWijdY5lczcpCdMpkjcmQgVHy-ykUCOE2E4hOYa8gqZRTPSrQiU-nDp3IMddUpM3mYlzHjUIGxlfkHa0OlEE3dlXfHMWn1KpyzsdrK9WqVkbOLtRJIjJJUP3w0_9nMSIjmZJTJxZcTEC2KtXonnzXmzAVrSdH/s320/Dante_S_Arch_Portfolio_5MB-11.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7Q5gvxeYQQPE4cJut3L7saM7yPaDyu-Lq2_Mz-aFrkrl7_GbsYu3dVmIlnhhtK8yLtzRJpLiqaqqUTvIyAM47LSufqvvRP_pme3kSPD_-gdsOp9TFDqXYgZ1U6xoUoahJCE6OFZSoTDLMXkugdrhcZ073sKetM6b9QZsy-rLLJqFQb5H5mBpaxsN8U6wc/s320/Dante_S_Arch_Portfolio_5MB-10.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDoZ6aFcWL5VlFtRWa_0_gFeSi0aRaiyvGIaSJxsctYWevo588zLnutHVIVvEaY8sjgA2fBcgiDQQbnPoaCXwuOJosiJGPGP1LMJiighgJIsM_NAlTm3QGIcT4jX9Xf5Ll17Yw9DlwN0KGX37q_YBET0aabVno2hX4hHbbesOY0VnaFT6XFnrOz3-pRjrW/s320/Dante_S_Arch_Portfolio_5MB-09.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9EwgpSmcfOsRgKQ53ouwu8AbDejSuFItU1AZycWgWCTzSi1O25lpxIiQbIZfzQtHhX8dajvsMc8hQvhjti_2oydGSKBervteePkgZXUm_PsQFSkFYEx5KDcuXABxHGaIqg6bQ39mUOfYxlhE_m2Zs9s49p4YgO-GzyY-Xw25VMA9LTtqrZuGp6DC59NGA/s320/Dante_S_Arch_Portfolio_5MB-08.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNSe_tixwC-7oKXhEX1s6duh1YAmtYo1rhaZsT7F-22fRU-woihkPzUkevTIFnjMwoZwFDHb-ml-JJHTl8893oINX55pKlkG-HqLOSbclH92rAHsuW2MpwREc_GvtbdmMIGTjNKiIDdW4hnr2qky5KB4UvVWd4XIg5VNVSzIfdzSxHmdlupKYM63Vw652E/s320/Dante_S_Arch_Portfolio_5MB-07.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVlUFbELgbfpnHig3xlofDov_8WJWgw9oAViP4kz7RyIkfeuCSl1dRCsCqyIUlBu6-P-35Ys1dVdwYB-KkenHYsVcE-5Rual1J7wXEvUnQsPwD6kqUuCsd9GfzFE6YSM84Cu56suGIEd6oIfIWlUzFNWOUCDidF5b3J-cleCXdVaOIysRkGKVzJxwUqrVt/s320/Dante_S_Arch_Portfolio_5MB-06.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidGH_aAHrfs12LFlT1QwkIIkRsVxgsKxJ2tjhKtzSe4ICkqBZ4VuGmAFtiOtZ9HxO6uxZSS-xCqOeXt7SZU5WZHAf1G7XwLy1qHrI30W-f3tuAWZ0HhNuA0rEEs9ENBBgGPFtyt-rTvPtWcG2nr7_yvJUXINlIEE9831O_2rMk7kpHzo2m2EUP7qnlRnIH/s320/Dante_S_Arch_Portfolio_5MB-05.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLAKe5zT_VzjiuMTFLAg644YPVYimCLQiqY6_J8BgmbvrAiIq2J6vcgVuRHPrXIxOHCWkjo3ySx19YjlSYX3qdOgB0FWme2is5tTkYAsbIT_LWP3yHbIrnQU0Xaz6LJedg-fO8ibx4TXaKstWhvnqFjxucxsHAVhyoQKR-F4qykIlM7F9awHSo2mAARTBZ/s320/Dante_S_Arch_Portfolio_5MB-04.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjX2Dmoj5ily2uQkIukmyR2l8AaFBKbhKddSY9RutmwDOmISr441srE81kXdxO9iUzsNGv0F13KdGBcNKIrF8GErrXGTkKzZYY7UMSflSU8Pvsx0auhkYVtE-cmNKcP981TQ1gvbuqxbSnFUp4o7Gmdqx-fcIDqDctgPptdWz6dt6E8Dy8DF3u5MKryZ-A6/s320/Dante_S_Arch_Portfolio_5MB-03.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyqudLiP8zsSCo_6xJcp4_0iwVyrFEA8-99d0IbOC3q00yaw3gmGyY2vc8G73RRKUc8fYT1nF3qk-VFEQz96jITcEdsmDDJSqTTw8OrkwqdLfu19zbdn-2Kud7MOjSzOlINtwuQ9xwJMj-2gRPJsE2BAqr34k3UyH64oqb24rP9kzu17VnSSGauUWOa84J/s320/Dante_S_Arch_Portfolio_5MB-02.png",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s320/Dante_S_Arch_Portfolio_5MB-01.png"
+    ];
+
+    const galleryEl = document.getElementById('gallery');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const thumbTrack = document.getElementById('thumbTrack');
+
+    // Render main cards
+    PAGES.forEach((src, i) => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('aria-label', `Page ${i + 1} of ${PAGES.length}`);
+
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.alt = `Portfolio page ${i + 1}`;
+      img.src = src;
+
+      card.appendChild(img);
+      galleryEl.appendChild(card);
+    });
+
+    // Render thumbs (duplicated once for smooth infinite marquee)
+    function renderThumbRow(offset = 0) {
+      THUMBS.forEach((src, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb';
+        t.title = `Go to page ${i + 1}`;
+        t.addEventListener('click', () => scrollToIndex(i));
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = `Thumbnail page ${i + 1}`;
+        img.src = src;
+        t.appendChild(img);
+        thumbTrack.appendChild(t);
+      });
+    }
+    renderThumbRow();
+    renderThumbRow(); // duplicate so animation can wrap seamlessly
+
+    // Helpers
+    function scrollToIndex(i) {
+      const child = galleryEl.children[i];
+      if (!child) return;
+      const left = child.offsetLeft - (galleryEl.clientWidth - child.clientWidth) / 2;
+      galleryEl.scrollTo({ left, behavior: 'smooth' });
+    }
+    function next() {
+      const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
+      galleryEl.scrollBy({ left: cardWidth + 28, behavior: 'smooth' });
+    }
+    function prev() {
+      const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
+      galleryEl.scrollBy({ left: -cardWidth - 28, behavior: 'smooth' });
+    }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    // Allow wheel horizontal scroll (trackpads/mice)
+    galleryEl.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+        galleryEl.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+    }, { passive: false });
+  </script>
+</body>
+</html>
