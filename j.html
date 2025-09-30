@@ -1,62 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Multiple Copy Buttons List</title>
     <style>
+        :root {
+            --bg: #eef2f3;
+            --card: #ffffff;
+            --border: #cccccc;
+            --text: #333;
+            --primary: #4CAF50;
+            --primary-hover: #45a049;
+        }
+        * { box-sizing: border-box; }
         body {
             font-family: Arial, sans-serif;
-            background-color: #eef2f3;
+            background-color: var(--bg);
             margin: 0;
             padding: 20px;
+            color: var(--text);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin: 30px 0 10px;
+        }
+        .subhead {
+            text-align: center;
+            margin: 0 0 30px;
+            color: #555;
+            font-size: 14px;
         }
         .copy-list {
             list-style: none;
             padding: 0;
-            max-width: 800px;
-            margin: 50px auto;
+            margin: 0 auto 60px;
+        }
+        .section-title {
+            margin: 35px 0 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
         }
         .copy-item {
-            background-color: #ffffff;
-            border: 1px solid #cccccc;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 14px;
         }
         .copy-text {
-            color: #333;
-            word-wrap: break-word;
+            word-break: break-word;
             flex: 1;
-            margin-right: 20px;
         }
         .copy-button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 10px 16px;
+            background-color: var(--primary);
             color: #ffffff;
             border: none;
             cursor: pointer;
             font-size: 14px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            transition: background-color 0.2s, transform 0.02s;
         }
-        .copy-button:hover {
-            background-color: #45a049;
+        .copy-button:hover { background-color: var(--primary-hover); }
+        .copy-button:active { transform: translateY(1px); }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
         }
-
+        .muted {
+            font-size: 12px;
+            color: #666;
+        }
         /* Responsive Design */
         @media (max-width: 600px) {
             .copy-item {
                 flex-direction: column;
-                align-items: flex-start;
-            }
-            .copy-text {
-                margin-right: 0;
-                margin-bottom: 10px;
+                align-items: stretch;
             }
             .copy-button {
                 width: 100%;
@@ -65,49 +96,151 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Multiple Texts with Copy Buttons</h1>
+<div class="container">
+    <h1>Multiple Texts with Copy Buttons</h1>
+    <p class="subhead">Tap “Copy” to quickly paste into job applications.</p>
+
     <ul class="copy-list">
+
+        <div class="section-title">Original Entries</div>
         <li class="copy-item">
             <div class="copy-text" id="text1">python "C:\Users\PCEL SERVICE\Desktop\THE.py"</div>
-            <button class="copy-button" onclick="copyText('text1')">Copy</button>
+            <button class="copy-button" onclick="copyText('text1', this)">Copy</button>
         </li>
         <li class="copy-item">
             <div class="copy-text" id="text2">242 Rancho Drive #C</div>
-            <button class="copy-button" onclick="copyText('text2')">Copy</button>
+            <button class="copy-button" onclick="copyText('text2', this)">Copy</button>
         </li>
         <li class="copy-item">
             <div class="copy-text" id="text3">6198292040</div>
-            <button class="copy-button" onclick="copyText('text3')">Copy</button>
+            <button class="copy-button" onclick="copyText('text3', this)">Copy</button>
         </li>
         <li class="copy-item">
             <div class="copy-text" id="text4">dante.ethan.sanchez@gmail.com</div>
-            <button class="copy-button" onclick="copyText('text4')">Copy</button>
+            <button class="copy-button" onclick="copyText('text4', this)">Copy</button>
         </li>
         <li class="copy-item">
             <div class="copy-text" id="text5">python3 /home/des/Desktop/THE.py</div>
-            <button class="copy-button" onclick="copyText('text5')">Copy</button>
+            <button class="copy-button" onclick="copyText('text5', this)">Copy</button>
         </li>
-        <!-- Add more copy-items as needed -->
+
+        <div class="section-title">Contact References</div>
+        <li class="copy-item">
+            <div class="copy-text" id="text6">Ernest Rodrigo</div>
+            <button class="copy-button" onclick="copyText('text6', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text7">Number: 6196789202</div>
+            <button class="copy-button" onclick="copyText('text7', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text8">Email: ernestito21@gmail.com</div>
+            <button class="copy-button" onclick="copyText('text8', this)">Copy</button>
+        </li>
+
+        <li class="copy-item">
+            <div class="copy-text" id="text9">Michelle Kosov</div>
+            <button class="copy-button" onclick="copyText('text9', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text10">Number: 6196286721</div>
+            <button class="copy-button" onclick="copyText('text10', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text11">Email: mms27kk@gmail.com</div>
+            <button class="copy-button" onclick="copyText('text11', this)">Copy</button>
+        </li>
+
+        <div class="section-title">Tags / Locations</div>
+        <li class="copy-item">
+            <div class="copy-text" id="text12">California</div>
+            <button class="copy-button" onclick="copyText('text12', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text13">San Diego</div>
+            <button class="copy-button" onclick="copyText('text13', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text14">United States</div>
+            <button class="copy-button" onclick="copyText('text14', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text15">Chula Vista</div>
+            <button class="copy-button" onclick="copyText('text15', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text16">91911</div>
+            <button class="copy-button" onclick="copyText('text16', this)">Copy</button>
+        </li>
+
+        <div class="section-title">Name Variations</div>
+        <li class="copy-item">
+            <div class="copy-text" id="text17">Dante S</div>
+            <button class="copy-button" onclick="copyText('text17', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text18">Dante Sanchez</div>
+            <button class="copy-button" onclick="copyText('text18', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text19">Dante Ethan Sanchez</div>
+            <button class="copy-button" onclick="copyText('text19', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text20">Dante Ethan Sanchez Delgadillo</div>
+            <button class="copy-button" onclick="copyText('text20', this)">Copy</button>
+        </li>
+
+        <div class="section-title">Job</div>
+        <li class="copy-item">
+            <div class="copy-text" id="text21">Job Name: CCG Metal Works</div>
+            <button class="copy-button" onclick="copyText('text21', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text22">Cell: 6195551672</div>
+            <button class="copy-button" onclick="copyText('text22', this)">Copy</button>
+        </li>
+
     </ul>
 
-    <script>
-        function copyText(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                // Optional: Provide user feedback without using alert
-                const button = event.target;
-                const originalText = button.innerText;
+    <p class="muted">Tip: You can paste these into job portals, messages, or forms. All items are plain text.</p>
+</div>
+
+<script>
+    async function copyText(elementId, btnEl) {
+        const node = document.getElementById(elementId);
+        const textToCopy = node ? node.innerText : '';
+        const button = btnEl || document.activeElement;
+
+        const original = button ? button.innerText : null;
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(textToCopy);
+            } else {
+                // Fallback for older browsers
+                const ta = document.createElement('textarea');
+                ta.value = textToCopy;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+            }
+            if (button) {
                 button.innerText = 'Copied!';
                 button.disabled = true;
                 setTimeout(() => {
-                    button.innerText = originalText;
+                    button.innerText = original;
                     button.disabled = false;
-                }, 2000);
-            }).catch(err => {
-                console.error('I love you.: ', err);
-                alert('I love you.');
-            });
+                }, 1500);
+            }
+        } catch (err) {
+            console.error('Copy failed: ', err);
+            alert('Copy failed. Please try again.');
         }
-    </script>
+    }
+</script>
 </body>
 </html>
