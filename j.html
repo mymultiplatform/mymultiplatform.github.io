@@ -31,7 +31,7 @@
         }
         .subhead {
             text-align: center;
-            margin: 0 0 30px;
+            margin: 0 0 20px;
             color: #555;
             font-size: 14px;
         }
@@ -99,6 +99,13 @@
 <div class="container">
     <h1>Multiple Texts with Copy Buttons</h1>
     <p class="subhead">Tap “Copy” to quickly paste into job applications.</p>
+
+    <!-- Top: Copyable Today's Date -->
+    <div class="section-title">Today&apos;s Date</div>
+    <div class="copy-item" aria-live="polite">
+        <div class="copy-text" id="dateText">(loading date...)</div>
+        <button class="copy-button" onclick="copyText('dateText', this)">Copy</button>
+    </div>
 
     <ul class="copy-list">
 
@@ -190,6 +197,7 @@
             <div class="copy-text" id="text20">Dante Ethan Sanchez Delgadillo</div>
             <button class="copy-button" onclick="copyText('text20', this)">Copy</button>
         </li>
+        <!-- Single-name variants -->
         <li class="copy-item">
             <div class="copy-text" id="text23">Dante</div>
             <button class="copy-button" onclick="copyText('text23', this)">Copy</button>
@@ -197,6 +205,14 @@
         <li class="copy-item">
             <div class="copy-text" id="text24">Sanchez</div>
             <button class="copy-button" onclick="copyText('text24', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text25">Ethan</div>
+            <button class="copy-button" onclick="copyText('text25', this)">Copy</button>
+        </li>
+        <li class="copy-item">
+            <div class="copy-text" id="text26">Delgadillo</div>
+            <button class="copy-button" onclick="copyText('text26', this)">Copy</button>
         </li>
 
         <div class="section-title">Job</div>
@@ -215,6 +231,24 @@
 </div>
 
 <script>
+    // Build "MM/DD/YY Month Day, Year" in US format, e.g., "10/02/25 October 2, 2025"
+    function buildUsDateString(d) {
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const yy = String(d.getFullYear()).slice(-2);
+
+        const long = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        return `${mm}/${dd}/${yy} ${long}`;
+    }
+
+    // Initialize date on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const now = new Date();
+        const formatted = buildUsDateString(now);
+        const dateNode = document.getElementById('dateText');
+        if (dateNode) dateNode.innerText = formatted;
+    });
+
     async function copyText(elementId, btnEl) {
         const node = document.getElementById(elementId);
         const textToCopy = node ? node.innerText : '';
