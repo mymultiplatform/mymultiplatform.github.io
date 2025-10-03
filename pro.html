@@ -7,8 +7,12 @@
   <meta name="description" content="Architecture portfolio by Dante Sanchez — horizontal preview gallery." />
   <style>
     :root {
-      --bg: #0f0f10; --fg: #f5f5f5; --muted: #a7a7a7; --accent: #1f6feb;
-      --card: #16181d; --shadow: 0 6px 28px rgba(0,0,0,.35);
+      --bg: #0f0f10;
+      --fg: #f5f5f5;
+      --muted: #a7a7a7;
+      --accent: #1f6feb;
+      --card: #16181d;
+      --shadow: 0 6px 28px rgba(0,0,0,.35);
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
@@ -21,17 +25,49 @@
     }
 
     /* Top header */
-    header { position: sticky; top: 0; z-index: 10; backdrop-filter: saturate(160%) blur(8px);
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(160%) blur(8px);
       background: linear-gradient(180deg, rgba(8,10,14,.82), rgba(8,10,14,.58));
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
-    .bar { max-width: 1200px; margin: 0 auto; padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #7ab1ff, #1f6feb); box-shadow: 0 0 22px rgba(31,111,235,.65); flex: 0 0 auto; }
-    h1 { font-size: clamp(16px, 2.6vw, 24px); margin: 0; letter-spacing: .4px; font-weight: 700; }
-    .sub { margin-left: auto; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #7ab1ff, #1f6feb);
+      box-shadow: 0 0 22px rgba(31,111,235,.65);
+      flex: 0 0 auto;
+    }
+    h1 {
+      font-size: clamp(16px, 2.6vw, 24px);
+      margin: 0;
+      letter-spacing: .4px;
+      font-weight: 700;
+    }
+    .sub {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
     /* Gallery wrapper */
-    .wrap { position: relative; height: calc(100dvh - 58px); display: grid; grid-template-rows: 1fr auto; overflow: hidden; }
+    .wrap {
+      position: relative;
+      height: calc(100dvh - 58px); /* viewport minus header */
+      display: grid;
+      grid-template-rows: 1fr auto; /* main gallery + thumbs strip */
+      overflow: hidden;
+    }
 
     /* Main horizontal gallery */
     .gallery {
@@ -61,63 +97,108 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      aspect-ratio: 17 / 22; /* matches your 1700x2200 ratio */
+      aspect-ratio: 17 / 22; /* portrait frame matching your pages */
     }
 
-    /* NEW: rotation helpers */
-    .rot-frame {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      place-items: center;       /* keep image centered */
-    }
-    .rot-90 {
-      transform: rotate(90deg);
-      transform-origin: center;
-      height: 100%;
-      width: auto;
+    .card img {
+      display: block;
+      max-width: 100%;
       max-height: 100%;
-      max-width: none;
       object-fit: contain;
-      background: #0b0d10;      /* same as before for visual consistency */
+      background: #0b0d10;
       user-select: none;
       -webkit-user-drag: none;
-      display: block;
+    }
+
+    /* Rotate all images 90° counter-clockwise; size by height so they fit neatly */
+    .card img.fix90,
+    .thumb img.fix90 {
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      height: 100%;
+      width: auto;
     }
 
     /* Prev/Next buttons */
-    .nav { position: absolute; inset: 0; pointer-events: none; }
+    .nav {
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* only buttons clickable */
+    }
     .btn {
       pointer-events: auto;
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 48px; height: 48px; border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
       border: 1px solid rgba(255,255,255,.12);
-      background: rgba(14,16,20,.6); backdrop-filter: blur(6px);
-      display: grid; place-items: center; cursor: pointer;
+      background: rgba(14,16,20,.6);
+      backdrop-filter: blur(6px);
+      display: grid; place-items: center;
+      cursor: pointer;
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       box-shadow: 0 8px 24px rgba(0,0,0,.35);
-      font-size: 20px; color: #e7e7e7;
+      font-size: 20px;
+      color: #e7e7e7;
     }
     .btn:hover { background: rgba(28,32,40,.8); border-color: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.05); }
     .prev { left: 18px; }
     .next { right: 18px; }
 
     /* Thumbnails strip (auto-scrolling preview) */
-    .thumbs { position: relative; height: 84px; overflow: hidden; border-top: 1px solid rgba(255,255,255,.06);
-      background: linear-gradient(180deg, rgba(8,10,14,.65), rgba(8,10,14,.85)); }
-    .track { position: absolute; inset: 0; display: flex; gap: 12px; align-items: center; padding: 10px 14px; animation: marquee 26s linear infinite; }
-    .thumb { flex: 0 0 auto; height: 64px; aspect-ratio: 17 / 22; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); opacity: .75; transition: opacity .12s ease, transform .12s ease, border-color .12s ease; cursor: pointer; background: #0b0d10; }
+    .thumbs {
+      position: relative;
+      height: 84px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(8,10,14,.65), rgba(8,10,14,.85));
+    }
+    .track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      animation: marquee 26s linear infinite;
+    }
+    .thumb {
+      flex: 0 0 auto;
+      height: 64px;
+      aspect-ratio: 17 / 22;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      opacity: .75;
+      transition: opacity .12s ease, transform .12s ease, border-color .12s ease;
+      cursor: pointer;
+      background: #0b0d10;
+      display: grid;
+      place-items: center;
+    }
     .thumb:hover { opacity: 1; transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+    .thumb img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
 
-    /* rotate inside thumbs too */
-    .thumb .rot-frame { width: 100%; height: 100%; }
-    .thumb .rot-90 { height: 100%; width: auto; max-height: 100%; object-fit: cover; }
-
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* because we duplicate the row */
+    }
 
     /* Small screens */
     @media (max-width: 720px) {
-      .gallery { grid-auto-columns: 92vw; padding: 18px 64px; gap: 18px; }
+      .gallery {
+        grid-auto-columns: 92vw;
+        padding: 18px 64px;
+        gap: 18px;
+      }
       .btn { width: 42px; height: 42px; }
     }
   </style>
@@ -170,7 +251,7 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
     ];
 
-    // Thumbnail versions (smaller). Blogger gives you /s320/ variants in your snippet.
+    // Thumbnail versions (smaller)
     const THUMBS = [
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s320/Dante_S_Arch_Portfolio_5MB-18.png",
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s320/Dante_S_Arch_Portfolio_5MB-17.png",
@@ -197,10 +278,8 @@
     const nextBtn = document.getElementById('nextBtn');
     const thumbTrack = document.getElementById('thumbTrack');
 
-    // OPTIONAL per-page control:
-    // If only SOME pages are sideways, list those indices (0-based) here and
-    // remove `img.className = 'rot-90'` lines below. Then conditionally add the class.
-    // const ROTATE = new Set([0,1,2,3]); // example
+    // Optional: list indexes to skip rotation if you later add true-landscape pages
+    const EXCEPT = new Set([]); // e.g., new Set([5, 12])
 
     // Render main cards
     PAGES.forEach((src, i) => {
@@ -209,18 +288,13 @@
       card.setAttribute('role', 'listitem');
       card.setAttribute('aria-label', `Page ${i + 1} of ${PAGES.length}`);
 
-      const frame = document.createElement('div');
-      frame.className = 'rot-frame';
-
       const img = document.createElement('img');
       img.loading = 'lazy';
       img.alt = `Portfolio page ${i + 1}`;
       img.src = src;
-      img.className = 'rot-90';            // rotate the page always
-      // if (ROTATE.has(i)) img.classList.add('rot-90'); // use this if you enable ROTATE set
+      if (!EXCEPT.has(i)) img.classList.add('fix90'); // rotate all pages
 
-      frame.appendChild(img);
-      card.appendChild(frame);
+      card.appendChild(img);
       galleryEl.appendChild(card);
     });
 
@@ -231,18 +305,12 @@
         t.className = 'thumb';
         t.title = `Go to page ${i + 1}`;
         t.addEventListener('click', () => scrollToIndex(i));
-
-        const frame = document.createElement('div');
-        frame.className = 'rot-frame';
-
         const img = document.createElement('img');
         img.loading = 'lazy';
         img.alt = `Thumbnail page ${i + 1}`;
         img.src = src;
-        img.className = 'rot-90';          // rotate the thumb
-
-        frame.appendChild(img);
-        t.appendChild(frame);
+        if (!EXCEPT.has(i)) img.classList.add('fix90'); // rotate all thumbs
+        t.appendChild(img);
         thumbTrack.appendChild(t);
       });
     }
