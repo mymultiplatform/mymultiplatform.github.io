@@ -4,24 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MYMULTIPLATFORM00</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-      background: #000;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
 </head>
 <body>
-  <!-- Updated ngrok URL -->
-  <iframe src="https://eacc78c5fdfb.ngrok-free.app" allowfullscreen></iframe>
+  <!-- The div that will hold the YouTube player -->
+  <div id="player"></div>
+
+  <!-- Load the YouTube IFrame Player API script -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    // This function creates an <iframe> (and YouTube player)
+    // after the API code downloads.
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: '0QChCxEx6u8', // your YouTube video ID
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    // When the player is ready, this function runs.
+    function onPlayerReady(event) {
+      console.log('YouTube Player is ready!');
+      // Uncomment this line if you want the video to auto-play:
+      // event.target.playVideo();
+    }
+  </script>
 </body>
 </html>
