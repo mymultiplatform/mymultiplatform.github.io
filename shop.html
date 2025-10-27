@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Mymultiplatform Shop</title>
+  <title>Healex alternative hygene products</title>
   <style>
     /* Reset box-sizing for consistency */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
 
     body {
-      background-color: rgb(0, 0, 0);
+      background-color: #000;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: white;
+      color: #fff;
       margin: 0;
       padding: 0;
     }
@@ -35,9 +33,7 @@
       align-items: center;
     }
 
-    .title {
-      margin-left: 20px;
-    }
+    .title { margin-left: 20px; }
 
     /* Navbar Styles */
     .navbar {
@@ -52,6 +48,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 12px;
     }
 
     .navbar a {
@@ -63,10 +60,7 @@
       transition: background-color 0.3s;
     }
 
-    .navbar a:hover {
-      background-color: green;
-      border-radius: 4px;
-    }
+    .navbar a:hover { background-color: green; border-radius: 4px; }
 
     /* Cart Icon */
     .cart-icon {
@@ -109,43 +103,21 @@
       display: none;
     }
 
-    .banner-slide.active {
-      display: block;
-    }
+    .banner-slide.active { display: block; }
 
     /* Main Content Styles */
-    .tab-content {
-      padding: 290px 20px 20px 20px;
-      color: white;
-    }
-
-    .tab-content h2 {
-      display: none;
-    }
-
-    .tab-content h2.active {
-      display: block;
-    }
+    .tab-content { padding: 290px 20px 20px 20px; color: white; }
+    .tab-content h2 { display: none; }
+    .tab-content h2.active { display: block; }
 
     /* Shop Section */
-    #Shop {
-      display: none;
-      padding: 2px;
-    }
-
-    #Shop .shop-profiles {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 200px;
-    }
+    #Shop { display: none; padding: 2px; }
+    #Shop .shop-profiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
 
     .profile {
       background-color: #222;
       border: 1px solid #444;
       border-radius: 8px;
-      width: 90%;
-      max-width: 300px;
       overflow: hidden;
       position: relative;
       transition: transform 0.3s ease, z-index 0.3s ease;
@@ -153,234 +125,95 @@
 
     .profile img {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: cover;
       cursor: pointer;
       transition: transform 0.3s ease;
+      display: block;
     }
+    .profile img:hover { transform: scale(1.03); }
 
-    .profile img:hover {
-      transform: scale(1.05);
-    }
-
-    .product-info {
-      padding: 10px;
-      text-align: left;
-    }
-
-    .product-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 5px;
-    }
-
-    .product-price {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
+    .product-info { padding: 12px; text-align: left; }
+    .product-title { font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 6px; }
+    .product-price { font-size: 1rem; margin-bottom: 10px; }
 
     .add-to-cart-btn {
       background-color: #444;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 10px 12px;
       border-radius: 4px;
       font-size: 1rem;
       cursor: pointer;
       transition: background-color 0.3s;
       width: 100%;
     }
-
-    .add-to-cart-btn:hover {
-      background-color: green;
-    }
+    .add-to-cart-btn:hover { background-color: green; }
 
     /* Cart Modal */
-   .cart-modal {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1002;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+    .cart-modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1002;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     .cart-content {
-      background-color: #fff;
-      color: #000;
-      padding: 20px;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 8px;
-      max-height: 80vh;
-      overflow-y: auto;
-      position: relative;
+      background-color: #fff; color: #000; padding: 20px; width: 100%; max-width: 500px;
+      border-radius: 8px; max-height: 80vh; overflow-y: auto; position: relative;
     }
 
-    .cart-content h2 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
+    .cart-content h2 { margin-bottom: 20px; text-align: center; }
 
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1rem; }
 
     .close-cart {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
+      position: absolute; top: 10px; right: 10px; background-color: red; border: none; color: white;
+      padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 1rem;
     }
 
-    .proceed-btn {
-      background-color: green;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-      margin-top: 20px;
-      width: 100%;
-    }
+    .proceed-btn { background-color: green; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 4px; font-size: 1rem; margin-top: 20px; width: 100%; }
 
     /* Expanded Profile */
     .profile.expanded {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      z-index: 1001;
-      background-color: #333;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      width: 95vw;
-      max-width: 500px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      border-radius: 8px;
-      overflow-y: auto;
-      transition: transform 0.3s ease;
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
+      z-index: 1001; background-color: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      width: 95vw; max-width: 540px; max-height: 90vh; display: flex; flex-direction: column;
+      align-items: center; padding: 20px; border-radius: 8px; overflow-y: auto; transition: transform 0.3s ease;
     }
+    .profile.expanded img { width: 100%; height: auto; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
 
-    .profile.expanded img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
+    .description { width: 100%; text-align: left; color: #ddd; }
+    .description h2 { margin-bottom: 10px; color: #fff; }
+    .description p { margin-bottom: 10px; line-height: 1.5; }
 
-    .description {
-      width: 100%;
-      text-align: left;
-      color: #ddd;
-    }
+    .product-gallery { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+    .product-gallery img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; flex-shrink: 0; transition: transform 0.3s ease; }
+    .product-gallery img:hover { transform: scale(1.08); }
 
-    .description h2 {
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .description p {
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .product-gallery {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 10px 0;
-    }
-
-    .product-gallery img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .product-gallery img:hover {
-      transform: scale(1.1);
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: red;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
+    .close-btn { position: absolute; top: 10px; right: 10px; background-color: red; border: none; color: white; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 1rem; display:none; }
 
     /* Footer */
-    footer {
-      padding: 20px;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      font-size: 1rem;
-    }
+    footer { padding: 20px; background-color: #000; color: #fff; text-align: center; font-size: 1rem; }
 
     /* Responsive Adjustments */
     @media (max-width: 768px) {
-      .navbar a {
-        font-size: 16px;
-        padding: 6px 12px;
-      }
-
-      .banner {
-        font-size: 20px;
-        padding: 10px 15px;
-        height: 50px;
-      }
-
-      .navbar {
-        top: 50px;
-        height: 45px;
-      }
-
-      .dynamic-banner {
-        top: 95px;
-        height: 135px;
-      }
-
-      .tab-content {
-        padding: 230px 15px 15px 15px;
-      }
+      .navbar a { font-size: 16px; padding: 6px 12px; }
+      .banner { font-size: 20px; padding: 10px 15px; height: 50px; }
+      .navbar { top: 50px; height: 45px; }
+      .dynamic-banner { top: 95px; height: 135px; }
+      .tab-content { padding: 230px 15px 15px 15px; }
     }
   </style>
 </head>
 <body>
   <!-- Fixed Banner -->
   <div class="banner">
-    <div class="title">Mymultiplatform Shop</div>
+    <div class="title">Healex alternative hygene products</div>
   </div>
 
   <!-- Navbar -->
@@ -388,91 +221,94 @@
     <a href="#home" class="tab-link">Home</a>
     <a href="#Shop" class="tab-link">Shop</a>
     <!-- Cart Icon -->
-    <div class="cart-icon" onclick="toggleCart()">
-      🛒
-      <div class="cart-count" id="cart-count">0</div>
-    </div>
+    <div class="cart-icon" onclick="toggleCart()">🛒<div class="cart-count" id="cart-count">0</div></div>
   </div>
 
   <!-- Dynamic Banner -->
   <div class="dynamic-banner">
-    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
-    </div>
-    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
-    </div>
+    <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1516826660139-1d0f88f59e54?q=80&w=2000&auto=format&fit=crop');"></div>
+    <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?q=80&w=2000&auto=format&fit=crop');"></div>
   </div>
 
   <!-- Tab Content -->
   <div class="tab-content">
     <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
+    <h2 id="home" class="active">Welcome to Healex alternative hygene products</h2>
   </div>
 
   <!-- Shop Section -->
   <div id="Shop">
-    <h2 class="filter-icon" onclick="toggleFilter()" style="text-align: right;">⏚</h2>
-    <p style="text-align: center; font-size: 2rem; margin-bottom: 20px;">SHOP</p>
+    <p style="text-align:center; font-size:2rem; margin: 10px 0 20px;">SHOP</p>
     <div class="shop-profiles">
-      <!-- Product Template -->
+
+      <!-- 1. Soap Dispenser (natural rock, hand carved) -->
       <div class="profile" id="product1">
-        <img alt="Product 1" src="https://blogger.googleusercontent.com/img/a/AVvXsEgHG6mSzShiseIo3RiVJFq9bV16GKH1ksxwdjE6dvIZLgOiXRGUh-gbqjcNls0z19YB4fs3RNd8vedPxe96aiKf5yCpzREHvOBty7kcFd8CV8VRVJXGF8QRZuFhZU_K2JI-jAuQU2UrAe8J8ZkJAcdZWq6liZ_s-xF1UXsKDupqmhXemfNLZskfpfs3rJbx" onclick="toggleExpand(this)" />
+        <img alt="Natural stone soap dispenser, hand carved" src="https://via.placeholder.com/800x600?text=Soap+Dispenser+%28Stone%29" onclick="toggleExpand(this)" />
         <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 1</p>
-          <p class="product-price">$10</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 1', 10)">Add to Cart</button>
-        </div>
-        <!-- Expanded Product Details -->
-        <div class="description" style="display: none;">
-          <h2>Product 1</h2>
-          <p>High-quality product 1 with excellent features and benefits.</p>
-          <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 1 Image 3" onclick="changeMainImage(this)" />
-          </div>
-        </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-      </div>
-
-      <!-- Repeat for other products -->
-      <div class="profile" id="product2">
-        <img alt="Product 2" src="https://m.media-amazon.com/images/I/81CDFCOT6OL._AC_SL1500_.jpg" onclick="toggleExpand(this)" />
-        <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 2</p>
-          <p class="product-price">$20</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 2', 20)">Add to Cart</button>
-        </div>
-        <div class="description" style="display: none;">
-          <h2>Product 2</h2>
-          <p>Premium product 2 with top-notch quality and design.</p>
-          <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhVzZKmIMBgV2tEcOXxiLNNtCZCOph1EP-XASoxhGkDYrrc8BPXPdl4v87Nl_XTIOX2OoaMS-vuCs4HIq5IaFKRA8C2_5FV6RL5hj0cIWmEca5eLIlb-DdzHiNAWErwAcTFBW3-_u6Apiegh-ZVyWIBP7hFjXsRi7AykjUcqh1sBMy7Fj8XVDeVMRsbozoM=w289-h314" alt="Product 2 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://s.alicdn.com/@sc04/kf/H2a0c3d071a864f6b9cc07b0f2fcdd1f7b.jpg_720x720q50.jpg" alt="Product 2 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhCMW6y8-B-lbO3cU00orlDTTnXUmOSGjQS1qL8DTwKGSU0YczgbPE7zYhwXB163DQLya49YDBpodSFx8U8DVZ9XIDfhG7Z1YbGnn7xC6KwnzeqQxAe39qWUTK3Ct8lWxnZmsW0r2fCGbBhHkSb1AbQ7rLm7gDY7FFQupS6LFMUw46gG5pHjp92-z_lkq8J" alt="Product 2 Image 3" onclick="changeMainImage(this)" />
-          </div>
-        </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
-      </div>
-
-      <!-- Example Product 3 -->
-      <div class="profile" id="product3">
-        <img alt="Product 3" src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" onclick="toggleExpand(this)" />
-        <div class="product-info">
-          <p class="product-title" onclick="toggleExpand(this)">Product 3</p>
+          <p class="product-title" onclick="toggleExpand(this)">Stone Soap Dispenser — by Arch Dante E</p>
           <p class="product-price">$30</p>
-          <button class="add-to-cart-btn" onclick="addToCart('Product 3', 30)">Add to Cart</button>
+          <button class="add-to-cart-btn" onclick="addToCart('Stone Soap Dispenser — by Arch Dante E', 30)">Add to Cart</button>
         </div>
         <div class="description" style="display: none;">
-          <h2>Product 3</h2>
-          <p>Exclusive product 3 offering unmatched performance and style.</p>
+          <h2>Stone Soap Dispenser</h2>
+          <p>Designed by Arch Dante E. Hand-carved from natural rock—each piece is unique. Smooth sealed interior with a comfortable pump for daily use.</p>
+          <p>Materials: natural stone, stainless pump. Finish: hand-polished.</p>
           <div class="product-gallery">
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 1" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 2" onclick="changeMainImage(this)" />
-            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiS0BGLzf2SnNu_wF2ru1qfIU61jI9f6FZzizW3yxC7q5-y1dGvvAIID55ztIu4UVnWt_DhHpf9RauMV5R0kmBsmu8pQPQX5j1T5x2v6KxG7xbSOS_LNbGQu4tkcI6z4O01noKtXgIZPi3clzc0fHexb8UZj5E64ANXOVm1uBCFF-1_O3eZ2k5A-Hk_EhsM=w364-h364" alt="Product 3 Image 3" onclick="changeMainImage(this)" />
+            <img src="https://via.placeholder.com/200?text=Top+View" alt="Top view" onclick="changeMainImage(this)" />
+            <img src="https://via.placeholder.com/200?text=Side+Detail" alt="Side detail" onclick="changeMainImage(this)" />
           </div>
         </div>
-        <button class="close-btn" onclick="closeExpand(this)" style="display: none;">X</button>
+        <button class="close-btn" onclick="closeExpand(this)">X</button>
       </div>
+
+      <!-- 2. Copper Toothbrush -->
+      <div class="profile" id="product2">
+        <img alt="Copper toothbrush" src="https://via.placeholder.com/800x600?text=Copper+Toothbrush" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Copper Toothbrush</p>
+          <p class="product-price">$90</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Copper Toothbrush', 90)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Copper Toothbrush</h2>
+          <p>Solid copper handle with replaceable soft bristles. Copper is naturally antimicrobial and easy to clean. For oral care questions, always check with your dentist.</p>
+          <p>Includes: 1 handle + 2 replacement heads.</p>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)">X</button>
+      </div>
+
+      <!-- 3. Ultra Violet Rays Lamp -->
+      <div class="profile" id="product3">
+        <img alt="UV sanitizing lamp for devices" src="https://via.placeholder.com/800x600?text=UV+Sanitizing+Lamp" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Ultra Violet Rays Lamp</p>
+          <p class="product-price">$60</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Ultra Violet Rays Lamp', 60)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Ultra Violet Rays Lamp</h2>
+          <p>A compact lamp to surface-clean electronics and small items—no chlorine or harsh fumes. Use responsibly: avoid direct eye/skin exposure, follow included safety instructions.</p>
+          <p>Best for phones, keyboards, and gadgets.</p>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)">X</button>
+      </div>
+
+      <!-- 4. Practice Your Smile Device -->
+      <div class="profile" id="product4">
+        <img alt="Smile training organic tablets" src="https://via.placeholder.com/800x600?text=Practice+Your+Smile+Device" onclick="toggleExpand(this)" />
+        <div class="product-info">
+          <p class="product-title" onclick="toggleExpand(this)">Practice Your Smile Device (10 pcs)</p>
+          <p class="product-price">$20</p>
+          <button class="add-to-cart-btn" onclick="addToCart('Practice Your Smile Device (10 pcs)', 20)">Add to Cart</button>
+        </div>
+        <div class="description" style="display: none;">
+          <h2>Practice Your Smile Device — Pack of 10</h2>
+          <p>Small organic tablets placed gently between your bite to practice a light smile expression. For short sessions only. Not a medical device; discontinue use if uncomfortable.</p>
+          <p>Package: 10 pieces.</p>
+        </div>
+        <button class="close-btn" onclick="closeExpand(this)">X</button>
+      </div>
+
     </div>
   </div>
 
@@ -495,24 +331,24 @@
   <script>
     // Tab Switching Functionality
     function showTabContent(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content h2, #Shop");
-      tabContents.forEach(content => {
-        if (content.id === tabId) {
-          content.style.display = "block";
+      const sections = [document.getElementById('home'), document.getElementById('Shop')];
+      sections.forEach(section => {
+        if (!section) return;
+        if (section.id === tabId) {
+          section.style.display = 'block';
         } else {
-          content.style.display = "none";
+          section.style.display = 'none';
         }
       });
-
       const dynamicBanner = document.querySelector('.dynamic-banner');
-      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+      if (dynamicBanner) dynamicBanner.style.display = tabId === 'home' ? 'block' : 'none';
     }
 
-    const tabLinks = document.querySelectorAll(".navbar a");
+    const tabLinks = document.querySelectorAll('.navbar a');
     tabLinks.forEach(link => {
-      link.addEventListener("click", event => {
+      link.addEventListener('click', event => {
         event.preventDefault();
-        const tabId = link.getAttribute("href").substring(1);
+        const tabId = link.getAttribute('href').substring(1);
         showTabContent(tabId);
         history.pushState(null, null, `#${tabId}`);
       });
@@ -520,17 +356,17 @@
 
     // Dynamic Banner Animation
     let currentSlide = 0;
-    const slides = document.querySelectorAll(".banner-slide");
-
+    const slides = document.querySelectorAll('.banner-slide');
     setInterval(() => {
-      slides[currentSlide].classList.remove("active");
+      if (slides.length === 0) return;
+      slides[currentSlide].classList.remove('active');
       currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
+      slides[currentSlide].classList.add('active');
     }, 5000);
 
     // Initial Content Display
-    window.addEventListener("DOMContentLoaded", () => {
-      const initialTab = window.location.hash.substring(1) || "home";
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialTab = window.location.hash.substring(1) || 'home';
       showTabContent(initialTab);
     });
 
@@ -572,14 +408,11 @@
       cart.forEach(item => {
         const cartItem = document.createElement('div');
         cartItem.classList.add('cart-item');
-        cartItem.innerHTML = `
-          <p>${item.name} x${item.quantity}</p>
-          <p>$${item.price * item.quantity}</p>
-        `;
+        cartItem.innerHTML = `<p>${item.name} x${item.quantity}</p><p>$${(item.price * item.quantity).toFixed(2)}</p>`;
         cartItemsContainer.appendChild(cartItem);
         totalPrice += item.price * item.quantity;
       });
-      document.getElementById('total-price').textContent = `Total: $${totalPrice}`;
+      document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
 
     function proceedToPayment() {
@@ -591,11 +424,10 @@
       const profile = element.closest('.profile');
       const isExpanded = profile.classList.contains('expanded');
 
-      const expandedProfiles = document.querySelectorAll('.profile.expanded');
-      expandedProfiles.forEach((expProfile) => {
-        if (expProfile !== profile) {
-          expProfile.classList.remove('expanded');
-          toggleDescription(expProfile, false);
+      document.querySelectorAll('.profile.expanded').forEach(exp => {
+        if (exp !== profile) {
+          exp.classList.remove('expanded');
+          toggleDescription(exp, false);
         }
       });
 
@@ -615,10 +447,10 @@
       const closeBtn = profile.querySelector('.close-btn');
       if (show) {
         description.style.display = 'block';
-        closeBtn.style.display = 'block';
+        if (closeBtn) closeBtn.style.display = 'block';
       } else {
         description.style.display = 'none';
-        closeBtn.style.display = 'none';
+        if (closeBtn) closeBtn.style.display = 'none';
       }
     }
 
@@ -633,13 +465,11 @@
       const profile = smallImg.closest('.profile');
       const mainImg = profile.querySelector('img');
       mainImg.src = smallImg.src;
+      mainImg.alt = smallImg.alt || mainImg.alt;
     }
 
     // Prevent image dragging
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-      img.draggable = false;
-    });
+    document.querySelectorAll('img').forEach(img => { img.draggable = false; });
 
     // Allow touch interactions within expanded profiles
     document.addEventListener('touchmove', function(event) {
