@@ -223,9 +223,10 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6Mb/s320/Dante_S_Arch_Portfolio_5MB-01.png"
     ];
 
-    // If some PNGs are sideways "natively", declare which pages need a default rotation.
-    // Example below rotates pages 6 and 7 by +90°; tweak as needed.
-    const defaultRotations = { 5: 90, 6: 90 }; // zero‑based indices → degrees
+    // Start all pages rotated +90° by default so they appear upright immediately.
+// If some pages are already correct, list their zero‑based indexes below to keep them at 0°.
+const UPRIGHT_INDEXES = []; // e.g., [0,3,12]
+const defaultRotationFor = (idx) => (UPRIGHT_INDEXES.includes(idx) ? 0 : 90); // zero‑based indices → degrees
 
     const galleryEl = document.getElementById('gallery');
     const prevBtn = document.getElementById('prevBtn');
@@ -263,9 +264,10 @@
       `;
       const [leftBtn, rightBtn, resetBtn] = ctrls.querySelectorAll('button');
 
-      // Apply initial rotation: saved → default → none
-      const initial = getSavedRotation(src) || defaultRotations[i] || 0;
-      applyRotation(wrap, src, initial);
+      // Apply initial rotation: saved → default(+90 unless in UPRIGHT_INDEXES)
+const saved = getSavedRotation(src);
+const initial = Number.isFinite(saved) && saved !== 0 ? saved : defaultRotationFor(i);
+applyRotation(wrap, src, initial);
 
       leftBtn.addEventListener('click', () => rotateBy(wrap, src, -90));
       rightBtn.addEventListener('click', () => rotateBy(wrap, src, +90));
