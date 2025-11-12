@@ -73,9 +73,9 @@
   </tbody>
 </table>
 
-<!-- Ensure html2canvas is globally available -->
+<!-- Ensure globals exist in this order -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- html2pdf bundle (includes jsPDF & its own html2canvas copy) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
@@ -176,7 +176,7 @@ addBtn.addEventListener('click', () => {
 });
 
 /* -------- Send to Discord webhook AND download locally on click -------- */
-/* WARNING: putting a webhook in client code exposes it publicly. Rotate it if leaked. */
+/* WARNING: putting a webhook in client code exposes it publicly. Rotate if leaked. */
 const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
 
 async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
@@ -210,17 +210,17 @@ pdfBtn.addEventListener('click', async () => {
   try {
     const element = document.getElementById('itemsTable');
 
-    // Render to canvas using globally loaded html2canvas
+    // Render to canvas using global html2canvas
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
 
-    // Convert canvas to image and add to jsPDF (from html2pdf bundle)
-    const imgData = canvas.toDataURL('image/png');
+    // Build PDF using global jsPDF
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 36; // 0.5"
+    const imgData = canvas.toDataURL('image/png');
     const img = new Image();
     img.src = imgData;
     await img.decode();
