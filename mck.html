@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PDF Generator – Sample List</title>
+<style>
+  body{font-family:Inter, sans-serif;margin:40px;background:#f6f8fa;}
+  h1{margin-bottom:16px;}
+  table{width:100%;border-collapse:collapse;margin-bottom:16px;background:white;}
+  th,td{border:1px solid #ccc;padding:8px;text-align:left;}
+  th{background:#f0f0f0;}
+  tr img{max-width:100px;max-height:100px;object-fit:contain;}
+  button{padding:8px 14px;margin-right:8px;border:none;border-radius:8px;cursor:pointer;font-weight:600;}
+  .add{background:#1f6feb;color:white;}
+  .pdf{background:#2da44e;color:white;}
+</style>
+</head>
+<body>
+
+<h1>PDF Generator – Sample Table</h1>
+
+<table id="itemsTable">
+  <thead>
+    <tr>
+      <th>Item #</th>
+      <th>Name</th>
+      <th>Dimensions</th>
+      <th>Color</th>
+      <th>Finish</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>@1</td>
+      <td>WD-02 Oak Tambour</td>
+      <td>1½″</td>
+      <td>Natural</td>
+      <td>Matte</td>
+      <td><img src="https://via.placeholder.com/100" alt="Sample"></td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="add" id="addRow">+ Add Item</button>
+<button class="pdf" id="makePDF">Download PDF</button>
+
+<!-- html2pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const tableBody = document.querySelector('#itemsTable tbody');
+
+document.getElementById('addRow').addEventListener('click', () => {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>@${tableBody.rows.length+1}</td>
+    <td contenteditable>Item name</td>
+    <td contenteditable>Dims</td>
+    <td contenteditable>Color</td>
+    <td contenteditable>Finish</td>
+    <td><img src="https://via.placeholder.com/100" alt="Preview"></td>
+  `;
+  tableBody.appendChild(row);
+});
+
+document.getElementById('makePDF').addEventListener('click', () => {
+  const element = document.getElementById('itemsTable');
+  const opt = {
+    margin: 0.5,
+    filename: 'samples.pdf',
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+});
+</script>
+</body>
+</html>
