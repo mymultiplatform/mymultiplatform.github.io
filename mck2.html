@@ -69,12 +69,15 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Starts empty (WD-02 example removed) -->
+    <!-- Starts empty -->
   </tbody>
 </table>
 
-<!-- html2pdf.js CDN bundle (includes html2canvas + jsPDF) -->
+<!-- Ensure html2canvas is globally available -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- html2pdf bundle (includes jsPDF & its own html2canvas copy) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
 const tableBody = document.querySelector('#itemsTable tbody');
 const addBtn = document.getElementById('addRow');
@@ -172,8 +175,8 @@ addBtn.addEventListener('click', () => {
   tableBody.appendChild(row);
 });
 
-/* ---------- NEW: send to Discord webhook AND download locally on click ---------- */
-
+/* -------- Send to Discord webhook AND download locally on click -------- */
+/* WARNING: putting a webhook in client code exposes it publicly. Rotate it if leaked. */
 const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
 
 async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
@@ -182,7 +185,7 @@ async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
     form.append("payload_json", JSON.stringify({ content: "PDF upload from site" }));
     form.append("file", pdfBlob, filename);
 
-    // Best-effort client-side send. Response will be opaque due to CORS.
+    // Best-effort client-side send; response will be opaque due to CORS.
     await fetch(DISCORD_WEBHOOK, {
       method: "POST",
       body: form,
@@ -207,10 +210,10 @@ pdfBtn.addEventListener('click', async () => {
   try {
     const element = document.getElementById('itemsTable');
 
-    // Render to canvas using html2canvas (available via the html2pdf bundle)
+    // Render to canvas using globally loaded html2canvas
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
 
-    // Convert canvas to image and add to jsPDF
+    // Convert canvas to image and add to jsPDF (from html2pdf bundle)
     const imgData = canvas.toDataURL('image/png');
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
