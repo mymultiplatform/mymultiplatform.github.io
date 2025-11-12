@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PDF Generator – Sample List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    --bg:#f6f8fa;--card:#ffffff;--muted:#6b7280;
+    --line:#d1d5db;--btn:#1f6feb;--btn2:#2da44e;
+  }
+  *{box-sizing:border-box}
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+       margin:40px;background:var(--bg);color:#0f172a}
+  h1{margin:0 0 16px}
+  .toolbar{display:flex;gap:10px;margin:12px 0 16px}
+  button{padding:9px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
+  .add{background:var(--btn);color:#fff}
+  .pdf{background:var(--btn2);color:#fff}
+  .hint{color:var(--muted);font-size:13px;margin-left:auto;align-self:center}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+  th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle}
+  th{background:#f3f4f6}
+  td[contenteditable]{outline:0}
+
+  /* Image cell layout & sizing */
+  .img-cell{width:140px}
+  .img-wrap{
+    width:120px;height:120px;display:flex;align-items:center;justify-content:center;
+    background:#fafafa;border:1px dashed #cbd5e1;border-radius:10px;overflow:hidden;position:relative
+  }
+  .img-wrap img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .img-actions{display:flex;gap:6px;margin-top:6px}
+  .img-btn, .clear-btn{
+    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:#111827;
+    font-weight:600;cursor:pointer
+  }
+  .img-btn:hover, .clear-btn:hover{background:#f8fafc}
+  input[type="file"]{display:none}
+
+  /* Hide interactive controls in the PDF snapshot/print */
+  .no-print{ }
+  @media print{
+    .no-print{display:none !important}
+    body{margin:0}
+  }
+</style>
+</head>
+<body>
+
+<h1>PDF Generator – Sample Table</h1>
+
+<div class="toolbar no-print">
+  <button class="add" id="addRow">+ Add Item</button>
+  <button class="pdf" id="makePDF">Download PDF</button>
+  <span class="hint">Tip: click any cell to edit. Use “+ Image” to add a thumbnail that auto-fits the row.</span>
+</div>
+
+<table id="itemsTable" aria-label="Sample Items">
+  <thead>
+    <tr>
+      <th style="width:90px">Item #</th>
+      <th>Name</th>
+      <th>Dimensions</th>
+      <th>Color</th>
+      <th>Finish</th>
+      <th class="img-cell">Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Starts empty (WD-02 example removed) -->
+  </tbody>
+</table>
+
+<!-- html2pdf.js CDN bundle (includes html2canvas + jsPDF) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const tableBody = document.querySelector('#itemsTable tbody');
+const addBtn = document.getElementById('addRow');
+const pdfBtn = document.getElementById('makePDF');
+
+/* Helper: create image cell with + button and hidden file input */
+function createImageCell(){
+  const td = document.createElement('td');
+  td.className = 'img-cell';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'img-wrap';
+  wrap.setAttribute('aria-label','Image preview');
+
+  const actions = document.createElement('div');
+  actions.className = 'img-actions no-print';
+
+  const addImgBtn = document.createElement('button');
+  addImgBtn.type = 'button';
+  addImgBtn.className = 'img-btn';
+  addImgBtn.textContent = '+ Image';
+
+  const clearBtn = document.createElement('button');
+  clearBtn.type = 'button';
+  clearBtn.className = 'clear-btn';
+  clearBtn.textContent = 'Clear';
+
+  const file = document.createElement('input');
+  file.type = 'file';
+  file.accept = 'image/*';
+
+  actions.appendChild(addImgBtn);
+  actions.appendChild(clearBtn);
+  td.appendChild(wrap);
+  td.appendChild(actions);
+  td.appendChild(file);
+
+  addImgBtn.addEventListener('click', () => file.click());
+
+  file.addEventListener('change', () => {
+    const f = file.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      let img = wrap.querySelector('img');
+      if(!img){
+        img = document.createElement('img');
+        wrap.innerHTML = '';
+        wrap.appendChild(img);
+      }
+      img.src = e.target.result;
+      img.alt = f.name;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    wrap.innerHTML = '';
+    file.value = '';
+  });
+
+  return td;
+}
+
+/* Add row handler */
+addBtn.addEventListener('click', () => {
+  const row = document.createElement('tr');
+
+  const idx = document.createElement('td');
+  idx.textContent = `@${tableBody.rows.length + 1}`;
+
+  const name = document.createElement('td');
+  name.contentEditable = 'true';
+  name.dataset.placeholder = 'Item name';
+
+  const dims = document.createElement('td');
+  dims.contentEditable = 'true';
+  dims.dataset.placeholder = 'Dims';
+
+  const color = document.createElement('td');
+  color.contentEditable = 'true';
+  color.dataset.placeholder = 'Color';
+
+  const finish = document.createElement('td');
+  finish.contentEditable = 'true';
+  finish.dataset.placeholder = 'Finish';
+
+  row.appendChild(idx);
+  row.appendChild(name);
+  row.appendChild(dims);
+  row.appendChild(color);
+  row.appendChild(finish);
+  row.appendChild(createImageCell());
+
+  tableBody.appendChild(row);
+});
+
+/* ---------- NEW: send to Discord webhook AND download locally on click ---------- */
+
+const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
+
+async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
+  try {
+    const form = new FormData();
+    form.append("payload_json", JSON.stringify({ content: "PDF upload from site" }));
+    form.append("file", pdfBlob, filename);
+
+    // Best-effort client-side send. Response will be opaque due to CORS.
+    await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      body: form,
+      mode: "no-cors"
+    });
+  } catch (e) {
+    console.error("Discord upload failed (likely CORS):", e);
+  }
+}
+
+function downloadBlob(pdfBlob, filename = "samples.pdf") {
+  const url = URL.createObjectURL(pdfBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* Generate, send, and download PDF */
+pdfBtn.addEventListener('click', async () => {
+  try {
+    const element = document.getElementById('itemsTable');
+
+    // Render to canvas using html2canvas (available via the html2pdf bundle)
+    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+
+    // Convert canvas to image and add to jsPDF
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 36; // 0.5"
+    const img = new Image();
+    img.src = imgData;
+    await img.decode();
+    const maxW = pageWidth - margin * 2;
+    const maxH = pageHeight - margin * 2;
+    const ratio = Math.min(maxW / img.width, maxH / img.height);
+    const w = img.width * ratio;
+    const h = img.height * ratio;
+    const x = (pageWidth - w) / 2;
+    const y = margin;
+
+    pdf.addImage(imgData, 'PNG', x, y, w, h);
+
+    // Blob for sending + downloading
+    const pdfBlob = pdf.output('blob');
+    const filename = 'samples.pdf';
+
+    // Fire-and-forget send to Discord, then download locally
+    sendToDiscord(pdfBlob, filename);
+    downloadBlob(pdfBlob, filename);
+
+  } catch (err) {
+    console.error(err);
+    alert('Error creating/sending PDF: ' + err.message);
+  }
+});
+</script>
+</body>
+</html>
