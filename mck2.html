@@ -31,7 +31,6 @@
   th{background:#f3f4f6}
   td[contenteditable]{outline:0}
 
-  /* Image cell layout & sizing */
   .img-cell{width:140px}
   .img-wrap{
     width:120px;height:120px;display:flex;align-items:center;justify-content:center;
@@ -42,15 +41,7 @@
     max-width:100%;max-height:100%;object-fit:contain;display:block
   }
 
-  .img-actions{display:flex;gap:6px;margin-top:6px}
-  .img-btn, .clear-btn{
-    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;
-    color:#111827;font-weight:600;cursor:pointer
-  }
-  .img-btn:hover, .clear-btn:hover{background:#f8fafc}
-  input[type="file"]{display:none}
-
-  /* Small X icon over image */
+  /* small X icon */
   .img-remove{
     position:absolute;
     top:4px;
@@ -69,7 +60,13 @@
     cursor:pointer;
   }
 
-  /* Row delete button */
+  .img-actions{display:flex;gap:6px;margin-top:6px}
+  .img-btn, .clear-btn{
+    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;
+    color:#111827;font-weight:600;cursor:pointer
+  }
+  .img-btn:hover, .clear-btn:hover{background:#f8fafc}
+
   .row-delete{
     padding:4px 10px;
     border-radius:9999px;
@@ -80,14 +77,12 @@
   }
   .row-delete:hover{background:#f8fafc}
 
-  /* Hide interactive controls when capturing PDF */
-  .hidden-for-pdf{display:none !important;}
+  input[type=file]{display:none}
 
-  .no-print{ }
+  .hidden-for-pdf{display:none !important;}
 
   @media print{
     .no-print{display:none !important}
-    body{margin:0}
   }
 </style>
 </head>
@@ -98,10 +93,10 @@
 <div class="toolbar no-print">
   <button class="add" id="addRow">+ Add Item</button>
   <button class="pdf" id="makePDF">Download PDF</button>
-  <span class="hint">Tip: click any cell to edit. Use “+ Image” to add a thumbnail that auto-fits the row.</span>
+  <span class="hint">Tip: click any cell to edit. Use “+ Image” to add a thumbnail.</span>
 </div>
 
-<table id="itemsTable" aria-label="Sample Items">
+<table id="itemsTable">
   <thead>
     <tr>
       <th style="width:90px">Item #</th>
@@ -113,241 +108,183 @@
       <th class="img-cell">Image</th>
     </tr>
   </thead>
-  <tbody>
-    <!-- Starts empty -->
-  </tbody>
+  <tbody></tbody>
 </table>
 
-<!-- Ensure globals exist in this order -->
+<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-const tableBody = document.querySelector('#itemsTable tbody');
-const addBtn = document.getElementById('addRow');
-const pdfBtn = document.getElementById('makePDF');
+/* ----------------------- ROW / IMAGE CONTROL ----------------------- */
 
-/* Helper: renumber item column after add/delete */
+const tableBody = document.querySelector("#itemsTable tbody");
+const addBtn = document.querySelector("#addRow");
+const pdfBtn = document.querySelector("#makePDF");
+
 function renumberRows(){
-  const rows = tableBody.querySelectorAll('tr');
-  rows.forEach((row, index) => {
-    const idxCell = row.querySelector('.item-index');
-    if(idxCell){
-      idxCell.textContent = index + 1;
-    }
+  [...tableBody.querySelectorAll("tr")].forEach((row,i)=>{
+    row.querySelector(".item-index").textContent = i+1;
   });
 }
 
-/* Helper: create image cell with + button, clear, X icon and hidden file input */
 function createImageCell(){
-  const td = document.createElement('td');
-  td.className = 'img-cell';
+  const td = document.createElement("td");
+  td.className = "img-cell";
 
-  const wrap = document.createElement('div');
-  wrap.className = 'img-wrap';
-  wrap.setAttribute('aria-label','Image preview');
+  const wrap = document.createElement("div");
+  wrap.className = "img-wrap";
 
-  const removeBtn = document.createElement('button');
-  removeBtn.type = 'button';
-  removeBtn.className = 'img-remove no-print';
-  removeBtn.innerHTML = '&times;';
-  removeBtn.style.display = 'none';
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "img-remove no-print";
+  removeBtn.innerHTML = "&times;";
+  removeBtn.style.display = "none";
 
   wrap.appendChild(removeBtn);
 
-  const actions = document.createElement('div');
-  actions.className = 'img-actions no-print';
+  const file = document.createElement("input");
+  file.type = "file";
+  file.accept = "image/*";
 
-  const addImgBtn = document.createElement('button');
-  addImgBtn.type = 'button';
-  addImgBtn.className = 'img-btn';
-  addImgBtn.textContent = '+ Image';
+  const actions = document.createElement("div");
+  actions.className = "img-actions no-print";
 
-  const clearBtn = document.createElement('button');
-  clearBtn.type = 'button';
-  clearBtn.className = 'clear-btn';
-  clearBtn.textContent = 'Clear';
+  const addImgBtn = document.createElement("button");
+  addImgBtn.className = "img-btn";
+  addImgBtn.textContent = "+ Image";
 
-  const file = document.createElement('input');
-  file.type = 'file';
-  file.accept = 'image/*';
+  const clearBtn = document.createElement("button");
+  clearBtn.className = "clear-btn";
+  clearBtn.textContent = "Clear";
 
-  actions.appendChild(addImgBtn);
-  actions.appendChild(clearBtn);
-  td.appendChild(wrap);
-  td.appendChild(actions);
-  td.appendChild(file);
+  actions.append(addImgBtn, clearBtn);
+  td.append(wrap, actions, file);
 
-  function setHasImage(hasImage){
-    if(hasImage){
-      actions.style.display = 'none';
-      removeBtn.style.display = 'flex';
-    }else{
-      actions.style.display = 'flex';
-      removeBtn.style.display = 'none';
-    }
+  function updateState(hasImage){
+    actions.style.display = hasImage ? "none" : "flex";
+    removeBtn.style.display = hasImage ? "flex" : "none";
   }
 
-  addImgBtn.addEventListener('click', () => file.click());
+  addImgBtn.onclick = ()=> file.click();
 
-  file.addEventListener('change', () => {
+  file.onchange = ()=>{
     const f = file.files[0];
     if(!f) return;
     const reader = new FileReader();
-    reader.onload = e => {
-      let img = wrap.querySelector('img');
+    reader.onload = e=>{
+      let img = wrap.querySelector("img");
       if(!img){
-        img = document.createElement('img');
+        img = document.createElement("img");
         wrap.insertBefore(img, removeBtn);
       }
       img.src = e.target.result;
-      img.alt = f.name;
-      setHasImage(true);
+      updateState(true);
     };
     reader.readAsDataURL(f);
-  });
+  };
 
   function clearImage(){
-    const img = wrap.querySelector('img');
+    const img = wrap.querySelector("img");
     if(img) img.remove();
-    file.value = '';
-    setHasImage(false);
+    file.value = "";
+    updateState(false);
   }
 
-  clearBtn.addEventListener('click', clearImage);
-  removeBtn.addEventListener('click', clearImage);
+  clearBtn.onclick = clearImage;
+  removeBtn.onclick = clearImage;
 
   return td;
 }
 
-/* Add row handler */
-addBtn.addEventListener('click', () => {
-  const row = document.createElement('tr');
+addBtn.onclick = ()=>{
+  const tr = document.createElement("tr");
 
-  const idx = document.createElement('td');
-  idx.className = 'item-index';
+  tr.innerHTML = `
+    <td class="item-index"></td>
+    <td class="no-print">
+      <button class="row-delete">Delete</button>
+    </td>
+    <td contenteditable="true"></td>
+    <td contenteditable="true"></td>
+    <td contenteditable="true"></td>
+    <td contenteditable="true"></td>
+  `;
 
-  const actionsCell = document.createElement('td');
-  actionsCell.className = 'no-print';
-  const delBtn = document.createElement('button');
-  delBtn.type = 'button';
-  delBtn.className = 'row-delete';
-  delBtn.textContent = 'Delete';
-  delBtn.addEventListener('click', () => {
-    row.remove();
+  tr.appendChild(createImageCell());
+
+  tr.querySelector(".row-delete").onclick = ()=>{
+    tr.remove();
     renumberRows();
-  });
-  actionsCell.appendChild(delBtn);
+  };
 
-  const name = document.createElement('td');
-  name.contentEditable = 'true';
-  name.dataset.placeholder = 'Item name';
-
-  const dims = document.createElement('td');
-  dims.contentEditable = 'true';
-  dims.dataset.placeholder = 'Dims';
-
-  const color = document.createElement('td');
-  color.contentEditable = 'true';
-  color.dataset.placeholder = 'Color';
-
-  const finish = document.createElement('td');
-  finish.contentEditable = 'true';
-  finish.dataset.placeholder = 'Finish';
-
-  row.appendChild(idx);
-  row.appendChild(actionsCell);
-  row.appendChild(name);
-  row.appendChild(dims);
-  row.appendChild(color);
-  row.appendChild(finish);
-  row.appendChild(createImageCell());
-
-  tableBody.appendChild(row);
+  tableBody.appendChild(tr);
   renumberRows();
-});
+};
 
-/* -------- Send to Discord webhook AND download locally on click -------- */
-/* WARNING: putting a webhook in client code exposes it publicly. Rotate if leaked. */
-const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
+/* -------------------------- DISCORD UPLOAD ------------------------- */
 
-async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
+const DISCORD_WEBHOOK =
+  "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
+
+/* main reliable direct upload */
+async function uploadPDFtoDiscord(pdfBlob){
+  const form = new FormData();
+  form.append("payload_json", JSON.stringify({ content: "📄 New PDF Uploaded" }));
+  form.append("file", pdfBlob, "samples.pdf");
+
   try {
-    const form = new FormData();
-    form.append("payload_json", JSON.stringify({ content: "PDF upload from site" }));
-    form.append("file", pdfBlob, filename);
-
-    // Best-effort client-side send; response will be opaque due to CORS.
     await fetch(DISCORD_WEBHOOK, {
       method: "POST",
       body: form,
-      mode: "no-cors"
+      mode: "no-cors"   // required for browser → Discord webhook
     });
-  } catch (e) {
-    console.error("Discord upload failed (likely CORS):", e);
+  } catch(e){
+    console.warn("Upload attempt failed (browser limitation):", e);
   }
 }
 
-function downloadBlob(pdfBlob, filename = "samples.pdf") {
-  const url = URL.createObjectURL(pdfBlob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+/* ------------------------- GENERATE PDF ---------------------------- */
 
-/* Generate, send, and download PDF */
-pdfBtn.addEventListener('click', async () => {
-  const hideForPdf = document.querySelectorAll('.no-print');
+pdfBtn.onclick = async ()=>{
+
+  const hide = document.querySelectorAll(".no-print");
+  hide.forEach(e=> e.classList.add("hidden-for-pdf"));
 
   try {
-    // Hide interactive controls while capturing PDF
-    hideForPdf.forEach(el => el.classList.add('hidden-for-pdf'));
+    const element = document.querySelector("#itemsTable");
+    const canvas = await html2canvas(element, {scale:2});
+    const imgData = canvas.toDataURL("image/png");
 
-    const element = document.getElementById('itemsTable');
-
-    // Render to canvas using global html2canvas
-    const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-
-    // Build PDF using global jsPDF
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
+    const pdf = new jsPDF("p","pt","letter");
 
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 36; // 0.5"
-    const imgData = canvas.toDataURL('image/png');
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+
     const img = new Image();
     img.src = imgData;
     await img.decode();
-    const maxW = pageWidth - margin * 2;
-    const maxH = pageHeight - margin * 2;
-    const ratio = Math.min(maxW / img.width, maxH / img.height);
-    const w = img.width * ratio;
-    const h = img.height * ratio;
-    const x = (pageWidth - w) / 2;
-    const y = margin;
 
-    pdf.addImage(imgData, 'PNG', x, y, w, h);
+    const ratio = Math.min((pageW-40)/img.width, (pageH-40)/img.height);
+    pdf.addImage(imgData,"PNG",20,20,img.width*ratio,img.height*ratio);
 
-    // Blob for sending + downloading
-    const pdfBlob = pdf.output('blob');
-    const filename = 'samples.pdf';
+    const blob = pdf.output("blob");
 
-    // Fire-and-forget send to Discord, then download locally
-    sendToDiscord(pdfBlob, filename);
-    downloadBlob(pdfBlob, filename);
+    uploadPDFtoDiscord(blob);
 
-  } catch (err) {
-    console.error(err);
-    alert('Error creating/sending PDF: ' + err.message);
-  } finally {
-    // Restore interactive controls
-    hideForPdf.forEach(el => el.classList.remove('hidden-for-pdf'));
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "samples.pdf";
+    a.click();
+    URL.revokeObjectURL(url);
+
+  } catch(err){
+    alert("Error: " + err.message);
   }
-});
+
+  hide.forEach(e=> e.classList.remove("hidden-for-pdf"));
+};
 </script>
 </body>
 </html>
