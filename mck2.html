@@ -10,8 +10,10 @@
     --line:#d1d5db;--btn:#1f6feb;--btn2:#2da44e;
   }
   *{box-sizing:border-box}
-  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-       margin:40px;background:var(--bg);color:#0f172a}
+  body{
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    margin:40px;background:var(--bg);color:#0f172a
+  }
   h1{margin:0 0 16px}
   .toolbar{display:flex;gap:10px;margin:12px 0 16px}
   button{padding:9px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
@@ -19,8 +21,13 @@
   .pdf{background:var(--btn2);color:#fff}
   .hint{color:var(--muted);font-size:13px;margin-left:auto;align-self:center}
 
-  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
-  th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle}
+  table{
+    width:100%;border-collapse:collapse;background:var(--card);
+    border-radius:12px;overflow:hidden
+  }
+  th,td{
+    border:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle
+  }
   th{background:#f3f4f6}
   td[contenteditable]{outline:0}
 
@@ -28,19 +35,56 @@
   .img-cell{width:140px}
   .img-wrap{
     width:120px;height:120px;display:flex;align-items:center;justify-content:center;
-    background:#fafafa;border:1px dashed #cbd5e1;border-radius:10px;overflow:hidden;position:relative
+    background:#fafafa;border:1px dashed #cbd5e1;border-radius:10px;overflow:hidden;
+    position:relative;
   }
-  .img-wrap img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .img-wrap img{
+    max-width:100%;max-height:100%;object-fit:contain;display:block
+  }
+
   .img-actions{display:flex;gap:6px;margin-top:6px}
   .img-btn, .clear-btn{
-    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:#111827;
-    font-weight:600;cursor:pointer
+    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;
+    color:#111827;font-weight:600;cursor:pointer
   }
   .img-btn:hover, .clear-btn:hover{background:#f8fafc}
   input[type="file"]{display:none}
 
-  /* Hide interactive controls in the PDF snapshot/print */
+  /* Small X icon over image */
+  .img-remove{
+    position:absolute;
+    top:4px;
+    right:4px;
+    width:20px;
+    height:20px;
+    border-radius:9999px;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    line-height:1;
+    background:rgba(15,23,42,0.9);
+    color:#fff;
+    cursor:pointer;
+  }
+
+  /* Row delete button */
+  .row-delete{
+    padding:4px 10px;
+    border-radius:9999px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .row-delete:hover{background:#f8fafc}
+
+  /* Hide interactive controls when capturing PDF */
+  .hidden-for-pdf{display:none !important;}
+
   .no-print{ }
+
   @media print{
     .no-print{display:none !important}
     body{margin:0}
@@ -61,6 +105,7 @@
   <thead>
     <tr>
       <th style="width:90px">Item #</th>
+      <th class="no-print" style="width:80px">Actions</th>
       <th>Name</th>
       <th>Dimensions</th>
       <th>Color</th>
@@ -73,9 +118,9 @@
   </tbody>
 </table>
 
-<!-- Ensure html2canvas is globally available -->
+<!-- Ensure globals exist in this order -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- html2pdf bundle (includes jsPDF & its own html2canvas copy) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
@@ -83,7 +128,18 @@ const tableBody = document.querySelector('#itemsTable tbody');
 const addBtn = document.getElementById('addRow');
 const pdfBtn = document.getElementById('makePDF');
 
-/* Helper: create image cell with + button and hidden file input */
+/* Helper: renumber item column after add/delete */
+function renumberRows(){
+  const rows = tableBody.querySelectorAll('tr');
+  rows.forEach((row, index) => {
+    const idxCell = row.querySelector('.item-index');
+    if(idxCell){
+      idxCell.textContent = index + 1;
+    }
+  });
+}
+
+/* Helper: create image cell with + button, clear, X icon and hidden file input */
 function createImageCell(){
   const td = document.createElement('td');
   td.className = 'img-cell';
@@ -91,6 +147,14 @@ function createImageCell(){
   const wrap = document.createElement('div');
   wrap.className = 'img-wrap';
   wrap.setAttribute('aria-label','Image preview');
+
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.className = 'img-remove no-print';
+  removeBtn.innerHTML = '&times;';
+  removeBtn.style.display = 'none';
+
+  wrap.appendChild(removeBtn);
 
   const actions = document.createElement('div');
   actions.className = 'img-actions no-print';
@@ -115,6 +179,16 @@ function createImageCell(){
   td.appendChild(actions);
   td.appendChild(file);
 
+  function setHasImage(hasImage){
+    if(hasImage){
+      actions.style.display = 'none';
+      removeBtn.style.display = 'flex';
+    }else{
+      actions.style.display = 'flex';
+      removeBtn.style.display = 'none';
+    }
+  }
+
   addImgBtn.addEventListener('click', () => file.click());
 
   file.addEventListener('change', () => {
@@ -125,19 +199,24 @@ function createImageCell(){
       let img = wrap.querySelector('img');
       if(!img){
         img = document.createElement('img');
-        wrap.innerHTML = '';
-        wrap.appendChild(img);
+        wrap.insertBefore(img, removeBtn);
       }
       img.src = e.target.result;
       img.alt = f.name;
+      setHasImage(true);
     };
     reader.readAsDataURL(f);
   });
 
-  clearBtn.addEventListener('click', () => {
-    wrap.innerHTML = '';
+  function clearImage(){
+    const img = wrap.querySelector('img');
+    if(img) img.remove();
     file.value = '';
-  });
+    setHasImage(false);
+  }
+
+  clearBtn.addEventListener('click', clearImage);
+  removeBtn.addEventListener('click', clearImage);
 
   return td;
 }
@@ -147,7 +226,19 @@ addBtn.addEventListener('click', () => {
   const row = document.createElement('tr');
 
   const idx = document.createElement('td');
-  idx.textContent = `@${tableBody.rows.length + 1}`;
+  idx.className = 'item-index';
+
+  const actionsCell = document.createElement('td');
+  actionsCell.className = 'no-print';
+  const delBtn = document.createElement('button');
+  delBtn.type = 'button';
+  delBtn.className = 'row-delete';
+  delBtn.textContent = 'Delete';
+  delBtn.addEventListener('click', () => {
+    row.remove();
+    renumberRows();
+  });
+  actionsCell.appendChild(delBtn);
 
   const name = document.createElement('td');
   name.contentEditable = 'true';
@@ -166,6 +257,7 @@ addBtn.addEventListener('click', () => {
   finish.dataset.placeholder = 'Finish';
 
   row.appendChild(idx);
+  row.appendChild(actionsCell);
   row.appendChild(name);
   row.appendChild(dims);
   row.appendChild(color);
@@ -173,10 +265,11 @@ addBtn.addEventListener('click', () => {
   row.appendChild(createImageCell());
 
   tableBody.appendChild(row);
+  renumberRows();
 });
 
 /* -------- Send to Discord webhook AND download locally on click -------- */
-/* WARNING: putting a webhook in client code exposes it publicly. Rotate it if leaked. */
+/* WARNING: putting a webhook in client code exposes it publicly. Rotate if leaked. */
 const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
 
 async function sendToDiscord(pdfBlob, filename = "samples.pdf") {
@@ -207,20 +300,25 @@ function downloadBlob(pdfBlob, filename = "samples.pdf") {
 
 /* Generate, send, and download PDF */
 pdfBtn.addEventListener('click', async () => {
+  const hideForPdf = document.querySelectorAll('.no-print');
+
   try {
+    // Hide interactive controls while capturing PDF
+    hideForPdf.forEach(el => el.classList.add('hidden-for-pdf'));
+
     const element = document.getElementById('itemsTable');
 
-    // Render to canvas using globally loaded html2canvas
+    // Render to canvas using global html2canvas
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
 
-    // Convert canvas to image and add to jsPDF (from html2pdf bundle)
-    const imgData = canvas.toDataURL('image/png');
+    // Build PDF using global jsPDF
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit: 'pt', format: 'letter', orientation: 'portrait' });
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 36; // 0.5"
+    const imgData = canvas.toDataURL('image/png');
     const img = new Image();
     img.src = imgData;
     await img.decode();
@@ -245,6 +343,9 @@ pdfBtn.addEventListener('click', async () => {
   } catch (err) {
     console.error(err);
     alert('Error creating/sending PDF: ' + err.message);
+  } finally {
+    // Restore interactive controls
+    hideForPdf.forEach(el => el.classList.remove('hidden-for-pdf'));
   }
 });
 </script>
