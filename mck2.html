@@ -41,7 +41,6 @@
     max-width:100%;max-height:100%;object-fit:contain;display:block
   }
 
-  /* small X icon */
   .img-remove{
     position:absolute;
     top:4px;
@@ -111,7 +110,6 @@
   <tbody></tbody>
 </table>
 
-<!-- LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -221,12 +219,11 @@ addBtn.onclick = ()=>{
   renumberRows();
 };
 
-/* -------------------------- DISCORD UPLOAD ------------------------- */
+/* -------------------------- DISCORD WEBHOOK ------------------------- */
 
 const DISCORD_WEBHOOK =
-  "https://discordapp.com/api/webhooks/1438237229326536789/qhx_XqSaaRRSbr1ZuXeAmfIhX0qjXpNgO4yUdmQ88xUW7hNV9B7FCegX1SrHeMs1VZlh";
+  "https://discordapp.com/api/webhooks/1438656749048692899/bfhZfQpO9pNpMXFFiGVhzoyKtGDkXYQWFFBW6QVpvdcdJxWd-Sc-nMsYuHaANungOZ-X";
 
-/* main reliable direct upload */
 async function uploadPDFtoDiscord(pdfBlob){
   const form = new FormData();
   form.append("payload_json", JSON.stringify({ content: "📄 New PDF Uploaded" }));
@@ -236,19 +233,19 @@ async function uploadPDFtoDiscord(pdfBlob){
     await fetch(DISCORD_WEBHOOK, {
       method: "POST",
       body: form,
-      mode: "no-cors"   // required for browser → Discord webhook
+      mode: "no-cors"
     });
   } catch(e){
-    console.warn("Upload attempt failed (browser limitation):", e);
+    console.warn("Upload failed:", e);
   }
 }
 
-/* ------------------------- GENERATE PDF ---------------------------- */
+/* ---------------------------- PDF EXPORT ---------------------------- */
 
 pdfBtn.onclick = async ()=>{
 
-  const hide = document.querySelectorAll(".no-print");
-  hide.forEach(e=> e.classList.add("hidden-for-pdf"));
+  const hidden = document.querySelectorAll(".no-print");
+  hidden.forEach(e=> e.classList.add("hidden-for-pdf"));
 
   try {
     const element = document.querySelector("#itemsTable");
@@ -283,7 +280,7 @@ pdfBtn.onclick = async ()=>{
     alert("Error: " + err.message);
   }
 
-  hide.forEach(e=> e.classList.remove("hidden-for-pdf"));
+  hidden.forEach(e=> e.classList.remove("hidden-for-pdf"));
 };
 </script>
 </body>
