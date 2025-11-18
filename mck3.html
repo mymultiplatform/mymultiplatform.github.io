@@ -20,9 +20,35 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       color:#111827;
     }
-    .page{
-      max-width:850px;
+
+    /* keep roughly within 8.5x11 (letter) when printed / exported */
+    .wrapper{
+      max-width:850px;               /* ~ 8.5" at 100 px/inch */
       margin:0 auto;
+    }
+
+    .toolbar{
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom:12px;
+      gap:8px;
+    }
+    .toolbar button{
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      padding:7px 14px;
+      font-size:13px;
+      font-weight:500;
+      cursor:pointer;
+      background:#f9fafb;
+    }
+    .toolbar button.primary{
+      background:#2563eb;
+      color:#fff;
+      border-color:#1d4ed8;
+    }
+
+    .page{
       background:var(--card);
       border:1px solid #d1d5db;
       padding:18px 22px 26px;
@@ -42,6 +68,7 @@
       justify-content:center;
       font-weight:700;
       font-size:18px;
+      text-align:center;
     }
     .addr{
       text-align:right;
@@ -142,6 +169,22 @@
       outline:1px solid #3b82f6;
     }
 
+    .btn-row{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      margin-top:4px;
+      margin-bottom:8px;
+    }
+    .btn-row button{
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      padding:5px 10px;
+      font-size:12px;
+      background:#f9fafb;
+      cursor:pointer;
+    }
+
     .transmit-grid{
       width:100%;
       border-collapse:collapse;
@@ -176,264 +219,282 @@
       font-size:11px;
     }
 
-    .btn-row{
-      display:flex;
-      justify-content:flex-end;
-      gap:8px;
-      margin-top:16px;
+    .no-print{ /* things hidden in PDF/print */
     }
-    button{
-      border-radius:6px;
-      border:1px solid #d1d5db;
-      padding:7px 14px;
-      font-size:13px;
-      font-weight:500;
-      cursor:pointer;
-      background:#f9fafb;
+
+    .hidden-for-pdf{
+      display:none !important;
     }
-    button.primary{
-      background:#2563eb;
-      color:#fff;
-      border-color:#1d4ed8;
+
+    @media print{
+      body{
+        padding:0;
+        background:#fff;
+      }
+      .wrapper{
+        max-width:none;
+        margin:0;
+      }
+      .page{
+        border:none;
+        padding:16px 20px;
+      }
+      .no-print{
+        display:none !important;
+      }
+      @page{
+        size:8.5in 11in;
+        margin:0.5in;
+      }
     }
   </style>
 </head>
 <body>
-<div class="page">
+<div class="wrapper">
 
-  <div class="top-row">
-    <div class="logo-box">
-      McKeever<br/>Incorporated
-    </div>
-    <div class="addr">
-      1100 N. Magnolia Avenue, Suite E<br />
-      El Cajon, CA 92020<br />
-      PH: (619) 579-1523 FX: (619) 579-1586<br />
-      California State License # 865056
-    </div>
+  <div class="toolbar no-print">
+    <button id="downloadPdf" class="primary">Download as PDF</button>
   </div>
 
-  <h1>SUBMITTAL</h1>
+  <div class="page" id="pageRoot">
 
-  <div class="grid-2">
-    <div>
-      <div class="field-label">To:</div>
-      <input class="field" type="text" name="to">
+    <div class="top-row">
+      <div class="logo-box">
+        McKeever<br/>Incorporated
+      </div>
+      <div class="addr">
+        1100 N. Magnolia Avenue, Suite E<br />
+        El Cajon, CA 92020<br />
+        PH: (619) 579-1523 FX: (619) 579-1586<br />
+        California State License # 865056
+      </div>
     </div>
+
+    <h1>SUBMITTAL</h1>
+
     <div class="grid-2">
       <div>
-        <div class="field-label">Date:</div>
-        <input class="field" type="text" name="date">
+        <div class="field-label">To:</div>
+        <input class="field" type="text" name="to">
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="field-label">Date:</div>
+          <input class="field" type="text" name="date">
+        </div>
+        <div>
+          <div class="field-label">Job:</div>
+          <input class="field" type="text" name="job">
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="field-label">Re:</div>
+        <input class="field" type="text" name="re">
       </div>
       <div>
-        <div class="field-label">Job:</div>
-        <input class="field" type="text" name="job">
+        <div class="field-label">Attn:</div>
+        <input class="field" type="text" name="attn">
       </div>
     </div>
-  </div>
 
-  <div class="grid-2">
-    <div>
-      <div class="field-label">Re:</div>
-      <input class="field" type="text" name="re">
+    <div class="section-title">We are sending you the following items:</div>
+
+    <table class="send-items-table">
+      <tr>
+        <th style="width:50%">Attached</th>
+        <th>Under separate cover via:</th>
+      </tr>
+      <tr>
+        <td>
+          <div class="chk-row">
+            <input type="checkbox" id="prints">
+            <label for="prints">Prints</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="shop">
+            <label for="shop">Shop Drawings</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="change">
+            <label for="change">Change Order</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="copy-letter">
+            <label for="copy-letter">Copy of Letter</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="other-attached">
+            <label for="other-attached">Other</label>
+          </div>
+        </td>
+        <td>
+          <div class="chk-row">
+            <input type="checkbox" id="plans">
+            <label for="plans">Plans</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="specs">
+            <label for="specs">Specifications</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="other-cover">
+            <label for="other-cover">Other</label>
+          </div>
+          <div class="chk-row">
+            <input type="text" class="field" name="separate_other_text" placeholder="Details">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="section-title">Submittal Items</div>
+
+    <table class="items-table" id="itemsTable">
+      <thead>
+        <tr>
+          <th style="width:80px">Submittal No.</th>
+          <th style="width:90px">Item Code</th>
+          <th style="width:60px">No.</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- initial 6 blank rows -->
+        <tr>
+          <td><input type="text" name="sub_no_1"></td>
+          <td><input type="text" name="item_code_1"></td>
+          <td><input type="text" name="item_qty_1"></td>
+          <td><input type="text" name="item_desc_1"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sub_no_2"></td>
+          <td><input type="text" name="item_code_2"></td>
+          <td><input type="text" name="item_qty_2"></td>
+          <td><input type="text" name="item_desc_2"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sub_no_3"></td>
+          <td><input type="text" name="item_code_3"></td>
+          <td><input type="text" name="item_qty_3"></td>
+          <td><input type="text" name="item_desc_3"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sub_no_4"></td>
+          <td><input type="text" name="item_code_4"></td>
+          <td><input type="text" name="item_qty_4"></td>
+          <td><input type="text" name="item_desc_4"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sub_no_5"></td>
+          <td><input type="text" name="item_code_5"></td>
+          <td><input type="text" name="item_qty_5"></td>
+          <td><input type="text" name="item_desc_5"></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sub_no_6"></td>
+          <td><input type="text" name="item_code_6"></td>
+          <td><input type="text" name="item_qty_6"></td>
+          <td><input type="text" name="item_desc_6"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="btn-row no-print">
+      <button type="button" id="addRowBtn">+ Add Row</button>
     </div>
-    <div>
-      <div class="field-label">Attn:</div>
-      <input class="field" type="text" name="attn">
+
+    <div class="section-title">These are transmitted as checked below:</div>
+
+    <table class="transmit-grid">
+      <tr>
+        <td>
+          <div class="chk-row">
+            <input type="checkbox" id="for-approval">
+            <label for="for-approval">For Approval</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="for-use">
+            <label for="for-use">For your use</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="as-requested">
+            <label for="as-requested">As requested</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="review-comment">
+            <label for="review-comment">For review &amp; comment</label>
+          </div>
+        </td>
+        <td>
+          <div class="chk-row">
+            <input type="checkbox" id="approved-submitted">
+            <label for="approved-submitted">Approved as submitted</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="approved-noted">
+            <label for="approved-noted">Approved as noted</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="return-corrections">
+            <label for="return-corrections">Return for corrections</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="other-transmit">
+            <label for="other-transmit">Other</label>
+          </div>
+        </td>
+        <td>
+          <div class="chk-row">
+            <input type="checkbox" id="resubmit-approval">
+            <label for="resubmit-approval">Resubmit copies for approval</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="submit-distribution">
+            <label for="submit-distribution">Submit for distribution</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="return-corrected-prints">
+            <label for="return-corrected-prints">Return corrected prints</label>
+          </div>
+          <div class="chk-row">
+            <input type="checkbox" id="for-bids-due">
+            <label for="for-bids-due">For bids due</label>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="comments">
+      <div class="field-label">Comments:</div>
+      <textarea name="comments"></textarea>
     </div>
-  </div>
 
-  <div class="section-title">We are sending you the following items:</div>
-
-  <table class="send-items-table">
-    <tr>
-      <th style="width:50%">Attached</th>
-      <th>Under separate cover via:</th>
-    </tr>
-    <tr>
-      <td>
-        <div class="chk-row">
-          <input type="checkbox" id="prints">
-          <label for="prints">Prints</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="shop">
-          <label for="shop">Shop Drawings</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="change">
-          <label for="change">Change Order</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="copy-letter">
-          <label for="copy-letter">Copy of Letter</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="other-attached">
-          <label for="other-attached">Other</label>
-        </div>
-      </td>
-      <td>
-        <div class="chk-row">
-          <input type="checkbox" id="plans">
-          <label for="plans">Plans</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="specs">
-          <label for="specs">Specifications</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="other-cover">
-          <label for="other-cover">Other</label>
-        </div>
-        <div class="chk-row">
-          <input type="text" class="field" name="separate_other_text" placeholder="Details">
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <div class="section-title">Submittal Items</div>
-
-  <table class="items-table" id="itemsTable">
-    <thead>
-      <tr>
-        <th style="width:80px">Submittal No.</th>
-        <th style="width:90px">Item Code</th>
-        <th style="width:60px">No.</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- initial 6 blank rows -->
-      <tr>
-        <td><input type="text" name="sub_no_1"></td>
-        <td><input type="text" name="item_code_1"></td>
-        <td><input type="text" name="item_qty_1"></td>
-        <td><input type="text" name="item_desc_1"></td>
-      </tr>
-      <tr>
-        <td><input type="text" name="sub_no_2"></td>
-        <td><input type="text" name="item_code_2"></td>
-        <td><input type="text" name="item_qty_2"></td>
-        <td><input type="text" name="item_desc_2"></td>
-      </tr>
-      <tr>
-        <td><input type="text" name="sub_no_3"></td>
-        <td><input type="text" name="item_code_3"></td>
-        <td><input type="text" name="item_qty_3"></td>
-        <td><input type="text" name="item_desc_3"></td>
-      </tr>
-      <tr>
-        <td><input type="text" name="sub_no_4"></td>
-        <td><input type="text" name="item_code_4"></td>
-        <td><input type="text" name="item_qty_4"></td>
-        <td><input type="text" name="item_desc_4"></td>
-      </tr>
-      <tr>
-        <td><input type="text" name="sub_no_5"></td>
-        <td><input type="text" name="item_code_5"></td>
-        <td><input type="text" name="item_qty_5"></td>
-        <td><input type="text" name="item_desc_5"></td>
-      </tr>
-      <tr>
-        <td><input type="text" name="sub_no_6"></td>
-        <td><input type="text" name="item_code_6"></td>
-        <td><input type="text" name="item_qty_6"></td>
-        <td><input type="text" name="item_desc_6"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="btn-row">
-    <button type="button" id="addRowBtn">+ Add Row</button>
-  </div>
-
-  <div class="section-title">These are transmitted as checked below:</div>
-
-  <table class="transmit-grid">
-    <tr>
-      <td>
-        <div class="chk-row">
-          <input type="checkbox" id="for-approval">
-          <label for="for-approval">For Approval</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="for-use">
-          <label for="for-use">For your use</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="as-requested">
-          <label for="as-requested">As requested</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="review-comment">
-          <label for="review-comment">For review &amp; comment</label>
-        </div>
-      </td>
-      <td>
-        <div class="chk-row">
-          <input type="checkbox" id="approved-submitted">
-          <label for="approved-submitted">Approved as submitted</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="approved-noted">
-          <label for="approved-noted">Approved as noted</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="return-corrections">
-          <label for="return-corrections">Return for corrections</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="other-transmit">
-          <label for="other-transmit">Other</label>
-        </div>
-      </td>
-      <td>
-        <div class="chk-row">
-          <input type="checkbox" id="resubmit-approval">
-          <label for="resubmit-approval">Resubmit copies for approval</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="submit-distribution">
-          <label for="submit-distribution">Submit for distribution</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="return-corrected-prints">
-          <label for="return-corrected-prints">Return corrected prints</label>
-        </div>
-        <div class="chk-row">
-          <input type="checkbox" id="for-bids-due">
-          <label for="for-bids-due">For bids due</label>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <div class="comments">
-    <div class="field-label">Comments:</div>
-    <textarea name="comments"></textarea>
-  </div>
-
-  <div class="bottom-grid">
-    <div>
-      <div class="field-label">Cc:</div>
-      <input class="field" type="text" name="cc">
+    <div class="bottom-grid">
+      <div>
+        <div class="field-label">Cc:</div>
+        <input class="field" type="text" name="cc">
+      </div>
+      <div>
+        <div class="field-label">Signed:</div>
+        <input class="field" type="text" name="signed">
+      </div>
+      <div>
+        <div class="field-label">Received By:</div>
+        <input class="field" type="text" name="received_by">
+      </div>
     </div>
-    <div>
-      <div class="field-label">Signed:</div>
-      <input class="field" type="text" name="signed">
-    </div>
-    <div>
-      <div class="field-label">Received By:</div>
-      <input class="field" type="text" name="received_by">
-    </div>
-  </div>
 
-</div>
+  </div><!-- /.page -->
+</div><!-- /.wrapper -->
 
+<!-- html2canvas + jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // simple "add row" handler for the items table
+  // add new rows to the items table
   document.getElementById("addRowBtn").addEventListener("click", function () {
     const tbody = document.querySelector("#itemsTable tbody");
     const idx = tbody.querySelectorAll("tr").length + 1;
@@ -445,6 +506,49 @@
       <td><input type="text" name="item_desc_${idx}"></td>
     `;
     tbody.appendChild(tr);
+  });
+
+  // PDF generation (multi-page, Letter 8.5x11)
+  document.getElementById("downloadPdf").addEventListener("click", async function () {
+    const page = document.getElementById("pageRoot");
+
+    // hide controls for PDF
+    const hide = document.querySelectorAll(".no-print");
+    hide.forEach(el => el.classList.add("hidden-for-pdf"));
+
+    try{
+      const canvas = await html2canvas(page, {scale:2});
+      const imgData = canvas.toDataURL("image/png");
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p","pt","letter");
+
+      const pageWidth  = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const margin = 20;
+      const imgWidth = pageWidth - margin * 2;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = margin;
+
+      pdf.addImage(imgData,"PNG",margin,position,imgWidth,imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight + margin;
+        pdf.addPage();
+        pdf.addImage(imgData,"PNG",margin,position,imgWidth,imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save("submittal-form.pdf");
+    } catch(err){
+      alert("PDF error: " + err.message);
+    } finally {
+      hide.forEach(el => el.classList.remove("hidden-for-pdf"));
+    }
   });
 </script>
 </body>
