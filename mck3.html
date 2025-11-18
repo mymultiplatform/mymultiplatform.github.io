@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Submittal Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --border:#9ca3af;
+      --label:#4b5563;
+      --muted:#6b7280;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      padding:24px;
+      background:var(--bg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:#111827;
+    }
+    .page{
+      max-width:850px;
+      margin:0 auto;
+      background:var(--card);
+      border:1px solid #d1d5db;
+      padding:18px 22px 26px;
+    }
+    .top-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .logo-box{
+      width:220px;
+      height:80px;
+      border:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:18px;
+    }
+    .addr{
+      text-align:right;
+      font-size:12px;
+      line-height:1.4;
+    }
+    h1{
+      text-align:center;
+      margin:10px 0 14px;
+      font-size:20px;
+      letter-spacing:2px;
+    }
+
+    .grid-2,
+    .grid-3{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:4px 10px;
+      margin-bottom:6px;
+    }
+    .grid-3{grid-template-columns:2fr 1fr 1fr;}
+    .field-label{
+      font-size:11px;
+      color:var(--label);
+      margin-bottom:2px;
+    }
+    .field{
+      width:100%;
+      border:1px solid var(--border);
+      padding:4px 6px;
+      font-size:12px;
+    }
+    .line-field{
+      width:100%;
+      border:1px solid var(--border);
+      padding:4px 6px;
+      font-size:12px;
+      margin-bottom:6px;
+    }
+
+    .section-title{
+      font-size:12px;
+      font-weight:600;
+      margin:10px 0 4px;
+    }
+
+    .send-items-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-bottom:10px;
+      font-size:11px;
+    }
+    .send-items-table th,
+    .send-items-table td{
+      border:1px solid var(--border);
+      padding:4px 6px;
+      vertical-align:top;
+    }
+    .send-items-table th{
+      background:#f9fafb;
+      font-weight:600;
+      text-align:left;
+    }
+    .chk-row{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      margin-bottom:3px;
+      font-size:11px;
+    }
+    .chk-row input[type="checkbox"]{margin:0;}
+
+    .items-table{
+      width:100%;
+      border-collapse:collapse;
+      margin:6px 0 10px;
+      font-size:11px;
+    }
+    .items-table th,
+    .items-table td{
+      border:1px solid var(--border);
+      padding:3px 4px;
+      text-align:left;
+      vertical-align:top;
+    }
+    .items-table th{
+      background:#f9fafb;
+      font-weight:600;
+    }
+    .items-table input{
+      width:100%;
+      border:none;
+      padding:2px 3px;
+      font-size:11px;
+      font-family:inherit;
+    }
+    .items-table input:focus{
+      outline:1px solid #3b82f6;
+    }
+
+    .transmit-grid{
+      width:100%;
+      border-collapse:collapse;
+      margin:4px 0 10px;
+      font-size:11px;
+    }
+    .transmit-grid td{
+      border:1px solid var(--border);
+      padding:4px 6px;
+      vertical-align:top;
+      width:33.333%;
+    }
+
+    .comments{
+      margin:8px 0 12px;
+    }
+    .comments textarea{
+      width:100%;
+      min-height:70px;
+      border:1px solid var(--border);
+      font-size:12px;
+      padding:4px 6px;
+      resize:vertical;
+      font-family:inherit;
+    }
+
+    .bottom-grid{
+      display:grid;
+      grid-template-columns:2fr 1.5fr 1.5fr;
+      gap:10px;
+      margin-top:10px;
+      font-size:11px;
+    }
+
+    .btn-row{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      margin-top:16px;
+    }
+    button{
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      padding:7px 14px;
+      font-size:13px;
+      font-weight:500;
+      cursor:pointer;
+      background:#f9fafb;
+    }
+    button.primary{
+      background:#2563eb;
+      color:#fff;
+      border-color:#1d4ed8;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top-row">
+    <div class="logo-box">
+      McKeever<br/>Incorporated
+    </div>
+    <div class="addr">
+      1100 N. Magnolia Avenue, Suite E<br />
+      El Cajon, CA 92020<br />
+      PH: (619) 579-1523 FX: (619) 579-1586<br />
+      California State License # 865056
+    </div>
+  </div>
+
+  <h1>SUBMITTAL</h1>
+
+  <div class="grid-2">
+    <div>
+      <div class="field-label">To:</div>
+      <input class="field" type="text" name="to">
+    </div>
+    <div class="grid-2">
+      <div>
+        <div class="field-label">Date:</div>
+        <input class="field" type="text" name="date">
+      </div>
+      <div>
+        <div class="field-label">Job:</div>
+        <input class="field" type="text" name="job">
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="field-label">Re:</div>
+      <input class="field" type="text" name="re">
+    </div>
+    <div>
+      <div class="field-label">Attn:</div>
+      <input class="field" type="text" name="attn">
+    </div>
+  </div>
+
+  <div class="section-title">We are sending you the following items:</div>
+
+  <table class="send-items-table">
+    <tr>
+      <th style="width:50%">Attached</th>
+      <th>Under separate cover via:</th>
+    </tr>
+    <tr>
+      <td>
+        <div class="chk-row">
+          <input type="checkbox" id="prints">
+          <label for="prints">Prints</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="shop">
+          <label for="shop">Shop Drawings</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="change">
+          <label for="change">Change Order</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="copy-letter">
+          <label for="copy-letter">Copy of Letter</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="other-attached">
+          <label for="other-attached">Other</label>
+        </div>
+      </td>
+      <td>
+        <div class="chk-row">
+          <input type="checkbox" id="plans">
+          <label for="plans">Plans</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="specs">
+          <label for="specs">Specifications</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="other-cover">
+          <label for="other-cover">Other</label>
+        </div>
+        <div class="chk-row">
+          <input type="text" class="field" name="separate_other_text" placeholder="Details">
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="section-title">Submittal Items</div>
+
+  <table class="items-table" id="itemsTable">
+    <thead>
+      <tr>
+        <th style="width:80px">Submittal No.</th>
+        <th style="width:90px">Item Code</th>
+        <th style="width:60px">No.</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- initial 6 blank rows -->
+      <tr>
+        <td><input type="text" name="sub_no_1"></td>
+        <td><input type="text" name="item_code_1"></td>
+        <td><input type="text" name="item_qty_1"></td>
+        <td><input type="text" name="item_desc_1"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub_no_2"></td>
+        <td><input type="text" name="item_code_2"></td>
+        <td><input type="text" name="item_qty_2"></td>
+        <td><input type="text" name="item_desc_2"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub_no_3"></td>
+        <td><input type="text" name="item_code_3"></td>
+        <td><input type="text" name="item_qty_3"></td>
+        <td><input type="text" name="item_desc_3"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub_no_4"></td>
+        <td><input type="text" name="item_code_4"></td>
+        <td><input type="text" name="item_qty_4"></td>
+        <td><input type="text" name="item_desc_4"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub_no_5"></td>
+        <td><input type="text" name="item_code_5"></td>
+        <td><input type="text" name="item_qty_5"></td>
+        <td><input type="text" name="item_desc_5"></td>
+      </tr>
+      <tr>
+        <td><input type="text" name="sub_no_6"></td>
+        <td><input type="text" name="item_code_6"></td>
+        <td><input type="text" name="item_qty_6"></td>
+        <td><input type="text" name="item_desc_6"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="btn-row">
+    <button type="button" id="addRowBtn">+ Add Row</button>
+  </div>
+
+  <div class="section-title">These are transmitted as checked below:</div>
+
+  <table class="transmit-grid">
+    <tr>
+      <td>
+        <div class="chk-row">
+          <input type="checkbox" id="for-approval">
+          <label for="for-approval">For Approval</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="for-use">
+          <label for="for-use">For your use</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="as-requested">
+          <label for="as-requested">As requested</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="review-comment">
+          <label for="review-comment">For review &amp; comment</label>
+        </div>
+      </td>
+      <td>
+        <div class="chk-row">
+          <input type="checkbox" id="approved-submitted">
+          <label for="approved-submitted">Approved as submitted</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="approved-noted">
+          <label for="approved-noted">Approved as noted</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="return-corrections">
+          <label for="return-corrections">Return for corrections</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="other-transmit">
+          <label for="other-transmit">Other</label>
+        </div>
+      </td>
+      <td>
+        <div class="chk-row">
+          <input type="checkbox" id="resubmit-approval">
+          <label for="resubmit-approval">Resubmit copies for approval</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="submit-distribution">
+          <label for="submit-distribution">Submit for distribution</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="return-corrected-prints">
+          <label for="return-corrected-prints">Return corrected prints</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="for-bids-due">
+          <label for="for-bids-due">For bids due</label>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="comments">
+    <div class="field-label">Comments:</div>
+    <textarea name="comments"></textarea>
+  </div>
+
+  <div class="bottom-grid">
+    <div>
+      <div class="field-label">Cc:</div>
+      <input class="field" type="text" name="cc">
+    </div>
+    <div>
+      <div class="field-label">Signed:</div>
+      <input class="field" type="text" name="signed">
+    </div>
+    <div>
+      <div class="field-label">Received By:</div>
+      <input class="field" type="text" name="received_by">
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // simple "add row" handler for the items table
+  document.getElementById("addRowBtn").addEventListener("click", function () {
+    const tbody = document.querySelector("#itemsTable tbody");
+    const idx = tbody.querySelectorAll("tr").length + 1;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input type="text" name="sub_no_${idx}"></td>
+      <td><input type="text" name="item_code_${idx}"></td>
+      <td><input type="text" name="item_qty_${idx}"></td>
+      <td><input type="text" name="item_desc_${idx}"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+</script>
+</body>
+</html>
