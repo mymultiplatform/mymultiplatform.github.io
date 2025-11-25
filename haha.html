@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rental Application System — UI Preview</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+    .nav {
+      margin-bottom: 30px;
+    }
+    .nav a {
+      margin-right: 15px;
+    }
+    section {
+      border: 1px solid #ddd;
+      padding: 25px;
+      margin-bottom: 40px;
+      border-radius: 8px;
+    }
+    code {
+      background: #f5f5f5;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    ul {
+      padding-left: 18px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 0.8em;
+      border-radius: 4px;
+      background: #eee;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV TO MIMIC ROUTES -->
+  <div class="nav">
+    <strong>Preview navigation:</strong>
+    <a href="#home">/</a>
+    <a href="#apply">/apply (GET)</a>
+    <a href="#submitted">Application Submitted</a>
+    <a href="#admin">/admin</a>
+    <a href="#admin-view">/admin/view/&lt;user&gt;</a>
+  </div>
+
+  <!-- HOME PAGE ("/") -->
+  <section id="home">
+    <h1>🏠 Rental Application System</h1>
+    <p><a href="#apply">Start Application</a></p>
+    <p><a href="#admin">Admin Panel</a></p>
+  </section>
+
+  <!-- APPLICATION FORM (GET /apply) -->
+  <section id="apply">
+    <h2>Rental Application</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <p>First Name:<br><input name="first" required></p>
+      <p>Last Name:<br><input name="last" required></p>
+      <p>Current Address:<br><input name="address" required></p>
+      <p>Birthday:<br><input type="date" name="birthday" required></p>
+
+      <p>Contract Type:<br>
+        <select name="contract">
+          <option value="6">6 months</option>
+          <option value="12">1 year</option>
+        </select>
+      </p>
+
+      <p>Do you smoke?<br>
+        <select name="smoke">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </p>
+
+      <p>Marital status:<br>
+        <select name="married">
+          <option>Single</option>
+          <option>Married</option>
+        </select>
+      </p>
+
+      <p>Do you have children?<br>
+        <select name="children">
+          <option>No</option>
+          <option>Yes</option>
+        </select>
+      </p>
+
+      <p>Upload photos:<br><input type="file" name="photos" multiple></p>
+      <p>Upload PDFs:<br><input type="file" name="pdfs" multiple></p>
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </section>
+
+  <!-- APPLICATION SUBMITTED PAGE (POST /apply) -->
+  <section id="submitted">
+    <h2>Application Submitted</h2>
+    <p><b>This will appear ONLY once.</b></p>
+    <p>
+      Username: <b>12345</b><br>
+      Password: <b>67890</b>
+    </p>
+    <p>A copy was saved to <code>credentials.txt</code>.</p>
+  </section>
+
+  <!-- ADMIN PANEL ("/admin") -->
+  <section id="admin">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li>
+        Alice Smith — 13579
+        — Status: <b>PENDING</b>
+        — <a href="#admin-view">Open</a>
+      </li>
+      <li>
+        Bob Johnson — 24680
+        — Status: <b>APPROVED</b>
+        — <a href="#admin-view">Open</a>
+      </li>
+      <li>
+        Charlie Brown — 97531
+        — Status: <b>DENIED</b>
+        — <a href="#admin-view">Open</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ADMIN VIEW USER ("/admin/view/<user>") -->
+  <section id="admin-view">
+    <h2>Alice Smith</h2>
+
+    <p><b>Status:</b> PENDING</p>
+    <p><b>Contract:</b> 6 months</p>
+    <p><b>Expires:</b> 2026-01-01</p>
+    <p><b>IP:</b> 203.0.113.42</p>
+
+    <p>
+      <a href="#">Approve</a> —
+      <a href="#">Deny</a>
+    </p>
+
+    <h3>Files</h3>
+    <ul>
+      <li>credentials.txt <span class="tag">generated</span></li>
+      <li>id_front.png</li>
+      <li>id_back.png</li>
+      <li>paystubs.pdf</li>
+      <li>profile.json <span class="tag">meta</span></li>
+    </ul>
+  </section>
+
+</body>
+</html>
