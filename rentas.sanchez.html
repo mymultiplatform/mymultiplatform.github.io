@@ -1,25 +1,101 @@
-Logic for website title: Rentas Sanchez 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rentas Sanchez - Landlord App</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; background:#f3f3f3; padding:20px; }
+        h1 { color:#333; }
+        #tenantTable { width:100%; border-collapse: collapse; margin-top:20px; }
+        #tenantTable th, #tenantTable td {
+            border:1px solid #aaa; padding:8px; text-align:left;
+        }
+        #tenantTable th { background:#ddd; }
+        .upload-box {
+            border:2px dashed #888; padding:20px; width:300px; 
+            background:white; cursor:pointer; margin-bottom:20px;
+        }
+        .plus-btn {
+            font-size:30px; font-weight:bold; 
+            background:#4CAF50; color:white; padding:10px 20px;
+            border:none; border-radius:5px; cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🏠 Rentas Sanchez — Landlord Dashboard</h1>
+
+<p>Upload a .txt contract to auto-create a new tenant profile.</p>
+
+<!-- plus button -->
+<button class="plus-btn" onclick="document.getElementById('fileInput').click()">+ Add New Contract</button>
+
+<input type="file" id="fileInput" accept=".txt" style="display:none">
+
+<div id="output"></div>
+
+<table id="tenantTable">
+    <thead>
+        <tr>
+            <th>Tenant Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Monthly Rent</th>
+            <th>Rent Due Day</th>
+        </tr>
+    </thead>
+    <tbody id="tenantBody">
+    </tbody>
+</table>
 
 
-A web app place to manage al landlord activities.
+<script>
+// Listen for contract file upload
+document.getElementById("fileInput").addEventListener("change", function() {
+    const file = this.files[0];
+    if (!file) return;
 
+    const reader = new FileReader();
 
+    reader.onload = function(e) {
+        const text = e.target.result;
 
-Logic Start:
+        // DISPLAY RAW TEXT FOR DEBUGGING
+        document.getElementById("output").innerHTML =
+            "<h3>Parsed Contract Text:</h3><pre>" + text + "</pre>";
 
+        // --- REGEX EXTRACTION LOGIC ---
+        const tenantMatch = text.match(/between the[\s\S]*?and\s+(.+?)\s+\(Tenant/i);
+        const startMatch  = text.match(/begins on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+        const endMatch    = text.match(/ends on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+        const rentMatch   = text.match(/\(\$(\d+(\.\d{2})?)\)/);
+        const dueMatch    = text.match(/due on\s+the\s+(\d+)[a-z]{0,2}/i);
 
-Home page:
+        const tenantName = tenantMatch ? tenantMatch[1].trim() : "Not found";
+        const startDate  = startMatch ? startMatch[1].trim() : "Not found";
+        const endDate    = endMatch ? endMatch[1].trim() : "Not found";
+        const rentAmount = rentMatch ? "$" + rentMatch[1] : "Not found";
+        const dueDay     = dueMatch ? dueMatch[1] : "Not found";
 
-Log in ( credentials )
+        // Add row to table
+        const row = `
+            <tr>
+                <td>${tenantName}</td>
+                <td>${startDate}</td>
+                <td>${endDate}</td>
+                <td>${rentAmount}</td>
+                <td>${dueDay}</td>
+            </tr>
+        `;
 
+        document.getElementById("tenantBody").innerHTML += row;
+    };
 
-Next: 
+    reader.readAsText(file);
+});
+</script>
 
-Dashboard:  ALL Tenant Contracts List 
-
-- tenant 1
-- tenant 2
-
-
-
-Architecture sytem: 
+</body>
+</html>
