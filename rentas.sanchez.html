@@ -3,6 +3,10 @@
 <head>
     <title>Rentas Sanchez - Landlord App</title>
     <meta charset="UTF-8">
+
+    <!-- PDF.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
     <style>
         body { font-family: Arial; background:#f3f3f3; padding:20px; }
         h1 { color:#333; }
@@ -27,12 +31,11 @@
 
 <h1>🏠 Rentas Sanchez — Landlord Dashboard</h1>
 
-<p>Upload a .txt contract to auto-create a new tenant profile.</p>
+<p>Upload a .txt or .pdf contract to auto-create a new tenant profile.</p>
 
-<!-- plus button -->
 <button class="plus-btn" onclick="document.getElementById('fileInput').click()">+ Add New Contract</button>
 
-<input type="file" id="fileInput" accept=".txt" style="display:none">
+<input type="file" id="fileInput" accept=".txt,.pdf" style="display:none">
 
 <div id="output"></div>
 
@@ -50,51 +53,68 @@
     </tbody>
 </table>
 
-
 <script>
-// Listen for contract file upload
 document.getElementById("fileInput").addEventListener("change", function() {
     const file = this.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
+    const ext = file.name.split(".").pop().toLowerCase();
 
-    reader.onload = function(e) {
-        const text = e.target.result;
+    if (ext === "txt") {
+        const reader = new FileReader();
+        reader.onload = e => handleText(e.target.result);
+        reader.readAsText(file);
+    }
 
-        // DISPLAY RAW TEXT FOR DEBUGGING
-        document.getElementById("output").innerHTML =
-            "<h3>Parsed Contract Text:</h3><pre>" + text + "</pre>";
+    if (ext === "pdf") {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const typedArray = new Uint8Array(e.target.result);
+            const pdf = await pdfjsLib.getDocument(typedArray).promise;
 
-        // --- REGEX EXTRACTION LOGIC ---
-        const tenantMatch = text.match(/between the[\s\S]*?and\s+(.+?)\s+\(Tenant/i);
-        const startMatch  = text.match(/begins on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
-        const endMatch    = text.match(/ends on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
-        const rentMatch   = text.match(/\(\$(\d+(\.\d{2})?)\)/);
-        const dueMatch    = text.match(/due on\s+the\s+(\d+)[a-z]{0,2}/i);
+            let fullText = "";
 
-        const tenantName = tenantMatch ? tenantMatch[1].trim() : "Not found";
-        const startDate  = startMatch ? startMatch[1].trim() : "Not found";
-        const endDate    = endMatch ? endMatch[1].trim() : "Not found";
-        const rentAmount = rentMatch ? "$" + rentMatch[1] : "Not found";
-        const dueDay     = dueMatch ? dueMatch[1] : "Not found";
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                const strings = content.items.map(item => item.str);
+                fullText += strings.join(" ") + "\n";
+            }
 
-        // Add row to table
-        const row = `
-            <tr>
-                <td>${tenantName}</td>
-                <td>${startDate}</td>
-                <td>${endDate}</td>
-                <td>${rentAmount}</td>
-                <td>${dueDay}</td>
-            </tr>
-        `;
-
-        document.getElementById("tenantBody").innerHTML += row;
-    };
-
-    reader.readAsText(file);
+            handleText(fullText);
+        };
+        reader.readAsArrayBuffer(file);
+    }
 });
+
+function handleText(text) {
+    document.getElementById("output").innerHTML =
+        "<h3>Parsed Contract Text:</h3><pre>" + text + "</pre>";
+
+    const tenantMatch = text.match(/between the[\s\S]*?and\s+(.+?)\s+\(Tenant/i);
+    const startMatch  = text.match(/begins on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+    const endMatch    = text.match(/ends on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+    const rentMatch   = text.match(/\(\$(\d+(\.\d{2})?)\)/);
+    const dueMatch    = text.match(/due on\s+the\s+(\d+)[a-z]{0,2}/i);
+
+    const tenantName = tenantMatch ? tenantMatch[1].trim() : "Not found";
+    const startDate  = startMatch ? startMatch[1].trim() : "Not found";
+    const endDate    = endMatch ? endMatch[1].trim() : "Not found";
+    const rentAmount = rentMatch ? "$" + rentMatch[1] : "Not found";
+    const dueDay     = dueMatch ? dueMatch[1] : "Not found";
+
+    const row = `
+        <tr>
+            <td>${tenantName}</td>
+            <td>${startDate}</td>
+            <td>${endDate}</td>
+            <td>${rentAmount}</td>
+            <td>${dueDay}</td>
+        </tr>
+    `;
+
+    document.getElementById("tenantBody").innerHTML += row;
+}
 </script>
 
 </body>
