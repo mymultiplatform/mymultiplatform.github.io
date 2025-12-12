@@ -3,10 +3,6 @@
 <head>
     <title>Rentas Sanchez - Landlord App</title>
     <meta charset="UTF-8">
-
-    <!-- PDF.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
     <style>
         body { font-family: Arial; background:#f3f3f3; padding:20px; }
         h1 { color:#333; }
@@ -16,23 +12,27 @@
         }
         #tenantTable th { background:#ddd; }
         .upload-box {
-            border:2px dashed #888; padding:20px; width:300px; 
+            border:2px dashed #888; padding:20px; width:300px;
             background:white; cursor:pointer; margin-bottom:20px;
         }
         .plus-btn {
-            font-size:30px; font-weight:bold; 
+            font-size:30px; font-weight:bold;
             background:#4CAF50; color:white; padding:10px 20px;
             border:none; border-radius:5px; cursor:pointer;
         }
     </style>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 
 <body>
 
 <h1>🏠 Rentas Sanchez — Landlord Dashboard</h1>
 
-<p>Upload a .txt or .pdf contract to auto-create a new tenant profile.</p>
+<p>Upload a .txt contract to auto-create a new tenant profile.</p>
 
+<!-- plus button -->
 <button class="plus-btn" onclick="document.getElementById('fileInput').click()">+ Add New Contract</button>
 
 <input type="file" id="fileInput" accept=".txt,.pdf" style="display:none">
@@ -53,56 +53,93 @@
     </tbody>
 </table>
 
+
 <script>
+// Listen for contract file upload
 document.getElementById("fileInput").addEventListener("change", function() {
     const file = this.files[0];
     if (!file) return;
 
-    const ext = file.name.split(".").pop().toLowerCase();
+    const ext = (file.name.split(".").pop() || "").toLowerCase();
+
+    // Reset so user can upload the same file again
+    this.value = "";
 
     if (ext === "txt") {
         const reader = new FileReader();
-        reader.onload = e => handleText(e.target.result);
+        reader.onload = function(e) {
+            handleContractText(e.target.result);
+        };
         reader.readAsText(file);
+        return;
     }
 
     if (ext === "pdf") {
         const reader = new FileReader();
+
         reader.onload = async function(e) {
-            const typedArray = new Uint8Array(e.target.result);
-            const pdf = await pdfjsLib.getDocument(typedArray).promise;
+            try {
+                // Important for pdf.js worker
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-            let fullText = "";
+                const typedArray = new Uint8Array(e.target.result);
+                const pdf = await pdfjsLib.getDocument({ data: typedArray }).promise;
 
-            for (let i = 1; i <= pdf.numPages; i++) {
-                const page = await pdf.getPage(i);
-                const content = await page.getTextContent();
-                const strings = content.items.map(item => item.str);
-                fullText += strings.join(" ") + "\n";
+                let fullText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    const strings = content.items.map(item => item.str);
+                    fullText += strings.join(" ") + "\n";
+                }
+
+                handleContractText(fullText);
+            } catch (err) {
+                document.getElementById("output").innerHTML =
+                    "<h3>Error reading PDF:</h3><pre>" + (err && err.message ? err.message : err) + "</pre>";
             }
-
-            handleText(fullText);
         };
+
         reader.readAsArrayBuffer(file);
+        return;
     }
+
+    document.getElementById("output").innerHTML =
+        "<h3>Unsupported file type:</h3><pre>Please upload a .txt or .pdf file.</pre>";
 });
 
-function handleText(text) {
+function handleContractText(text) {
+    // DISPLAY RAW TEXT FOR DEBUGGING (same behavior you had)
     document.getElementById("output").innerHTML =
         "<h3>Parsed Contract Text:</h3><pre>" + text + "</pre>";
 
-    const tenantMatch = text.match(/between the[\s\S]*?and\s+(.+?)\s+\(Tenant/i);
-    const startMatch  = text.match(/begins on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
-    const endMatch    = text.match(/ends on\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
-    const rentMatch   = text.match(/\(\$(\d+(\.\d{2})?)\)/);
-    const dueMatch    = text.match(/due on\s+the\s+(\d+)[a-z]{0,2}/i);
+    // --- SPANISH CONTRACT EXTRACTION LOGIC (matches your PDF format) ---
 
-    const tenantName = tenantMatch ? tenantMatch[1].trim() : "Not found";
-    const startDate  = startMatch ? startMatch[1].trim() : "Not found";
-    const endDate    = endMatch ? endMatch[1].trim() : "Not found";
-    const rentAmount = rentMatch ? "$" + rentMatch[1] : "Not found";
-    const dueDay     = dueMatch ? dueMatch[1] : "Not found";
+    // ARRENDATARIO: NAME...
+    const tenantMatch = text.match(/ARRENDATARIO:\s*([A-ZÁÉÍÓÚÑ\s]+?)(?:\s+ACEPTANDO|\s+CLÁUSULAS:|\n|$)/i);
 
+    // "a partir del día 3 de Marzo del 2024"
+    const startMatch  = text.match(/a partir del día\s+(\d{1,2}\s+de\s+[A-Za-zÁÉÍÓÚñ]+\s+del\s+\d{4})/i);
+
+    // "hasta el día 3 de Septiembre de 2024"  (sometimes "del", sometimes "de")
+    const endMatch    = text.match(/hasta el día\s+(\d{1,2}\s+de\s+[A-Za-zÁÉÍÓÚñ]+\s+(?:del|de)\s+\d{4})/i);
+
+    // Rent formats seen:
+    // - "será de 4,000.00 pesos"
+    // - "será de $500 usd dólares estadounidenses"
+    // - could also appear as "será de $ 4,000.00"
+    const rentMatch = text.match(/precio del arrendamiento será de\s+(\$?\s*[\d.,]+(?:\s*(?:pesos|usd|dólares|dolares))?)/i);
+
+    const tenantName = tenantMatch ? tenantMatch[1].replace(/\s+/g, " ").trim() : "Not found";
+    const startDate  = startMatch ? startMatch[1].replace(/\s+/g, " ").trim() : "Not found";
+    const endDate    = endMatch ? endMatch[1].replace(/\s+/g, " ").trim() : "Not found";
+    const rentAmount = rentMatch ? rentMatch[1].replace(/\s+/g, " ").trim() : "Not found";
+
+    // Your PDF format doesn't explicitly state a numeric "due day", it states monthly advance payment
+    const dueDay = "Mensual por adelantado";
+
+    // Add row to table
     const row = `
         <tr>
             <td>${tenantName}</td>
