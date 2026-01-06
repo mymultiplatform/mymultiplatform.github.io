@@ -1,3 +1,580 @@
-MYM COMPANY BOOKS 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Company Growth (Static Canvas)</title>
+  <style>
+    :root{
+      --bg:#f9fafb;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --grid:#e5e7eb;
+      --axis:#cbd5e1;
 
+      --red:#ef4444;   /* Spendable company balance */
+      --blue:#2563eb;  /* Locked fund */
+      --fillBlue:#dbeafe;
+      --fillRed:#fee2e2;
 
+      --shadow: 0 10px 25px rgba(17,24,39,.06);
+      --radius: 14px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      padding:22px;
+    }
+    .wrap{ max-width:1100px; margin:0 auto; }
+    .top{
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    h1{ margin:0 0 6px 0; font-size:22px; letter-spacing:-.02em; }
+    .sub{ margin:0; color:var(--muted); font-size:13px; line-height:1.35; max-width:820px; }
+    .card{
+      background:var(--card);
+      border:1px solid var(--grid);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--grid);
+      color:#374151;
+      font-size:12px;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; background:#111827; opacity:.25; }
+    .dot.red{ background:var(--red); opacity:1; }
+    .dot.blue{ background:var(--blue); opacity:1; }
+
+    .controls{
+      display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .toggle{
+      display:flex; align-items:center; gap:8px; user-select:none;
+      color:#374151; font-size:12px;
+    }
+    .toggle input{ transform: translateY(1px); }
+
+    canvas{
+      width:100%;
+      height:540px;
+      display:block;
+      background:#fff;
+      border:1px solid var(--grid);
+      border-radius:12px;
+    }
+    .footer{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    pre{
+      margin:10px 0 0 0;
+      background:#0b1020;
+      color:#e5e7eb;
+      padding:12px;
+      border-radius:12px;
+      overflow:auto;
+      font-size:12px;
+    }
+
+    @media (max-width: 980px){
+      canvas{ height:440px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Company Growth Tracker</h1>
+        <p class="sub">
+          Pure static HTML + Canvas. No daily login UI. You update the numbers via a script (or by editing <code>data.json</code>),
+          and this page visualizes the timeline.
+          <br><b>Red</b> = spendable company balance (starts at 5000 MXN). <b>Blue</b> = locked capital (starts at 200 MXN, only increases).
+        </p>
+        <div class="badges">
+          <span class="badge"><span class="dot red"></span> Start Red: <b>5000 MXN</b></span>
+          <span class="badge"><span class="dot blue"></span> Start Blue: <b>200 MXN</b></span>
+          <span class="badge"><span class="dot"></span> Optional: show Total (Red + Blue)</span>
+        </div>
+      </div>
+
+      <div class="card" style="min-width:280px; max-width:360px;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Status</div>
+        <div id="status" style="color:#374151; font-size:12px; line-height:1.35;">Loading…</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="controls">
+        <div class="badges" style="margin-top:0;">
+          <span class="badge"><span class="dot red"></span> Red = spendable</span>
+          <span class="badge"><span class="dot blue"></span> Blue = locked</span>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <label class="toggle" title="Draw a faint dashed Total line">
+            <input id="showTotal" type="checkbox" />
+            Show total (Red+Blue)
+          </label>
+          <label class="toggle" title="Dots at bottom: income (gray), expense (red), deposit (blue)">
+            <input id="showMarkers" type="checkbox" checked />
+            Show markers
+          </label>
+          <label class="toggle" title="Vertical dashed lines where a calendar day has no record">
+            <input id="showGaps" type="checkbox" checked />
+            Show missing-day gaps
+          </label>
+        </div>
+      </div>
+
+      <canvas id="chart"></canvas>
+
+      <div class="footer" id="footer"></div>
+
+      <div class="footer" style="margin-top:14px;">
+        <b>How to feed data (static):</b><br>
+        1) Put a <code>data.json</code> file next to this HTML (recommended for GitHub Pages).<br>
+        2) Your script can regenerate/append entries into that JSON daily.<br><br>
+        Each entry is a day record:
+        <ul style="margin:6px 0 0 18px; padding:0; color:var(--muted); font-size:12px;">
+          <li><code>income</code>: adds to Red</li>
+          <li><code>expenses</code>: subtracts from Red</li>
+          <li><code>deposit</code>: moves from Red → Blue (Blue never goes down)</li>
+        </ul>
+
+        <pre>[
+  { "date": "2026-01-05", "income": 0,   "expenses": 0,   "deposit": 200 },
+  { "date": "2026-01-06", "income": 800, "expenses": 120, "deposit": 200 }
+]</pre>
+
+        <div class="footer" style="margin-top:10px;">
+          <b>Note:</b> Fetching <code>data.json</code> works on GitHub Pages. If you open this file via <code>file://</code>,
+          the browser may block fetch — use a simple local server for testing (e.g. <code>python3 -m http.server</code>).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -----------------------------
+    // Fixed starting lines (your model)
+    // -----------------------------
+    const START_RED  = 5000; // MXN (red line)
+    const START_BLUE = 200;  // MXN (blue line)
+
+    // If data.json is missing, we fall back to a tiny embedded dataset.
+    // (This keeps the file runnable even before you create data.json.)
+    const FALLBACK_DATA = [
+      // Start point: "today" with a default deposit trend example
+      { date: isoLocalToday(), income: 0, expenses: 0, deposit: 200 }
+    ];
+
+    // -----------------------------
+    // Utilities
+    // -----------------------------
+    function isoLocalToday(){
+      const d = new Date();
+      const off = d.getTimezoneOffset();
+      const local = new Date(d.getTime() - off * 60000);
+      return local.toISOString().slice(0, 10);
+    }
+
+    function parseISO(s){
+      const [y,m,d] = String(s).split("-").map(Number);
+      if (!y || !m || !d) return null;
+      return new Date(y, m-1, d);
+    }
+
+    function fmtMoney(n){
+      const v = Number(n || 0);
+      return Math.round(v).toLocaleString("es-MX");
+    }
+
+    function clampNum(x){
+      const n = Number(x);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function getCSS(varName){
+      return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    }
+
+    function dateRange(fromISO, toISO){
+      const a = parseISO(fromISO);
+      const b = parseISO(toISO);
+      if (!a || !b) return [];
+      const out = [];
+      const d = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+      const end = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+      while (d <= end){
+        const y = d.getFullYear();
+        const m = String(d.getMonth()+1).padStart(2,"0");
+        const da = String(d.getDate()).padStart(2,"0");
+        out.push(`${y}-${m}-${da}`);
+        d.setDate(d.getDate()+1);
+      }
+      return out;
+    }
+
+    // -----------------------------
+    // Load data from data.json (static)
+    // -----------------------------
+    async function loadData(){
+      try{
+        const res = await fetch("data.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("No data.json");
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("data.json must be an array");
+        return normalizeEntries(data);
+      }catch(_e){
+        return normalizeEntries(FALLBACK_DATA);
+      }
+    }
+
+    function normalizeEntries(arr){
+      const map = new Map();
+      for (const e of arr){
+        if (!e || !e.date) continue;
+        const day = String(e.date);
+        if (!parseISO(day)) continue;
+        map.set(day, {
+          date: day,
+          income: clampNum(e.income),
+          expenses: clampNum(e.expenses),
+          deposit: clampNum(e.deposit),
+        });
+      }
+      return Array.from(map.values()).sort((a,b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+    }
+
+    function entriesByDate(entries){
+      const m = new Map();
+      for (const e of entries) m.set(e.date, e);
+      return m;
+    }
+
+    // -----------------------------
+    // Compute series (calendar-aware)
+    // -----------------------------
+    function computeSeries(entries){
+      const today = isoLocalToday();
+      const startDate = entries.length ? entries[0].date : today;
+
+      const days = dateRange(startDate, today);
+      const m = entriesByDate(entries);
+
+      let red = START_RED;
+      let blue = START_BLUE;
+
+      const redArr = [];
+      const blueArr = [];
+      const totalArr = [];
+      const gaps = [];
+
+      for (const day of days){
+        const e = m.get(day);
+        const income = e ? clampNum(e.income) : 0;
+        const expenses = e ? clampNum(e.expenses) : 0;
+        const deposit = e ? clampNum(e.deposit) : 0;
+
+        if (!e) gaps.push(day);
+
+        // deposit is transfer Red -> Blue
+        red = red + income - expenses - deposit;
+        blue = blue + deposit;
+
+        redArr.push(red);
+        blueArr.push(blue);
+        totalArr.push(red + blue);
+      }
+
+      // "Missing days" count excludes today (so you can log today later)
+      const daysExToday = days.slice(0, Math.max(days.length - 1, 0));
+      const missingExToday = daysExToday.filter(d => !m.has(d));
+
+      return { startDate, today, days, red: redArr, blue: blueArr, total: totalArr, gaps, missingExToday };
+    }
+
+    // -----------------------------
+    // Canvas chart (native feel)
+    // -----------------------------
+    const canvas = document.getElementById("chart");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvasToDPR(){
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(2, Math.floor(rect.width * dpr));
+      const h = Math.max(2, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h){
+        canvas.width = w;
+        canvas.height = h;
+      }
+      // Draw in CSS pixels
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function drawChart(entries){
+      resizeCanvasToDPR();
+
+      const showTotal = document.getElementById("showTotal").checked;
+      const showMarkers = document.getElementById("showMarkers").checked;
+      const showGaps = document.getElementById("showGaps").checked;
+
+      const { startDate, today, days, red, blue, total, gaps, missingExToday } = computeSeries(entries);
+
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+
+      const padL = 70, padR = 18, padT = 28, padB = 62;
+      const plotW = Math.max(10, w - padL - padR);
+      const plotH = Math.max(10, h - padT - padB);
+
+      ctx.clearRect(0,0,w,h);
+
+      if (!days.length){
+        ctx.fillStyle = "#111827";
+        ctx.font = "600 14px system-ui, -apple-system, sans-serif";
+        ctx.fillText("No timeline to draw.", w/2 - 60, h/2);
+        return;
+      }
+
+      const allVals = showTotal ? [...red, ...blue, ...total] : [...red, ...blue];
+      const vmax = Math.max(...allVals);
+      const vmin = Math.min(...allVals);
+      const range = Math.max(vmax - vmin, 1e-9);
+
+      function xAt(i){
+        return padL + (days.length === 1 ? plotW/2 : (i/(days.length-1))*plotW);
+      }
+      function yAt(v){
+        return padT + (1 - ((v - vmin) / range)) * plotH;
+      }
+
+      // Title
+      ctx.fillStyle = "#111827";
+      ctx.font = "700 14px system-ui, -apple-system, sans-serif";
+      ctx.fillText("Company Growth (daily)", padL, padT - 8);
+
+      // Grid
+      const gridCount = 5;
+      ctx.strokeStyle = getCSS("--grid") || "#e5e7eb";
+      ctx.lineWidth = 1;
+      for (let g=0; g<=gridCount; g++){
+        const yy = padT + (g/gridCount)*plotH;
+        ctx.beginPath();
+        ctx.moveTo(padL, yy);
+        ctx.lineTo(w - padR, yy);
+        ctx.stroke();
+      }
+
+      // Axes
+      ctx.strokeStyle = getCSS("--axis") || "#cbd5e1";
+      ctx.beginPath();
+      ctx.moveTo(padL, padT);
+      ctx.lineTo(padL, h - padB);
+      ctx.lineTo(w - padR, h - padB);
+      ctx.stroke();
+
+      // Y labels
+      ctx.fillStyle = "#475569";
+      ctx.font = "12px system-ui, -apple-system, sans-serif";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      for (let g=0; g<=gridCount; g++){
+        const v = vmax - (g/gridCount)*(vmax - vmin);
+        const yy = yAt(v);
+        ctx.fillText(`${fmtMoney(v)} MXN`, padL - 10, yy);
+      }
+
+      // X labels
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+      ctx.fillText(days[0], padL, h - padB + 22);
+
+      ctx.textAlign = "right";
+      ctx.fillText(days[days.length - 1], w - padR, h - padB + 22);
+
+      // Missing-day vertical markers
+      if (showGaps && gaps.length){
+        ctx.strokeStyle = "rgba(17,24,39,.10)";
+        ctx.setLineDash([4,4]);
+        for (const gd of gaps){
+          const i = days.indexOf(gd);
+          if (i >= 0){
+            const x = xAt(i);
+            ctx.beginPath();
+            ctx.moveTo(x, padT);
+            ctx.lineTo(x, h - padB);
+            ctx.stroke();
+          }
+        }
+        ctx.setLineDash([]);
+      }
+
+      function drawAreaLine(vals, stroke, fill, width=3){
+        if (!vals.length) return;
+
+        // Area
+        ctx.beginPath();
+        for (let i=0; i<vals.length; i++){
+          const x = xAt(i);
+          const y = yAt(vals[i]);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.lineTo(xAt(vals.length-1), h - padB);
+        ctx.lineTo(xAt(0), h - padB);
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+
+        // Line
+        ctx.beginPath();
+        for (let i=0; i<vals.length; i++){
+          const x = xAt(i);
+          const y = yAt(vals[i]);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = width;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.stroke();
+      }
+
+      // Draw Red & Blue
+      drawAreaLine(red,  getCSS("--red"),  getCSS("--fillRed"),  3);
+      drawAreaLine(blue, getCSS("--blue"), getCSS("--fillBlue"), 3);
+
+      // Optional Total
+      if (showTotal){
+        ctx.beginPath();
+        for (let i=0; i<total.length; i++){
+          const x = xAt(i);
+          const y = yAt(total[i]);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = "rgba(17,24,39,.35)";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6,5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Bottom markers: income (gray), expense (red), deposit (blue)
+      if (showMarkers){
+        const m = entriesByDate(entries);
+        const baseY = h - padB;
+
+        for (let i=0; i<days.length; i++){
+          const day = days[i];
+          const e = m.get(day);
+          if (!e) continue;
+
+          const x = xAt(i);
+          let dy = 0;
+
+          const inc = clampNum(e.income);
+          const exp = clampNum(e.expenses);
+          const dep = clampNum(e.deposit);
+
+          if (inc > 0){
+            ctx.fillStyle = "rgba(17,24,39,.55)";
+            ctx.beginPath(); ctx.arc(x, baseY - 10 - dy, 3.5, 0, Math.PI*2); ctx.fill();
+            dy += 10;
+          }
+          if (exp > 0){
+            ctx.fillStyle = getCSS("--red");
+            ctx.beginPath(); ctx.arc(x, baseY - 10 - dy, 3.5, 0, Math.PI*2); ctx.fill();
+            dy += 10;
+          }
+          if (dep > 0){
+            ctx.fillStyle = getCSS("--blue");
+            ctx.beginPath(); ctx.arc(x, baseY - 10 - dy, 3.5, 0, Math.PI*2); ctx.fill();
+            dy += 10;
+          }
+        }
+
+        // Marker legend
+        const lx = padL, ly = padT + 12;
+        ctx.font = "12px system-ui, -apple-system, sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#475569";
+        ctx.fillText("Markers:", lx, ly);
+
+        ctx.fillStyle = "rgba(17,24,39,.55)";
+        ctx.beginPath(); ctx.arc(lx+72, ly, 4, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#475569";
+        ctx.fillText("Income", lx+82, ly);
+
+        ctx.fillStyle = getCSS("--red");
+        ctx.beginPath(); ctx.arc(lx+148, ly, 4, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#475569";
+        ctx.fillText("Expense", lx+158, ly);
+
+        ctx.fillStyle = getCSS("--blue");
+        ctx.beginPath(); ctx.arc(lx+232, ly, 4, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#475569";
+        ctx.fillText("Deposit", lx+242, ly);
+      }
+
+      // Status + Footer
+      const lastRed = red[red.length - 1];
+      const lastBlue = blue[blue.length - 1];
+      const lastTotal = lastRed + lastBlue;
+
+      document.getElementById("status").innerHTML =
+        `Start date: <b>${startDate}</b><br>` +
+        `Today: <b>${today}</b><br>` +
+        `Now → Red: <b>${fmtMoney(lastRed)}</b> MXN, Blue: <b>${fmtMoney(lastBlue)}</b> MXN` +
+        (showTotal ? `, Total: <b>${fmtMoney(lastTotal)}</b> MXN` : "") + `<br>` +
+        `Days shown: <b>${days.length}</b><br>` +
+        `Missing records (start → yesterday): <b>${missingExToday.length}</b>`;
+
+      document.getElementById("footer").textContent =
+        `Interpretation: Red moves with income/expenses and transfers to Blue. Blue only grows via deposits (locked). ` +
+        `If you keep deposits near 200 MXN/day, Blue becomes your “parallel trend” against real operations.`;
+    }
+
+    // -----------------------------
+    // Boot
+    // -----------------------------
+    let CURRENT_ENTRIES = [];
+
+    async function boot(){
+      CURRENT_ENTRIES = await loadData();
+      drawChart(CURRENT_ENTRIES);
+
+      // Re-draw on resize
+      window.addEventListener("resize", () => drawChart(CURRENT_ENTRIES));
+
+      // Re-draw on toggles
+      document.getElementById("showTotal").addEventListener("change", () => drawChart(CURRENT_ENTRIES));
+      document.getElementById("showMarkers").addEventListener("change", () => drawChart(CURRENT_ENTRIES));
+      document.getElementById("showGaps").addEventListener("change", () => drawChart(CURRENT_ENTRIES));
+    }
+
+    boot();
+  </script>
+</body>
+</html>
