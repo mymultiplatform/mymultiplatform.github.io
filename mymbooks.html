@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Company Growth (Static Canvas)</title>
+  <title>Mymultiplatform Christian Arce Richy Harry Dante / Cartera</title>
   <style>
     :root{
       --bg:#f9fafb;
@@ -91,6 +91,9 @@
       overflow:auto;
       font-size:12px;
     }
+    input, button, textarea{
+      font: inherit;
+    }
 
     @media (max-width: 980px){
       canvas{ height:440px; }
@@ -101,11 +104,10 @@
   <div class="wrap">
     <div class="top">
       <div>
-        <h1>Company Growth Tracker</h1>
+        <h1>Mymultiplatform Christian Arce Richy Harry Dante / Cartera</h1>
         <p class="sub">
-          Pure static HTML + Canvas. No daily login UI. You update the numbers via a script (or by editing <code>data.json</code>),
-          and this page visualizes the timeline.
-          <br><b>Red</b> = spendable company balance (starts at 5000 MXN). <b>Blue</b> = locked capital (starts at 200 MXN, only increases).
+          Static HTML + Canvas (manual inputs). You update daily records (income/expenses/deposit).
+          <br><b>Red</b> = spendable balance (starts at 5000 MXN). <b>Blue</b> = locked savings fund (starts at 200 MXN, only increases).
         </p>
         <div class="badges">
           <span class="badge"><span class="dot red"></span> Start Red: <b>5000 MXN</b></span>
@@ -121,6 +123,55 @@
     </div>
 
     <div class="card">
+
+      <!-- Admin / Backend panel (inside this HTML). Does NOT change your tracking rules. -->
+      <div class="card" style="margin-bottom:12px;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;">
+          <div style="flex:1; min-width:170px;">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Date</div>
+            <input id="adminDate" type="date" style="width:100%; padding:10px; border:1px solid var(--grid); border-radius:10px;">
+          </div>
+
+          <div style="flex:1; min-width:170px;">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Income (MXN)</div>
+            <input id="adminIncome" type="number" step="1" min="0" value="0"
+              style="width:100%; padding:10px; border:1px solid var(--grid); border-radius:10px;">
+          </div>
+
+          <div style="flex:1; min-width:170px;">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Expenses (MXN)</div>
+            <input id="adminExpenses" type="number" step="1" min="0" value="0"
+              style="width:100%; padding:10px; border:1px solid var(--grid); border-radius:10px;">
+          </div>
+
+          <div style="flex:1; min-width:170px;">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Deposit → Blue (MXN)</div>
+            <input id="adminDeposit" type="number" step="1" min="0" value="0"
+              style="width:100%; padding:10px; border:1px solid var(--grid); border-radius:10px;">
+          </div>
+
+          <button id="adminAdd" style="padding:10px 14px; border-radius:12px; border:1px solid var(--grid); background:#111827; color:white; font-weight:700;">
+            Add / Update Day
+          </button>
+
+          <button id="adminFill" title="Creates explicit 0-records for missing calendar days (same outcome as missing-days, but removes gaps)"
+            style="padding:10px 14px; border-radius:12px; border:1px solid var(--grid); background:white; font-weight:700;">
+            Fill missing days (0s)
+          </button>
+
+          <button id="adminExport" style="padding:10px 14px; border-radius:12px; border:1px solid var(--grid); background:white; font-weight:700;">
+            Export JSON
+          </button>
+        </div>
+
+        <div id="adminHint" style="margin-top:10px; font-size:12px; color:var(--muted); line-height:1.4;">
+          Tip: Use this panel, then click <b>Export JSON</b> and paste into your <code>data.json</code> (or keep editing the embedded array in this HTML).
+        </div>
+
+        <textarea id="adminOut" readonly
+          style="margin-top:10px; width:100%; height:170px; padding:10px; border:1px solid var(--grid); border-radius:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace; font-size:12px;"></textarea>
+      </div>
+
       <div class="controls">
         <div class="badges" style="margin-top:0;">
           <span class="badge"><span class="dot red"></span> Red = spendable</span>
@@ -148,41 +199,40 @@
       <div class="footer" id="footer"></div>
 
       <div class="footer" style="margin-top:14px;">
-        <b>How to feed data (static):</b><br>
-        1) Put a <code>data.json</code> file next to this HTML (recommended for GitHub Pages).<br>
-        2) Your script can regenerate/append entries into that JSON daily.<br><br>
-        Each entry is a day record:
-        <ul style="margin:6px 0 0 18px; padding:0; color:var(--muted); font-size:12px;">
-          <li><code>income</code>: adds to Red</li>
-          <li><code>expenses</code>: subtracts from Red</li>
-          <li><code>deposit</code>: moves from Red → Blue (Blue never goes down)</li>
-        </ul>
-
-        <pre>[
-  { "date": "2026-01-05", "income": 0,   "expenses": 0,   "deposit": 200 },
-  { "date": "2026-01-06", "income": 800, "expenses": 120, "deposit": 200 }
-]</pre>
-
-        <div class="footer" style="margin-top:10px;">
-          <b>Note:</b> Fetching <code>data.json</code> works on GitHub Pages. If you open this file via <code>file://</code>,
-          the browser may block fetch — use a simple local server for testing (e.g. <code>python3 -m http.server</code>).
-        </div>
+        <b>How data works (static):</b><br>
+        - Each record is one calendar day.<br>
+        - <code>income</code>: adds to Red<br>
+        - <code>expenses</code>: subtracts from Red<br>
+        - <code>deposit</code>: transfers from Red → Blue (Blue never goes down)<br><br>
+        <b>Where to store it:</b><br>
+        1) Put a <code>data.json</code> next to this HTML (recommended for GitHub Pages).<br>
+        2) Or keep updating the <code>EMBEDDED_DATA</code> array inside this HTML.<br><br>
+        <b>Note:</b> If you open this via <code>file://</code>, the browser may block fetch of <code>data.json</code>. The embedded data always works.
       </div>
     </div>
   </div>
 
   <script>
     // -----------------------------
-    // Fixed starting lines (your model)
+    // Fixed starting lines (your model) — UNCHANGED
     // -----------------------------
     const START_RED  = 5000; // MXN (red line)
     const START_BLUE = 200;  // MXN (blue line)
 
-    // If data.json is missing, we fall back to a tiny embedded dataset.
-    // (This keeps the file runnable even before you create data.json.)
-    const FALLBACK_DATA = [
-      // Start point: "today" with a default deposit trend example
-      { date: isoLocalToday(), income: 0, expenses: 0, deposit: 200 }
+    // -----------------------------
+    // STATIC INPUTS (edit here, or use the admin panel + Export)
+    // Includes your example for "today": deposit 1000, expenses 2000, income 0
+    // -----------------------------
+    const EMBEDDED_DATA = [
+      { "date": "2026-01-05", "income": 0,   "expenses": 0,    "deposit": 200 },
+      { "date": "2026-01-06", "income": 800, "expenses": 120,  "deposit": 200 },
+
+      // Filled missing days (0s) — same result as missing records, but no gaps:
+      { "date": "2026-01-07", "income": 0,   "expenses": 0,    "deposit": 0   },
+      { "date": "2026-01-08", "income": 0,   "expenses": 0,    "deposit": 0   },
+
+      // "Today" (per your request): deposit 1000 to Blue, spend 2000, no profit (income 0)
+      { "date": "2026-01-09", "income": 0,   "expenses": 2000, "deposit": 1000 }
     ];
 
     // -----------------------------
@@ -233,7 +283,7 @@
     }
 
     // -----------------------------
-    // Load data from data.json (static)
+    // Load data from data.json (static) — fallback to embedded array
     // -----------------------------
     async function loadData(){
       try{
@@ -243,7 +293,7 @@
         if (!Array.isArray(data)) throw new Error("data.json must be an array");
         return normalizeEntries(data);
       }catch(_e){
-        return normalizeEntries(FALLBACK_DATA);
+        return normalizeEntries(EMBEDDED_DATA);
       }
     }
 
@@ -270,7 +320,7 @@
     }
 
     // -----------------------------
-    // Compute series (calendar-aware)
+    // Compute series (calendar-aware) — LOGIC UNCHANGED
     // -----------------------------
     function computeSeries(entries){
       const today = isoLocalToday();
@@ -370,7 +420,7 @@
       // Title
       ctx.fillStyle = "#111827";
       ctx.font = "700 14px system-ui, -apple-system, sans-serif";
-      ctx.fillText("Company Growth (daily)", padL, padT - 8);
+      ctx.fillText("Cartera (daily)", padL, padT - 8);
 
       // Grid
       const gridCount = 5;
@@ -413,11 +463,15 @@
 
       // Missing-day vertical markers
       if (showGaps && gaps.length){
+        // Build index map once (no output change)
+        const dayIndex = new Map();
+        for (let i=0; i<days.length; i++) dayIndex.set(days[i], i);
+
         ctx.strokeStyle = "rgba(17,24,39,.10)";
         ctx.setLineDash([4,4]);
         for (const gd of gaps){
-          const i = days.indexOf(gd);
-          if (i >= 0){
+          const i = dayIndex.get(gd);
+          if (i !== undefined){
             const x = xAt(i);
             ctx.beginPath();
             ctx.moveTo(x, padT);
@@ -553,7 +607,95 @@
 
       document.getElementById("footer").textContent =
         `Interpretation: Red moves with income/expenses and transfers to Blue. Blue only grows via deposits (locked). ` +
-        `If you keep deposits near 200 MXN/day, Blue becomes your “parallel trend” against real operations.`;
+        `Your example today (expenses 2000 + deposit 1000, income 0) correctly decreases Red and increases Blue.`;
+    }
+
+    // -----------------------------
+    // Admin helpers (inside HTML) — does NOT alter your tracking logic
+    // -----------------------------
+    function setAdminDefaults(){
+      const d = isoLocalToday();
+      const dateEl = document.getElementById("adminDate");
+      if (dateEl) dateEl.value = d;
+    }
+
+    function upsertEntry(entries, entry){
+      const idx = entries.findIndex(e => e.date === entry.date);
+      if (idx >= 0) entries[idx] = entry;
+      else entries.push(entry);
+      entries.sort((a,b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+      return entries;
+    }
+
+    function exportEntriesJSON(entries){
+      return JSON.stringify(entries, null, 2);
+    }
+
+    function fillMissingDaysZeros(entries){
+      if (!entries.length) return entries;
+      const today = isoLocalToday();
+      const start = entries[0].date;
+      const days = dateRange(start, today);
+      const m = entriesByDate(entries);
+
+      const out = [];
+      for (const d of days){
+        const e = m.get(d);
+        if (e){
+          out.push({ date: d, income: clampNum(e.income), expenses: clampNum(e.expenses), deposit: clampNum(e.deposit) });
+        }else{
+          // Explicit zeros (same math result as "missing day", but removes gap markers)
+          out.push({ date: d, income: 0, expenses: 0, deposit: 0 });
+        }
+      }
+      return out;
+    }
+
+    function bindAdminPanel(){
+      const addBtn = document.getElementById("adminAdd");
+      const fillBtn = document.getElementById("adminFill");
+      const exportBtn = document.getElementById("adminExport");
+      const out = document.getElementById("adminOut");
+
+      if (!addBtn || !fillBtn || !exportBtn || !out) return;
+
+      setAdminDefaults();
+
+      addBtn.addEventListener("click", () => {
+        const date = document.getElementById("adminDate").value || isoLocalToday();
+        const income = clampNum(document.getElementById("adminIncome").value);
+        const expenses = clampNum(document.getElementById("adminExpenses").value);
+        const deposit = clampNum(document.getElementById("adminDeposit").value);
+
+        // Store exactly what you input: { date, income, expenses, deposit }
+        const entry = { date, income, expenses, deposit };
+        CURRENT_ENTRIES = upsertEntry(CURRENT_ENTRIES, entry);
+
+        drawChart(CURRENT_ENTRIES);
+
+        document.getElementById("adminHint").innerHTML =
+          `Saved <b>${date}</b>. Click <b>Export JSON</b> to copy/paste into <code>data.json</code> (or update <code>EMBEDDED_DATA</code>).`;
+      });
+
+      fillBtn.addEventListener("click", () => {
+        CURRENT_ENTRIES = fillMissingDaysZeros(CURRENT_ENTRIES);
+        drawChart(CURRENT_ENTRIES);
+
+        document.getElementById("adminHint").innerHTML =
+          `Filled missing calendar days with explicit <b>0</b> records (output stays the same, gaps become 0-days). Now click <b>Export JSON</b>.`;
+      });
+
+      exportBtn.addEventListener("click", async () => {
+        out.value = exportEntriesJSON(CURRENT_ENTRIES);
+        out.scrollTop = 0;
+        out.focus();
+        out.select();
+
+        try { await navigator.clipboard.writeText(out.value); } catch(_e){}
+
+        document.getElementById("adminHint").innerHTML =
+          `Export ready (also copied to clipboard if allowed). Paste into <code>data.json</code> or replace <code>EMBEDDED_DATA</code> in this HTML.`;
+      });
     }
 
     // -----------------------------
@@ -564,6 +706,8 @@
     async function boot(){
       CURRENT_ENTRIES = await loadData();
       drawChart(CURRENT_ENTRIES);
+
+      bindAdminPanel();
 
       // Re-draw on resize
       window.addEventListener("resize", () => drawChart(CURRENT_ENTRIES));
