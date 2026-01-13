@@ -221,7 +221,8 @@
 
     // -----------------------------
     // STATIC INPUTS (edit here, or use the admin panel + Export)
-    // Includes your example for "today": deposit 1000, expenses 2000, income 0
+    // Updated through Jan 12, 2026:
+    // - Jan 12: no changes (0/0/0) but explicitly logged so it appears in the timeline.
     // -----------------------------
     const EMBEDDED_DATA = [
       { "date": "2026-01-05", "income": 0,   "expenses": 0,    "deposit": 200 },
@@ -232,7 +233,12 @@
       { "date": "2026-01-08", "income": 0,   "expenses": 0,    "deposit": 0   },
 
       // "Today" (per your request): deposit 1000 to Blue, spend 2000, no profit (income 0)
-      { "date": "2026-01-09", "income": 0,   "expenses": 2000, "deposit": 1000 }
+      { "date": "2026-01-09", "income": 0,   "expenses": 2000, "deposit": 1000 },
+
+      // New: explicitly include Jan 10–12 with no changes (flat line, no gaps)
+      { "date": "2026-01-10", "income": 0,   "expenses": 0,    "deposit": 0   },
+      { "date": "2026-01-11", "income": 0,   "expenses": 0,    "deposit": 0   },
+      { "date": "2026-01-12", "income": 0,   "expenses": 0,    "deposit": 0   }
     ];
 
     // -----------------------------
@@ -607,7 +613,7 @@
 
       document.getElementById("footer").textContent =
         `Interpretation: Red moves with income/expenses and transfers to Blue. Blue only grows via deposits (locked). ` +
-        `Your example today (expenses 2000 + deposit 1000, income 0) correctly decreases Red and increases Blue.`;
+        `Your Jan 12 record (0 changes) keeps both lines flat, but is now explicitly present in the timeline.`;
     }
 
     // -----------------------------
