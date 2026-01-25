@@ -69,7 +69,7 @@
       top: 60px;
       width: 100%;
       z-index: 1000;
-      height: 50px;
+      height: 36px;            /* lower height (crushed) */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -84,29 +84,35 @@
       justify-content: space-between; /* spreads across the whole row */
       align-items: center;
       gap: 10px;
+      height: 100%;
     }
 
     .navbar a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 16px;         /* slightly smaller to fit crushed height */
       cursor: pointer;
       transition: background-color 0.3s;
       flex: 1;                 /* each option takes equal space */
-      text-align: center;      /* center text within each segment */
-      padding: 10px 0;         /* taller clickable area */
+      text-align: center;
+      padding: 0;              /* remove padding so it looks crushed */
+      line-height: 36px;       /* vertically centers text in the smaller bar */
       border-radius: 6px;
       white-space: nowrap;
+
+      /* make letters more separated / wide */
+      letter-spacing: 2px;
+      text-transform: uppercase; /* optional for a more "wide" nav look */
     }
 
     .navbar a:hover {
-      background-color: rgba(255,255,255,0.12); /* subtle hover on black/gray */
+      background-color: rgba(255,255,255,0.12);
     }
 
     /* Dynamic Banner Styles */
     .dynamic-banner {
       position: fixed;
-      top: 110px;
+      top: 96px;               /* 60 (banner) + 36 (navbar) */
       width: 100%;
       height: 180px;
       overflow: hidden;
@@ -130,7 +136,7 @@
 
     /* Main Content Styles */
     .tab-content {
-      padding: 290px 20px 20px 20px;
+      padding: 276px 20px 20px 20px; /* 60 + 36 + 180 = 276 */
       color: white;
     }
 
@@ -162,21 +168,22 @@
 
       .navbar {
         top: 50px;
-        height: 50px;
+        height: 32px;          /* even more crushed on mobile */
       }
 
       .navbar a {
-        font-size: 14px;
-        padding: 10px 0;
+        font-size: 12px;
+        line-height: 32px;
+        letter-spacing: 1.5px;
       }
 
       .dynamic-banner {
-        top: 100px;
+        top: 82px;             /* 50 + 32 */
         height: 135px;
       }
 
       .tab-content {
-        padding: 245px 15px 15px 15px;
+        padding: 217px 15px 15px 15px; /* 50 + 32 + 135 */
       }
 
       .mym {
