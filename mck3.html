@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Coverage Debug (Inches Only) - Sheet W×H</title>
+  <title>Coverage Debug (Inches Only) - Sheet W×H + Direction</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 16px; }
     .box { border: 1px solid #ccc; border-radius: 10px; padding: 12px; max-width: 980px; }
@@ -18,16 +18,20 @@
     .meta { margin-top: 10px; font-size: 13px; color:#222; line-height: 1.35; }
     .warn { color:#8a4b00; font-weight:700; }
     .ok { color:#0a7a2f; font-weight:700; }
-    .small { font-size:12px; color:#444; margin-top:6px; }
+    .small { font-size:12px; color:#444; margin-top:6px; line-height: 1.35; }
+    .dirRow { display:flex; gap: 12px; flex-wrap: wrap; align-items:center; margin-top: 6px; }
+    .dirRow label { margin: 0; font-size: 13px; display:flex; gap: 6px; align-items:center; }
+    .dirRow input[type="radio"] { width:auto; }
   </style>
 </head>
 <body>
 
-<h2>Coverage Debug (Inches Only) — Sheet Width × Height</h2>
+<h2>Coverage Debug (Inches Only) — Sheet Width × Height + Direction</h2>
 
 <div class="box">
   <div class="small">
-    Enter inches like <b>60"</b> (must include the quote symbol).
+    Enter inches like <b>60"</b> (must include the quote symbol).  
+    Direction draws an arrow at the center of each sheet (pattern/grain).
   </div>
 
   <div class="row">
@@ -48,10 +52,26 @@
     </div>
     <div>
       <label>Sheet Height (in)</label>
-      <input id="sheetH" value='60"' />
+      <input id="sheetH" value='96"' />
     </div>
+  </div>
+
+  <label>Direction / Pattern</label>
+  <div class="dirRow">
+    <label><input type="radio" name="dir" value="N" checked> North</label>
+    <label><input type="radio" name="dir" value="E"> East</label>
+    <label><input type="radio" name="dir" value="S"> South</label>
+    <label><input type="radio" name="dir" value="W"> West</label>
+
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span class="small" style="margin:0;">or Degrees:</span>
+      <input id="deg" value='' placeholder='e.g. 90' style="width: 120px;" />
+      <span class="small" style="margin:0;">(0=East, 90=South, 180=West, 270=North)</span>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:10px;">
     <div style="flex:0 0 auto;">
-      <label>&nbsp;</label>
       <button onclick="run()">Draw</button>
     </div>
   </div>
@@ -61,7 +81,7 @@
   <canvas id="cv" width="1100" height="700"></canvas>
 
   <div class="small">
-    <b>Legend:</b> Gray outline = target. Solid boxes = full sheets. Dashed boxes = cut sheets on edges.
+    <b>Legend:</b> Gray outline = target. Solid boxes = full sheets. Dashed boxes = cut sheets on edges. Arrow = pattern direction.
   </div>
 </div>
 
@@ -73,6 +93,66 @@ function parseInchesStrict(s){
   const num = str.slice(0, -1).trim();
   if (!/^[0-9]*\.?[0-9]+$/.test(num)) return NaN;
   return Number(num);
+}
+
+function getSelectedDir(){
+  const radios = document.querySelectorAll('input[name="dir"]');
+  for (const r of radios) if (r.checked) return r.value;
+  return "N";
+}
+
+// Map direction to angle in radians
+// Use canvas coordinate system: +x right, +y down
+// We'll define:
+// East = 0°, South = 90°, West = 180°, North = 270°
+function dirToRadians(dir){
+  switch(dir){
+    case "E": return 0;
+    case "S": return Math.PI/2;
+    case "W": return Math.PI;
+    case "N": return 3*Math.PI/2;
+    default: return 3*Math.PI/2;
+  }
+}
+
+function degToRadians(deg){
+  return (deg * Math.PI) / 180;
+}
+
+function drawArrow(ctx, cx, cy, len, angleRad){
+  // Arrow from center going forward "len"
+  const x2 = cx + Math.cos(angleRad) * len;
+  const y2 = cy + Math.sin(angleRad) * len;
+
+  ctx.save();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#111";
+  ctx.fillStyle = "#111";
+
+  // main line
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  // arrow head
+  const headLen = Math.max(6, len * 0.18);
+  const a1 = angleRad + Math.PI * 0.85;
+  const a2 = angleRad - Math.PI * 0.85;
+
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 + Math.cos(a1) * headLen, y2 + Math.sin(a1) * headLen);
+  ctx.lineTo(x2 + Math.cos(a2) * headLen, y2 + Math.sin(a2) * headLen);
+  ctx.closePath();
+  ctx.fill();
+
+  // small center dot
+  ctx.beginPath();
+  ctx.arc(cx, cy, 2.2, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
 }
 
 function run(){
@@ -90,6 +170,20 @@ function run(){
   if (![tW,tH,sW,sH].every(v => isFinite(v) && v > 0)){
     meta.innerHTML = `<span class="warn">Inputs must be inches like 60"</span>`;
     return;
+  }
+
+  // direction angle: degrees overrides radios if provided
+  const degStr = document.getElementById('deg').value.trim();
+  let angleRad;
+  if (degStr !== ""){
+    const deg = Number(degStr);
+    if (!isFinite(deg)){
+      meta.innerHTML = `<span class="warn">Degrees must be a number (0–359).</span>`;
+      return;
+    }
+    angleRad = degToRadians(((deg % 360) + 360) % 360);
+  } else {
+    angleRad = dirToRadians(getSelectedDir());
   }
 
   const cols = Math.ceil(tW / sW);
@@ -123,12 +217,13 @@ function run(){
 
       const drawW = Math.max(0, cutW);
       const drawH = Math.max(0, cutH);
-
       if (drawW <= 0 || drawH <= 0) continue;
 
+      // fill
       ctx.fillStyle = isCut ? "rgba(220,220,220,0.75)" : "rgba(200,200,200,0.55)";
       ctx.fillRect(X(x), Y(y), W(drawW), H(drawH));
 
+      // stroke
       ctx.save();
       ctx.strokeStyle = "#111";
       ctx.lineWidth = 1;
@@ -136,6 +231,12 @@ function run(){
       else ctx.setLineDash([]);
       ctx.strokeRect(X(x), Y(y), W(drawW), H(drawH));
       ctx.restore();
+
+      // arrow in sheet center (use the drawn size so cut pieces show smaller arrows)
+      const cx = X(x) + W(drawW)/2;
+      const cy = Y(y) + H(drawH)/2;
+      const len = Math.min(W(drawW), H(drawH)) * 0.32;
+      drawArrow(ctx, cx, cy, len, angleRad);
     }
   }
 
@@ -150,12 +251,15 @@ function run(){
   const overW = coveredW - tW;
   const overH = coveredH - tH;
 
+  const angleDeg = Math.round((angleRad * 180 / Math.PI) * 1000)/1000;
+
   meta.innerHTML = `
     <div><span class="ok">Sheets:</span> ${count} total (${cols} across × ${rows} down)</div>
     <div>Target: ${tW}" × ${tH}"</div>
     <div>Sheet: ${sW}" × ${sH}"</div>
     <div>Covered: ${coveredW}" × ${coveredH}"</div>
     <div>Overhang: +${overW}" width, +${overH}" height</div>
+    <div>Direction angle: <b>${angleDeg}°</b> (0=East, 90=South, 180=West, 270=North)</div>
   `;
 }
 </script>
