@@ -1,195 +1,113 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>PDF Generator – Sample List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  :root{
-    --bg:#f6f8fa;--card:#ffffff;--muted:#6b7280;
-    --line:#d1d5db;--btn:#1f6feb;--btn2:#2da44e;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-       margin:40px;background:var(--bg);color:#0f172a}
-  h1{margin:0 0 16px}
-  .toolbar{display:flex;gap:10px;margin:12px 0 16px}
-  button{padding:9px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
-  .add{background:var(--btn);color:#fff}
-  .pdf{background:var(--btn2);color:#fff}
-  .hint{color:var(--muted);font-size:13px;margin-left:auto;align-self:center}
-
-  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
-  th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle}
-  th{background:#f3f4f6}
-  td[contenteditable]{outline:0}
-
-  /* Image cell layout & sizing */
-  .img-cell{width:140px}
-  .img-wrap{
-    width:120px;height:120px;display:flex;align-items:center;justify-content:center;
-    background:#fafafa;border:1px dashed #cbd5e1;border-radius:10px;overflow:hidden;position:relative
-  }
-  .img-wrap img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-  .img-actions{display:flex;gap:6px;margin-top:6px}
-  .img-btn, .clear-btn{
-    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:#111827;
-    font-weight:600;cursor:pointer
-  }
-  .img-btn:hover, .clear-btn:hover{background:#f8fafc}
-  input[type="file"]{display:none}
-
-  /* Hide interactive controls in the PDF snapshot/print */
-  .no-print{ }
-  @media print{
-    .no-print{display:none !important}
-    body{margin:0}
-  }
-</style>
-</head>
-<body>
-
-<h1>PDF Generator – Sample Table</h1>
-
-<div class="toolbar no-print">
-  <button class="add" id="addRow">+ Add Item</button>
-  <button class="pdf" id="makePDF">Download PDF</button>
-  <span class="hint">Tip: click any cell to edit. Use “+ Image” to add a thumbnail that auto-fits the row.</span>
-</div>
-
-<table id="itemsTable" aria-label="Sample Items">
-  <thead>
-    <tr>
-      <th style="width:90px">Item #</th>
-      <th>Name</th>
-      <th>Dimensions</th>
-      <th>Color</th>
-      <th>Finish</th>
-      <th class="img-cell">Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Starts empty (WD-02 example removed) -->
-  </tbody>
-</table>
-
-<!-- html2pdf.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-const tableBody = document.querySelector('#itemsTable tbody');
-const addBtn = document.getElementById('addRow');
-const pdfBtn = document.getElementById('makePDF');
+const sheetW = 2440;
+const sheetH = 1220;
 
-/* Helper: create image cell with + button and hidden file input */
-function createImageCell(){
-  const td = document.createElement('td');
-  td.className = 'img-cell';
+const parts = [
+  {w:800, h:400, q:2},
+  {w:600, h:300, q:4},
+  {w:1200, h:200, q:1},
+];
 
-  const wrap = document.createElement('div');
-  wrap.className = 'img-wrap';
-  wrap.setAttribute('aria-label','Image preview');
-
-  const actions = document.createElement('div');
-  actions.className = 'img-actions no-print';
-
-  const addImgBtn = document.createElement('button');
-  addImgBtn.type = 'button';
-  addImgBtn.className = 'img-btn';
-  addImgBtn.textContent = '+ Image';
-
-  const clearBtn = document.createElement('button');
-  clearBtn.type = 'button';
-  clearBtn.className = 'clear-btn';
-  clearBtn.textContent = 'Clear';
-
-  const file = document.createElement('input');
-  file.type = 'file';
-  file.accept = 'image/*';
-
-  actions.appendChild(addImgBtn);
-  actions.appendChild(clearBtn);
-  td.appendChild(wrap);
-  td.appendChild(actions);
-  td.appendChild(file);
-
-  addImgBtn.addEventListener('click', () => file.click());
-
-  file.addEventListener('change', () => {
-    const f = file.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      // Ensure an <img> exists
-      let img = wrap.querySelector('img');
-      if(!img){
-        img = document.createElement('img');
-        wrap.innerHTML = ''; // clear placeholder, if any
-        wrap.appendChild(img);
-      }
-      img.src = e.target.result;
-      img.alt = f.name;
-      // Image will auto-fit to 120×120 via CSS (object-fit: contain)
-    };
-    reader.readAsDataURL(f);
-  });
-
-  clearBtn.addEventListener('click', () => {
-    wrap.innerHTML = ''; // remove image
-    file.value = '';     // reset input
-  });
-
-  return td;
+function expand(parts){
+  return parts.flatMap(p =>
+    Array.from({length:p.q}, ()=>({w:p.w,h:p.h}))
+  );
 }
 
-/* Add row handler */
-addBtn.addEventListener('click', () => {
-  const row = document.createElement('tr');
+// sort largest first (area)
+function sortRects(r){
+  return r.sort((a,b)=>(b.w*b.h)-(a.w*a.h));
+}
 
-  const idx = document.createElement('td');
-  idx.textContent = `@${tableBody.rows.length + 1}`;
+function nest(rects){
+  const sheets=[];
 
-  const name = document.createElement('td');
-  name.contentEditable = 'true';
-  name.dataset.placeholder = 'Item name';
+  rects.forEach(r=>{
+    let placed=false;
 
-  const dims = document.createElement('td');
-  dims.contentEditable = 'true';
-  dims.dataset.placeholder = 'Dims';
+    for(const sheet of sheets){
+      if(placeOnSheet(sheet,r)){
+        placed=true;
+        break;
+      }
+    }
 
-  const color = document.createElement('td');
-  color.contentEditable = 'true';
-  color.dataset.placeholder = 'Color';
-
-  const finish = document.createElement('td');
-  finish.contentEditable = 'true';
-  finish.dataset.placeholder = 'Finish';
-
-  row.appendChild(idx);
-  row.appendChild(name);
-  row.appendChild(dims);
-  row.appendChild(color);
-  row.appendChild(finish);
-  row.appendChild(createImageCell());
-
-  tableBody.appendChild(row);
-});
-
-/* Generate PDF */
-pdfBtn.addEventListener('click', () => {
-  // Temporarily add a class to body to ensure no-print elements are hidden in snapshot
-  document.body.classList.add('exporting');
-  const element = document.getElementById('itemsTable');
-  const opt = {
-    margin: 0.5,
-    filename: 'samples.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save().then(()=>{
-    document.body.classList.remove('exporting');
+    if(!placed){
+      const s=[];
+      placeOnSheet(s,r);
+      sheets.push(s);
+    }
   });
-});
+
+  return sheets;
+}
+
+function placeOnSheet(sheet,r){
+  const spots = candidateSpots(sheet);
+
+  for(const {x,y} of spots){
+    if(fits(sheet,x,y,r.w,r.h)){
+      sheet.push({x,y,w:r.w,h:r.h});
+      return true;
+    }
+    // try rotation
+    if(fits(sheet,x,y,r.h,r.w)){
+      sheet.push({x,y,w:r.h,h:r.w});
+      return true;
+    }
+  }
+  return false;
+}
+
+function candidateSpots(sheet){
+  const pts=[{x:0,y:0}];
+
+  sheet.forEach(p=>{
+    pts.push({x:p.x+p.w, y:p.y});
+    pts.push({x:p.x, y:p.y+p.h});
+  });
+
+  return pts;
+}
+
+function fits(sheet,x,y,w,h){
+  if(x+w>sheetW || y+h>sheetH) return false;
+
+  return !sheet.some(p=>
+    x < p.x+p.w &&
+    x+w > p.x &&
+    y < p.y+p.h &&
+    y+h > p.y
+  );
+}
+
+function draw(sheets){
+  const out=document.getElementById("out");
+  out.innerHTML="Sheets used: "+sheets.length;
+
+  sheets.forEach(s=>{
+    const c=document.createElement("canvas");
+    c.width=sheetW/4;
+    c.height=sheetH/4;
+    const ctx=c.getContext("2d");
+    ctx.scale(0.25,0.25);
+
+    ctx.fillStyle="#eee";
+    ctx.fillRect(0,0,sheetW,sheetH);
+
+    s.forEach(p=>{
+      ctx.fillStyle=`hsl(${Math.random()*360},70%,60%)`;
+      ctx.fillRect(p.x,p.y,p.w,p.h);
+      ctx.strokeRect(p.x,p.y,p.w,p.h);
+    });
+
+    out.appendChild(c);
+  });
+}
+
+function run(){
+  const rects = sortRects(expand(parts));
+  const sheets = nest(rects);
+  draw(sheets);
+}
 </script>
-</body>
-</html>
