@@ -1,112 +1,454 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Sheet Yield Optimizer</title>
+<meta charset="utf-8" />
+<title>Sheet Yield + Coverage Optimizer</title>
 <style>
-  body { font-family: Arial, sans-serif; }
-  canvas { border:1px solid #333; margin:10px; }
-  button { padding:8px 14px; font-size:16px; }
+  body { font-family: Arial, sans-serif; margin: 16px; }
+  h2 { margin: 0 0 8px; }
+  .row { display:flex; flex-wrap:wrap; gap: 16px; align-items:flex-start; }
+  .card {
+    border: 1px solid #ccc; border-radius: 10px; padding: 12px;
+    min-width: 320px; max-width: 720px;
+  }
+  label { display:block; margin-top: 8px; font-size: 13px; }
+  input, textarea, select, button {
+    font-size: 14px; padding: 8px; border-radius: 8px; border: 1px solid #bbb;
+  }
+  input, select { width: 100%; box-sizing: border-box; }
+  textarea { width: 100%; height: 140px; box-sizing: border-box; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  button { cursor: pointer; }
+  canvas { border:1px solid #333; margin:10px 10px 0 0; display:inline-block; }
+  .meta { margin: 8px 0; color:#222; }
+  .tabs { display:flex; gap: 8px; margin: 10px 0 14px; }
+  .tabbtn {
+    padding: 8px 12px; border-radius: 999px; border: 1px solid #bbb; background: #f6f6f6;
+  }
+  .tabbtn.active { background:#111; color:#fff; border-color:#111; }
+  .small { font-size: 12px; color:#444; margin-top: 6px; line-height: 1.3; }
+  .ok { color: #0a7a2f; font-weight: 600; }
+  .warn { color: #8a4b00; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<h2>Sheet Yield Optimizer</h2>
-<button onclick="run()">Run nesting</button>
-<div id="out"></div>
+<h2>Sheet Yield Optimizer + Coverage Calculator</h2>
+
+<div class="tabs">
+  <button class="tabbtn active" id="tabCoverage" onclick="showTab('coverage')">Coverage / Panelization</button>
+  <button class="tabbtn" id="tabNesting" onclick="showTab('nesting')">Nesting (Cutting Stock)</button>
+</div>
+
+<div id="coverageTab" class="row">
+  <div class="card">
+    <h3 style="margin:0 0 6px;">Coverage / Panelization</h3>
+    <div class="small">
+      Use this when you say: “I have to cover a big rectangle with 5’×5’ sheets / 1’×20’ boards.”
+      This computes sheet/board counts using geometry (not nesting).
+    </div>
+
+    <label>Target rectangle (Width × Height) — accepts <b>in</b>, <b>ft</b>, or mixed (e.g. 28ft, 892', 60in, 5ft)</label>
+    <div class="row" style="gap:10px;">
+      <div style="flex:1; min-width:140px;">
+        <input id="targetW" value="28ft" />
+        <div class="small">Target width</div>
+      </div>
+      <div style="flex:1; min-width:140px;">
+        <input id="targetH" value="892ft" />
+        <div class="small">Target height / length</div>
+      </div>
+    </div>
+
+    <label>Panel / sheet / board size (Width × Height)</label>
+    <div class="row" style="gap:10px;">
+      <div style="flex:1; min-width:140px;">
+        <input id="panelW" value="1ft" />
+        <div class="small">Panel width</div>
+      </div>
+      <div style="flex:1; min-width:140px;">
+        <input id="panelH" value="20ft" />
+        <div class="small">Panel height</div>
+      </div>
+    </div>
+
+    <label>Allow cutting the last row/column panels?</label>
+    <select id="allowCut">
+      <option value="yes" selected>Yes (common: you can cut sheets/boards)</option>
+      <option value="no">No (must be full panels only)</option>
+    </select>
+
+    <label>Layout direction for boards (for 1’×20’ boards):</label>
+    <select id="boardDirection">
+      <option value="auto" selected>Auto (choose fewer panels)</option>
+      <option value="as_is">As-is (PanelW aligns to TargetW, PanelH aligns to TargetH)</option>
+      <option value="rotated">Rotated (PanelH aligns to TargetW, PanelW aligns to TargetH)</option>
+    </select>
+
+    <div style="margin-top: 10px;">
+      <button onclick="runCoverage()">Calculate coverage</button>
+    </div>
+
+    <div id="coverageOut" class="meta"></div>
+  </div>
+
+  <div class="card" style="min-width:360px;">
+    <h3 style="margin:0 0 6px;">Quick examples (matches your cases)</h3>
+    <div class="small">
+      Click a preset, then “Calculate coverage”.
+    </div>
+    <div class="row" style="gap:10px; margin-top:10px;">
+      <button onclick="preset(1)">5’×5’ sheets</button>
+      <button onclick="preset(2)">5’×8’ sheets</button>
+      <button onclick="preset(3)">892’×28’ w/ 1’×20’</button>
+    </div>
+
+    <div class="small" style="margin-top: 10px;">
+      <div class="warn">Important:</div>
+      If your “1902&quot; × 18920&quot;” values were typed with the wrong unit (very likely),
+      enter them as <b>19.02in × 18.920in</b> or as feet.
+      A 5’×5’ sheet is only 60in × 60in, so 1902in is larger than the sheet.
+    </div>
+  </div>
+</div>
+
+<div id="nestingTab" class="row" style="display:none;">
+  <div class="card">
+    <h3 style="margin:0 0 6px;">Nesting (Cutting Stock)</h3>
+    <div class="small">
+      Use this when you say: “I have these parts to cut out of sheets.”
+      This is a fast packer (no brute-force scanning), supports rotation, and visualizes sheets.
+    </div>
+
+    <label>Sheet size (Width × Height)</label>
+    <div class="row" style="gap:10px;">
+      <div style="flex:1; min-width:140px;">
+        <input id="sheetW" value="2440" />
+        <div class="small">Width (numeric units)</div>
+      </div>
+      <div style="flex:1; min-width:140px;">
+        <input id="sheetH" value="1220" />
+        <div class="small">Height (numeric units)</div>
+      </div>
+    </div>
+
+    <label>Kerf / spacing between parts (same units as sheet)</label>
+    <input id="kerf" value="0" />
+
+    <label>Allow rotation</label>
+    <select id="allowRotate">
+      <option value="yes" selected>Yes</option>
+      <option value="no">No</option>
+    </select>
+
+    <label>Parts JSON (w, h, q)</label>
+    <textarea id="partsJson">[
+  {"w":800,"h":400,"q":2},
+  {"w":600,"h":300,"q":4},
+  {"w":1200,"h":200,"q":1}
+]</textarea>
+
+    <div style="margin-top: 10px;">
+      <button onclick="runNesting()">Run nesting</button>
+    </div>
+
+    <div id="nestMeta" class="meta"></div>
+    <div id="nestOut"></div>
+  </div>
+</div>
 
 <script>
-const sheetW = 2440;
-const sheetH = 1220;
-const STEP = 1;   // tighter nesting
-
-const parts = [
-  {w:800, h:400, q:2},
-  {w:600, h:300, q:4},
-  {w:1200, h:200, q:1},
-];
-
-function expand(parts){
-  let arr=[];
-  parts.forEach(p=>{
-    for(let i=0;i<p.q;i++){
-      arr.push({w:p.w,h:p.h});
-    }
-  });
-  return arr;
+// ------------------ TAB UI ------------------
+function showTab(which){
+  const cov = document.getElementById('coverageTab');
+  const nes = document.getElementById('nestingTab');
+  document.getElementById('tabCoverage').classList.toggle('active', which==='coverage');
+  document.getElementById('tabNesting').classList.toggle('active', which==='nesting');
+  cov.style.display = which==='coverage' ? 'flex' : 'none';
+  nes.style.display = which==='nesting' ? 'flex' : 'none';
 }
 
-function nest(rects){
-  let sheets=[];
+// ------------------ UNIT PARSER ------------------
+// Accepts: "60", "60in", "5ft", "5'", "5'6\"", "28ft", "892'", "19.02in"
+function parseLengthToInches(s){
+  if (typeof s !== 'string') return NaN;
+  const str = s.trim().toLowerCase();
+  if (!str) return NaN;
 
-  // FIXED sort by area (big first)
-  rects.sort((a,b)=>(b.w*b.h)-(a.w*a.h));
+  // If it's just a number, treat as inches (safe default)
+  if (/^[0-9]*\.?[0-9]+$/.test(str)) return Number(str);
 
-  rects.forEach(r=>{
-    let placed=false;
+  // Feet and inches formats
+  // Examples: 5'6", 5' 6", 5ft 6in
+  let feet = 0, inches = 0;
 
-    for(const sheet of sheets){
-      for(let y=0;y<=sheetH-r.h;y+=STEP){
-        for(let x=0;x<=sheetW-r.w;x+=STEP){
-          if(!collide(sheet,x,y,r)){
-            sheet.push({...r,x,y});
-            placed=true;
-            break;
-          }
-        }
-        if(placed) break;
-      }
-      if(placed) break;
-    }
+  // Match feet (5', 5ft)
+  const ftMatch = str.match(/([0-9]*\.?[0-9]+)\s*(ft|')/);
+  if (ftMatch) feet = Number(ftMatch[1]);
 
-    if(!placed){
-      sheets.push([{...r,x:0,y:0}]);
-    }
-  });
+  // Match inches (6", 6in)
+  const inMatch = str.match(/([0-9]*\.?[0-9]+)\s*(in|")/);
+  if (inMatch) inches = Number(inMatch[1]);
 
-  return sheets;
+  // If has ft but no explicit inches and also has something like 5'6"
+  const comboMatch = str.match(/([0-9]*\.?[0-9]+)\s*'\s*([0-9]*\.?[0-9]+)\s*(")?/);
+  if (comboMatch){
+    feet = Number(comboMatch[1]);
+    inches = Number(comboMatch[2]);
+  }
+
+  // If only inches provided like "19.02in"
+  if (!ftMatch && inMatch) return inches;
+
+  // If only feet provided like "892'" or "28ft"
+  if (ftMatch && !inMatch && !comboMatch) return feet * 12;
+
+  // Otherwise compute combined
+  if (ftMatch || inMatch || comboMatch) return feet * 12 + inches;
+
+  return NaN;
 }
 
-function collide(sheet,x,y,r){
-  return sheet.some(p =>
-    x < p.x + p.w &&
-    x + r.w > p.x &&
-    y < p.y + p.h &&
-    y + r.h > p.y
+function fmt(n){
+  if (!isFinite(n)) return '—';
+  return Math.round(n*1000)/1000;
+}
+
+// ------------------ COVERAGE / PANELIZATION ------------------
+function computePanels(targetW_in, targetH_in, panelW_in, panelH_in, allowCut){
+  // minimal sheet count by grid (geometry)
+  // If allowCut=yes: last row/col can be trimmed, still same count.
+  // If allowCut=no: must cover fully with full panels; still same count (it’s a grid),
+  // but “waste” becomes more relevant.
+  const cols = Math.ceil(targetW_in / panelW_in);
+  const rows = Math.ceil(targetH_in / panelH_in);
+  const count = cols * rows;
+
+  const coveredW = cols * panelW_in;
+  const coveredH = rows * panelH_in;
+
+  const wasteW = Math.max(0, coveredW - targetW_in);
+  const wasteH = Math.max(0, coveredH - targetH_in);
+
+  // area stats
+  const targetArea = targetW_in * targetH_in;
+  const usedArea = count * panelW_in * panelH_in;
+  const overArea = Math.max(0, usedArea - targetArea);
+
+  return { cols, rows, count, coveredW, coveredH, wasteW, wasteH, targetArea, usedArea, overArea };
+}
+
+function runCoverage(){
+  const tW = parseLengthToInches(document.getElementById('targetW').value);
+  const tH = parseLengthToInches(document.getElementById('targetH').value);
+  const pW = parseLengthToInches(document.getElementById('panelW').value);
+  const pH = parseLengthToInches(document.getElementById('panelH').value);
+  const allowCut = document.getElementById('allowCut').value; // yes/no
+  const dir = document.getElementById('boardDirection').value;
+
+  const out = document.getElementById('coverageOut');
+
+  if (![tW,tH,pW,pH].every(v=>isFinite(v) && v>0)){
+    out.innerHTML = `<span class="warn">Enter valid dimensions.</span>`;
+    return;
+  }
+
+  // sanity warning for your “1902in × 18920in with 5x5 sheet”
+  // if panel is smaller than target by enormous factor, still fine, but user may have unit mistake.
+  const panelMax = Math.max(pW,pH);
+  const targetMax = Math.max(tW,tH);
+  let unitWarn = '';
+  if (targetMax > panelMax*200){
+    unitWarn = `<div class="warn">Heads up:</div>
+      Your target is &gt;200× larger than the panel in one dimension. If you meant <b>19.02&quot;</b> (not 1902&quot;), fix the units.`;
+  }
+
+  // Direction choice: as-is / rotated / auto
+  let best;
+  const asIs = computePanels(tW,tH,pW,pH,allowCut);
+  const rot = computePanels(tW,tH,pH,pW,allowCut);
+
+  if (dir === 'as_is') best = { mode:'As-is', ...asIs, panelW:pW, panelH:pH };
+  else if (dir === 'rotated') best = { mode:'Rotated', ...rot, panelW:pH, panelH:pW };
+  else {
+    // auto: choose fewer panels, tie-breaker by less overArea
+    if (rot.count < asIs.count) best = { mode:'Auto (rotated)', ...rot, panelW:pH, panelH:pW };
+    else if (asIs.count < rot.count) best = { mode:'Auto (as-is)', ...asIs, panelW:pW, panelH:pH };
+    else best = (rot.overArea < asIs.overArea)
+      ? { mode:'Auto (rotated)', ...rot, panelW:pH, panelH:pW }
+      : { mode:'Auto (as-is)', ...asIs, panelW:pW, panelH:pH };
+  }
+
+  out.innerHTML = `
+    <div><span class="ok">Result:</span> <b>${best.count}</b> panels (${best.cols} across × ${best.rows} down) — <b>${best.mode}</b></div>
+    <div class="small">
+      Target: ${fmt(tW)}in × ${fmt(tH)}in<br>
+      Panel: ${fmt(best.panelW)}in × ${fmt(best.panelH)}in<br>
+      Covered: ${fmt(best.coveredW)}in × ${fmt(best.coveredH)}in<br>
+      Overhang: +${fmt(best.wasteW)}in width, +${fmt(best.wasteH)}in height<br>
+      Area target: ${fmt(best.targetArea)} in² | Area used: ${fmt(best.usedArea)} in² | Extra: ${fmt(best.overArea)} in²
+    </div>
+    <div class="small">${unitWarn}</div>
+  `;
+}
+
+function preset(n){
+  if (n===1){
+    // Your 5x5 case (but you must enter real target dims)
+    document.getElementById('targetW').value = '19.02in';
+    document.getElementById('targetH').value = '18.920in';
+    document.getElementById('panelW').value = "5ft";
+    document.getElementById('panelH').value = "5ft";
+    document.getElementById('boardDirection').value = 'auto';
+  }
+  if (n===2){
+    document.getElementById('targetW').value = '20.32in';
+    document.getElementById('targetH').value = '14.420in';
+    document.getElementById('panelW').value = "5ft";
+    document.getElementById('panelH').value = "8ft";
+    document.getElementById('boardDirection').value = 'auto';
+  }
+  if (n===3){
+    document.getElementById('targetW').value = "28ft";
+    document.getElementById('targetH').value = "892ft";
+    document.getElementById('panelW').value = "1ft";
+    document.getElementById('panelH').value = "20ft";
+    document.getElementById('boardDirection').value = 'auto';
+  }
+  runCoverage();
+}
+
+// ------------------ NESTING (FAST, NO BRUTE FORCE) ------------------
+function expandParts(parts){
+  return parts.flatMap((p, idx) =>
+    Array.from({length:p.q}, ()=>({w:p.w,h:p.h, type: idx}))
   );
 }
-
-function draw(sheets){
-  const out=document.getElementById("out");
-  out.innerHTML="Sheets used: <b>"+sheets.length+"</b><br>";
-
-  sheets.forEach((s,i)=>{
-    const c=document.createElement("canvas");
-    c.width=sheetW/4;
-    c.height=sheetH/4;
-    const ctx=c.getContext("2d");
-
+function sortRects(rects){
+  // sort by area desc, then max side desc
+  return rects.sort((a,b)=>{
+    const da = b.w*b.h - a.w*a.h;
+    if (da !== 0) return da;
+    return Math.max(b.w,b.h) - Math.max(a.w,a.h);
+  });
+}
+function candidateSpots(sheet){
+  const pts=[{x:0,y:0}];
+  sheet.forEach(p=>{
+    pts.push({x:p.x+p.w, y:p.y});
+    pts.push({x:p.x, y:p.y+p.h});
+  });
+  // de-dup
+  const seen = new Set();
+  const out = [];
+  for (const pt of pts){
+    const k = pt.x + ',' + pt.y;
+    if (!seen.has(k)){
+      seen.add(k);
+      out.push(pt);
+    }
+  }
+  // prioritize lowest y then lowest x (tends to pack tightly)
+  out.sort((a,b)=> (a.y-b.y) || (a.x-b.x));
+  return out;
+}
+function fits(sheet, x, y, w, h, sheetW, sheetH, kerf){
+  if (x+w > sheetW || y+h > sheetH) return false;
+  // collision with kerf spacing
+  return !sheet.some(p =>
+    x < p.x + p.w + kerf &&
+    x + w + kerf > p.x &&
+    y < p.y + p.h + kerf &&
+    y + h + kerf > p.y
+  );
+}
+function placeOnSheet(sheet, r, sheetW, sheetH, kerf, allowRotate){
+  const spots = candidateSpots(sheet);
+  for (const {x,y} of spots){
+    if (fits(sheet,x,y,r.w,r.h,sheetW,sheetH,kerf)){
+      sheet.push({x,y,w:r.w,h:r.h,id:r.id});
+      return true;
+    }
+    if (allowRotate && fits(sheet,x,y,r.h,r.w,sheetW,sheetH,kerf)){
+      sheet.push({x,y,w:r.h,h:r.w,id:r.id,rot:true});
+      return true;
+    }
+  }
+  return false;
+}
+function nestFast(rects, sheetW, sheetH, kerf, allowRotate){
+  const sheets = [];
+  rects.forEach(r=>{
+    let placed = false;
+    for (const s of sheets){
+      if (placeOnSheet(s, r, sheetW, sheetH, kerf, allowRotate)){
+        placed = true;
+        break;
+      }
+    }
+    if (!placed){
+      const s = [];
+      placeOnSheet(s, r, sheetW, sheetH, kerf, allowRotate);
+      sheets.push(s);
+    }
+  });
+  return sheets;
+}
+function colorFor(id){
+  const hue = (id * 47) % 360;
+  return `hsl(${hue},70%,60%)`;
+}
+function drawNesting(sheets, sheetW, sheetH){
+  const out = document.getElementById("nestOut");
+  out.innerHTML = "";
+  sheets.forEach((s)=>{
+    const c = document.createElement("canvas");
+    c.width = sheetW/4;
+    c.height = sheetH/4;
+    const ctx = c.getContext("2d");
+    ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(0.25,0.25);
 
     ctx.fillStyle="#f2f2f2";
     ctx.fillRect(0,0,sheetW,sheetH);
+    ctx.strokeStyle="#333";
     ctx.strokeRect(0,0,sheetW,sheetH);
 
     s.forEach(p=>{
-      ctx.fillStyle=`hsl(${Math.random()*360},70%,60%)`;
+      ctx.fillStyle = colorFor(p.id);
       ctx.fillRect(p.x,p.y,p.w,p.h);
+      ctx.strokeStyle="#111";
       ctx.strokeRect(p.x,p.y,p.w,p.h);
     });
 
     out.appendChild(c);
   });
 }
+function runNesting(){
+  const sheetW = Number(document.getElementById('sheetW').value);
+  const sheetH = Number(document.getElementById('sheetH').value);
+  const kerf = Math.max(0, Number(document.getElementById('kerf').value || 0));
+  const allowRotate = document.getElementById('allowRotate').value === 'yes';
 
-function run(){
-  const rects = expand(parts);
-  const sheets = nest(rects);
-  draw(sheets);
+  let parts;
+  try {
+    parts = JSON.parse(document.getElementById('partsJson').value);
+  } catch(e){
+    document.getElementById('nestMeta').innerHTML = `<span class="warn">Invalid JSON.</span>`;
+    return;
+  }
+
+  const rects = sortRects(expandParts(parts)).map((r,i)=>({ ...r, id:i }));
+  const sheets = nestFast(rects, sheetW, sheetH, kerf, allowRotate);
+
+  document.getElementById('nestMeta').innerHTML =
+    `Sheets used: <b>${sheets.length}</b> | Sheet: ${sheetW}×${sheetH} | Kerf: ${kerf} | Rotate: ${allowRotate ? 'Yes' : 'No'}`;
+
+  drawNesting(sheets, sheetW, sheetH);
 }
+
+// initialize
+preset(3);
 </script>
+
 </body>
 </html>
