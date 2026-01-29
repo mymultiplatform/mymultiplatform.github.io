@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Coverage Debug (Inches Only)</title>
+  <title>Coverage Debug (Inches Only) - Sheet W×H</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 16px; }
-    .box { border: 1px solid #ccc; border-radius: 10px; padding: 12px; max-width: 900px; }
+    .box { border: 1px solid #ccc; border-radius: 10px; padding: 12px; max-width: 980px; }
     label { display:block; margin-top: 10px; font-size: 13px; }
     input, button {
       font-size: 14px; padding: 10px; border-radius: 8px; border: 1px solid #bbb;
@@ -23,11 +23,11 @@
 </head>
 <body>
 
-<h2>Coverage Debug (Inches Only)</h2>
+<h2>Coverage Debug (Inches Only) — Sheet Width × Height</h2>
 
 <div class="box">
   <div class="small">
-    Enter inches like <b>1902"</b> (must include the quote symbol). Sheet is square: <b>60"</b> means 60"×60".
+    Enter inches like <b>60"</b> (must include the quote symbol).
   </div>
 
   <div class="row">
@@ -39,9 +39,16 @@
       <label>Target Height (in)</label>
       <input id="targetH" value='18920"' />
     </div>
+  </div>
+
+  <div class="row">
     <div>
-      <label>Sheet Size (square, in)</label>
-      <input id="sheetS" value='60"' />
+      <label>Sheet Width (in)</label>
+      <input id="sheetW" value='60"' />
+    </div>
+    <div>
+      <label>Sheet Height (in)</label>
+      <input id="sheetH" value='60"' />
     </div>
     <div style="flex:0 0 auto;">
       <label>&nbsp;</label>
@@ -62,7 +69,6 @@
 function parseInchesStrict(s){
   if (typeof s !== 'string') return NaN;
   const str = s.trim();
-  // must end with "
   if (!str.endsWith('"')) return NaN;
   const num = str.slice(0, -1).trim();
   if (!/^[0-9]*\.?[0-9]+$/.test(num)) return NaN;
@@ -72,7 +78,8 @@ function parseInchesStrict(s){
 function run(){
   const tW = parseInchesStrict(document.getElementById('targetW').value);
   const tH = parseInchesStrict(document.getElementById('targetH').value);
-  const s  = parseInchesStrict(document.getElementById('sheetS').value);
+  const sW = parseInchesStrict(document.getElementById('sheetW').value);
+  const sH = parseInchesStrict(document.getElementById('sheetH').value);
 
   const meta = document.getElementById('meta');
   const cv = document.getElementById('cv');
@@ -80,17 +87,17 @@ function run(){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,cv.width,cv.height);
 
-  if (![tW,tH,s].every(v => isFinite(v) && v > 0)){
+  if (![tW,tH,sW,sH].every(v => isFinite(v) && v > 0)){
     meta.innerHTML = `<span class="warn">Inputs must be inches like 60"</span>`;
     return;
   }
 
-  const cols = Math.ceil(tW / s);
-  const rows = Math.ceil(tH / s);
+  const cols = Math.ceil(tW / sW);
+  const rows = Math.ceil(tH / sH);
   const count = cols * rows;
 
-  const coveredW = cols * s;
-  const coveredH = rows * s;
+  const coveredW = cols * sW;
+  const coveredH = rows * sH;
 
   // Fit view to covered area (so you see full grid)
   const pad = 30;
@@ -103,28 +110,25 @@ function run(){
   const W = (w)=> w*scale;
   const H = (h)=> h*scale;
 
-  // Draw sheets grid
+  // Draw sheet tiles (trimmed at target edges)
   for (let r=0; r<rows; r++){
     for (let c=0; c<cols; c++){
-      const x = c*s;
-      const y = r*s;
+      const x = c*sW;
+      const y = r*sH;
 
-      // determine cut size at edges
-      const cutW = Math.min(s, tW - x);
-      const cutH = Math.min(s, tH - y);
-      const isCut = (cutW < s) || (cutH < s);
+      // edge cuts
+      const cutW = Math.min(sW, tW - x);
+      const cutH = Math.min(sH, tH - y);
+      const isCut = (cutW < sW) || (cutH < sH);
 
       const drawW = Math.max(0, cutW);
       const drawH = Math.max(0, cutH);
 
-      // skip if outside target entirely (can happen when target exactly fits and we’re at boundary math)
       if (drawW <= 0 || drawH <= 0) continue;
 
-      // fill
       ctx.fillStyle = isCut ? "rgba(220,220,220,0.75)" : "rgba(200,200,200,0.55)";
       ctx.fillRect(X(x), Y(y), W(drawW), H(drawH));
 
-      // stroke
       ctx.save();
       ctx.strokeStyle = "#111";
       ctx.lineWidth = 1;
@@ -143,14 +147,13 @@ function run(){
   ctx.strokeRect(X(0), Y(0), W(tW), H(tH));
   ctx.restore();
 
-  // Stats
   const overW = coveredW - tW;
   const overH = coveredH - tH;
 
   meta.innerHTML = `
     <div><span class="ok">Sheets:</span> ${count} total (${cols} across × ${rows} down)</div>
     <div>Target: ${tW}" × ${tH}"</div>
-    <div>Sheet: ${s}" × ${s}"</div>
+    <div>Sheet: ${sW}" × ${sH}"</div>
     <div>Covered: ${coveredW}" × ${coveredH}"</div>
     <div>Overhang: +${overW}" width, +${overH}" height</div>
   `;
