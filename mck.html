@@ -1,569 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title>Sheet Yield + Coverage Visualizer</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 16px; }
-  h2 { margin: 0 0 8px; }
-  .row { display:flex; flex-wrap:wrap; gap: 16px; align-items:flex-start; }
-  .card { border: 1px solid #ccc; border-radius: 10px; padding: 12px; min-width: 320px; max-width: 860px; }
-  label { display:block; margin-top: 8px; font-size: 13px; }
-  input, textarea, select, button { font-size: 14px; padding: 8px; border-radius: 8px; border: 1px solid #bbb; }
-  input, select { width: 100%; box-sizing: border-box; }
-  textarea { width: 100%; height: 140px; box-sizing: border-box; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-  button { cursor: pointer; }
-  canvas { border:1px solid #333; margin:10px 10px 0 0; display:block; background:#fff; }
-  .meta { margin: 8px 0; color:#222; }
-  .tabs { display:flex; gap: 8px; margin: 10px 0 14px; }
-  .tabbtn { padding: 8px 12px; border-radius: 999px; border: 1px solid #bbb; background: #f6f6f6; }
-  .tabbtn.active { background:#111; color:#fff; border-color:#111; }
-  .small { font-size: 12px; color:#444; margin-top: 6px; line-height: 1.35; }
-  .ok { color: #0a7a2f; font-weight: 700; }
-  .warn { color: #8a4b00; font-weight: 700; }
-  .split { display:flex; gap: 10px; flex-wrap:wrap; }
-</style>
+  <meta charset="utf-8" />
+  <title>Coverage Debug (Inches Only)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 16px; }
+    .box { border: 1px solid #ccc; border-radius: 10px; padding: 12px; max-width: 900px; }
+    label { display:block; margin-top: 10px; font-size: 13px; }
+    input, button {
+      font-size: 14px; padding: 10px; border-radius: 8px; border: 1px solid #bbb;
+      width: 100%; box-sizing: border-box;
+    }
+    button { cursor:pointer; width:auto; }
+    .row { display:flex; gap: 10px; flex-wrap: wrap; align-items: end; }
+    .row > div { flex: 1; min-width: 200px; }
+    canvas { border:1px solid #333; margin-top: 12px; background:#fff; width: 100%; height: auto; }
+    .meta { margin-top: 10px; font-size: 13px; color:#222; line-height: 1.35; }
+    .warn { color:#8a4b00; font-weight:700; }
+    .ok { color:#0a7a2f; font-weight:700; }
+    .small { font-size:12px; color:#444; margin-top:6px; }
+  </style>
 </head>
 <body>
 
-<h2>Sheet Yield Optimizer + Coverage Visualizer</h2>
+<h2>Coverage Debug (Inches Only)</h2>
 
-<div class="tabs">
-  <button class="tabbtn active" id="tabCoverage" onclick="showTab('coverage')">Coverage / Panelization</button>
-  <button class="tabbtn" id="tabNesting" onclick="showTab('nesting')">Nesting (Cutting Stock)</button>
-</div>
+<div class="box">
+  <div class="small">
+    Enter inches like <b>1902"</b> (must include the quote symbol). Sheet is square: <b>60"</b> means 60"×60".
+  </div>
 
-<!-- ================= COVERAGE TAB ================= -->
-<div id="coverageTab" class="row">
-  <div class="card" style="flex: 1 1 520px;">
-    <h3 style="margin:0 0 6px;">Coverage / Panelization (with visualization)</h3>
-    <div class="small">
-      This draws the <b>target area</b> and the <b>sheets/boards</b> that tile it.
-      If your last row/column needs trimming, those panels are shown as <b>cut pieces</b>.
+  <div class="row">
+    <div>
+      <label>Target Width (in)</label>
+      <input id="targetW" value='1902"' />
     </div>
-
-    <label>Target rectangle (Width × Height) — accepts in, ft, or mixed (e.g. 28ft, 892', 60in, 5ft)</label>
-    <div class="split">
-      <div style="flex:1; min-width:140px;">
-        <input id="targetW" value="28ft" />
-        <div class="small">Target width</div>
-      </div>
-      <div style="flex:1; min-width:140px;">
-        <input id="targetH" value="892ft" />
-        <div class="small">Target height / length</div>
-      </div>
+    <div>
+      <label>Target Height (in)</label>
+      <input id="targetH" value='18920"' />
     </div>
-
-    <label>Panel / sheet / board size (Width × Height)</label>
-    <div class="split">
-      <div style="flex:1; min-width:140px;">
-        <input id="panelW" value="1ft" />
-        <div class="small">Panel width</div>
-      </div>
-      <div style="flex:1; min-width:140px;">
-        <input id="panelH" value="20ft" />
-        <div class="small">Panel height</div>
-      </div>
+    <div>
+      <label>Sheet Size (square, in)</label>
+      <input id="sheetS" value='60"' />
     </div>
-
-    <label>Gap / seam (optional) — same units (e.g. 1/8in, 0.25in, 3mm not supported)</label>
-    <input id="gap" value="0in" />
-
-    <label>Allow cutting the last row/column panels?</label>
-    <select id="allowCut">
-      <option value="yes" selected>Yes (you can cut sheets/boards)</option>
-      <option value="no">No (must be full panels only)</option>
-    </select>
-
-    <label>Layout direction (boards):</label>
-    <select id="boardDirection">
-      <option value="auto" selected>Auto (choose fewer panels)</option>
-      <option value="as_is">As-is (PanelW aligns to TargetW, PanelH aligns to TargetH)</option>
-      <option value="rotated">Rotated (PanelH aligns to TargetW, PanelW aligns to TargetH)</option>
-    </select>
-
-    <div class="split" style="margin-top:10px;">
-      <button onclick="runCoverage()">Calculate + Draw</button>
-      <button onclick="zoomToFit()">Zoom to fit</button>
-    </div>
-
-    <div id="coverageOut" class="meta"></div>
-
-    <div class="small">
-      <div><b>Legend:</b></div>
-      <div>• Gray outline = target area</div>
-      <div>• Solid panels = full sheets/boards</div>
-      <div>• Dashed panels = cut/trimming pieces (only when allow cut = Yes)</div>
+    <div style="flex:0 0 auto;">
+      <label>&nbsp;</label>
+      <button onclick="run()">Draw</button>
     </div>
   </div>
 
-  <div class="card" style="flex: 1 1 520px;">
-    <h3 style="margin:0 0 6px;">Coverage Drawing</h3>
-    <canvas id="covCanvas" width="900" height="600"></canvas>
-    <div class="small" id="covCanvasMeta"></div>
+  <div id="meta" class="meta"></div>
 
-    <h3 style="margin:14px 0 6px;">Quick examples</h3>
-    <div class="split">
-      <button onclick="preset(1)">5’×5’ sheets</button>
-      <button onclick="preset(2)">5’×8’ sheets</button>
-      <button onclick="preset(3)">892’×28’ w/ 1’×20’</button>
-    </div>
-  </div>
-</div>
+  <canvas id="cv" width="1100" height="700"></canvas>
 
-<!-- ================= NESTING TAB ================= -->
-<div id="nestingTab" class="row" style="display:none;">
-  <div class="card">
-    <h3 style="margin:0 0 6px;">Nesting (Cutting Stock)</h3>
-    <div class="small">
-      Fast packer with visualization. This is for: “cut these parts out of sheets.”
-    </div>
-
-    <label>Sheet size (Width × Height)</label>
-    <div class="split">
-      <div style="flex:1; min-width:140px;">
-        <input id="sheetW" value="2440" />
-        <div class="small">Width (numeric units)</div>
-      </div>
-      <div style="flex:1; min-width:140px;">
-        <input id="sheetH" value="1220" />
-        <div class="small">Height (numeric units)</div>
-      </div>
-    </div>
-
-    <label>Kerf / spacing between parts (same units)</label>
-    <input id="kerf" value="0" />
-
-    <label>Allow rotation</label>
-    <select id="allowRotate">
-      <option value="yes" selected>Yes</option>
-      <option value="no">No</option>
-    </select>
-
-    <label>Parts JSON (w, h, q)</label>
-    <textarea id="partsJson">[
-  {"w":800,"h":400,"q":2},
-  {"w":600,"h":300,"q":4},
-  {"w":1200,"h":200,"q":1}
-]</textarea>
-
-    <div style="margin-top: 10px;">
-      <button onclick="runNesting()">Run nesting</button>
-    </div>
-
-    <div id="nestMeta" class="meta"></div>
-    <div id="nestOut"></div>
+  <div class="small">
+    <b>Legend:</b> Gray outline = target. Solid boxes = full sheets. Dashed boxes = cut sheets on edges.
   </div>
 </div>
 
 <script>
-// ------------------ TAB UI ------------------
-function showTab(which){
-  const cov = document.getElementById('coverageTab');
-  const nes = document.getElementById('nestingTab');
-  document.getElementById('tabCoverage').classList.toggle('active', which==='coverage');
-  document.getElementById('tabNesting').classList.toggle('active', which==='nesting');
-  cov.style.display = which==='coverage' ? 'flex' : 'none';
-  nes.style.display = which==='nesting' ? 'flex' : 'none';
-}
-
-// ------------------ UNIT PARSER (in + ft only) ------------------
-function parseLengthToInches(s){
+function parseInchesStrict(s){
   if (typeof s !== 'string') return NaN;
-  const str = s.trim().toLowerCase();
-  if (!str) return NaN;
-
-  // allow simple fractions like 1/8in
-  const frac = str.match(/^([0-9]+)\s*\/\s*([0-9]+)\s*(in|")$/);
-  if (frac) return Number(frac[1]) / Number(frac[2]);
-
-  // just number => inches
-  if (/^[0-9]*\.?[0-9]+$/.test(str)) return Number(str);
-
-  let feet = 0, inches = 0;
-
-  const combo = str.match(/([0-9]*\.?[0-9]+)\s*'\s*([0-9]*\.?[0-9]+)\s*("?|in)?/);
-  if (combo){
-    feet = Number(combo[1]);
-    inches = Number(combo[2]);
-    return feet * 12 + inches;
-  }
-
-  const ftMatch = str.match(/([0-9]*\.?[0-9]+)\s*(ft|')/);
-  if (ftMatch) feet = Number(ftMatch[1]);
-
-  const inMatch = str.match(/([0-9]*\.?[0-9]+)\s*(in|")/);
-  if (inMatch) inches = Number(inMatch[1]);
-
-  if (ftMatch && !inMatch) return feet * 12;
-  if (!ftMatch && inMatch) return inches;
-
-  if (ftMatch || inMatch) return feet * 12 + inches;
-  return NaN;
+  const str = s.trim();
+  // must end with "
+  if (!str.endsWith('"')) return NaN;
+  const num = str.slice(0, -1).trim();
+  if (!/^[0-9]*\.?[0-9]+$/.test(num)) return NaN;
+  return Number(num);
 }
 
-function fmt(n){
-  if (!isFinite(n)) return '—';
-  const v = Math.round(n*1000)/1000;
-  return String(v);
-}
+function run(){
+  const tW = parseInchesStrict(document.getElementById('targetW').value);
+  const tH = parseInchesStrict(document.getElementById('targetH').value);
+  const s  = parseInchesStrict(document.getElementById('sheetS').value);
 
-// ------------------ COVERAGE MODEL ------------------
-let covState = {
-  targetW: 0, targetH: 0,
-  panelW: 0, panelH: 0,
-  gap: 0,
-  cols: 0, rows: 0,
-  panels: [], // {x,y,w,h,cutX,cutY}
-  scale: 1,
-  pad: 20
-};
+  const meta = document.getElementById('meta');
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,cv.width,cv.height);
 
-function computePanels(targetW, targetH, panelW, panelH, gap, allowCut){
-  // We treat "gap" as spacing between panels.
-  const effW = panelW + gap;
-  const effH = panelH + gap;
-
-  const cols = Math.ceil((targetW + gap) / effW);
-  const rows = Math.ceil((targetH + gap) / effH);
-  const count = cols * rows;
-
-  const coveredW = cols * effW - gap;
-  const coveredH = rows * effH - gap;
-
-  // Generate panel rectangles (full size), then mark last row/col cut pieces
-  const panels = [];
-  for (let r=0; r<rows; r++){
-    for (let c=0; c<cols; c++){
-      const x = c * effW;
-      const y = r * effH;
-
-      // nominal full panel
-      let w = panelW;
-      let h = panelH;
-
-      // determine cut piece dims (only if allowCut=yes)
-      let cutX = false, cutY = false;
-      if (allowCut === 'yes'){
-        const maxW = targetW - x;
-        const maxH = targetH - y;
-        if (maxW < w) { w = Math.max(0, maxW); cutX = true; }
-        if (maxH < h) { h = Math.max(0, maxH); cutY = true; }
-      }
-      panels.push({x,y,w,h,cutX,cutY});
-    }
-  }
-
-  const wasteW = Math.max(0, coveredW - targetW);
-  const wasteH = Math.max(0, coveredH - targetH);
-
-  const targetArea = targetW * targetH;
-  const usedAreaFull = count * panelW * panelH;
-  // Area actually laid inside target (with cuts)
-  const usedInside = panels.reduce((sum,p)=>sum + (p.w*p.h), 0);
-
-  return { cols, rows, count, coveredW, coveredH, wasteW, wasteH, targetArea, usedAreaFull, usedInside, panels };
-}
-
-function chooseOrientation(tW,tH,pW,pH,gap,allowCut,dir){
-  const asIs = computePanels(tW,tH,pW,pH,gap,allowCut);
-  const rot  = computePanels(tW,tH,pH,pW,gap,allowCut);
-
-  function score(res){ return {count: res.count, over: (res.coveredW*res.coveredH) - (tW*tH)}; }
-
-  if (dir === 'as_is') return { mode:'As-is', panelW:pW, panelH:pH, ...asIs };
-  if (dir === 'rotated') return { mode:'Rotated', panelW:pH, panelH:pW, ...rot };
-
-  // auto
-  const sa = score(asIs), sr = score(rot);
-  if (sr.count < sa.count) return { mode:'Auto (rotated)', panelW:pH, panelH:pW, ...rot };
-  if (sa.count < sr.count) return { mode:'Auto (as-is)', panelW:pW, panelH:pH, ...asIs };
-  return (sr.over < sa.over) ? { mode:'Auto (rotated)', panelW:pH, panelH:pW, ...rot }
-                             : { mode:'Auto (as-is)', panelW:pW, panelH:pH, ...asIs };
-}
-
-function runCoverage(){
-  const tW = parseLengthToInches(document.getElementById('targetW').value);
-  const tH = parseLengthToInches(document.getElementById('targetH').value);
-  const pW = parseLengthToInches(document.getElementById('panelW').value);
-  const pH = parseLengthToInches(document.getElementById('panelH').value);
-  const gap = parseLengthToInches(document.getElementById('gap').value);
-  const allowCut = document.getElementById('allowCut').value;
-  const dir = document.getElementById('boardDirection').value;
-
-  const out = document.getElementById('coverageOut');
-
-  if (![tW,tH,pW,pH].every(v=>isFinite(v) && v>0) || !isFinite(gap) || gap < 0){
-    out.innerHTML = `<span class="warn">Enter valid dimensions.</span>`;
+  if (![tW,tH,s].every(v => isFinite(v) && v > 0)){
+    meta.innerHTML = `<span class="warn">Inputs must be inches like 60"</span>`;
     return;
   }
 
-  const best = chooseOrientation(tW,tH,pW,pH,gap,allowCut,dir);
+  const cols = Math.ceil(tW / s);
+  const rows = Math.ceil(tH / s);
+  const count = cols * rows;
 
-  covState.targetW = tW;
-  covState.targetH = tH;
-  covState.panelW = best.panelW;
-  covState.panelH = best.panelH;
-  covState.gap = gap;
-  covState.cols = best.cols;
-  covState.rows = best.rows;
-  covState.panels = best.panels;
+  const coveredW = cols * s;
+  const coveredH = rows * s;
 
-  // warnings if user likely mixed units
-  const panelMax = Math.max(best.panelW, best.panelH);
-  const targetMax = Math.max(tW, tH);
-  let unitWarn = '';
-  if (targetMax > panelMax*200){
-    unitWarn = `<div class="warn">Heads up:</div>
-      Target is &gt;200× larger than panel in one dimension. Double-check units.`;
+  // Fit view to covered area (so you see full grid)
+  const pad = 30;
+  const worldW = Math.max(tW, coveredW);
+  const worldH = Math.max(tH, coveredH);
+  const scale = Math.min((cv.width - 2*pad)/worldW, (cv.height - 2*pad)/worldH);
+
+  const X = (x)=> pad + x*scale;
+  const Y = (y)=> pad + y*scale;
+  const W = (w)=> w*scale;
+  const H = (h)=> h*scale;
+
+  // Draw sheets grid
+  for (let r=0; r<rows; r++){
+    for (let c=0; c<cols; c++){
+      const x = c*s;
+      const y = r*s;
+
+      // determine cut size at edges
+      const cutW = Math.min(s, tW - x);
+      const cutH = Math.min(s, tH - y);
+      const isCut = (cutW < s) || (cutH < s);
+
+      const drawW = Math.max(0, cutW);
+      const drawH = Math.max(0, cutH);
+
+      // skip if outside target entirely (can happen when target exactly fits and we’re at boundary math)
+      if (drawW <= 0 || drawH <= 0) continue;
+
+      // fill
+      ctx.fillStyle = isCut ? "rgba(220,220,220,0.75)" : "rgba(200,200,200,0.55)";
+      ctx.fillRect(X(x), Y(y), W(drawW), H(drawH));
+
+      // stroke
+      ctx.save();
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = 1;
+      if (isCut) ctx.setLineDash([6,4]);
+      else ctx.setLineDash([]);
+      ctx.strokeRect(X(x), Y(y), W(drawW), H(drawH));
+      ctx.restore();
+    }
   }
-
-  out.innerHTML = `
-    <div><span class="ok">Result:</span> <b>${best.count}</b> panels (${best.cols} across × ${best.rows} down) — <b>${best.mode}</b></div>
-    <div class="small">
-      Target: ${fmt(tW)}in × ${fmt(tH)}in<br>
-      Panel: ${fmt(best.panelW)}in × ${fmt(best.panelH)}in<br>
-      Gap: ${fmt(gap)}in<br>
-      Covered: ${fmt(best.coveredW)}in × ${fmt(best.coveredH)}in<br>
-      Overhang: +${fmt(best.wasteW)}in width, +${fmt(best.wasteH)}in height<br>
-      Area target: ${fmt(best.targetArea)} in²<br>
-      Area inside target (with cuts): ${fmt(best.usedInside)} in²
-    </div>
-    <div class="small">${unitWarn}</div>
-  `;
-
-  zoomToFit();
-  drawCoverage();
-}
-
-function zoomToFit(){
-  const c = document.getElementById('covCanvas');
-  const pad = covState.pad;
-
-  // Fit either the target OR the covered area (whichever is bigger) so you see the full tiling
-  const effW = (covState.cols * (covState.panelW + covState.gap) - covState.gap);
-  const effH = (covState.rows * (covState.panelH + covState.gap) - covState.gap);
-  const worldW = Math.max(covState.targetW, effW);
-  const worldH = Math.max(covState.targetH, effH);
-
-  const sx = (c.width - 2*pad) / worldW;
-  const sy = (c.height - 2*pad) / worldH;
-  covState.scale = Math.max(0.0001, Math.min(sx, sy));
-}
-
-function drawCoverage(){
-  const c = document.getElementById('covCanvas');
-  const ctx = c.getContext('2d');
-  ctx.setTransform(1,0,0,1,0,0);
-  ctx.clearRect(0,0,c.width,c.height);
-
-  const pad = covState.pad;
-  const s = covState.scale;
-
-  // Helper: world->screen
-  const X = (x)=> pad + x*s;
-  const Y = (y)=> pad + y*s;
-  const W = (w)=> w*s;
-  const H = (h)=> h*s;
-
-  // Background
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0,0,c.width,c.height);
-
-  // Draw tiled panels (full + cut)
-  // Full panels: solid stroke; Cut panels: dashed stroke
-  covState.panels.forEach(p=>{
-    // skip zero-sized (can happen if cut produces 0)
-    if (p.w <= 0 || p.h <= 0) return;
-
-    const isCut = (p.cutX || p.cutY);
-
-    // fill
-    ctx.fillStyle = isCut ? "rgba(220,220,220,0.75)" : "rgba(200,200,200,0.55)";
-    ctx.fillRect(X(p.x), Y(p.y), W(p.w), H(p.h));
-
-    // stroke
-    ctx.save();
-    ctx.strokeStyle = "#111";
-    ctx.lineWidth = 1;
-    if (isCut) ctx.setLineDash([6,4]);
-    else ctx.setLineDash([]);
-    ctx.strokeRect(X(p.x), Y(p.y), W(p.w), H(p.h));
-    ctx.restore();
-  });
 
   // Draw target outline on top
   ctx.save();
   ctx.strokeStyle = "#555";
   ctx.lineWidth = 2;
   ctx.setLineDash([]);
-  ctx.strokeRect(X(0), Y(0), W(covState.targetW), H(covState.targetH));
+  ctx.strokeRect(X(0), Y(0), W(tW), H(tH));
   ctx.restore();
 
-  // Labels
-  const effW = (covState.cols * (covState.panelW + covState.gap) - covState.gap);
-  const effH = (covState.rows * (covState.panelH + covState.gap) - covState.gap);
+  // Stats
+  const overW = coveredW - tW;
+  const overH = coveredH - tH;
 
-  document.getElementById('covCanvasMeta').innerHTML =
-    `Drawn area: ${fmt(Math.max(covState.targetW, effW))}in × ${fmt(Math.max(covState.targetH, effH))}in (scaled to canvas).`;
+  meta.innerHTML = `
+    <div><span class="ok">Sheets:</span> ${count} total (${cols} across × ${rows} down)</div>
+    <div>Target: ${tW}" × ${tH}"</div>
+    <div>Sheet: ${s}" × ${s}"</div>
+    <div>Covered: ${coveredW}" × ${coveredH}"</div>
+    <div>Overhang: +${overW}" width, +${overH}" height</div>
+  `;
 }
-
-// ------------------ PRESETS ------------------
-function preset(n){
-  if (n===1){
-    document.getElementById('targetW').value = '19.02in';
-    document.getElementById('targetH').value = '18.920in';
-    document.getElementById('panelW').value = "5ft";
-    document.getElementById('panelH').value = "5ft";
-    document.getElementById('gap').value = "0in";
-    document.getElementById('boardDirection').value = 'auto';
-  }
-  if (n===2){
-    document.getElementById('targetW').value = '20.32in';
-    document.getElementById('targetH').value = '14.420in';
-    document.getElementById('panelW').value = "5ft";
-    document.getElementById('panelH').value = "8ft";
-    document.getElementById('gap').value = "0in";
-    document.getElementById('boardDirection').value = 'auto';
-  }
-  if (n===3){
-    document.getElementById('targetW').value = "28ft";
-    document.getElementById('targetH').value = "892ft";
-    document.getElementById('panelW').value = "1ft";
-    document.getElementById('panelH').value = "20ft";
-    document.getElementById('gap').value = "0in";
-    document.getElementById('boardDirection').value = 'auto';
-  }
-  runCoverage();
-}
-
-// ================== NESTING (FAST) ==================
-function expandParts(parts){
-  return parts.flatMap((p, idx) =>
-    Array.from({length:p.q}, ()=>({w:p.w,h:p.h, type: idx}))
-  );
-}
-function sortRects(rects){
-  return rects.sort((a,b)=>{
-    const da = (b.w*b.h) - (a.w*a.h);
-    if (da !== 0) return da;
-    return Math.max(b.w,b.h) - Math.max(a.w,a.h);
-  });
-}
-function candidateSpots(sheet){
-  const pts=[{x:0,y:0}];
-  sheet.forEach(p=>{
-    pts.push({x:p.x+p.w, y:p.y});
-    pts.push({x:p.x, y:p.y+p.h});
-  });
-  const seen = new Set();
-  const out = [];
-  for (const pt of pts){
-    const k = pt.x + ',' + pt.y;
-    if (!seen.has(k)){
-      seen.add(k);
-      out.push(pt);
-    }
-  }
-  out.sort((a,b)=> (a.y-b.y) || (a.x-b.x));
-  return out;
-}
-function fits(sheet, x, y, w, h, sheetW, sheetH, kerf){
-  if (x+w > sheetW || y+h > sheetH) return false;
-  return !sheet.some(p =>
-    x < p.x + p.w + kerf &&
-    x + w + kerf > p.x &&
-    y < p.y + p.h + kerf &&
-    y + h + kerf > p.y
-  );
-}
-function placeOnSheet(sheet, r, sheetW, sheetH, kerf, allowRotate){
-  const spots = candidateSpots(sheet);
-  for (const {x,y} of spots){
-    if (fits(sheet,x,y,r.w,r.h,sheetW,sheetH,kerf)){
-      sheet.push({x,y,w:r.w,h:r.h,id:r.id});
-      return true;
-    }
-    if (allowRotate && fits(sheet,x,y,r.h,r.w,sheetW,sheetH,kerf)){
-      sheet.push({x,y,w:r.h,h:r.w,id:r.id,rot:true});
-      return true;
-    }
-  }
-  return false;
-}
-function nestFast(rects, sheetW, sheetH, kerf, allowRotate){
-  const sheets = [];
-  rects.forEach(r=>{
-    let placed = false;
-    for (const s of sheets){
-      if (placeOnSheet(s, r, sheetW, sheetH, kerf, allowRotate)){
-        placed = true;
-        break;
-      }
-    }
-    if (!placed){
-      const s = [];
-      placeOnSheet(s, r, sheetW, sheetH, kerf, allowRotate);
-      sheets.push(s);
-    }
-  });
-  return sheets;
-}
-function colorFor(id){
-  const hue = (id * 47) % 360;
-  return `hsl(${hue},70%,60%)`;
-}
-function drawNesting(sheets, sheetW, sheetH){
-  const out = document.getElementById("nestOut");
-  out.innerHTML = "";
-  sheets.forEach((s)=>{
-    const c = document.createElement("canvas");
-    c.width = sheetW/4;
-    c.height = sheetH/4;
-    const ctx = c.getContext("2d");
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.scale(0.25,0.25);
-
-    ctx.fillStyle="#f2f2f2";
-    ctx.fillRect(0,0,sheetW,sheetH);
-    ctx.strokeStyle="#333";
-    ctx.strokeRect(0,0,sheetW,sheetH);
-
-    s.forEach(p=>{
-      ctx.fillStyle = colorFor(p.id);
-      ctx.fillRect(p.x,p.y,p.w,p.h);
-      ctx.strokeStyle="#111";
-      ctx.strokeRect(p.x,p.y,p.w,p.h);
-    });
-
-    out.appendChild(c);
-  });
-}
-function runNesting(){
-  const sheetW = Number(document.getElementById('sheetW').value);
-  const sheetH = Number(document.getElementById('sheetH').value);
-  const kerf = Math.max(0, Number(document.getElementById('kerf').value || 0));
-  const allowRotate = document.getElementById('allowRotate').value === 'yes';
-
-  let parts;
-  try {
-    parts = JSON.parse(document.getElementById('partsJson').value);
-  } catch(e){
-    document.getElementById('nestMeta').innerHTML = `<span class="warn">Invalid JSON.</span>`;
-    return;
-  }
-
-  const rects = sortRects(expandParts(parts)).map((r,i)=>({ ...r, id:i }));
-  const sheets = nestFast(rects, sheetW, sheetH, kerf, allowRotate);
-
-  document.getElementById('nestMeta').innerHTML =
-    `Sheets used: <b>${sheets.length}</b> | Sheet: ${sheetW}×${sheetH} | Kerf: ${kerf} | Rotate: ${allowRotate ? 'Yes' : 'No'}`;
-
-  drawNesting(sheets, sheetW, sheetH);
-}
-
-// init
-preset(3);
 </script>
 
 </body>
