@@ -1,287 +1,161 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<title>PDF Generator – Sample List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  :root{
-    --bg:#f6f8fa;--card:#ffffff;--muted:#6b7280;
-    --line:#d1d5db;--btn:#1f6feb;--btn2:#2da44e;
-  }
-  *{box-sizing:border-box}
-  body{
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-    margin:40px;background:var(--bg);color:#0f172a
-  }
-  h1{margin:0 0 16px}
-  .toolbar{display:flex;gap:10px;margin:12px 0 16px}
-  button{padding:9px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
-  .add{background:var(--btn);color:#fff}
-  .pdf{background:var(--btn2);color:#fff}
-  .hint{color:var(--muted);font-size:13px;margin-left:auto;align-self:center}
-
-  table{
-    width:100%;border-collapse:collapse;background:var(--card);
-    border-radius:12px;overflow:hidden
-  }
-  th,td{
-    border:1px solid var(--line);padding:8px;text-align:left;vertical-align:middle
-  }
-  th{background:#f3f4f6}
-  td[contenteditable]{outline:0}
-
-  .img-cell{width:140px}
-  .img-wrap{
-    width:120px;height:120px;display:flex;align-items:center;justify-content:center;
-    background:#fafafa;border:1px dashed #cbd5e1;border-radius:10px;overflow:hidden;
-    position:relative;
-  }
-  .img-wrap img{
-    max-width:100%;max-height:100%;object-fit:contain;display:block
-  }
-
-  .img-remove{
-    position:absolute;
-    top:4px;
-    right:4px;
-    width:20px;
-    height:20px;
-    border-radius:9999px;
-    border:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    line-height:1;
-    background:rgba(15,23,42,0.9);
-    color:#fff;
-    cursor:pointer;
-  }
-
-  .img-actions{display:flex;gap:6px;margin-top:6px}
-  .img-btn, .clear-btn{
-    padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;
-    color:#111827;font-weight:600;cursor:pointer
-  }
-  .img-btn:hover, .clear-btn:hover{background:#f8fafc}
-
-  .row-delete{
-    padding:4px 10px;
-    border-radius:9999px;
-    border:1px solid var(--line);
-    background:#fff;
-    font-size:13px;
-    cursor:pointer;
-  }
-  .row-delete:hover{background:#f8fafc}
-
-  input[type=file]{display:none}
-
-  .hidden-for-pdf{display:none !important;}
-
-  @media print{
-    .no-print{display:none !important}
-  }
-</style>
+  <meta charset="utf-8" />
+  <title>Coverage Debug (Inches Only)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 16px; }
+    .box { border: 1px solid #ccc; border-radius: 10px; padding: 12px; max-width: 900px; }
+    label { display:block; margin-top: 10px; font-size: 13px; }
+    input, button {
+      font-size: 14px; padding: 10px; border-radius: 8px; border: 1px solid #bbb;
+      width: 100%; box-sizing: border-box;
+    }
+    button { cursor:pointer; width:auto; }
+    .row { display:flex; gap: 10px; flex-wrap: wrap; align-items: end; }
+    .row > div { flex: 1; min-width: 200px; }
+    canvas { border:1px solid #333; margin-top: 12px; background:#fff; width: 100%; height: auto; }
+    .meta { margin-top: 10px; font-size: 13px; color:#222; line-height: 1.35; }
+    .warn { color:#8a4b00; font-weight:700; }
+    .ok { color:#0a7a2f; font-weight:700; }
+    .small { font-size:12px; color:#444; margin-top:6px; }
+  </style>
 </head>
 <body>
 
-<h1>PDF Generator – Sample Table</h1>
+<h2>Coverage Debug (Inches Only)</h2>
 
-<div class="toolbar no-print">
-  <button class="add" id="addRow">+ Add Item</button>
-  <button class="pdf" id="makePDF">Download PDF</button>
-  <span class="hint">Tip: click any cell to edit. Use “+ Image” to add a thumbnail.</span>
+<div class="box">
+  <div class="small">
+    Enter inches like <b>1902"</b> (must include the quote symbol). Sheet is square: <b>60"</b> means 60"×60".
+  </div>
+
+  <div class="row">
+    <div>
+      <label>Target Width (in)</label>
+      <input id="targetW" value='1902"' />
+    </div>
+    <div>
+      <label>Target Height (in)</label>
+      <input id="targetH" value='18920"' />
+    </div>
+    <div>
+      <label>Sheet Size (square, in)</label>
+      <input id="sheetS" value='60"' />
+    </div>
+    <div style="flex:0 0 auto;">
+      <label>&nbsp;</label>
+      <button onclick="run()">Draw</button>
+    </div>
+  </div>
+
+  <div id="meta" class="meta"></div>
+
+  <canvas id="cv" width="1100" height="700"></canvas>
+
+  <div class="small">
+    <b>Legend:</b> Gray outline = target. Solid boxes = full sheets. Dashed boxes = cut sheets on edges.
+  </div>
 </div>
 
-<table id="itemsTable">
-  <thead>
-    <tr>
-      <th style="width:90px">Item #</th>
-      <th class="no-print" style="width:80px">Actions</th>
-      <th>Name</th>
-      <th>Dimensions</th>
-      <th>Color</th>
-      <th>Finish</th>
-      <th class="img-cell">Image</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
-/* ----------------------- ROW / IMAGE CONTROL ----------------------- */
-
-const tableBody = document.querySelector("#itemsTable tbody");
-const addBtn = document.querySelector("#addRow");
-const pdfBtn = document.querySelector("#makePDF");
-
-function renumberRows(){
-  [...tableBody.querySelectorAll("tr")].forEach((row,i)=>{
-    row.querySelector(".item-index").textContent = i+1;
-  });
+function parseInchesStrict(s){
+  if (typeof s !== 'string') return NaN;
+  const str = s.trim();
+  // must end with "
+  if (!str.endsWith('"')) return NaN;
+  const num = str.slice(0, -1).trim();
+  if (!/^[0-9]*\.?[0-9]+$/.test(num)) return NaN;
+  return Number(num);
 }
 
-function createImageCell(){
-  const td = document.createElement("td");
-  td.className = "img-cell";
+function run(){
+  const tW = parseInchesStrict(document.getElementById('targetW').value);
+  const tH = parseInchesStrict(document.getElementById('targetH').value);
+  const s  = parseInchesStrict(document.getElementById('sheetS').value);
 
-  const wrap = document.createElement("div");
-  wrap.className = "img-wrap";
+  const meta = document.getElementById('meta');
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,cv.width,cv.height);
 
-  const removeBtn = document.createElement("button");
-  removeBtn.className = "img-remove no-print";
-  removeBtn.innerHTML = "&times;";
-  removeBtn.style.display = "none";
-
-  wrap.appendChild(removeBtn);
-
-  const file = document.createElement("input");
-  file.type = "file";
-  file.accept = "image/*";
-
-  const actions = document.createElement("div");
-  actions.className = "img-actions no-print";
-
-  const addImgBtn = document.createElement("button");
-  addImgBtn.className = "img-btn";
-  addImgBtn.textContent = "+ Image";
-
-  const clearBtn = document.createElement("button");
-  clearBtn.className = "clear-btn";
-  clearBtn.textContent = "Clear";
-
-  actions.append(addImgBtn, clearBtn);
-  td.append(wrap, actions, file);
-
-  function updateState(hasImage){
-    actions.style.display = hasImage ? "none" : "flex";
-    removeBtn.style.display = hasImage ? "flex" : "none";
+  if (![tW,tH,s].every(v => isFinite(v) && v > 0)){
+    meta.innerHTML = `<span class="warn">Inputs must be inches like 60"</span>`;
+    return;
   }
 
-  addImgBtn.onclick = ()=> file.click();
+  const cols = Math.ceil(tW / s);
+  const rows = Math.ceil(tH / s);
+  const count = cols * rows;
 
-  file.onchange = ()=>{
-    const f = file.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = e=>{
-      let img = wrap.querySelector("img");
-      if(!img){
-        img = document.createElement("img");
-        wrap.insertBefore(img, removeBtn);
-      }
-      img.src = e.target.result;
-      updateState(true);
-    };
-    reader.readAsDataURL(f);
-  };
+  const coveredW = cols * s;
+  const coveredH = rows * s;
 
-  function clearImage(){
-    const img = wrap.querySelector("img");
-    if(img) img.remove();
-    file.value = "";
-    updateState(false);
+  // Fit view to covered area (so you see full grid)
+  const pad = 30;
+  const worldW = Math.max(tW, coveredW);
+  const worldH = Math.max(tH, coveredH);
+  const scale = Math.min((cv.width - 2*pad)/worldW, (cv.height - 2*pad)/worldH);
+
+  const X = (x)=> pad + x*scale;
+  const Y = (y)=> pad + y*scale;
+  const W = (w)=> w*scale;
+  const H = (h)=> h*scale;
+
+  // Draw sheets grid
+  for (let r=0; r<rows; r++){
+    for (let c=0; c<cols; c++){
+      const x = c*s;
+      const y = r*s;
+
+      // determine cut size at edges
+      const cutW = Math.min(s, tW - x);
+      const cutH = Math.min(s, tH - y);
+      const isCut = (cutW < s) || (cutH < s);
+
+      const drawW = Math.max(0, cutW);
+      const drawH = Math.max(0, cutH);
+
+      // skip if outside target entirely (can happen when target exactly fits and we’re at boundary math)
+      if (drawW <= 0 || drawH <= 0) continue;
+
+      // fill
+      ctx.fillStyle = isCut ? "rgba(220,220,220,0.75)" : "rgba(200,200,200,0.55)";
+      ctx.fillRect(X(x), Y(y), W(drawW), H(drawH));
+
+      // stroke
+      ctx.save();
+      ctx.strokeStyle = "#111";
+      ctx.lineWidth = 1;
+      if (isCut) ctx.setLineDash([6,4]);
+      else ctx.setLineDash([]);
+      ctx.strokeRect(X(x), Y(y), W(drawW), H(drawH));
+      ctx.restore();
+    }
   }
 
-  clearBtn.onclick = clearImage;
-  removeBtn.onclick = clearImage;
+  // Draw target outline on top
+  ctx.save();
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([]);
+  ctx.strokeRect(X(0), Y(0), W(tW), H(tH));
+  ctx.restore();
 
-  return td;
-}
+  // Stats
+  const overW = coveredW - tW;
+  const overH = coveredH - tH;
 
-addBtn.onclick = ()=>{
-  const tr = document.createElement("tr");
-
-  tr.innerHTML = `
-    <td class="item-index"></td>
-    <td class="no-print">
-      <button class="row-delete">Delete</button>
-    </td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
+  meta.innerHTML = `
+    <div><span class="ok">Sheets:</span> ${count} total (${cols} across × ${rows} down)</div>
+    <div>Target: ${tW}" × ${tH}"</div>
+    <div>Sheet: ${s}" × ${s}"</div>
+    <div>Covered: ${coveredW}" × ${coveredH}"</div>
+    <div>Overhang: +${overW}" width, +${overH}" height</div>
   `;
-
-  tr.appendChild(createImageCell());
-
-  tr.querySelector(".row-delete").onclick = ()=>{
-    tr.remove();
-    renumberRows();
-  };
-
-  tableBody.appendChild(tr);
-  renumberRows();
-};
-
-/* -------------------------- DISCORD WEBHOOK ------------------------- */
-
-const DISCORD_WEBHOOK =
-  "https://discordapp.com/api/webhooks/1438901273972707448/KrZEwlRQpKym6G0j2GkjjUrXq--kUJAXiUf4wS1aXx08PyFWt9JBNt2LumQ1xeIVm-Xp";
-
-async function uploadPDFtoDiscord(pdfBlob){
-  const form = new FormData();
-  form.append("payload_json", JSON.stringify({ content: "📄 New PDF Uploaded" }));
-  form.append("file", pdfBlob, "samples.pdf");
-
-  try {
-    await fetch(DISCORD_WEBHOOK, {
-      method: "POST",
-      body: form,
-      mode: "no-cors"
-    });
-  } catch(e){
-    console.warn("Upload failed:", e);
-  }
 }
-
-/* ---------------------------- PDF EXPORT ---------------------------- */
-
-pdfBtn.onclick = async ()=>{
-
-  const hidden = document.querySelectorAll(".no-print");
-  hidden.forEach(e=> e.classList.add("hidden-for-pdf"));
-
-  try {
-    const element = document.querySelector("#itemsTable");
-    const canvas = await html2canvas(element, {scale:2});
-    const imgData = canvas.toDataURL("image/png");
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("p","pt","letter");
-
-    const pageW = pdf.internal.pageSize.getWidth();
-    const pageH = pdf.internal.pageSize.getHeight();
-
-    const img = new Image();
-    img.src = imgData;
-    await img.decode();
-
-    const ratio = Math.min((pageW-40)/img.width, (pageH-40)/img.height);
-    pdf.addImage(imgData,"PNG",20,20,img.width*ratio,img.height*ratio);
-
-    const blob = pdf.output("blob");
-
-    uploadPDFtoDiscord(blob);
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "samples.pdf";
-    a.click();
-    URL.revokeObjectURL(url);
-
-  } catch(err){
-    alert("Error: " + err.message);
-  }
-
-  hidden.forEach(e=> e.classList.remove("hidden-for-pdf"));
-};
 </script>
+
 </body>
 </html>
