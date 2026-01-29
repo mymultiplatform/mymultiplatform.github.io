@@ -1,6 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sheet Yield Optimizer</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  canvas { border:1px solid #333; margin:10px; }
+  button { padding:8px 14px; font-size:16px; }
+</style>
+</head>
+<body>
+
+<h2>Sheet Yield Optimizer</h2>
+<button onclick="run()">Run nesting</button>
+<div id="out"></div>
+
 <script>
 const sheetW = 2440;
 const sheetH = 1220;
+const STEP = 1;   // tighter nesting
 
 const parts = [
   {w:800, h:400, q:2},
@@ -9,91 +27,70 @@ const parts = [
 ];
 
 function expand(parts){
-  return parts.flatMap(p =>
-    Array.from({length:p.q}, ()=>({w:p.w,h:p.h}))
-  );
-}
-
-// sort largest first (area)
-function sortRects(r){
-  return r.sort((a,b)=>(b.w*b.h)-(a.w*a.h));
+  let arr=[];
+  parts.forEach(p=>{
+    for(let i=0;i<p.q;i++){
+      arr.push({w:p.w,h:p.h});
+    }
+  });
+  return arr;
 }
 
 function nest(rects){
-  const sheets=[];
+  let sheets=[];
+
+  // FIXED sort by area (big first)
+  rects.sort((a,b)=>(b.w*b.h)-(a.w*a.h));
 
   rects.forEach(r=>{
     let placed=false;
 
     for(const sheet of sheets){
-      if(placeOnSheet(sheet,r)){
-        placed=true;
-        break;
+      for(let y=0;y<=sheetH-r.h;y+=STEP){
+        for(let x=0;x<=sheetW-r.w;x+=STEP){
+          if(!collide(sheet,x,y,r)){
+            sheet.push({...r,x,y});
+            placed=true;
+            break;
+          }
+        }
+        if(placed) break;
       }
+      if(placed) break;
     }
 
     if(!placed){
-      const s=[];
-      placeOnSheet(s,r);
-      sheets.push(s);
+      sheets.push([{...r,x:0,y:0}]);
     }
   });
 
   return sheets;
 }
 
-function placeOnSheet(sheet,r){
-  const spots = candidateSpots(sheet);
-
-  for(const {x,y} of spots){
-    if(fits(sheet,x,y,r.w,r.h)){
-      sheet.push({x,y,w:r.w,h:r.h});
-      return true;
-    }
-    // try rotation
-    if(fits(sheet,x,y,r.h,r.w)){
-      sheet.push({x,y,w:r.h,h:r.w});
-      return true;
-    }
-  }
-  return false;
-}
-
-function candidateSpots(sheet){
-  const pts=[{x:0,y:0}];
-
-  sheet.forEach(p=>{
-    pts.push({x:p.x+p.w, y:p.y});
-    pts.push({x:p.x, y:p.y+p.h});
-  });
-
-  return pts;
-}
-
-function fits(sheet,x,y,w,h){
-  if(x+w>sheetW || y+h>sheetH) return false;
-
-  return !sheet.some(p=>
-    x < p.x+p.w &&
-    x+w > p.x &&
-    y < p.y+p.h &&
-    y+h > p.y
+function collide(sheet,x,y,r){
+  return sheet.some(p =>
+    x < p.x + p.w &&
+    x + r.w > p.x &&
+    y < p.y + p.h &&
+    y + r.h > p.y
   );
 }
 
 function draw(sheets){
   const out=document.getElementById("out");
-  out.innerHTML="Sheets used: "+sheets.length;
+  out.innerHTML="Sheets used: <b>"+sheets.length+"</b><br>";
 
-  sheets.forEach(s=>{
+  sheets.forEach((s,i)=>{
     const c=document.createElement("canvas");
     c.width=sheetW/4;
     c.height=sheetH/4;
     const ctx=c.getContext("2d");
+
     ctx.scale(0.25,0.25);
 
-    ctx.fillStyle="#eee";
+    ctx.fillStyle="#f2f2f2";
     ctx.fillRect(0,0,sheetW,sheetH);
+    ctx.strokeRect(0,0,sheetW,sheetH);
 
     s.forEach(p=>{
       ctx.fillStyle=`hsl(${Math.random()*360},70%,60%)`;
@@ -106,8 +103,10 @@ function draw(sheets){
 }
 
 function run(){
-  const rects = sortRects(expand(parts));
+  const rects = expand(parts);
   const sheets = nest(rects);
   draw(sheets);
 }
 </script>
+</body>
+</html>
