@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Dante Sanchez Architecture Portfolio</title>
   <meta name="description" content="Architecture portfolio by Dante Sanchez — horizontal preview gallery." />
+
   <style>
     :root {
       --bg: #0f0f10;
@@ -14,12 +15,19 @@
       --accent: #1f6feb;
       --card: #16181d;
       --shadow: 0 6px 28px rgba(0,0,0,.35);
+
+      /* NEW: rotation vars (controlled by buttons) */
+      --img-rot: 0deg;
+      --img-scale: 1;
     }
+
     * { box-sizing: border-box; }
     html, body { height: 100%; }
+
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+        "Apple Color Emoji","Segoe UI Emoji";
       background: radial-gradient(1200px 800px at 80% -10%, #1b2331, #0f1116 60%, #0b0b0c 100%), var(--bg);
       color: var(--fg);
       overflow: hidden; /* we’ll manage overflow in the gallery wrapper */
@@ -34,6 +42,7 @@
       background: linear-gradient(180deg, rgba(8,10,14,.82), rgba(8,10,14,.58));
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
+
     .bar {
       max-width: 1200px;
       margin: 0 auto;
@@ -42,23 +51,68 @@
       align-items: center;
       gap: 14px;
     }
+
     .dot {
-      width: 10px; height: 10px; border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       background: radial-gradient(circle at 40% 35%, #7ab1ff, #1f6feb);
       box-shadow: 0 0 22px rgba(31,111,235,.65);
       flex: 0 0 auto;
     }
+
     h1 {
       font-size: clamp(16px, 2.6vw, 24px);
       margin: 0;
       letter-spacing: .4px;
       font-weight: 700;
     }
-    .sub {
+
+    /* NEW: header right-side controls container */
+    .controls {
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .sub {
       color: var(--muted);
       font-size: 13px;
-      white-space: nowrap;
+    }
+
+    /* NEW: rotation buttons */
+    .rotGroup {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .rotBtn {
+      width: 36px;
+      height: 30px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(14,16,20,.55);
+      color: #e7e7e7;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: .3px;
+      display: grid;
+      place-items: center;
+      transition: background .12s ease, border-color .12s ease, transform .12s ease;
+    }
+
+    .rotBtn:hover {
+      background: rgba(28,32,40,.75);
+      border-color: rgba(255,255,255,.22);
+      transform: translateY(-1px);
+    }
+
+    .rotBtn.active {
+      border-color: rgba(122,177,255,.7);
+      box-shadow: 0 0 0 2px rgba(31,111,235,.25) inset;
     }
 
     /* Gallery wrapper */
@@ -83,56 +137,55 @@
       scrollbar-width: thin;
       scrollbar-color: #2a2f39 transparent;
     }
+
     .gallery::-webkit-scrollbar { height: 10px; }
     .gallery::-webkit-scrollbar-thumb { background: #2a2f39; border-radius: 999px; }
     .gallery::-webkit-scrollbar-track { background: transparent; }
 
     .card {
-      position: relative; /* IMPORTANT: needed for JS rotate/fit */
       background: var(--card);
       border: 1px solid rgba(255,255,255,.06);
       border-radius: 18px;
       box-shadow: var(--shadow);
       overflow: hidden;
       scroll-snap-align: center;
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
       aspect-ratio: 17 / 22; /* matches your 1700x2200 ratio */
     }
 
-    /* Rotated/fit image (JS sets --rot and --scale) */
     .card img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      max-width: none;
-      max-height: none;
-      object-fit: unset;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
       background: #0b0d10;
       user-select: none;
       -webkit-user-drag: none;
+
+      /* NEW: rotation */
+      transform: rotate(var(--img-rot)) scale(var(--img-scale));
+      transform-origin: center center;
+      transition: transform .18s ease;
     }
 
     /* Prev/Next buttons */
-    .nav {
-      position: absolute;
-      inset: 0;
-      pointer-events: none; /* only buttons clickable */
-    }
+    .nav { position: absolute; inset: 0; pointer-events: none; }
     .btn {
       pointer-events: auto;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(14,16,20,.6);
       backdrop-filter: blur(6px);
-      display: grid; place-items: center;
+      display: grid;
+      place-items: center;
       cursor: pointer;
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       box-shadow: 0 8px 24px rgba(0,0,0,.35);
@@ -155,6 +208,7 @@
       border-top: 1px solid rgba(255,255,255,.06);
       background: linear-gradient(180deg, rgba(8,10,14,.65), rgba(8,10,14,.85));
     }
+
     .track {
       position: absolute;
       inset: 0;
@@ -164,8 +218,8 @@
       padding: 10px 14px;
       animation: marquee 26s linear infinite;
     }
+
     .thumb {
-      position: relative; /* IMPORTANT: needed for JS rotate/fit */
       flex: 0 0 auto;
       height: 64px;
       aspect-ratio: 17 / 22;
@@ -177,18 +231,17 @@
       cursor: pointer;
       background: #0b0d10;
     }
-    .thumb:hover { opacity: 1; transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
 
-    /* Rotated/fit thumb (same approach as cards) */
+    .thumb:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+    }
+
     .thumb img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
-      transform-origin: center;
-      max-width: none;
-      max-height: none;
-      object-fit: unset;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
       display: block;
       -webkit-user-drag: none;
       user-select: none;
@@ -196,26 +249,33 @@
 
     @keyframes marquee {
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); } /* because we duplicate the row */
+      to { transform: translateX(-50%); } /* because we duplicate the row */
     }
 
     /* Small screens */
     @media (max-width: 720px) {
-      .gallery {
-        grid-auto-columns: 92vw;
-        padding: 18px 64px;
-        gap: 18px;
-      }
+      .gallery { grid-auto-columns: 92vw; padding: 18px 64px; gap: 18px; }
       .btn { width: 42px; height: 42px; }
+      .sub { display: none; } /* optional: hide text to fit buttons */
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="bar">
       <span class="dot"></span>
       <h1>Dante Sanchez Architecture Portfolio</h1>
-      <span class="sub">Horizontal preview · Use ← → or drag</span>
+
+      <!-- NEW: right-side controls: hint + rotation buttons -->
+      <div class="controls">
+        <span class="sub">Horizontal preview · Use ← → or drag</span>
+        <div class="rotGroup" aria-label="Rotation controls">
+          <button class="rotBtn" data-rot="0" title="A: no rotation">A</button>
+          <button class="rotBtn" data-rot="90" title="B: rotate 90°">B</button>
+          <button class="rotBtn" data-rot="-90" title="C: rotate -90°">C</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -236,50 +296,6 @@
   </main>
 
   <script>
-    // If pages rotate the WRONG direction, flip this between -90 and 90.
-    const AUTO_ROTATE_DEG = -90;
-
-    function shouldAutoRotate(img) {
-      // Sideways scans commonly come in as landscape (w > h)
-      return img.naturalWidth > img.naturalHeight;
-    }
-
-    function applyRotationAndFit(img) {
-      const box = img.closest('.card, .thumb');
-      if (!box || !img.naturalWidth || !img.naturalHeight) return;
-
-      const rotate = shouldAutoRotate(img);
-      const rot = rotate ? AUTO_ROTATE_DEG : 0;
-
-      img.dataset.rot = String(rot);
-      img.style.setProperty('--rot', `${rot}deg`);
-
-      const cw = box.clientWidth;
-      const ch = box.clientHeight;
-
-      const rotated = Math.abs(rot) % 180 === 90;
-      const baseW = rotated ? img.naturalHeight : img.naturalWidth;  // swapped if rotated
-      const baseH = rotated ? img.naturalWidth  : img.naturalHeight;
-
-      // "contain" scale so the whole image fits in its box
-      const scale = Math.min(cw / baseW, ch / baseH);
-
-      // Lock element to its natural pixel size, then scale down to fit
-      img.style.width = `${img.naturalWidth}px`;
-      img.style.height = `${img.naturalHeight}px`;
-      img.style.setProperty('--scale', String(scale));
-    }
-
-    function refitAll() {
-      document.querySelectorAll('.card img, .thumb img').forEach(img => {
-        if (img.complete && img.naturalWidth) applyRotationAndFit(img);
-      });
-    }
-
-    window.addEventListener('resize', () => {
-      requestAnimationFrame(refitAll);
-    });
-
     // Your Blogger-hosted PNGs (full-size)
     const PAGES = [
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s2200/Dante_S_Arch_Portfolio_5MB-18.png",
@@ -329,6 +345,28 @@
     const nextBtn = document.getElementById('nextBtn');
     const thumbTrack = document.getElementById('thumbTrack');
 
+    // NEW: rotation controls
+    const rotButtons = document.querySelectorAll('.rotBtn');
+
+    function setRotation(deg) {
+      // Rotating 90° swaps width/height, so scale by 17/22 to avoid clipping.
+      const scale = (Math.abs(deg) === 90) ? (17 / 22) : 1;
+
+      document.documentElement.style.setProperty('--img-rot', `${deg}deg`);
+      document.documentElement.style.setProperty('--img-scale', String(scale));
+
+      rotButtons.forEach(b => {
+        b.classList.toggle('active', Number(b.dataset.rot) === deg);
+      });
+    }
+
+    rotButtons.forEach(b => {
+      b.addEventListener('click', () => setRotation(Number(b.dataset.rot)));
+    });
+
+    // Default selection
+    setRotation(0);
+
     // Render main cards
     PAGES.forEach((src, i) => {
       const card = document.createElement('article');
@@ -340,8 +378,6 @@
       img.loading = 'lazy';
       img.alt = `Portfolio page ${i + 1}`;
       img.src = src;
-
-      img.addEventListener('load', () => applyRotationAndFit(img));
 
       card.appendChild(img);
       galleryEl.appendChild(card);
@@ -360,12 +396,11 @@
         img.alt = `Thumbnail page ${i + 1}`;
         img.src = src;
 
-        img.addEventListener('load', () => applyRotationAndFit(img));
-
         t.appendChild(img);
         thumbTrack.appendChild(t);
       });
     }
+
     renderThumbRow();
     renderThumbRow(); // duplicate so animation can wrap seamlessly
 
@@ -381,6 +416,7 @@
       const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
       galleryEl.scrollBy({ left: cardWidth + 28, behavior: 'smooth' });
     }
+
     function prev() {
       const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
       galleryEl.scrollBy({ left: -cardWidth - 28, behavior: 'smooth' });
@@ -402,9 +438,6 @@
         e.preventDefault();
       }
     }, { passive: false });
-
-    // In case images load from cache instantly
-    requestAnimationFrame(refitAll);
   </script>
 </body>
 </html>
