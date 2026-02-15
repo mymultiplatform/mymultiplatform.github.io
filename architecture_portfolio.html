@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,24 +88,29 @@
     .gallery::-webkit-scrollbar-track { background: transparent; }
 
     .card {
+      position: relative; /* IMPORTANT: needed for JS rotate/fit */
       background: var(--card);
       border: 1px solid rgba(255,255,255,.06);
       border-radius: 18px;
       box-shadow: var(--shadow);
       overflow: hidden;
       scroll-snap-align: center;
-      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
       aspect-ratio: 17 / 22; /* matches your 1700x2200 ratio */
     }
 
+    /* Rotated/fit image (JS sets --rot and --scale) */
     .card img {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+      transform-origin: center;
+      max-width: none;
+      max-height: none;
+      object-fit: unset;
       background: #0b0d10;
       user-select: none;
       -webkit-user-drag: none;
@@ -133,7 +139,11 @@
       font-size: 20px;
       color: #e7e7e7;
     }
-    .btn:hover { background: rgba(28,32,40,.8); border-color: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.05); }
+    .btn:hover {
+      background: rgba(28,32,40,.8);
+      border-color: rgba(255,255,255,.2);
+      transform: translateY(-50%) scale(1.05);
+    }
     .prev { left: 18px; }
     .next { right: 18px; }
 
@@ -155,6 +165,7 @@
       animation: marquee 26s linear infinite;
     }
     .thumb {
+      position: relative; /* IMPORTANT: needed for JS rotate/fit */
       flex: 0 0 auto;
       height: 64px;
       aspect-ratio: 17 / 22;
@@ -167,10 +178,17 @@
       background: #0b0d10;
     }
     .thumb:hover { opacity: 1; transform: translateY(-2px); border-color: rgba(255,255,255,.22); }
+
+    /* Rotated/fit thumb (same approach as cards) */
     .thumb img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+      transform-origin: center;
+      max-width: none;
+      max-height: none;
+      object-fit: unset;
       display: block;
       -webkit-user-drag: none;
       user-select: none;
@@ -218,6 +236,50 @@
   </main>
 
   <script>
+    // If pages rotate the WRONG direction, flip this between -90 and 90.
+    const AUTO_ROTATE_DEG = -90;
+
+    function shouldAutoRotate(img) {
+      // Sideways scans commonly come in as landscape (w > h)
+      return img.naturalWidth > img.naturalHeight;
+    }
+
+    function applyRotationAndFit(img) {
+      const box = img.closest('.card, .thumb');
+      if (!box || !img.naturalWidth || !img.naturalHeight) return;
+
+      const rotate = shouldAutoRotate(img);
+      const rot = rotate ? AUTO_ROTATE_DEG : 0;
+
+      img.dataset.rot = String(rot);
+      img.style.setProperty('--rot', `${rot}deg`);
+
+      const cw = box.clientWidth;
+      const ch = box.clientHeight;
+
+      const rotated = Math.abs(rot) % 180 === 90;
+      const baseW = rotated ? img.naturalHeight : img.naturalWidth;  // swapped if rotated
+      const baseH = rotated ? img.naturalWidth  : img.naturalHeight;
+
+      // "contain" scale so the whole image fits in its box
+      const scale = Math.min(cw / baseW, ch / baseH);
+
+      // Lock element to its natural pixel size, then scale down to fit
+      img.style.width = `${img.naturalWidth}px`;
+      img.style.height = `${img.naturalHeight}px`;
+      img.style.setProperty('--scale', String(scale));
+    }
+
+    function refitAll() {
+      document.querySelectorAll('.card img, .thumb img').forEach(img => {
+        if (img.complete && img.naturalWidth) applyRotationAndFit(img);
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      requestAnimationFrame(refitAll);
+    });
+
     // Your Blogger-hosted PNGs (full-size)
     const PAGES = [
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s2200/Dante_S_Arch_Portfolio_5MB-18.png",
@@ -240,7 +302,7 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
     ];
 
-    // Thumbnail versions (smaller). Blogger gives you /s320/ variants in your snippet.
+    // Thumbnail versions (smaller)
     const THUMBS = [
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6Cpw6HiIgJ6Sjc2oUfSik6FYTbLWGGLLomEw-PdQiLizxz9usZbxLVWXxFqhbgjy4PEVbDeUVtUkBls2tFQithD6WgM80Wd6jx_EExZk0NzgAWHqivQYkHRuSR71ThugZFllr5JqijBiMWJqQIJoFHfLcX-rqtiK0YOiooRkcc8E9EttCMP-FSEOjqVt8/s320/Dante_S_Arch_Portfolio_5MB-18.png",
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNhINju53WSPNVUlSdYgiYilQgS1_H77mTu_t5ORJ30ckRHqLOJGMwuzUOXtx7X0p46M7LlmiA3bREIqscd1NKTGe9hdyVTWLMUk5n2yesHZ1853RvqpS1H9hCEJ-xmNGuc92Q9rTYKQ6Og4dXub5US9uBV4lGGQQ1WFzrzN_Cy5WeVsaeMk1r2sY15pnO/s320/Dante_S_Arch_Portfolio_5MB-17.png",
@@ -279,21 +341,27 @@
       img.alt = `Portfolio page ${i + 1}`;
       img.src = src;
 
+      img.addEventListener('load', () => applyRotationAndFit(img));
+
       card.appendChild(img);
       galleryEl.appendChild(card);
     });
 
     // Render thumbs (duplicated once for smooth infinite marquee)
-    function renderThumbRow(offset = 0) {
+    function renderThumbRow() {
       THUMBS.forEach((src, i) => {
         const t = document.createElement('div');
         t.className = 'thumb';
         t.title = `Go to page ${i + 1}`;
         t.addEventListener('click', () => scrollToIndex(i));
+
         const img = document.createElement('img');
         img.loading = 'lazy';
         img.alt = `Thumbnail page ${i + 1}`;
         img.src = src;
+
+        img.addEventListener('load', () => applyRotationAndFit(img));
+
         t.appendChild(img);
         thumbTrack.appendChild(t);
       });
@@ -308,6 +376,7 @@
       const left = child.offsetLeft - (galleryEl.clientWidth - child.clientWidth) / 2;
       galleryEl.scrollTo({ left, behavior: 'smooth' });
     }
+
     function next() {
       const cardWidth = galleryEl.firstElementChild?.clientWidth || 600;
       galleryEl.scrollBy({ left: cardWidth + 28, behavior: 'smooth' });
@@ -333,6 +402,10 @@
         e.preventDefault();
       }
     }, { passive: false });
+
+    // In case images load from cache instantly
+    requestAnimationFrame(refitAll);
   </script>
 </body>
 </html>
+```
