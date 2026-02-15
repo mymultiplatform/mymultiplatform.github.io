@@ -1,13 +1,8 @@
-Nice — if **B (90°)** is correct, you can “lock it in” by setting the default rotation to **90°** (and optionally keeping the buttons for future testing).
-
-Here’s the **full updated file** with **B as the default** (no flicker on load, because the CSS defaults are already set to 90°):
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dante Sanchez Architecture Portfolio</title>
   <meta name="description" content="Architecture portfolio by Dante Sanchez — horizontal preview gallery." />
 
@@ -20,9 +15,11 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
       --card: #16181d;
       --shadow: 0 6px 28px rgba(0,0,0,.35);
 
-      /* LOCKED DEFAULT = B */
+      /* LOCK rotation to B (90°) */
       --img-rot: 90deg;
-      --img-scale: 0.7727272727; /* 17/22 */
+
+      /* This is auto-computed in JS so it always fits the viewport */
+      --img-scale: 1;
     }
 
     * { box-sizing: border-box; }
@@ -31,7 +28,7 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-        "Apple Color Emoji","Segoe UI Emoji";
+        "Apple Color Emoji", "Segoe UI Emoji";
       background: radial-gradient(1200px 800px at 80% -10%, #1b2331, #0f1116 60%, #0b0b0c 100%), var(--bg);
       color: var(--fg);
       overflow: hidden;
@@ -71,49 +68,11 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
       font-weight: 700;
     }
 
-    .controls {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      white-space: nowrap;
-    }
-
     .sub {
+      margin-left: auto;
       color: var(--muted);
       font-size: 13px;
-    }
-
-    .rotGroup {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .rotBtn {
-      width: 36px;
-      height: 30px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(14,16,20,.55);
-      color: #e7e7e7;
-      cursor: pointer;
-      font-weight: 700;
-      letter-spacing: .3px;
-      display: grid;
-      place-items: center;
-      transition: background .12s ease, border-color .12s ease, transform .12s ease;
-    }
-
-    .rotBtn:hover {
-      background: rgba(28,32,40,.75);
-      border-color: rgba(255,255,255,.22);
-      transform: translateY(-1px);
-    }
-
-    .rotBtn.active {
-      border-color: rgba(122,177,255,.7);
-      box-shadow: 0 0 0 2px rgba(31,111,235,.25) inset;
+      white-space: nowrap;
     }
 
     .wrap {
@@ -155,18 +114,24 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
       aspect-ratio: 17 / 22;
     }
 
+    /* KEY FIX:
+       - Position the image at the true center (50/50) and translate back
+       - Apply rotation + responsive scale so it stays inside bounds
+    */
     .card img {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
+      object-position: center;
       background: #0b0d10;
       user-select: none;
       -webkit-user-drag: none;
 
-      /* Rotation applied only to main portfolio images */
-      transform: rotate(var(--img-rot)) scale(var(--img-scale));
       transform-origin: center center;
+      transform: translate(-50%, -50%) rotate(var(--img-rot)) scale(var(--img-scale));
       transition: transform .18s ease;
     }
 
@@ -252,7 +217,6 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
     @media (max-width: 720px) {
       .gallery { grid-auto-columns: 92vw; padding: 18px 64px; gap: 18px; }
       .btn { width: 42px; height: 42px; }
-      .sub { display: none; }
     }
   </style>
 </head>
@@ -262,15 +226,7 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
     <div class="bar">
       <span class="dot"></span>
       <h1>Dante Sanchez Architecture Portfolio</h1>
-
-      <div class="controls">
-        <span class="sub">Horizontal preview · Use ← → or drag</span>
-        <div class="rotGroup" aria-label="Rotation controls">
-          <button class="rotBtn" data-rot="0" title="A: no rotation">A</button>
-          <button class="rotBtn" data-rot="90" title="B: rotate 90°">B</button>
-          <button class="rotBtn" data-rot="-90" title="C: rotate -90°">C</button>
-        </div>
-      </div>
+      <span class="sub">Horizontal preview · Use ← → or drag</span>
     </div>
   </header>
 
@@ -309,28 +265,13 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
     ];
 
+    // thumbs from pages automatically
     const THUMBS = PAGES.map(u => u.replace("/s2200/", "/s320/"));
 
     const galleryEl = document.getElementById('gallery');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const thumbTrack = document.getElementById('thumbTrack');
-
-    const rotButtons = document.querySelectorAll('.rotBtn');
-
-    function setRotation(deg) {
-      const scale = (Math.abs(deg) === 90) ? (17 / 22) : 1;
-      document.documentElement.style.setProperty('--img-rot', `${deg}deg`);
-      document.documentElement.style.setProperty('--img-scale', String(scale));
-
-      rotButtons.forEach(b => {
-        b.classList.toggle('active', Number(b.dataset.rot) === deg);
-      });
-    }
-
-    // Keep the buttons (optional), but default to B:
-    rotButtons.forEach(b => b.addEventListener('click', () => setRotation(Number(b.dataset.rot))));
-    setRotation(90);
 
     // Render main cards
     PAGES.forEach((src, i) => {
@@ -348,7 +289,33 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
       galleryEl.appendChild(card);
     });
 
-    // Render thumbs (duplicated once for smooth infinite marquee)
+    // SCALE FIX:
+    // When a portrait-ish viewport happens, rotating 90° can push the image outside width.
+    // This computes a safe scale based on the card’s current aspect ratio.
+    function updateRotScale() {
+      const firstCard = galleryEl.querySelector('.card');
+      if (!firstCard) return;
+
+      const w = firstCard.clientWidth;
+      const h = firstCard.clientHeight;
+      if (!w || !h) return;
+
+      // If card is landscape (w>h), scale=1 is fine.
+      // If card is portrait (w<h), scale down so rotated bounds stay inside width.
+      const scale = Math.min(1, w / h);
+
+      document.documentElement.style.setProperty('--img-scale', String(scale));
+    }
+
+    // Run after layout + on resize
+    updateRotScale();
+    let _rt;
+    window.addEventListener('resize', () => {
+      clearTimeout(_rt);
+      _rt = setTimeout(updateRotScale, 80);
+    });
+
+    // Render thumbs (duplicated for marquee)
     function renderThumbRow() {
       THUMBS.forEach((src, i) => {
         const t = document.createElement('div');
@@ -365,7 +332,6 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
         thumbTrack.appendChild(t);
       });
     }
-
     renderThumbRow();
     renderThumbRow();
 
@@ -403,6 +369,3 @@ Here’s the **full updated file** with **B as the default** (no flicker on load
   </script>
 </body>
 </html>
-```
-
-If you want, I can also give you a **“no buttons”** version (hard-locked to 90°) to keep the header clean.
