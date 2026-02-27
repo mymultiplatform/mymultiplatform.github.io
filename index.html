@@ -178,6 +178,69 @@
       line-height: 1.45;
     }
 
+    .offer-grid {
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .offer-card {
+      background: #101010;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .offer-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 19px;
+    }
+
+    .offer-card p {
+      margin: 0 0 12px 0;
+      color: #dfdfdf;
+      line-height: 1.4;
+    }
+
+    .offer-card a {
+      display: inline-block;
+      background: #1db954;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .metric-strip {
+      max-width: 980px;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px dashed #3a3a3a;
+      background: #0c0c0c;
+      color: #e9e9e9;
+      line-height: 1.45;
+    }
+
+    .quick-links {
+      margin-top: 16px;
+      max-width: 980px;
+      font-size: 15px;
+      color: #e6e6e6;
+    }
+
+    .quick-links a {
+      color: #4ddf83;
+      text-decoration: none;
+      margin-right: 12px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .navbar a {
@@ -220,10 +283,10 @@
   <!-- Navbar -->
   <div class="navbar">
     <a href="#home" class="tab-link">Home</a>
-    <a href="#architecture" class="tab-link">Architecture</a>
-    <a href="#gamedev" class="tab-link">Game Dev</a>
-    <a href="#bobaup" class="tab-link">Boba Up</a>
-    <a href="#Shop" class="tab-link">Shop</a>
+    <a href="architecture_portfolio.html">Architecture</a>
+    <a href="hello.html">Game Dev</a>
+    <a href="https://mymultihealth.com" target="_blank" rel="noopener">MyMultiHealth</a>
+    <a href="https://mymultihealth.com/wholesale.html" target="_blank" rel="noopener">Wholesale</a>
     <a class="cta-link" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book 10-min call</a>
   </div>
 
@@ -259,6 +322,35 @@
         <li>Focused on local business lead generation, not vanity content</li>
       </ul>
     </div>
+
+    <div class="offer-grid">
+      <div class="offer-card">
+        <h4>Direct Store Sales</h4>
+        <p>Send traffic to our dental-health product storefront for immediate purchases and repeat order follow-up.</p>
+        <a href="https://mymultihealth.com" target="_blank" rel="noopener">Open Storefront</a>
+      </div>
+      <div class="offer-card">
+        <h4>Wholesale Partner Packs</h4>
+        <p>Pitch clinics and studios with pre-priced bundle packs and prefilled wholesale request flow.</p>
+        <a href="https://mymultihealth.com/wholesale.html" target="_blank" rel="noopener">Open Wholesale Page</a>
+      </div>
+      <div class="offer-card">
+        <h4>Content Sprint Offer</h4>
+        <p>Close service revenue with a short-form package and convert buyers into monthly media clients.</p>
+        <a href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book Intro Call</a>
+      </div>
+    </div>
+
+    <div class="metric-strip">
+      Weekly target: <strong>$500+</strong> in closed revenue.
+      Primary focus: 1-2 wholesale packs and 5-8 direct product orders per week.
+    </div>
+
+    <div class="quick-links">
+      <a href="https://mymultihealth.com/privacy.html" target="_blank" rel="noopener">Store Privacy</a>
+      <a href="https://mymultihealth.com/returns.html" target="_blank" rel="noopener">Store Returns</a>
+      <a href="https://mymultihealth.com/terms.html" target="_blank" rel="noopener">Store Terms</a>
+    </div>
   </div>
 
   <script>
@@ -276,8 +368,12 @@
     const tabLinks = document.querySelectorAll(".navbar a");
     tabLinks.forEach(link => {
       link.addEventListener("click", event => {
+        const href = link.getAttribute("href") || "";
+        if (!href.startsWith("#")) {
+          return;
+        }
         event.preventDefault();
-        const tabId = link.getAttribute("href").substring(1);
+        const tabId = href.substring(1);
         showTabContent(tabId);
         history.pushState(null, null, `#${tabId}`);
       });
