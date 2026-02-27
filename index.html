@@ -68,6 +68,13 @@
       border-radius: 4px;
     }
 
+    .cta-link {
+      background-color: #1db954;
+      border-radius: 4px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
     /* Dynamic Banner Styles */
     .dynamic-banner {
       position: fixed;
@@ -107,6 +114,70 @@
       display: block;
     }
 
+    .hero-offer {
+      background: #111;
+      border: 1px solid #2f2f2f;
+      border-left: 4px solid #1db954;
+      border-radius: 8px;
+      max-width: 860px;
+      padding: 20px;
+      margin: 10px 0 20px 0;
+    }
+
+    .hero-offer h3 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    .hero-offer p {
+      margin: 0 0 12px 0;
+      color: #e7e7e7;
+      line-height: 1.45;
+    }
+
+    .offer-list {
+      margin: 0 0 18px 0;
+      padding-left: 18px;
+    }
+
+    .offer-list li {
+      margin-bottom: 6px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #1db954;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 17px;
+    }
+
+    .proof-block {
+      max-width: 860px;
+      background: #0b0b0b;
+      border: 1px solid #2f2f2f;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 14px;
+    }
+
+    .proof-block h4 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .proof-block ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #e2e2e2;
+      line-height: 1.45;
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .navbar a {
@@ -133,6 +204,10 @@
       .tab-content {
         padding: 230px 15px 15px 15px;
       }
+
+      .hero-offer h3 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
@@ -149,6 +224,7 @@
     <a href="#gamedev" class="tab-link">Game Dev</a>
     <a href="#bobaup" class="tab-link">Boba Up</a>
     <a href="#Shop" class="tab-link">Shop</a>
+    <a class="cta-link" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book 10-min call</a>
   </div>
 
   <!-- Dynamic Banner -->
@@ -163,9 +239,26 @@
   <div class="tab-content">
     <!-- Home Tab -->
     <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
-<p>&nbsp;I understand that MYMULTIPLATFORM has not lived up to its promises. We’ve experienced many delays in our deliveries, such as the long delay in the video game launch, as well as the extended time it has taken me to finish and polish the architecture portfolio. I also apologize for not completing the products for sale and the product prototypes.
+    <div class="hero-offer">
+      <h3>Short-Form Content Sprint: $250</h3>
+      <p>MyMultiPlatform helps local businesses get more calls and inquiries with ready-to-post vertical videos.</p>
+      <ul class="offer-list">
+        <li>4 short-form videos (15-35 seconds)</li>
+        <li>72-hour turnaround</li>
+        <li>Hooks + captions + CTA for each video</li>
+        <li>One revision round included</li>
+      </ul>
+      <a class="cta-button" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book your 10-minute call</a>
+    </div>
 
-MYMULTIPLATFORM is working day and night to release all these products across different platforms—from web applications to residential projects. Please be patient and don’t stop believing in us.<br /><br /><a href="https://www.mymultiplatform.com/architecture_portfolio">architecture portfolio</a><br /></p>
+    <div class="proof-block">
+      <h4>Why businesses book with us</h4>
+      <ul>
+        <li>Fast delivery for promotions, offers, and social posting consistency</li>
+        <li>Clear productized pricing with no long contract required</li>
+        <li>Focused on local business lead generation, not vanity content</li>
+      </ul>
+    </div>
   </div>
 
   <script>
