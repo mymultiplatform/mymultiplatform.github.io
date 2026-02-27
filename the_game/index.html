@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Game | MyMultiPlatform</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at 10% 0%, #1e1633 0%, transparent 35%), #06070b;
+      color: #f3f4f8;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #2b2f46;
+      background: rgba(9, 10, 17, 0.85);
+      backdrop-filter: blur(8px);
+    }
+    .brand {
+      color: #8bb3ff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .topbar a {
+      color: #dbe5ff;
+      text-decoration: none;
+      border: 1px solid #394069;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+    main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 24px 16px 44px;
+    }
+    .hero {
+      background: linear-gradient(130deg, #12162a, #0c1020);
+      border: 1px solid #32395e;
+      border-left: 4px solid #79a2ff;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      margin: 0 0 8px 0;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+    .hero p {
+      margin: 0;
+      color: #c4cdee;
+      line-height: 1.45;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .card {
+      background: #0e1220;
+      border: 1px solid #2a3152;
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .card h2 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      color: #dbe6ff;
+    }
+    .card p {
+      margin: 0 0 10px 0;
+      color: #bbc6e8;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #d5ddf7;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    li { margin-bottom: 6px; }
+    a.link {
+      color: #90b8ff;
+      text-decoration: none;
+      border-bottom: 1px dotted #4a5fa2;
+    }
+    .foot {
+      margin-top: 14px;
+      color: #9ea8c8;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">MyMultiPlatform | The Game</div>
+    <a href="/">Back To Home</a>
+  </div>
+
+  <main>
+    <section class="hero">
+      <h1>The Game Workspace</h1>
+      <p>
+        Central route for your videogame project assets, Unity branches, and game-system scripts collected across local projects and GitHub repositories.
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Local Unity Sources</h2>
+        <ul>
+          <li>`backupnewthegame1`</li>
+          <li>`mymathegametj`</li>
+          <li>`UnityHelloWorld3D`</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Game Repositories</h2>
+        <ul>
+          <li><a class="link" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">THE-GAME.mym</a></li>
+          <li><a class="link" href="https://github.com/mymultiplatform/KAMIKAZE-SCRIPT-UNITY-3D" target="_blank" rel="noopener">KAMIKAZE-SCRIPT-UNITY-3D</a></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Current Script Focus</h2>
+        <ul>
+          <li>`GameLogicMym` versions and enemy systems</li>
+          <li>`ThirdPersonController` and camera follow behavior</li>
+          <li>City scene and shader experiments</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:12px;">
+      <h2>Internal Workspace Path</h2>
+      <p>
+        Main local folder: <code>/Users/dantesanchez/Documents/New project/mymultiplatform/the_game</code>
+      </p>
+      <p>
+        Includes inventories, notes, repo sync script, and cloned game repos.
+      </p>
+    </section>
+
+    <div class="foot">Updated February 27, 2026.</div>
+  </main>
+</body>
+</html>
