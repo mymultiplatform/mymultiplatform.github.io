@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Path Blocker for Mac | MyMultiplatform</title>
+  <meta name="description" content="Focus Path Blocker for macOS: block Shorts and Reels automatically at startup on Safari and Chrome.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b12;
+      --surface: #101925;
+      --surface-soft: #162335;
+      --line: #2a425f;
+      --ink: #ecf4ff;
+      --muted: #a8bdd8;
+      --mint: #26e6ab;
+      --mint-deep: #16b989;
+      --amber: #ffbf45;
+      --danger: #ff6a56;
+      --focus-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 100% 0%, rgba(38, 230, 171, 0.15), transparent 58%),
+        radial-gradient(880px 450px at 0% 100%, rgba(255, 106, 86, 0.12), transparent 60%),
+        linear-gradient(160deg, #070b12, #0b1522 56%, #0a101a);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7, 11, 18, 0.78);
+      backdrop-filter: blur(9px);
+      border-bottom: 1px solid rgba(168, 189, 216, 0.18);
+    }
+
+    .top-inner {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      font-family: "Space Grotesk", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-size: 13px;
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid rgba(168, 189, 216, 0.24);
+      border-radius: 999px;
+      font-size: 14px;
+      padding: 7px 13px;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      border-color: var(--mint);
+      color: var(--mint);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      padding: 52px 0 18px;
+      align-items: stretch;
+    }
+
+    .hero-main {
+      background: linear-gradient(170deg, rgba(16, 25, 37, 0.95), rgba(12, 20, 30, 0.95));
+      border: 1px solid rgba(168, 189, 216, 0.2);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--focus-shadow);
+    }
+
+    .kicker {
+      margin: 0;
+      font-size: 12px;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 10px 0 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      max-width: 760px;
+    }
+
+    .sub {
+      margin: 14px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: clamp(16px, 1.8vw, 19px);
+    }
+
+    .btn-row {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 45px;
+      padding: 0 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--mint);
+      color: #042116;
+    }
+
+    .btn-primary:hover {
+      background: var(--mint-deep);
+      color: #e9fffb;
+    }
+
+    .btn-ghost {
+      color: var(--ink);
+      border-color: rgba(168, 189, 216, 0.3);
+    }
+
+    .btn-ghost:hover {
+      color: var(--amber);
+      border-color: var(--amber);
+    }
+
+    .hero-side {
+      background: linear-gradient(180deg, rgba(22, 35, 53, 0.95), rgba(12, 19, 29, 0.95));
+      border: 1px solid rgba(168, 189, 216, 0.22);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--focus-shadow);
+    }
+
+    .stat {
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(168, 189, 216, 0.18);
+    }
+
+    .stat:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .stat h2 {
+      margin: 0;
+      font-size: 32px;
+      font-family: "Space Grotesk", sans-serif;
+      line-height: 1;
+    }
+
+    .stat p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-top: 16px;
+      background: linear-gradient(180deg, rgba(16, 25, 37, 0.95), rgba(12, 20, 30, 0.95));
+      border: 1px solid rgba(168, 189, 216, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .section h3 {
+      margin: 0;
+      font-size: 23px;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .tile {
+      border: 1px solid rgba(168, 189, 216, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(13, 23, 34, 0.8);
+    }
+
+    .tile h4 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .tile p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .pricing {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .plan {
+      border: 1px solid rgba(168, 189, 216, 0.24);
+      border-radius: 14px;
+      padding: 16px;
+      background: rgba(12, 19, 29, 0.86);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan strong {
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    .price {
+      margin-top: 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 34px;
+      line-height: 1;
+    }
+
+    .price small {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .plan p {
+      margin: 10px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .plan ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #d8e9ff;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border-radius: 999px;
+      background: rgba(38, 230, 171, 0.14);
+      border: 1px solid rgba(38, 230, 171, 0.4);
+      color: var(--mint);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .legal {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .legal a {
+      color: #9fd9ff;
+      text-decoration: none;
+    }
+
+    .legal a:hover {
+      color: var(--amber);
+    }
+
+    .footer {
+      margin: 26px 0 34px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pulse {
+      animation: pulse 1.7s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(38, 230, 171, 0.44); }
+      70% { box-shadow: 0 0 0 14px rgba(38, 230, 171, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(38, 230, 171, 0); }
+    }
+
+    @media (max-width: 930px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .top-inner {
+        min-height: 72px;
+        align-items: flex-start;
+        padding: 10px 0;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="container top-inner">
+      <a class="brand" href="/software/">MyMultiplatform Software</a>
+      <nav class="nav" aria-label="Product links">
+        <a href="/software/">All software</a>
+        <a href="/software/focus-path-blocker/support.html">Support</a>
+        <a href="mailto:software@mymultiplatform.com?subject=Focus%20Path%20Blocker%20purchase">Buy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <article class="hero-main">
+        <p class="kicker">Product 01 - macOS</p>
+        <h1>Focus Path Blocker</h1>
+        <p class="sub">
+          A local macOS blocker that runs at startup and immediately redirects distraction routes.
+          It currently blocks YouTube Shorts and Reels feeds, with a Chrome mode that allows Instagram messages only.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary pulse" href="mailto:software@mymultiplatform.com?subject=Buy%20Focus%20Path%20Blocker&body=I%20want%20to%20buy%20Focus%20Path%20Blocker%20for%20Mac.">Buy for Mac</a>
+          <a class="btn btn-ghost" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book setup call</a>
+          <a class="btn btn-ghost" href="/software/focus-path-blocker/support.html">Installation support</a>
+        </div>
+      </article>
+
+      <aside class="hero-side" aria-label="Key stats">
+        <div class="stat">
+          <h2>24/7</h2>
+          <p>Runs through a startup LaunchAgent so your rule set stays active after restart.</p>
+        </div>
+        <div class="stat">
+          <h2>Local</h2>
+          <p>No cloud dependency. Rules are executed directly on your Mac.</p>
+        </div>
+        <div class="stat">
+          <h2>Fast</h2>
+          <p>2-second guard cycle for browser tab checks and redirects.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h3>What it blocks right now</h3>
+      <div class="grid">
+        <article class="tile">
+          <h4>YouTube Shorts</h4>
+          <p>Any URL path containing <code>/shorts</code> is redirected back to YouTube home.</p>
+        </article>
+        <article class="tile">
+          <h4>Instagram Reels</h4>
+          <p><code>/reel</code> and <code>/reels</code> routes are redirected away from short-form feeds.</p>
+        </article>
+        <article class="tile">
+          <h4>Chrome Instagram Lock</h4>
+          <p>In Google Chrome, Instagram access is restricted to <code>/direct</code> (inbox/messages) only.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Launch pricing (starter)</h3>
+      <div class="pricing">
+        <article class="plan">
+          <strong>Solo License</strong>
+          <div class="price">$19 <small>one-time</small></div>
+          <p>Single-user install with setup guide and email support.</p>
+          <ul>
+            <li>1 Mac</li>
+            <li>Startup auto-run configured</li>
+            <li>Basic rule customization</li>
+          </ul>
+        </article>
+
+        <article class="plan">
+          <span class="badge">Recommended</span>
+          <strong>Setup Included</strong>
+          <div class="price">$49 <small>one-time</small></div>
+          <p>Live onboarding call where rules are tailored to your workflow.</p>
+          <ul>
+            <li>Up to 2 Macs</li>
+            <li>Chrome + Safari tune-up</li>
+            <li>Priority support for 30 days</li>
+          </ul>
+        </article>
+
+        <article class="plan">
+          <strong>Team Pack</strong>
+          <div class="price">$149 <small>starting</small></div>
+          <p>For small teams that want consistent focus rules across devices.</p>
+          <ul>
+            <li>Up to 10 seats</li>
+            <li>Rule policy template</li>
+            <li>Deployment session</li>
+          </ul>
+        </article>
+      </div>
+      <div class="btn-row" style="margin-top:16px;">
+        <a class="btn btn-primary" href="mailto:software@mymultiplatform.com?subject=Buy%20Focus%20Path%20Blocker&body=Plan%20interested:%20">Start purchase</a>
+        <a class="btn btn-ghost" href="mailto:software@mymultiplatform.com?subject=Custom%20block%20rules">Request custom rules</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Shipping roadmap</h3>
+      <div class="grid">
+        <article class="tile">
+          <h4>Phase 1 - Live now</h4>
+          <p>Local script guard + Safari extension path blocker with startup persistence.</p>
+        </article>
+        <article class="tile">
+          <h4>Phase 2 - In progress</h4>
+          <p>Packaged macOS app installer with cleaner one-click onboarding.</p>
+        </article>
+        <article class="tile">
+          <h4>Phase 3 - App Store</h4>
+          <p>Finalize app wrapper, disclosures, and distribution channel for paid delivery.</p>
+        </article>
+      </div>
+      <p class="sub" style="margin-top:12px; font-size:14px;">
+        Note: current build is operational and installable now; App Store packaging is being prepared.
+      </p>
+    </section>
+
+    <nav class="legal" aria-label="Legal and support links">
+      <a href="/software/focus-path-blocker/privacy.html">Privacy</a>
+      <a href="/software/focus-path-blocker/terms.html">Terms</a>
+      <a href="/software/focus-path-blocker/support.html">Support</a>
+      <a href="mailto:software@mymultiplatform.com">software@mymultiplatform.com</a>
+    </nav>
+
+    <footer class="footer">
+      MyMultiplatform Software - Focus Path Blocker for Mac.
+    </footer>
+  </main>
+</body>
+</html>

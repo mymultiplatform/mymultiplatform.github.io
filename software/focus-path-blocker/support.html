@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Path Blocker Support</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a111a; color: #edf5ff; }
+    .wrap { width: min(980px, 92%); margin: 34px auto; }
+    .card { border: 1px solid #2c435f; border-radius: 14px; padding: 18px; background: #111e2d; margin-bottom: 12px; }
+    h1, h2 { margin: 0 0 10px; }
+    p, li { line-height: 1.55; color: #c6d9ee; }
+    a { color: #79e1bc; }
+    code { background: #0b1623; border: 1px solid #25435f; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Focus Path Blocker Support</h1>
+    <p>For help: <a href="mailto:software@mymultiplatform.com">software@mymultiplatform.com</a></p>
+
+    <section class="card">
+      <h2>Quick startup checks</h2>
+      <ul>
+        <li>Confirm the launch agent is running: <code>launchctl list | grep com.focus.pathblocker.guard</code></li>
+        <li>If prompted by macOS for browser automation control, click Allow.</li>
+        <li>After a restart, allow 2-4 seconds for rules to apply in active tabs.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Current default rule set</h2>
+      <ul>
+        <li>YouTube Shorts routes are redirected.</li>
+        <li>Instagram reel/reels routes are redirected.</li>
+        <li>In Google Chrome, Instagram is restricted to <code>/direct</code> routes only.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Need custom block rules?</h2>
+      <p>Email your list of domains/paths and target behavior. Include browser(s) and macOS version.</p>
+      <p><a href="mailto:software@mymultiplatform.com?subject=Custom%20block%20rules%20request">Request custom rules</a></p>
+      <p><a href="/software/focus-path-blocker/">Back to product page</a></p>
+    </section>
+  </main>
+</body>
+</html>

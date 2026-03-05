@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyMultiplatform Software</title>
+  <meta name="description" content="Mac software from MyMultiplatform. Practical tools built for focus, consistency, and fewer distractions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #091017;
+      --bg-soft: #101c2a;
+      --surface: #122133;
+      --line: #24405f;
+      --ink: #eef6ff;
+      --muted: #a8c1dd;
+      --mint: #2be2a8;
+      --mint-deep: #1eb185;
+      --sun: #ffbe3f;
+      --warn: #ff6f4b;
+      --shadow: 0 16px 60px rgba(1, 8, 16, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 90% -10%, rgba(43, 226, 168, 0.2), transparent 58%),
+        radial-gradient(850px 480px at 0% 100%, rgba(255, 111, 75, 0.12), transparent 62%),
+        linear-gradient(160deg, var(--bg), #0b1320 48%, #0c1724 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(8px);
+      background: rgba(9, 16, 23, 0.75);
+      border-bottom: 1px solid rgba(168, 193, 221, 0.15);
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: 0.04em;
+      font-size: 15px;
+      text-transform: uppercase;
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid rgba(168, 193, 221, 0.2);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      border-color: var(--mint);
+      color: var(--mint);
+    }
+
+    .hero {
+      padding: 58px 0 28px;
+    }
+
+    .hero-kicker {
+      color: var(--sun);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-weight: 700;
+      font-size: 12px;
+      margin: 0 0 10px;
+    }
+
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.02;
+      margin: 0;
+      max-width: 900px;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.45;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      min-height: 44px;
+      padding: 0 16px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--mint);
+      color: #072219;
+    }
+
+    .btn-primary:hover {
+      background: var(--mint-deep);
+      color: #e9fffa;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(168, 193, 221, 0.35);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--sun);
+      color: var(--sun);
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      padding: 8px 0 36px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(18, 33, 51, 0.95), rgba(14, 26, 40, 0.95));
+      border: 1px solid rgba(168, 193, 221, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transform: translateY(0);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--mint);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .tag-live {
+      background: rgba(43, 226, 168, 0.15);
+      color: var(--mint);
+      border: 1px solid rgba(43, 226, 168, 0.4);
+    }
+
+    .tag-soon {
+      background: rgba(255, 190, 63, 0.14);
+      color: var(--sun);
+      border: 1px solid rgba(255, 190, 63, 0.4);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 24px;
+      font-family: "Space Grotesk", sans-serif;
+      line-height: 1.15;
+    }
+
+    .card p {
+      margin: 10px 0 16px;
+      color: var(--muted);
+      line-height: 1.45;
+      min-height: 62px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      border: 1px solid rgba(168, 193, 221, 0.28);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #d8e8f7;
+    }
+
+    .card a {
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .card a:hover {
+      color: #8df7d5;
+    }
+
+    .foot {
+      margin: 18px 0 36px;
+      border-top: 1px solid rgba(168, 193, 221, 0.2);
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 680px) {
+      .topbar-inner {
+        min-height: 72px;
+        align-items: flex-start;
+        padding: 10px 0;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .card p {
+        min-height: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="/">MyMultiplatform Software</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/">Main site</a>
+        <a href="/software/focus-path-blocker/">Focus Path Blocker</a>
+        <a href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="hero-kicker">Mac Apps and Utilities</p>
+      <h1>Tools built to protect your attention and execution window.</h1>
+      <p>
+        Small software products for creators and operators who need less distraction and more output.
+        Start with Focus Path Blocker for macOS and browser control.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/software/focus-path-blocker/">Open Product Page</a>
+        <a class="btn btn-secondary" href="mailto:software@mymultiplatform.com?subject=I%20want%20early%20access">Join Early Access</a>
+      </div>
+    </section>
+
+    <section class="products" aria-label="Software products">
+      <article class="card">
+        <span class="tag tag-live">Live</span>
+        <h2>Focus Path Blocker</h2>
+        <p>
+          Blocks YouTube Shorts and Instagram Reels and can lock Instagram access in Chrome to direct messages only.
+          Built for macOS startup persistence.
+        </p>
+        <div class="meta">
+          <span class="pill">macOS</span>
+          <span class="pill">Safari + Chrome</span>
+          <span class="pill">Distraction Control</span>
+        </div>
+        <a href="/software/focus-path-blocker/">View details and launch options -></a>
+      </article>
+
+      <article class="card">
+        <span class="tag tag-soon">Roadmap</span>
+        <h2>Focus Score</h2>
+        <p>
+          Weekly accountability reports from your browsing patterns, with simple targets and trend lines for consistency.
+        </p>
+        <div class="meta">
+          <span class="pill">Planned</span>
+          <span class="pill">Analytics</span>
+          <span class="pill">Reports</span>
+        </div>
+        <a href="mailto:software@mymultiplatform.com?subject=Focus%20Score%20waitlist">Request early invite -></a>
+      </article>
+    </section>
+
+    <footer class="foot">
+      Selling path in progress: App Store packaging + direct install channel.
+      Contact: <a href="mailto:software@mymultiplatform.com">software@mymultiplatform.com</a>
+    </footer>
+  </main>
+</body>
+</html>
