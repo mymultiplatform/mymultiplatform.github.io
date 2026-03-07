@@ -510,6 +510,14 @@
             <div class="value" id="liveClosed">0</div>
           </div>
           <div class="metric">
+            <div class="label">San Diego leads</div>
+            <div class="value" id="liveLeads">0</div>
+          </div>
+          <div class="metric">
+            <div class="label">Outreach queue</div>
+            <div class="value" id="liveQueue">0</div>
+          </div>
+          <div class="metric">
             <div class="label">Last update (UTC)</div>
             <div class="value" id="liveUpdated">n/a</div>
           </div>
@@ -653,6 +661,8 @@
     const liveClients = byId("liveClients");
     const liveAutomation = byId("liveAutomation");
     const liveClosed = byId("liveClosed");
+    const liveLeads = byId("liveLeads");
+    const liveQueue = byId("liveQueue");
     const liveUpdated = byId("liveUpdated");
 
     function runSimulation() {
@@ -794,11 +804,31 @@
       }
     }
 
+    async function loadLeadMeta() {
+      try {
+        const response = await fetch(`./live/lead_refresh_meta.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) {
+          return;
+        }
+        const meta = await response.json();
+        if (Number.isFinite(Number(meta.leadsCount))) {
+          liveLeads.textContent = String(meta.leadsCount);
+        }
+        if (Number.isFinite(Number(meta.queueCount))) {
+          liveQueue.textContent = String(meta.queueCount);
+        }
+      } catch (error) {
+        // Keep current values if lead metadata is unavailable.
+      }
+    }
+
     checks.forEach((item) => item.addEventListener("change", renderCoverage));
     runSimulation();
     restoreCoverage();
     loadLiveMetrics();
+    loadLeadMeta();
     setInterval(loadLiveMetrics, 5 * 60 * 1000);
+    setInterval(loadLeadMeta, 5 * 60 * 1000);
   </script>
 </body>
 </html>

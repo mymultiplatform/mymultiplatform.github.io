@@ -9,7 +9,11 @@ if [ ! -d "$REPO_DIR/.git" ] && [ -d "$FALLBACK_REPO_DIR/.git" ]; then
   REPO_DIR="$FALLBACK_REPO_DIR"
 fi
 METRICS_SCRIPT="$REPO_DIR/set_and_forget/scripts/update_metrics.mjs"
+LEADS_SCRIPT="$REPO_DIR/set_and_forget/scripts/refresh_leads.mjs"
 METRICS_FILE="$REPO_DIR/set_and_forget/live/metrics.json"
+LEADS_FILE="$REPO_DIR/set_and_forget/live/sd_leads.csv"
+OUTREACH_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.csv"
+LEAD_META_FILE="$REPO_DIR/set_and_forget/live/lead_refresh_meta.json"
 LOG_DIR="$REPO_DIR/set_and_forget/logs"
 LOCK_DIR="$REPO_DIR/set_and_forget/.runner.lock"
 ENV_FILE="$REPO_DIR/set_and_forget/.mymsaf.env"
@@ -61,9 +65,19 @@ trap 'rmdir "$LOCK_DIR"' EXIT
 cd "$REPO_DIR"
 
 git pull --rebase --autostash "$REMOTE" "$BRANCH"
+
+if [ -f "$LEADS_SCRIPT" ]; then
+  if ! "$NODE_BIN" "$LEADS_SCRIPT"; then
+    echo "lead refresh failed; continuing with metrics update"
+  fi
+fi
+
 "$NODE_BIN" "$METRICS_SCRIPT"
 
 git add "$METRICS_FILE"
+if [ -f "$LEADS_FILE" ]; then git add "$LEADS_FILE"; fi
+if [ -f "$OUTREACH_FILE" ]; then git add "$OUTREACH_FILE"; fi
+if [ -f "$LEAD_META_FILE" ]; then git add "$LEAD_META_FILE"; fi
 if git diff --cached --quiet; then
   echo "no metrics change"
   exit 0

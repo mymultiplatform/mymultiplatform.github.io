@@ -4,6 +4,9 @@ This folder powers:
 
 - `/set_and_forget/` mission control dashboard
 - Hourly generated live metrics at `/set_and_forget/live/metrics.json`
+- Daily San Diego lead queue at:
+  - `/set_and_forget/live/sd_leads.csv`
+  - `/set_and_forget/live/outreach_queue.csv`
 
 ## What runs automatically
 
@@ -47,6 +50,7 @@ Example:
 MYMSAF_METRICS_ENDPOINT=https://your-api.example.com/mymsaf
 MYMSAF_METRICS_TOKEN=replace_me
 MYMSAF_TARGET_WEEKLY_USD=500
+MYMSAF_LEAD_REFRESH_HOURS=24
 ```
 
 ## Optional live endpoint
@@ -74,6 +78,20 @@ Expected endpoint JSON shape:
   "manualHoursWeekly": 2.5
 }
 ```
+
+## Lead source config
+
+Lead refresh script:
+
+- `set_and_forget/scripts/refresh_leads.mjs`
+
+Optional env knobs:
+
+- `MYMSAF_OVERPASS_ENDPOINT`
+- `MYMSAF_SD_LAT`
+- `MYMSAF_SD_LON`
+- `MYMSAF_SD_RADIUS`
+- `MYMSAF_LEAD_REFRESH_HOURS`
 
 ## Confidence score
 
