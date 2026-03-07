@@ -1,0 +1,122 @@
+[
+  {
+    "leadId": "node-12734562801",
+    "businessName": "All American Plumbing",
+    "email": "allamericanplumbingsd@gmail.com",
+    "recipient": "allamericanplumbingsd@gmail.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:26.281Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-7722508689",
+    "businessName": "Carmel Mtn Ranch Dental Care",
+    "email": "CMRdentalcare@gmail.com",
+    "recipient": "CMRdentalcare@gmail.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:26.614Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-6618029711",
+    "businessName": "Chula Vista Repiping",
+    "email": "4repipe@gmail.com",
+    "recipient": "4repipe@gmail.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:27.097Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-6283807349",
+    "businessName": "Del Mar Endodontics",
+    "email": "contact@delmarendo.com",
+    "recipient": "contact@delmarendo.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:27.494Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-7569931248",
+    "businessName": "Integrity Repipe Inc",
+    "email": "4repipe@gmail.com",
+    "recipient": "4repipe@gmail.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:27.987Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-9523676651",
+    "businessName": "My Plumber CA",
+    "email": "WeCare@MyPlumber.com",
+    "recipient": "WeCare@MyPlumber.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:28.395Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-5870511646",
+    "businessName": "Omnitek Dental Ceramics",
+    "email": "info@omnitekdental.com",
+    "recipient": "info@omnitekdental.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:28.901Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-9678584147",
+    "businessName": "Pure Aesthetic Dentistry",
+    "email": "contact@pureaestheticdentistry.com",
+    "recipient": "contact@pureaestheticdentistry.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:29.309Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-2769574259",
+    "businessName": "San Diego Smile Dentistry",
+    "email": "sdsmiledentist@gmail.com",
+    "recipient": "sdsmiledentist@gmail.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:29.817Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-9440551281",
+    "businessName": "Smile Plus Dentistry",
+    "email": "miramesa@smileplusdds.com",
+    "recipient": "miramesa@smileplusdds.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageId": "",
+    "sentAtUtc": "2026-03-07T20:42:30.242Z",
+    "sentDate": "2026-03-07",
+    "status": "sent"
+  }
+]

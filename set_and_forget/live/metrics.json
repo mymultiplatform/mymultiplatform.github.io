@@ -1,5 +1,5 @@
 {
-  "updatedAtUtc": "2026-03-07T20:18:01.714Z",
+  "updatedAtUtc": "2026-03-07T20:42:34.458Z",
   "sourceName": "seed",
   "netWeeklyMode": "modeled",
   "runState": "at-risk",
@@ -17,10 +17,10 @@
   "automationSystemsTotal": 10,
   "automationCoveragePct": 90,
   "pipelineClosed7d": 2,
-  "pipelineTrials7d": 6,
-  "outreachSent7d": 0,
+  "pipelineTrials7d": 10,
+  "outreachSent7d": 10,
   "paymentsCount7d": 0,
   "manualHoursWeekly": 2.5,
-  "confidenceScorePct": 78.93,
+  "confidenceScorePct": 72.8,
   "note": "Seed data for MYMSAF dashboard. Replace using MYMSAF_METRICS_ENDPOINT."
 }
