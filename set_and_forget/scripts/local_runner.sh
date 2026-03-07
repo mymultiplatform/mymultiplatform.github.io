@@ -13,6 +13,8 @@ LEADS_SCRIPT="$REPO_DIR/set_and_forget/scripts/refresh_leads.mjs"
 METRICS_FILE="$REPO_DIR/set_and_forget/live/metrics.json"
 LEADS_FILE="$REPO_DIR/set_and_forget/live/sd_leads.csv"
 OUTREACH_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.csv"
+LEADS_JSON_FILE="$REPO_DIR/set_and_forget/live/sd_leads.json"
+OUTREACH_JSON_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.json"
 LEAD_META_FILE="$REPO_DIR/set_and_forget/live/lead_refresh_meta.json"
 LOG_DIR="$REPO_DIR/set_and_forget/logs"
 LOCK_DIR="$REPO_DIR/set_and_forget/.runner.lock"
@@ -77,6 +79,8 @@ fi
 git add "$METRICS_FILE"
 if [ -f "$LEADS_FILE" ]; then git add "$LEADS_FILE"; fi
 if [ -f "$OUTREACH_FILE" ]; then git add "$OUTREACH_FILE"; fi
+if [ -f "$LEADS_JSON_FILE" ]; then git add "$LEADS_JSON_FILE"; fi
+if [ -f "$OUTREACH_JSON_FILE" ]; then git add "$OUTREACH_JSON_FILE"; fi
 if [ -f "$LEAD_META_FILE" ]; then git add "$LEAD_META_FILE"; fi
 if git diff --cached --quiet; then
   echo "no metrics change"

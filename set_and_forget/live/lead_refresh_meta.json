@@ -1,8 +1,9 @@
 {
-  "lastRefreshUtc": "2026-03-07T20:04:41.016Z",
+  "lastRefreshUtc": "2026-03-07T20:07:56.910Z",
   "location": "San Diego, CA",
   "radiusMeters": 32000,
   "leadsCount": 545,
   "queueCount": 120,
-  "source": "overpass"
+  "source": "overpass",
+  "endpoint": "https://overpass-api.de/api/interpreter"
 }

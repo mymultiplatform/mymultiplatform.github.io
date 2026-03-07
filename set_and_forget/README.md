@@ -5,8 +5,8 @@ This folder powers:
 - `/set_and_forget/` mission control dashboard
 - Hourly generated live metrics at `/set_and_forget/live/metrics.json`
 - Daily San Diego lead queue at:
-  - `/set_and_forget/live/sd_leads.csv`
-  - `/set_and_forget/live/outreach_queue.csv`
+  - `/set_and_forget/live/sd_leads.json`
+  - `/set_and_forget/live/outreach_queue.json`
 
 ## What runs automatically
 
@@ -88,6 +88,7 @@ Lead refresh script:
 Optional env knobs:
 
 - `MYMSAF_OVERPASS_ENDPOINT`
+- `MYMSAF_OVERPASS_ENDPOINTS` (comma-separated, retries in order)
 - `MYMSAF_SD_LAT`
 - `MYMSAF_SD_LON`
 - `MYMSAF_SD_RADIUS`

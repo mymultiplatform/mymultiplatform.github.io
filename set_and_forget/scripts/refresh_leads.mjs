@@ -8,12 +8,24 @@ const rootDir = path.resolve(__dirname, "..");
 const liveDir = path.join(rootDir, "live");
 const leadsFile = path.join(liveDir, "sd_leads.csv");
 const queueFile = path.join(liveDir, "outreach_queue.csv");
+const leadsJsonFile = path.join(liveDir, "sd_leads.json");
+const queueJsonFile = path.join(liveDir, "outreach_queue.json");
 const metaFile = path.join(liveDir, "lead_refresh_meta.json");
 const REFRESH_HOURS = Number(process.env.MYMSAF_LEAD_REFRESH_HOURS || 24);
 
-const overpassUrl =
-  process.env.MYMSAF_OVERPASS_ENDPOINT ||
-  "https://overpass-api.de/api/interpreter";
+const overpassEndpoints = (
+  process.env.MYMSAF_OVERPASS_ENDPOINTS ||
+  [
+    process.env.MYMSAF_OVERPASS_ENDPOINT,
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter"
+  ]
+    .filter(Boolean)
+    .join(",")
+)
+  .split(",")
+  .map((item) => item.trim())
+  .filter(Boolean);
 
 const SAN_DIEGO_LAT = Number(process.env.MYMSAF_SD_LAT || 32.7157);
 const SAN_DIEGO_LON = Number(process.env.MYMSAF_SD_LON || -117.1611);
@@ -93,9 +105,9 @@ ${segments}
 out center tags;`;
 }
 
-async function fetchLeadsFromOverpass() {
+async function fetchLeadsFromEndpoint(endpoint) {
   const query = buildOverpassQuery();
-  const response = await fetch(overpassUrl, {
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "text/plain" },
     body: query
@@ -142,6 +154,19 @@ async function fetchLeadsFromOverpass() {
     leads.push(lead);
   }
   return dedupe(leads).sort((a, b) => b.score - a.score || a.businessName.localeCompare(b.businessName));
+}
+
+async function fetchLeadsFromOverpass() {
+  const errors = [];
+  for (const endpoint of overpassEndpoints) {
+    try {
+      const leads = await fetchLeadsFromEndpoint(endpoint);
+      return { leads, endpoint };
+    } catch (error) {
+      errors.push(`${endpoint}: ${error.message}`);
+    }
+  }
+  throw new Error(`All Overpass endpoints failed: ${errors.join(" | ")}`);
 }
 
 function buildMessage(lead) {
@@ -209,7 +234,7 @@ async function main() {
     return;
   }
 
-  const leads = await fetchLeadsFromOverpass();
+  const { leads, endpoint } = await fetchLeadsFromOverpass();
   const queue = buildOutreachQueue(leads);
   const leadsCsv = toCsv(leads, [
     "id",
@@ -242,11 +267,14 @@ async function main() {
     radiusMeters: SEARCH_RADIUS_METERS,
     leadsCount: leads.length,
     queueCount: queue.length,
-    source: "overpass"
+    source: "overpass",
+    endpoint
   };
 
   await writeFile(leadsFile, leadsCsv, "utf8");
   await writeFile(queueFile, queueCsv, "utf8");
+  await writeFile(leadsJsonFile, JSON.stringify(leads, null, 2) + "\n", "utf8");
+  await writeFile(queueJsonFile, JSON.stringify(queue, null, 2) + "\n", "utf8");
   await writeFile(metaFile, JSON.stringify(summary, null, 2) + "\n", "utf8");
   console.log(`Wrote ${leads.length} leads and ${queue.length} outreach rows`);
 }
