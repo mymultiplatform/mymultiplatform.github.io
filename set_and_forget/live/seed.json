@@ -1,0 +1,11 @@
+{
+  "activeClients": 15,
+  "monthlyPriceUsd": 149,
+  "platformCostPct": 7.5,
+  "automationSystemsDone": 9,
+  "automationSystemsTotal": 10,
+  "pipelineClosed7d": 2,
+  "pipelineTrials7d": 6,
+  "manualHoursWeekly": 2.5,
+  "note": "Seed data for MYMSAF dashboard. Replace using MYMSAF_METRICS_ENDPOINT."
+}

@@ -1,0 +1,23 @@
+{
+  "updatedAtUtc": "2026-03-07T19:52:08.101Z",
+  "sourceName": "seed",
+  "runState": "at-risk",
+  "targetWeeklyUsd": 500,
+  "activeClients": 15,
+  "monthlyPriceUsd": 149,
+  "platformCostPct": 7.5,
+  "grossMonthlyUsd": 2235,
+  "netMonthlyUsd": 2067.38,
+  "netWeeklyUsd": 475.81,
+  "targetCoveragePct": 95.16,
+  "gapWeeklyUsd": 24.19,
+  "clientsNeededForTarget": 16,
+  "automationSystemsDone": 9,
+  "automationSystemsTotal": 10,
+  "automationCoveragePct": 90,
+  "pipelineClosed7d": 2,
+  "pipelineTrials7d": 6,
+  "manualHoursWeekly": 2.5,
+  "confidenceScorePct": 78.93,
+  "note": "Seed data for MYMSAF dashboard. Replace using MYMSAF_METRICS_ENDPOINT."
+}
