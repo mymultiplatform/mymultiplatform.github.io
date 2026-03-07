@@ -180,9 +180,11 @@
     "message": "Hi Verday Smart Solutions team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Verday Smart Solutions, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:40.249Z",
+    "sentAtUtc": "2026-03-07T20:43:40.249Z"
   },
   {
     "leadId": "node-5144565100",
@@ -195,9 +197,11 @@
     "message": "Hi Armstrong & Associates team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Armstrong & Associates, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:40.587Z",
+    "sentAtUtc": "2026-03-07T20:43:40.587Z"
   },
   {
     "leadId": "node-12497637215",
@@ -210,9 +214,11 @@
     "message": "Hi Barely There Beauty Bar team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med spa businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Barely There Beauty Bar, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:41.106Z",
+    "sentAtUtc": "2026-03-07T20:43:41.106Z"
   },
   {
     "leadId": "node-596324137",
@@ -225,9 +231,11 @@
     "message": "Hi Casa By Craft team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Casa By Craft, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:41.534Z",
+    "sentAtUtc": "2026-03-07T20:43:41.534Z"
   },
   {
     "leadId": "node-10920768139",
@@ -240,9 +248,11 @@
     "message": "Hi HD Skincare & Lashes team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med spa businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi HD Skincare & Lashes, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:42.049Z",
+    "sentAtUtc": "2026-03-07T20:43:42.049Z"
   },
   {
     "leadId": "node-596448390",
@@ -255,9 +265,11 @@
     "message": "Hi Jeremy Root San Diego Realtor® team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Jeremy Root San Diego Realtor®, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:42.445Z",
+    "sentAtUtc": "2026-03-07T20:43:42.445Z"
   },
   {
     "leadId": "node-13555685940",
@@ -270,9 +282,11 @@
     "message": "Hi McT Real Estate Group team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi McT Real Estate Group, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:42.979Z",
+    "sentAtUtc": "2026-03-07T20:43:42.979Z"
   },
   {
     "leadId": "node-2993393933",
@@ -285,9 +299,11 @@
     "message": "Hi Medarts Weight Loss Specialists team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Medarts Weight Loss Specialists, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:43.385Z",
+    "sentAtUtc": "2026-03-07T20:43:43.385Z"
   },
   {
     "leadId": "node-12829538101",
@@ -300,9 +316,11 @@
     "message": "Hi Reflections Salon & Day Spa team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med spa businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Reflections Salon & Day Spa, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:43.955Z",
+    "sentAtUtc": "2026-03-07T20:43:43.955Z"
   },
   {
     "leadId": "node-12091896572",
@@ -315,9 +333,11 @@
     "message": "Hi Reproductive Wellness team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Reproductive Wellness, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "sent",
+    "emailStatus": "sent",
+    "smsStatus": "pending",
+    "emailSentAtUtc": "2026-03-07T20:43:44.429Z",
+    "sentAtUtc": "2026-03-07T20:43:44.429Z"
   },
   {
     "leadId": "node-10113857462",
