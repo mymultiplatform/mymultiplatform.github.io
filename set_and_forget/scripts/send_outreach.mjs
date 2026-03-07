@@ -46,6 +46,12 @@ async function readJson(file, fallback) {
   }
 }
 
+function withoutUpdatedAt(payload) {
+  const clone = { ...(payload || {}) };
+  delete clone.updatedAtUtc;
+  return clone;
+}
+
 function resolveProvider() {
   if (RESEND_API_KEY) return "resend";
   if (SENDGRID_API_KEY) return "sendgrid";
@@ -121,6 +127,7 @@ async function main() {
 
   const queue = await readJson(queueJsonFile, []);
   const sentLog = dedupeSent(await readJson(sentLogFile, []));
+  const previousSummary = await readJson(summaryFile, null);
   const provider = resolveProvider();
   const today = isoDate();
   const alreadySentToday = sentLog.filter(
@@ -169,6 +176,13 @@ async function main() {
   if (provider === "none" || !FROM_EMAIL) {
     summary.skippedNoProvider = targets.length;
     summary.pending = queue.filter((item) => item.status === "pending").length;
+    if (
+      previousSummary &&
+      JSON.stringify(withoutUpdatedAt(previousSummary)) ===
+        JSON.stringify(withoutUpdatedAt(summary))
+    ) {
+      summary.updatedAtUtc = previousSummary.updatedAtUtc;
+    }
     await writeFile(summaryFile, JSON.stringify(summary, null, 2) + "\n", "utf8");
     const headers = [
       "leadId",
@@ -237,6 +251,14 @@ async function main() {
     (item) => item.status === "sent" && Date.parse(item.sentAtUtc) >= cutoff
   ).length;
   summary.pending = queue.filter((item) => item.status === "pending").length;
+
+  if (
+    previousSummary &&
+    JSON.stringify(withoutUpdatedAt(previousSummary)) ===
+      JSON.stringify(withoutUpdatedAt(summary))
+  ) {
+    summary.updatedAtUtc = previousSummary.updatedAtUtc;
+  }
 
   const headers = [
     "leadId",

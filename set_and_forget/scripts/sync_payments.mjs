@@ -43,6 +43,12 @@ async function readJson(file, fallback) {
   }
 }
 
+function withoutUpdatedAt(payload) {
+  const clone = { ...(payload || {}) };
+  delete clone.updatedAtUtc;
+  return clone;
+}
+
 async function getAccessToken() {
   const basic = Buffer.from(
     `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`,
@@ -200,9 +206,9 @@ async function main() {
   await mkdir(liveDir, { recursive: true });
   const startDate = new Date(Date.now() - 35 * 24 * 60 * 60 * 1000);
   const endDate = new Date();
+  const previous = await readJson(summaryFile, null);
 
   if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
-    const previous = await readJson(summaryFile, null);
     const fallback = {
       updatedAtUtc: new Date().toISOString(),
       mode: "blocked-missing-credentials",
@@ -211,6 +217,13 @@ async function main() {
         "PayPal credentials not configured. Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET.",
       ...(previous && previous.mode === "active" ? previous : {})
     };
+    if (
+      previous &&
+      JSON.stringify(withoutUpdatedAt(previous)) ===
+        JSON.stringify(withoutUpdatedAt(fallback))
+    ) {
+      fallback.updatedAtUtc = previous.updatedAtUtc;
+    }
     await writeSummary(fallback);
     return;
   }
@@ -236,7 +249,6 @@ async function main() {
       `Payments: 7d=${summary.paymentsCount7d} net7d=${summary.net7dUsd}`
     );
   } catch (error) {
-    const previous = await readJson(summaryFile, null);
     const fallback = {
       updatedAtUtc: new Date().toISOString(),
       mode: "error",
@@ -244,6 +256,13 @@ async function main() {
       note: `PayPal sync failed: ${String(error.message || error).slice(0, 260)}`,
       ...(previous && previous.mode === "active" ? previous : {})
     };
+    if (
+      previous &&
+      JSON.stringify(withoutUpdatedAt(previous)) ===
+        JSON.stringify(withoutUpdatedAt(fallback))
+    ) {
+      fallback.updatedAtUtc = previous.updatedAtUtc;
+    }
     await writeSummary(fallback);
     throw error;
   }
