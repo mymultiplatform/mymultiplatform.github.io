@@ -17,6 +17,9 @@ const ENRICH_HOURS = Number(process.env.MYMSAF_ENRICH_HOURS || 24);
 const MAX_SITES = Number(process.env.MYMSAF_ENRICH_MAX_SITES || 30);
 const FETCH_TIMEOUT_MS = Number(process.env.MYMSAF_ENRICH_TIMEOUT_MS || 10000);
 const ENRICH_CONCURRENCY = Number(process.env.MYMSAF_ENRICH_CONCURRENCY || 8);
+const PAYMENT_URL =
+  process.env.MYMSAF_PAYMENT_URL ||
+  "https://www.mymultiplatform.com/set_and_forget/";
 const CONTACT_PATHS = ["/contact", "/contact-us", "/about", "/about-us"];
 
 function escapeCsv(value) {
@@ -152,7 +155,8 @@ function buildMessage(lead) {
     "We deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.",
     "",
     "If useful, I can send a short async audit and projected weekly lift with zero meetings.",
-    "Reply YES and I will send the setup outline + pricing.",
+    `Direct checkout link: ${PAYMENT_URL}`,
+    "Reply YES if you want a custom setup version first.",
     "",
     "Dante | MYMSAF"
   ].join("\n");
@@ -267,7 +271,7 @@ async function main() {
         email: lead.email || "",
         subject,
         message: body,
-        ctaUrl: "https://www.mymultiplatform.com/set_and_forget/",
+        ctaUrl: PAYMENT_URL,
         status: "pending"
       });
       queueAdded += 1;
@@ -276,10 +280,16 @@ async function main() {
     if (!existing.email && lead.email) existing.email = lead.email;
     if (!existing.phone && lead.phone) existing.phone = lead.phone;
     if (!existing.website && lead.website) existing.website = lead.website;
-    if (!existing.subject) existing.subject = subject;
-    if (!existing.message) existing.message = body;
-    if (!existing.ctaUrl) {
-      existing.ctaUrl = "https://www.mymultiplatform.com/set_and_forget/";
+    if (existing.status === "pending" || !existing.status) {
+      existing.subject = subject;
+      existing.message = body;
+      existing.ctaUrl = PAYMENT_URL;
+    } else {
+      if (!existing.subject) existing.subject = subject;
+      if (!existing.message) existing.message = body;
+      if (!existing.ctaUrl) {
+        existing.ctaUrl = PAYMENT_URL;
+      }
     }
   }
 

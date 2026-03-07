@@ -114,6 +114,7 @@ Required to actually send:
 
 - `MYMSAF_FROM_EMAIL`
 - `RESEND_API_KEY` or `SENDGRID_API_KEY`
+- `MYMSAF_PAYMENT_URL` (direct checkout link inserted in outreach messages)
 
 Optional:
 

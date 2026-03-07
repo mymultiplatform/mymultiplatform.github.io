@@ -12,6 +12,9 @@ const leadsJsonFile = path.join(liveDir, "sd_leads.json");
 const queueJsonFile = path.join(liveDir, "outreach_queue.json");
 const metaFile = path.join(liveDir, "lead_refresh_meta.json");
 const REFRESH_HOURS = Number(process.env.MYMSAF_LEAD_REFRESH_HOURS || 24);
+const PAYMENT_URL =
+  process.env.MYMSAF_PAYMENT_URL ||
+  "https://www.mymultiplatform.com/set_and_forget/";
 
 const overpassEndpoints = (
   process.env.MYMSAF_OVERPASS_ENDPOINTS ||
@@ -214,7 +217,8 @@ function buildMessage(lead) {
     "We deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.",
     "",
     "If useful, I can send a short async audit and projected weekly lift with zero meetings.",
-    "Reply YES and I will send the setup outline + pricing.",
+    `Direct checkout link: ${PAYMENT_URL}`,
+    "Reply YES if you want a custom setup version first.",
     "",
     "Dante | MYMSAF"
   ].join("\n");
@@ -234,7 +238,7 @@ function buildOutreachQueue(leads) {
       email: lead.email,
       subject,
       message: body,
-      ctaUrl: "https://www.mymultiplatform.com/set_and_forget/",
+      ctaUrl: PAYMENT_URL,
       status: "pending"
     };
   });
