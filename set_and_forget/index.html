@@ -526,6 +526,14 @@
             <div class="value" id="liveEnriched">0</div>
           </div>
           <div class="metric">
+            <div class="label">Delivery stack</div>
+            <div class="value" id="liveDelivery">n/a</div>
+          </div>
+          <div class="metric">
+            <div class="label">Payments sync</div>
+            <div class="value" id="livePayments">n/a</div>
+          </div>
+          <div class="metric">
             <div class="label">Last update (UTC)</div>
             <div class="value" id="liveUpdated">n/a</div>
           </div>
@@ -673,6 +681,8 @@
     const liveLeads = byId("liveLeads");
     const liveQueue = byId("liveQueue");
     const liveEnriched = byId("liveEnriched");
+    const liveDelivery = byId("liveDelivery");
+    const livePayments = byId("livePayments");
     const liveUpdated = byId("liveUpdated");
 
     function runSimulation() {
@@ -819,9 +829,11 @@
 
     async function loadLeadMeta() {
       try {
-        const [metaRes, enrichRes] = await Promise.all([
+        const [metaRes, enrichRes, outreachRes, paymentsRes] = await Promise.all([
           fetch(`./live/lead_refresh_meta.json?t=${Date.now()}`, { cache: "no-store" }),
-          fetch(`./live/lead_enrichment_summary.json?t=${Date.now()}`, { cache: "no-store" })
+          fetch(`./live/lead_enrichment_summary.json?t=${Date.now()}`, { cache: "no-store" }),
+          fetch(`./live/outreach_summary.json?t=${Date.now()}`, { cache: "no-store" }),
+          fetch(`./live/payments_summary.json?t=${Date.now()}`, { cache: "no-store" })
         ]);
 
         if (metaRes.ok) {
@@ -839,6 +851,27 @@
           if (Number.isFinite(Number(enrich.emailFound))) {
             liveEnriched.textContent = String(enrich.emailFound);
             setStatusTone(liveEnriched, Number(enrich.emailFound) > 0);
+          }
+        }
+
+        if (outreachRes.ok) {
+          const outreach = await outreachRes.json();
+          const emailProvider = outreach.emailProvider || outreach.provider || "none";
+          const smsProvider = outreach.smsProvider || "none";
+          liveDelivery.textContent = `${emailProvider}/${smsProvider}`;
+          setStatusTone(liveDelivery, outreach.mode === "active");
+          if (Number.isFinite(Number(outreach.pending))) {
+            liveQueue.textContent = String(outreach.pending);
+          }
+        }
+
+        if (paymentsRes.ok) {
+          const payments = await paymentsRes.json();
+          const source = payments.source || "n/a";
+          livePayments.textContent = `${payments.mode || "unknown"} (${source})`;
+          setStatusTone(livePayments, payments.mode === "active");
+          if (Number.isFinite(Number(payments.activeClients)) && Number(payments.activeClients) > 0) {
+            liveClients.textContent = String(payments.activeClients);
           }
         }
       } catch (error) {

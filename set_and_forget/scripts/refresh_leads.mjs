@@ -12,6 +12,7 @@ const leadsJsonFile = path.join(liveDir, "sd_leads.json");
 const queueJsonFile = path.join(liveDir, "outreach_queue.json");
 const metaFile = path.join(liveDir, "lead_refresh_meta.json");
 const REFRESH_HOURS = Number(process.env.MYMSAF_LEAD_REFRESH_HOURS || 24);
+const QUEUE_MAX = Math.max(20, Number(process.env.MYMSAF_QUEUE_MAX || 220));
 const PAYMENT_URL =
   process.env.MYMSAF_PAYMENT_URL ||
   "https://www.mymultiplatform.com/set_and_forget/";
@@ -69,6 +70,29 @@ function classifyVertical(tags) {
   if (tags.amenity === "clinic") return "med_clinic";
   if (tags.shop === "beauty") return "med_spa";
   return "general_local";
+}
+
+function isPublicSectorLead({ businessName, website, tags }) {
+  const text = `${businessName || ""} ${website || ""} ${tags?.operator || ""}`.toLowerCase();
+  if (website && (website.includes(".gov") || website.includes(".mil"))) {
+    return true;
+  }
+  const blocked = [
+    "city of ",
+    "county of ",
+    "department of ",
+    "state of ",
+    "federal",
+    "us navy",
+    "u.s. navy",
+    "marine corps",
+    "air force",
+    "army",
+    "public school",
+    "university",
+    "college"
+  ];
+  return blocked.some((fragment) => text.includes(fragment));
 }
 
 function leadScore(lead) {
@@ -175,6 +199,9 @@ async function fetchLeadsFromEndpoint(endpoint) {
     const lat = element.lat ?? element.center?.lat ?? "";
     const lon = element.lon ?? element.center?.lon ?? "";
     const vertical = classifyVertical(tags);
+    if (isPublicSectorLead({ businessName, website, tags })) {
+      continue;
+    }
 
     const lead = {
       id: `${element.type || "node"}-${element.id || Math.random().toString(36).slice(2, 10)}`,
@@ -222,13 +249,20 @@ function buildMessage(lead) {
     "",
     "Dante | MYMSAF"
   ].join("\n");
-  return { subject, body };
+  const sms = [
+    `Hi ${lead.businessName},`,
+    `I run a no-call automated follow-up setup for ${verticalLabel} businesses in San Diego.`,
+    `Quick async details: ${PAYMENT_URL}`
+  ].join(" ");
+  return { subject, body, sms };
 }
 
 function buildOutreachQueue(leads) {
-  const topLeads = leads.filter((lead) => lead.website || lead.phone).slice(0, 120);
+  const topLeads = leads
+    .filter((lead) => lead.website || lead.phone)
+    .slice(0, QUEUE_MAX);
   return topLeads.map((lead) => {
-    const { subject, body } = buildMessage(lead);
+    const { subject, body, sms } = buildMessage(lead);
     return {
       leadId: lead.id,
       businessName: lead.businessName,
@@ -238,8 +272,11 @@ function buildOutreachQueue(leads) {
       email: lead.email,
       subject,
       message: body,
+      smsMessage: sms,
       ctaUrl: PAYMENT_URL,
-      status: "pending"
+      status: "pending",
+      emailStatus: "pending",
+      smsStatus: "pending"
     };
   });
 }
@@ -257,8 +294,13 @@ function mergeQueueData(newQueue, previousQueue) {
     return {
       ...item,
       status: prev.status || item.status,
+      emailStatus: prev.emailStatus || item.emailStatus || "pending",
+      smsStatus: prev.smsStatus || item.smsStatus || "pending",
       sentAtUtc: prev.sentAtUtc || item.sentAtUtc,
-      lastError: prev.lastError || item.lastError
+      emailSentAtUtc: prev.emailSentAtUtc || item.emailSentAtUtc,
+      smsSentAtUtc: prev.smsSentAtUtc || item.smsSentAtUtc,
+      lastError: prev.lastError || item.lastError,
+      smsLastError: prev.smsLastError || item.smsLastError
     };
   });
 }
@@ -327,8 +369,13 @@ async function main() {
     "email",
     "subject",
     "message",
+    "smsMessage",
     "ctaUrl",
-    "status"
+    "status",
+    "emailStatus",
+    "smsStatus",
+    "lastError",
+    "smsLastError"
   ]);
 
   const summary = {
@@ -337,6 +384,7 @@ async function main() {
     radiusMeters: SEARCH_RADIUS_METERS,
     leadsCount: leads.length,
     queueCount: queue.length,
+    queueMax: QUEUE_MAX,
     source: "overpass",
     endpoint
   };

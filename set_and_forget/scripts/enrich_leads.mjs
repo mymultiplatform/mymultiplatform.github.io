@@ -160,7 +160,12 @@ function buildMessage(lead) {
     "",
     "Dante | MYMSAF"
   ].join("\n");
-  return { subject, body };
+  const sms = [
+    `Hi ${lead.businessName},`,
+    `I run a no-call automated follow-up setup for ${verticalLabel} businesses in San Diego.`,
+    `Quick async details: ${PAYMENT_URL}`
+  ].join(" ");
+  return { subject, body, sms };
 }
 
 function leadScore(lead) {
@@ -260,7 +265,7 @@ async function main() {
     const key = String(lead.id || "");
     if (!key) continue;
     const existing = queueByLeadId.get(key);
-    const { subject, body } = buildMessage(lead);
+    const { subject, body, sms } = buildMessage(lead);
     if (!existing) {
       queue.push({
         leadId: key,
@@ -271,8 +276,11 @@ async function main() {
         email: lead.email || "",
         subject,
         message: body,
+        smsMessage: sms,
         ctaUrl: PAYMENT_URL,
-        status: "pending"
+        status: "pending",
+        emailStatus: "pending",
+        smsStatus: "pending"
       });
       queueAdded += 1;
       continue;
@@ -283,10 +291,12 @@ async function main() {
     if (existing.status === "pending" || !existing.status) {
       existing.subject = subject;
       existing.message = body;
+      existing.smsMessage = sms;
       existing.ctaUrl = PAYMENT_URL;
     } else {
       if (!existing.subject) existing.subject = subject;
       if (!existing.message) existing.message = body;
+      if (!existing.smsMessage) existing.smsMessage = sms;
       if (!existing.ctaUrl) {
         existing.ctaUrl = PAYMENT_URL;
       }
@@ -316,8 +326,13 @@ async function main() {
     "email",
     "subject",
     "message",
+    "smsMessage",
     "ctaUrl",
-    "status"
+    "status",
+    "emailStatus",
+    "smsStatus",
+    "lastError",
+    "smsLastError"
   ];
 
   const summary = {

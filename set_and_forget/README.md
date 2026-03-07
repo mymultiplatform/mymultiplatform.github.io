@@ -42,7 +42,6 @@ This creates:
 - Runner clone at `~/.mymsaf/mymultiplatform.github.io`
 - Hourly run at minute `07` (plus run-at-load)
 - Logs under `~/.mymsaf/logs/`
-- Runner sequence: `refresh_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
 - Runner sequence: `refresh_leads` -> `enrich_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
 
 Optional env file loaded by runner:
@@ -99,6 +98,7 @@ Optional env knobs:
 - `MYMSAF_SD_LON`
 - `MYMSAF_SD_RADIUS`
 - `MYMSAF_LEAD_REFRESH_HOURS`
+- `MYMSAF_QUEUE_MAX` (default `220`)
 - `MYMSAF_ENRICH_HOURS`
 - `MYMSAF_ENRICH_MAX_SITES`
 - `MYMSAF_ENRICH_CONCURRENCY`
@@ -112,15 +112,23 @@ Outreach script:
 
 Required to actually send:
 
-- `MYMSAF_FROM_EMAIL`
-- `RESEND_API_KEY` or `SENDGRID_API_KEY`
+- Email path:
+  - `MYMSAF_FROM_EMAIL` + (`RESEND_API_KEY` or `SENDGRID_API_KEY`)
+  - or `MYMSAF_USE_APPLE_MAIL=1` (macOS Mail.app account, optional `MYMSAF_APPLE_MAIL_SENDER`)
+- Optional SMS path:
+  - `TWILIO_ACCOUNT_SID`
+  - `TWILIO_AUTH_TOKEN`
+  - `TWILIO_FROM_NUMBER` (or `TWILIO_MESSAGING_SERVICE_SID`)
 - `MYMSAF_PAYMENT_URL` (direct checkout link inserted in outreach messages)
 
 Optional:
 
 - `MYMSAF_REPLY_TO_EMAIL`
 - `MYMSAF_OUTREACH_DAILY_LIMIT` (default `20`)
+- `MYMSAF_SMS_DAILY_LIMIT` (default `20`)
+- `MYMSAF_SMS_ONLY_WHEN_NO_EMAIL` (default `true`)
 - `MYMSAF_TEST_RECIPIENT` (routes all sends to one inbox for testing)
+- `MYMSAF_SMS_TEST_RECIPIENT` (routes all SMS to one phone number for testing)
 
 ## PayPal sync config
 

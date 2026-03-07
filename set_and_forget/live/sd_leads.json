@@ -722,18 +722,6 @@
     "score": 3.5
   },
   {
-    "id": "node-11110907806",
-    "businessName": "College Grove Dentistry",
-    "vertical": "dentist",
-    "website": "https://www.collegegrovedentistry.com",
-    "phone": "+1-619-363-3881",
-    "email": "",
-    "lat": 32.7423558,
-    "lon": -117.0518575,
-    "source": "overpass",
-    "score": 3.5
-  },
-  {
     "id": "node-9411532272",
     "businessName": "Collins Pacific Plumbing, Inc.",
     "vertical": "plumber",
@@ -1130,18 +1118,6 @@
     "score": 3
   },
   {
-    "id": "node-6838146389",
-    "businessName": "Branch Health Clinic NBSD",
-    "vertical": "med_clinic",
-    "website": "https://www.med.navy.mil/sites/nmcsd/Pages/Patients/NBHC-NBSD-Medical.aspx",
-    "phone": "+1-619-556-8101",
-    "email": "",
-    "lat": 32.6807518,
-    "lon": -117.115718,
-    "source": "overpass",
-    "score": 3
-  },
-  {
     "id": "way-31843329",
     "businessName": "Concentra Urgent Care",
     "vertical": "med_clinic",
@@ -1370,18 +1346,6 @@
     "score": 3
   },
   {
-    "id": "way-500484731",
-    "businessName": "NTC Medical Clinic",
-    "vertical": "med_clinic",
-    "website": "https://sandiego.tricare.mil/Clinics/NBHC-NTC-San-Diego",
-    "phone": "+1-619-881-9001",
-    "email": "",
-    "lat": 32.7309203,
-    "lon": -117.2174598,
-    "source": "overpass",
-    "score": 3
-  },
-  {
     "id": "way-31809844",
     "businessName": "Pacific Sotheby's International Realty",
     "vertical": "real_estate",
@@ -1450,18 +1414,6 @@
     "email": "",
     "lat": 32.8032392,
     "lon": -117.2162523,
-    "source": "overpass",
-    "score": 3
-  },
-  {
-    "id": "way-31818963",
-    "businessName": "Planned Parenthood - College Avenue Sarah Weddington Health Center",
-    "vertical": "med_clinic",
-    "website": "https://www.plannedparenthood.org/health-center/california/san-diego/92115/centro-de-salud-sarah-weddington-college-avenue-2324-90110#hours-walk-ins",
-    "phone": "+1-888-743-7526",
-    "email": "",
-    "lat": 32.7603245,
-    "lon": -117.0665812,
     "source": "overpass",
     "score": 3
   },
@@ -2830,18 +2782,6 @@
     "email": "",
     "lat": 32.915796,
     "lon": -117.114128,
-    "source": "overpass",
-    "score": 0.5
-  },
-  {
-    "id": "node-6838146390",
-    "businessName": "Branch Health Clinic Dental NBSD",
-    "vertical": "dentist",
-    "website": "",
-    "phone": "",
-    "email": "",
-    "lat": 32.6813532,
-    "lon": -117.1152656,
     "source": "overpass",
     "score": 0.5
   },
