@@ -1,0 +1,6 @@
+{
+  "updatedAtUtc": "2026-03-07T20:18:01.708Z",
+  "mode": "blocked-missing-credentials",
+  "source": "paypal-live",
+  "note": "PayPal credentials not configured. Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET."
+}

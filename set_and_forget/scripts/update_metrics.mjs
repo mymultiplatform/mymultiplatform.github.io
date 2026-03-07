@@ -8,6 +8,8 @@ const rootDir = path.resolve(__dirname, "..");
 const outDir = path.join(rootDir, "live");
 const outFile = path.join(outDir, "metrics.json");
 const seedFile = path.join(outDir, "seed.json");
+const paymentsSummaryFile = path.join(outDir, "payments_summary.json");
+const outreachSummaryFile = path.join(outDir, "outreach_summary.json");
 
 const DEFAULT_TARGET_WEEKLY = 500;
 const REQUEST_TIMEOUT_MS = 12000;
@@ -76,6 +78,15 @@ async function loadExistingMetrics() {
   }
 }
 
+async function loadJson(file, fallback) {
+  try {
+    const raw = await readFile(file, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
 function withoutUpdatedAt(payload) {
   const clone = { ...payload };
   delete clone.updatedAtUtc;
@@ -113,9 +124,18 @@ function buildMetrics(sourcePayload, sourceName) {
     168
   );
 
-  const grossMonthlyUsd = activeClients * monthlyPriceUsd;
-  const netMonthlyUsd = grossMonthlyUsd * (1 - platformCostPct / 100);
-  const netWeeklyUsd = netMonthlyUsd / 4.345;
+  const modeledGrossMonthlyUsd = activeClients * monthlyPriceUsd;
+  const modeledNetMonthlyUsd = modeledGrossMonthlyUsd * (1 - platformCostPct / 100);
+  const modeledNetWeeklyUsd = modeledNetMonthlyUsd / 4.345;
+  const actualNetWeeklyUsd = toNumber(sourcePayload.actualNetWeeklyUsd, NaN);
+  const usesActualNet =
+    Number.isFinite(actualNetWeeklyUsd) && actualNetWeeklyUsd > 0;
+  const netWeeklyUsd = usesActualNet ? actualNetWeeklyUsd : modeledNetWeeklyUsd;
+  const netMonthlyUsd = netWeeklyUsd * 4.345;
+  const grossMonthlyUsd = toNumber(
+    sourcePayload.actualGrossMonthlyUsd,
+    modeledGrossMonthlyUsd
+  );
   const targetCoveragePct = (netWeeklyUsd / targetWeeklyUsd) * 100;
   const gapWeeklyUsd = targetWeeklyUsd - netWeeklyUsd;
   const clientsNeededForTarget = Math.ceil(
@@ -141,6 +161,7 @@ function buildMetrics(sourcePayload, sourceName) {
   return {
     updatedAtUtc: new Date().toISOString(),
     sourceName,
+    netWeeklyMode: usesActualNet ? "actual" : "modeled",
     runState,
     targetWeeklyUsd: Number(targetWeeklyUsd.toFixed(2)),
     activeClients,
@@ -157,6 +178,14 @@ function buildMetrics(sourcePayload, sourceName) {
     automationCoveragePct: Number(automationCoveragePct.toFixed(2)),
     pipelineClosed7d,
     pipelineTrials7d,
+    outreachSent7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.outreachSent7d, 0))
+    ),
+    paymentsCount7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.paymentsCount7d, 0))
+    ),
     manualHoursWeekly: Number(manualHoursWeekly.toFixed(2)),
     confidenceScorePct: Number(confidenceScorePct.toFixed(2)),
     note:
@@ -183,6 +212,41 @@ async function main() {
         note: `Remote fetch failed (${error.message}). Using seed fallback.`
       };
     }
+  }
+
+  const paymentsSummary = await loadJson(paymentsSummaryFile, null);
+  if (paymentsSummary && paymentsSummary.mode === "active") {
+    payload = {
+      ...payload,
+      activeClients: toNumber(paymentsSummary.activeClients, payload.activeClients),
+      pipelineClosed7d: toNumber(
+        paymentsSummary.pipelineClosed7d,
+        payload.pipelineClosed7d
+      ),
+      paymentsCount7d: toNumber(
+        paymentsSummary.paymentsCount7d,
+        payload.paymentsCount7d
+      ),
+      actualNetWeeklyUsd: toNumber(
+        paymentsSummary.net7dUsd,
+        payload.actualNetWeeklyUsd
+      ),
+      note: "Metrics include active PayPal payment sync."
+    };
+    sourceName = "payments-sync";
+  }
+
+  const outreachSummary = await loadJson(outreachSummaryFile, null);
+  if (outreachSummary) {
+    const sentLast7d = toNumber(outreachSummary.sentLast7d, 0);
+    payload = {
+      ...payload,
+      outreachSent7d: sentLast7d,
+      pipelineTrials7d: Math.max(
+        toNumber(payload.pipelineTrials7d, 0),
+        sentLast7d
+      )
+    };
   }
 
   const metrics = buildMetrics(payload, sourceName);

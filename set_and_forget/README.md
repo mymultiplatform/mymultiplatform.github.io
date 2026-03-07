@@ -7,6 +7,8 @@ This folder powers:
 - Daily San Diego lead queue at:
   - `/set_and_forget/live/sd_leads.json`
   - `/set_and_forget/live/outreach_queue.json`
+- Outreach run summary at `/set_and_forget/live/outreach_summary.json`
+- Payment summary at `/set_and_forget/live/payments_summary.json`
 
 ## What runs automatically
 
@@ -39,6 +41,7 @@ This creates:
 - Runner clone at `~/.mymsaf/mymultiplatform.github.io`
 - Hourly run at minute `07` (plus run-at-load)
 - Logs under `~/.mymsaf/logs/`
+- Runner sequence: `refresh_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
 
 Optional env file loaded by runner:
 
@@ -93,6 +96,39 @@ Optional env knobs:
 - `MYMSAF_SD_LON`
 - `MYMSAF_SD_RADIUS`
 - `MYMSAF_LEAD_REFRESH_HOURS`
+
+## Outreach dispatch config
+
+Outreach script:
+
+- `set_and_forget/scripts/send_outreach.mjs`
+
+Required to actually send:
+
+- `MYMSAF_FROM_EMAIL`
+- `RESEND_API_KEY` or `SENDGRID_API_KEY`
+
+Optional:
+
+- `MYMSAF_REPLY_TO_EMAIL`
+- `MYMSAF_OUTREACH_DAILY_LIMIT` (default `20`)
+- `MYMSAF_TEST_RECIPIENT` (routes all sends to one inbox for testing)
+
+## PayPal sync config
+
+Payment sync script:
+
+- `set_and_forget/scripts/sync_payments.mjs`
+
+Required:
+
+- `PAYPAL_CLIENT_ID`
+- `PAYPAL_CLIENT_SECRET`
+
+Optional:
+
+- `PAYPAL_MODE` (`live` or `sandbox`, default `live`)
+- `MYMSAF_PAYMENT_FEE_PCT` (used only when fee data is missing)
 
 ## Confidence score
 

@@ -494,6 +494,10 @@
             <div class="value" id="liveNetWeekly">$0</div>
           </div>
           <div class="metric">
+            <div class="label">Net source</div>
+            <div class="value" id="liveNetMode">modeled</div>
+          </div>
+          <div class="metric">
             <div class="label">Confidence score</div>
             <div class="value" id="liveConfidence">0%</div>
           </div>
@@ -657,6 +661,7 @@
     const clientsNeeded = byId("clientsNeeded");
     const liveStatus = byId("liveStatus");
     const liveNetWeekly = byId("liveNetWeekly");
+    const liveNetMode = byId("liveNetMode");
     const liveConfidence = byId("liveConfidence");
     const liveClients = byId("liveClients");
     const liveAutomation = byId("liveAutomation");
@@ -746,6 +751,7 @@
       const automation = Number(payload.automationCoveragePct);
       const closed7d = Number(payload.pipelineClosed7d);
       const updatedAt = typeof payload.updatedAtUtc === "string" ? payload.updatedAtUtc : "n/a";
+      const netMode = typeof payload.netWeeklyMode === "string" ? payload.netWeeklyMode : "modeled";
       const target = Number(targetWeekly.value) || 500;
 
       if (Number.isFinite(weekly)) {
@@ -756,6 +762,8 @@
         liveConfidence.textContent = `${confidence.toFixed(1)}%`;
         setStatusTone(liveConfidence, confidence >= 90);
       }
+      liveNetMode.textContent = netMode;
+      setStatusTone(liveNetMode, netMode === "actual");
       if (Number.isFinite(activeClients)) {
         liveClients.textContent = String(activeClients);
         clients.value = String(activeClients);

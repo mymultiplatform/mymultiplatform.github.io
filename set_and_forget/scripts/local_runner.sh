@@ -10,12 +10,18 @@ if [ ! -d "$REPO_DIR/.git" ] && [ -d "$FALLBACK_REPO_DIR/.git" ]; then
 fi
 METRICS_SCRIPT="$REPO_DIR/set_and_forget/scripts/update_metrics.mjs"
 LEADS_SCRIPT="$REPO_DIR/set_and_forget/scripts/refresh_leads.mjs"
+OUTREACH_SCRIPT="$REPO_DIR/set_and_forget/scripts/send_outreach.mjs"
+PAYMENTS_SCRIPT="$REPO_DIR/set_and_forget/scripts/sync_payments.mjs"
 METRICS_FILE="$REPO_DIR/set_and_forget/live/metrics.json"
 LEADS_FILE="$REPO_DIR/set_and_forget/live/sd_leads.csv"
 OUTREACH_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.csv"
 LEADS_JSON_FILE="$REPO_DIR/set_and_forget/live/sd_leads.json"
 OUTREACH_JSON_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.json"
 LEAD_META_FILE="$REPO_DIR/set_and_forget/live/lead_refresh_meta.json"
+OUTREACH_SUMMARY_FILE="$REPO_DIR/set_and_forget/live/outreach_summary.json"
+OUTREACH_SENT_FILE="$REPO_DIR/set_and_forget/live/outreach_sent.json"
+PAYMENTS_SUMMARY_FILE="$REPO_DIR/set_and_forget/live/payments_summary.json"
+PAYMENTS_LEDGER_FILE="$REPO_DIR/set_and_forget/live/payments.json"
 LOG_DIR="$REPO_DIR/set_and_forget/logs"
 LOCK_DIR="$REPO_DIR/set_and_forget/.runner.lock"
 ENV_FILE="$REPO_DIR/set_and_forget/.mymsaf.env"
@@ -74,6 +80,18 @@ if [ -f "$LEADS_SCRIPT" ]; then
   fi
 fi
 
+if [ -f "$PAYMENTS_SCRIPT" ]; then
+  if ! "$NODE_BIN" "$PAYMENTS_SCRIPT"; then
+    echo "payments sync failed; continuing with outreach/metrics update"
+  fi
+fi
+
+if [ -f "$OUTREACH_SCRIPT" ]; then
+  if ! "$NODE_BIN" "$OUTREACH_SCRIPT"; then
+    echo "outreach dispatch failed; continuing with metrics update"
+  fi
+fi
+
 "$NODE_BIN" "$METRICS_SCRIPT"
 
 git add "$METRICS_FILE"
@@ -82,6 +100,10 @@ if [ -f "$OUTREACH_FILE" ]; then git add "$OUTREACH_FILE"; fi
 if [ -f "$LEADS_JSON_FILE" ]; then git add "$LEADS_JSON_FILE"; fi
 if [ -f "$OUTREACH_JSON_FILE" ]; then git add "$OUTREACH_JSON_FILE"; fi
 if [ -f "$LEAD_META_FILE" ]; then git add "$LEAD_META_FILE"; fi
+if [ -f "$OUTREACH_SUMMARY_FILE" ]; then git add "$OUTREACH_SUMMARY_FILE"; fi
+if [ -f "$OUTREACH_SENT_FILE" ]; then git add "$OUTREACH_SENT_FILE"; fi
+if [ -f "$PAYMENTS_SUMMARY_FILE" ]; then git add "$PAYMENTS_SUMMARY_FILE"; fi
+if [ -f "$PAYMENTS_LEDGER_FILE" ]; then git add "$PAYMENTS_LEDGER_FILE"; fi
 if git diff --cached --quiet; then
   echo "no metrics change"
   exit 0

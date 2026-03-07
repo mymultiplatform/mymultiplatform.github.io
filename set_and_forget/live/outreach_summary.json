@@ -1,0 +1,15 @@
+{
+  "updatedAtUtc": "2026-03-07T20:18:01.711Z",
+  "provider": "none",
+  "dailyLimit": 20,
+  "alreadySentToday": 0,
+  "remainingToday": 20,
+  "attempted": 0,
+  "sent": 0,
+  "failed": 0,
+  "skippedNoEmail": 96,
+  "skippedNoProvider": 20,
+  "pending": 120,
+  "sentLast7d": 0,
+  "mode": "blocked-missing-provider"
+}
