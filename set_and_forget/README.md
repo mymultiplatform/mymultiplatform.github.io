@@ -7,12 +7,14 @@ This folder powers:
 
 ## What runs automatically
 
-GitHub Action: `.github/workflows/mymsaf-metrics.yml`
+Recommended GitHub Action: `.github/workflows/mymsaf-metrics.yml`
 
 - Runs every hour (`7 * * * *`) and on manual dispatch.
 - Executes `set_and_forget/scripts/update_metrics.mjs`.
 - Writes fresh `set_and_forget/live/metrics.json`.
 - Commits only if metrics changed.
+
+If your push token does not include workflow permissions, add/push the workflow file later with a token that has `workflow` scope.
 
 ## Optional live endpoint
 
