@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MYMSAF Mission Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f1e6;
+      --bg-soft: #fffcf4;
+      --ink: #111827;
+      --muted: #475569;
+      --line: #d9d0bb;
+      --teal: #0f766e;
+      --teal-dark: #0b5a54;
+      --orange: #ea580c;
+      --orange-soft: #ffedd5;
+      --ok: #166534;
+      --warn: #b45309;
+      --card: rgba(255, 252, 244, 0.82);
+      --shadow: 0 18px 40px rgba(17, 24, 39, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 14%, rgba(15, 118, 110, 0.16), transparent 42%),
+        radial-gradient(circle at 92% 10%, rgba(234, 88, 12, 0.16), transparent 36%),
+        linear-gradient(155deg, #f3ecdd 0%, #fdf8eb 100%);
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+
+    .shell {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+      padding: 26px 0 54px;
+      animation: rise 560ms ease-out;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.85rem;
+      background: var(--orange-soft);
+      color: #7c2d12;
+      border: 1px solid #fed7aa;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--teal-dark);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      border-color: rgba(15, 118, 110, 0.3);
+      background: rgba(15, 118, 110, 0.08);
+    }
+
+    .hero {
+      margin-top: 20px;
+      border-radius: var(--radius);
+      background: linear-gradient(120deg, rgba(15, 118, 110, 0.12), rgba(234, 88, 12, 0.12));
+      border: 1px solid var(--line);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      right: -120px;
+      top: -180px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.08;
+      max-width: 880px;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .pill-row {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.81rem;
+      color: #1e3a8a;
+      background: rgba(219, 234, 254, 0.72);
+      border: 1px solid rgba(147, 197, 253, 0.75);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+
+    .grid {
+      margin-top: 20px;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(3px);
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .simulator {
+      grid-column: span 7;
+    }
+
+    .coverage {
+      grid-column: span 5;
+    }
+
+    .agents {
+      grid-column: span 12;
+    }
+
+    .cadence {
+      grid-column: span 7;
+    }
+
+    .launch {
+      grid-column: span 5;
+    }
+
+    .sim-grid {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d4c9af;
+      border-radius: 10px;
+      font: 600 0.97rem "IBM Plex Mono", monospace;
+      color: var(--ink);
+      background: #fffdf7;
+    }
+
+    .field input:focus {
+      outline: 2px solid rgba(15, 118, 110, 0.28);
+      border-color: rgba(15, 118, 110, 0.56);
+    }
+
+    .scenario-row {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .scenario-row button {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #1e293b;
+      font: 600 0.8rem "IBM Plex Mono", monospace;
+      border-radius: 9px;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .scenario-row button:hover {
+      transform: translateY(-1px);
+      border-color: #94a3b8;
+    }
+
+    .metric-grid {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .metric {
+      background: #fffdf8;
+      border: 1px solid #e8dcc0;
+      border-radius: 12px;
+      padding: 11px;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .metric .value {
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .positive { color: var(--ok); }
+    .warn { color: var(--warn); }
+
+    .coverage-line {
+      margin-top: 14px;
+      height: 12px;
+      border-radius: 999px;
+      background: #ece6d5;
+      overflow: hidden;
+      border: 1px solid #d8cfba;
+    }
+
+    .coverage-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--teal), var(--orange));
+      transition: width 0.25s ease;
+    }
+
+    .coverage-text {
+      margin-top: 8px;
+      font: 600 0.95rem "IBM Plex Mono", monospace;
+      color: #14532d;
+    }
+
+    .checklist {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .checkline {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid #efe4ca;
+      padding: 8px;
+      border-radius: 10px;
+      background: #fffdf8;
+    }
+
+    .checkline input {
+      margin-top: 3px;
+      width: 17px;
+      height: 17px;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    .checkline span {
+      font-size: 0.94rem;
+      color: #334155;
+    }
+
+    .agent-grid {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+
+    .agent {
+      border: 1px solid #e6dbc0;
+      background: #fffdf8;
+      border-radius: 13px;
+      padding: 12px;
+    }
+
+    .agent-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .agent-top strong {
+      font-size: 0.97rem;
+    }
+
+    .state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font: 600 0.78rem "IBM Plex Mono", monospace;
+      color: #166534;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+      animation: pulse 1.9s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45); }
+      100% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+    }
+
+    .agent p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: #64748b;
+    }
+
+    .cadence-list,
+    .launch-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .cadence-list li,
+    .launch-list li {
+      border: 1px solid #e8dcc0;
+      border-radius: 10px;
+      padding: 10px;
+      background: #fffdf8;
+    }
+
+    .cadence-list strong,
+    .launch-list strong {
+      display: block;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #7c2d12;
+      margin-bottom: 3px;
+    }
+
+    .cadence-list span,
+    .launch-list span {
+      font-size: 0.92rem;
+      color: #334155;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-align: center;
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    @media (max-width: 990px) {
+      .simulator,
+      .coverage,
+      .cadence,
+      .launch {
+        grid-column: span 12;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <span class="badge">MYMSAF / Set-and-Forget Division</span>
+      <div class="nav-links">
+        <a href="/">Main Site</a>
+        <a href="/software/">Software</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Mission Control for a 90% automated, no-call $500/week operation.</h1>
+      <p>This panel tracks revenue readiness, automation coverage, and the MYMSAF agent chain so you can run async with minimal manual intervention.</p>
+      <div class="pill-row">
+        <span class="pill">Location: San Diego</span>
+        <span class="pill">Target Net: $500/week</span>
+        <span class="pill">Manual Load Goal: &lt;= 3 hours/week</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel simulator">
+        <h2>Revenue Simulator</h2>
+        <div class="sim-grid">
+          <div class="field">
+            <label for="targetWeekly">Target net per week ($)</label>
+            <input id="targetWeekly" type="number" min="100" step="25" value="500">
+          </div>
+          <div class="field">
+            <label for="clients">Active clients</label>
+            <input id="clients" type="number" min="1" step="1" value="15">
+          </div>
+          <div class="field">
+            <label for="monthlyPrice">Monthly plan per client ($)</label>
+            <input id="monthlyPrice" type="number" min="49" step="10" value="149">
+          </div>
+          <div class="field">
+            <label for="costPct">Payment + platform costs (%)</label>
+            <input id="costPct" type="number" min="0" step="0.5" value="7.5">
+          </div>
+        </div>
+        <div class="scenario-row">
+          <button type="button" data-clients="12" data-price="149" data-cost="7.5">Conservative</button>
+          <button type="button" data-clients="15" data-price="149" data-cost="7.5">Base</button>
+          <button type="button" data-clients="20" data-price="179" data-cost="7.5">Aggressive</button>
+        </div>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="label">Projected net/week</div>
+            <div class="value" id="netWeekly">$0</div>
+          </div>
+          <div class="metric">
+            <div class="label">Target coverage</div>
+            <div class="value" id="coverageRatio">0%</div>
+          </div>
+          <div class="metric">
+            <div class="label">Gap to target</div>
+            <div class="value" id="gapWeekly">$0</div>
+          </div>
+          <div class="metric">
+            <div class="label">Clients needed</div>
+            <div class="value" id="clientsNeeded">0</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel coverage">
+        <h2>Automation Coverage</h2>
+        <p>Keep 9/10 systems fully autonomous to stay at 90% set-and-forget.</p>
+        <div class="coverage-line">
+          <div class="coverage-fill" id="coverageFill"></div>
+        </div>
+        <div class="coverage-text" id="coverageText">0% automated</div>
+        <div class="checklist" id="checklist">
+          <label class="checkline"><input type="checkbox" data-check="0" checked><span>Inbound lead scraper agent runs every hour</span></label>
+          <label class="checkline"><input type="checkbox" data-check="1" checked><span>Lead scoring filters low-intent prospects</span></label>
+          <label class="checkline"><input type="checkbox" data-check="2" checked><span>Personalized outreach drafts generated automatically</span></label>
+          <label class="checkline"><input type="checkbox" data-check="3" checked><span>Email/SMS sends queued on schedule with rate limits</span></label>
+          <label class="checkline"><input type="checkbox" data-check="4" checked><span>Async onboarding form writes to CRM and task board</span></label>
+          <label class="checkline"><input type="checkbox" data-check="5" checked><span>Contract + invoice sent without manual touch</span></label>
+          <label class="checkline"><input type="checkbox" data-check="6" checked><span>Payment retries and dunning automation active</span></label>
+          <label class="checkline"><input type="checkbox" data-check="7" checked><span>Weekly client report generated and delivered</span></label>
+          <label class="checkline"><input type="checkbox" data-check="8" checked><span>Retention nudges trigger on inactivity signals</span></label>
+          <label class="checkline"><input type="checkbox" data-check="9"><span>Only edge cases are routed to manual exception queue</span></label>
+        </div>
+      </article>
+
+      <article class="panel agents">
+        <h2>MYMSAF Agent Chain</h2>
+        <div class="agent-grid">
+          <div class="agent">
+            <div class="agent-top"><strong>Scout Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Scans local businesses and fills lead table with verified contact and niche tags.</p>
+          </div>
+          <div class="agent">
+            <div class="agent-top"><strong>Offer Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Builds niche-specific offer copy and one-click checkout links for each lead segment.</p>
+          </div>
+          <div class="agent">
+            <div class="agent-top"><strong>Outreach Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Executes async outbound cadence with follow-up logic and inbox classification.</p>
+          </div>
+          <div class="agent">
+            <div class="agent-top"><strong>Onboarding Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Collects brand assets, writes config, and deploys default automations in minutes.</p>
+          </div>
+          <div class="agent">
+            <div class="agent-top"><strong>Delivery Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Runs campaign tasks, compiles KPI packs, and monitors events for anomalies.</p>
+          </div>
+          <div class="agent">
+            <div class="agent-top"><strong>Retention Agent</strong><span class="state"><span class="dot"></span>LIVE</span></div>
+            <p>Detects churn risk, dispatches win-back messages, and renews clients automatically.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel cadence">
+        <h3>Operating Cadence</h3>
+        <ul class="cadence-list">
+          <li><strong>Hourly</strong><span>Lead harvesting, dedupe, and intent scoring update.</span></li>
+          <li><strong>Daily</strong><span>Outreach batches + response classification + booking links.</span></li>
+          <li><strong>Weekly</strong><span>Client KPI snapshots + invoice checks + churn triggers.</span></li>
+          <li><strong>Monthly</strong><span>Offer refresh, pricing test, and quality drift audit.</span></li>
+        </ul>
+      </article>
+
+      <article class="panel launch">
+        <h3>Launch Sequence</h3>
+        <ul class="launch-list">
+          <li><strong>Day 1</strong><span>Wire Scout + Offer + Outreach agents.</span></li>
+          <li><strong>Day 2</strong><span>Attach billing stack and onboarding forms.</span></li>
+          <li><strong>Day 3</strong><span>Enable weekly report + retention automations.</span></li>
+          <li><strong>Day 4</strong><span>Run live with exception queue only.</span></li>
+        </ul>
+      </article>
+    </section>
+
+    <p class="footer-note">MYMSAF mission control stores checklist settings in your browser (localStorage) and works without a backend.</p>
+  </main>
+
+  <script>
+    const byId = (id) => document.getElementById(id);
+    const money = (value) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+    const targetWeekly = byId("targetWeekly");
+    const clients = byId("clients");
+    const monthlyPrice = byId("monthlyPrice");
+    const costPct = byId("costPct");
+    const netWeekly = byId("netWeekly");
+    const coverageRatio = byId("coverageRatio");
+    const gapWeekly = byId("gapWeekly");
+    const clientsNeeded = byId("clientsNeeded");
+
+    function runSimulation() {
+      const target = Math.max(1, Number(targetWeekly.value) || 0);
+      const active = Math.max(0, Number(clients.value) || 0);
+      const price = Math.max(1, Number(monthlyPrice.value) || 0);
+      const fees = Math.max(0, Number(costPct.value) || 0) / 100;
+      const projected = (active * price * (1 - fees)) / 4.345;
+      const ratio = (projected / target) * 100;
+      const gap = target - projected;
+      const needed = Math.ceil((target * 4.345) / (price * Math.max(0.05, 1 - fees)));
+
+      netWeekly.textContent = money(projected);
+      coverageRatio.textContent = `${ratio.toFixed(1)}%`;
+      gapWeekly.textContent = gap <= 0 ? `${money(Math.abs(gap))} ahead` : money(gap);
+      gapWeekly.className = `value ${gap <= 0 ? "positive" : "warn"}`;
+      coverageRatio.className = `value ${ratio >= 100 ? "positive" : "warn"}`;
+      clientsNeeded.textContent = String(Math.max(0, needed));
+      clientsNeeded.className = `value ${active >= needed ? "positive" : "warn"}`;
+    }
+
+    [targetWeekly, clients, monthlyPrice, costPct].forEach((node) => {
+      node.addEventListener("input", runSimulation);
+    });
+
+    document.querySelectorAll("[data-clients]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        clients.value = btn.getAttribute("data-clients");
+        monthlyPrice.value = btn.getAttribute("data-price");
+        costPct.value = btn.getAttribute("data-cost");
+        runSimulation();
+      });
+    });
+
+    const storageKey = "mymsaf_coverage_v1";
+    const checks = Array.from(document.querySelectorAll("input[data-check]"));
+    const coverageFill = byId("coverageFill");
+    const coverageText = byId("coverageText");
+
+    function renderCoverage() {
+      const done = checks.filter((item) => item.checked).length;
+      const percent = Math.round((done / checks.length) * 100);
+      coverageFill.style.width = `${percent}%`;
+      coverageText.textContent = `${percent}% automated (${done}/${checks.length} systems)`;
+      coverageText.style.color = percent >= 90 ? "#166534" : "#b45309";
+      localStorage.setItem(storageKey, JSON.stringify(checks.map((item) => item.checked)));
+    }
+
+    function restoreCoverage() {
+      const saved = localStorage.getItem(storageKey);
+      if (!saved) {
+        renderCoverage();
+        return;
+      }
+      try {
+        const parsed = JSON.parse(saved);
+        checks.forEach((item, index) => {
+          if (typeof parsed[index] === "boolean") {
+            item.checked = parsed[index];
+          }
+        });
+      } catch (error) {
+        localStorage.removeItem(storageKey);
+      }
+      renderCoverage();
+    }
+
+    checks.forEach((item) => item.addEventListener("change", renderCoverage));
+    runSimulation();
+    restoreCoverage();
+  </script>
+</body>
+</html>
