@@ -10,6 +10,7 @@ if [ ! -d "$REPO_DIR/.git" ] && [ -d "$FALLBACK_REPO_DIR/.git" ]; then
 fi
 METRICS_SCRIPT="$REPO_DIR/set_and_forget/scripts/update_metrics.mjs"
 LEADS_SCRIPT="$REPO_DIR/set_and_forget/scripts/refresh_leads.mjs"
+ENRICH_SCRIPT="$REPO_DIR/set_and_forget/scripts/enrich_leads.mjs"
 OUTREACH_SCRIPT="$REPO_DIR/set_and_forget/scripts/send_outreach.mjs"
 PAYMENTS_SCRIPT="$REPO_DIR/set_and_forget/scripts/sync_payments.mjs"
 METRICS_FILE="$REPO_DIR/set_and_forget/live/metrics.json"
@@ -18,6 +19,7 @@ OUTREACH_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.csv"
 LEADS_JSON_FILE="$REPO_DIR/set_and_forget/live/sd_leads.json"
 OUTREACH_JSON_FILE="$REPO_DIR/set_and_forget/live/outreach_queue.json"
 LEAD_META_FILE="$REPO_DIR/set_and_forget/live/lead_refresh_meta.json"
+ENRICH_SUMMARY_FILE="$REPO_DIR/set_and_forget/live/lead_enrichment_summary.json"
 OUTREACH_SUMMARY_FILE="$REPO_DIR/set_and_forget/live/outreach_summary.json"
 OUTREACH_SENT_FILE="$REPO_DIR/set_and_forget/live/outreach_sent.json"
 PAYMENTS_SUMMARY_FILE="$REPO_DIR/set_and_forget/live/payments_summary.json"
@@ -80,6 +82,12 @@ if [ -f "$LEADS_SCRIPT" ]; then
   fi
 fi
 
+if [ -f "$ENRICH_SCRIPT" ]; then
+  if ! "$NODE_BIN" "$ENRICH_SCRIPT"; then
+    echo "lead enrichment failed; continuing with payments/outreach/metrics update"
+  fi
+fi
+
 if [ -f "$PAYMENTS_SCRIPT" ]; then
   if ! "$NODE_BIN" "$PAYMENTS_SCRIPT"; then
     echo "payments sync failed; continuing with outreach/metrics update"
@@ -100,6 +108,7 @@ if [ -f "$OUTREACH_FILE" ]; then git add "$OUTREACH_FILE"; fi
 if [ -f "$LEADS_JSON_FILE" ]; then git add "$LEADS_JSON_FILE"; fi
 if [ -f "$OUTREACH_JSON_FILE" ]; then git add "$OUTREACH_JSON_FILE"; fi
 if [ -f "$LEAD_META_FILE" ]; then git add "$LEAD_META_FILE"; fi
+if [ -f "$ENRICH_SUMMARY_FILE" ]; then git add "$ENRICH_SUMMARY_FILE"; fi
 if [ -f "$OUTREACH_SUMMARY_FILE" ]; then git add "$OUTREACH_SUMMARY_FILE"; fi
 if [ -f "$OUTREACH_SENT_FILE" ]; then git add "$OUTREACH_SENT_FILE"; fi
 if [ -f "$PAYMENTS_SUMMARY_FILE" ]; then git add "$PAYMENTS_SUMMARY_FILE"; fi

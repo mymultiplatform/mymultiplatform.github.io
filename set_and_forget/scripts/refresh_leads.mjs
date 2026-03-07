@@ -90,6 +90,41 @@ function dedupe(leads) {
   return [...byKey.values()];
 }
 
+function mergeExistingLeadData(newLeads, existingLeads) {
+  const byId = new Map();
+  const byWebsite = new Map();
+  const byName = new Map();
+
+  for (const lead of existingLeads) {
+    if (!lead || typeof lead !== "object") continue;
+    if (lead.id) byId.set(String(lead.id), lead);
+    if (lead.website) {
+      byWebsite.set(String(lead.website).toLowerCase(), lead);
+    }
+    if (lead.businessName) {
+      byName.set(String(lead.businessName).toLowerCase(), lead);
+    }
+  }
+
+  for (const lead of newLeads) {
+    const prior =
+      byId.get(String(lead.id || "")) ||
+      byWebsite.get(String(lead.website || "").toLowerCase()) ||
+      byName.get(String(lead.businessName || "").toLowerCase());
+    if (!prior) continue;
+
+    if (!lead.email && prior.email) lead.email = prior.email;
+    if (!lead.phone && prior.phone) lead.phone = prior.phone;
+    if (!lead.website && prior.website) lead.website = prior.website;
+    if (prior.emailSource) lead.emailSource = prior.emailSource;
+    if (prior.phoneSource) lead.phoneSource = prior.phoneSource;
+    if (prior.enrichedAtUtc) lead.enrichedAtUtc = prior.enrichedAtUtc;
+    lead.score = leadScore(lead);
+  }
+
+  return newLeads;
+}
+
 function buildOverpassQuery() {
   const segments = verticalQueries
     .map(
@@ -205,12 +240,40 @@ function buildOutreachQueue(leads) {
   });
 }
 
+function mergeQueueData(newQueue, previousQueue) {
+  const previousByLead = new Map(
+    previousQueue
+      .filter((item) => item && typeof item === "object")
+      .map((item) => [String(item.leadId || ""), item])
+  );
+
+  return newQueue.map((item) => {
+    const prev = previousByLead.get(String(item.leadId || ""));
+    if (!prev) return item;
+    return {
+      ...item,
+      status: prev.status || item.status,
+      sentAtUtc: prev.sentAtUtc || item.sentAtUtc,
+      lastError: prev.lastError || item.lastError
+    };
+  });
+}
+
 function toCsv(rows, headers) {
   const lines = [headers.join(",")];
   for (const row of rows) {
     lines.push(headers.map((key) => escapeCsv(row[key])).join(","));
   }
   return `${lines.join("\n")}\n`;
+}
+
+async function readJson(file, fallback) {
+  try {
+    const raw = await readFile(file, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
 }
 
 async function shouldRefresh() {
@@ -234,8 +297,11 @@ async function main() {
     return;
   }
 
-  const { leads, endpoint } = await fetchLeadsFromOverpass();
-  const queue = buildOutreachQueue(leads);
+  const previousLeads = await readJson(leadsJsonFile, []);
+  const previousQueue = await readJson(queueJsonFile, []);
+  const { leads: fetchedLeads, endpoint } = await fetchLeadsFromOverpass();
+  const leads = mergeExistingLeadData(fetchedLeads, previousLeads);
+  const queue = mergeQueueData(buildOutreachQueue(leads), previousQueue);
   const leadsCsv = toCsv(leads, [
     "id",
     "businessName",

@@ -522,6 +522,10 @@
             <div class="value" id="liveQueue">0</div>
           </div>
           <div class="metric">
+            <div class="label">Enriched emails</div>
+            <div class="value" id="liveEnriched">0</div>
+          </div>
+          <div class="metric">
             <div class="label">Last update (UTC)</div>
             <div class="value" id="liveUpdated">n/a</div>
           </div>
@@ -668,6 +672,7 @@
     const liveClosed = byId("liveClosed");
     const liveLeads = byId("liveLeads");
     const liveQueue = byId("liveQueue");
+    const liveEnriched = byId("liveEnriched");
     const liveUpdated = byId("liveUpdated");
 
     function runSimulation() {
@@ -814,16 +819,27 @@
 
     async function loadLeadMeta() {
       try {
-        const response = await fetch(`./live/lead_refresh_meta.json?t=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok) {
-          return;
+        const [metaRes, enrichRes] = await Promise.all([
+          fetch(`./live/lead_refresh_meta.json?t=${Date.now()}`, { cache: "no-store" }),
+          fetch(`./live/lead_enrichment_summary.json?t=${Date.now()}`, { cache: "no-store" })
+        ]);
+
+        if (metaRes.ok) {
+          const meta = await metaRes.json();
+          if (Number.isFinite(Number(meta.leadsCount))) {
+            liveLeads.textContent = String(meta.leadsCount);
+          }
+          if (Number.isFinite(Number(meta.queueCount))) {
+            liveQueue.textContent = String(meta.queueCount);
+          }
         }
-        const meta = await response.json();
-        if (Number.isFinite(Number(meta.leadsCount))) {
-          liveLeads.textContent = String(meta.leadsCount);
-        }
-        if (Number.isFinite(Number(meta.queueCount))) {
-          liveQueue.textContent = String(meta.queueCount);
+
+        if (enrichRes.ok) {
+          const enrich = await enrichRes.json();
+          if (Number.isFinite(Number(enrich.emailFound))) {
+            liveEnriched.textContent = String(enrich.emailFound);
+            setStatusTone(liveEnriched, Number(enrich.emailFound) > 0);
+          }
         }
       } catch (error) {
         // Keep current values if lead metadata is unavailable.

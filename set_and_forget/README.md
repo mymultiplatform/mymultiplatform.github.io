@@ -7,6 +7,7 @@ This folder powers:
 - Daily San Diego lead queue at:
   - `/set_and_forget/live/sd_leads.json`
   - `/set_and_forget/live/outreach_queue.json`
+- Lead enrichment summary at `/set_and_forget/live/lead_enrichment_summary.json`
 - Outreach run summary at `/set_and_forget/live/outreach_summary.json`
 - Payment summary at `/set_and_forget/live/payments_summary.json`
 
@@ -42,6 +43,7 @@ This creates:
 - Hourly run at minute `07` (plus run-at-load)
 - Logs under `~/.mymsaf/logs/`
 - Runner sequence: `refresh_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
+- Runner sequence: `refresh_leads` -> `enrich_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
 
 Optional env file loaded by runner:
 
@@ -87,6 +89,7 @@ Expected endpoint JSON shape:
 Lead refresh script:
 
 - `set_and_forget/scripts/refresh_leads.mjs`
+- `set_and_forget/scripts/enrich_leads.mjs`
 
 Optional env knobs:
 
@@ -96,6 +99,10 @@ Optional env knobs:
 - `MYMSAF_SD_LON`
 - `MYMSAF_SD_RADIUS`
 - `MYMSAF_LEAD_REFRESH_HOURS`
+- `MYMSAF_ENRICH_HOURS`
+- `MYMSAF_ENRICH_MAX_SITES`
+- `MYMSAF_ENRICH_CONCURRENCY`
+- `MYMSAF_ENRICH_TIMEOUT_MS`
 
 ## Outreach dispatch config
 
