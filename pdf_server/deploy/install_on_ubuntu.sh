@@ -41,7 +41,14 @@ python3 -m venv "$VENV_DIR"
 "$VENV_DIR/bin/pip" install --upgrade pip
 "$VENV_DIR/bin/pip" install -r "$APP_DIR/requirements.txt"
 
-sudo cp "$APP_DIR/deploy/mymserver.service" "$SERVICE_FILE"
+escaped_app_dir="$(printf '%s\n' "$APP_DIR" | sed 's/[\\/&]/\\&/g')"
+escaped_env_file="$(printf '%s\n' "$ENV_FILE" | sed 's/[\\/&]/\\&/g')"
+escaped_venv_dir="$(printf '%s\n' "$VENV_DIR" | sed 's/[\\/&]/\\&/g')"
+sed \
+  -e "s#__APP_DIR__#$escaped_app_dir#g" \
+  -e "s#__ENV_FILE__#$escaped_env_file#g" \
+  -e "s#__VENV_DIR__#$escaped_venv_dir#g" \
+  "$APP_DIR/deploy/mymserver.service" | sudo tee "$SERVICE_FILE" >/dev/null
 sudo cp "$APP_DIR/deploy/mymserver-tunnel.service" "$TUNNEL_SERVICE_FILE"
 sudo cp "$APP_DIR/deploy/sync_server_redirect.sh" "$SYNC_SCRIPT_TARGET"
 sudo chmod 755 "$SYNC_SCRIPT_TARGET"
