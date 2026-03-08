@@ -54,12 +54,37 @@
   </main>
 
   <script>
-    const target = "https://produce-version-drag-professionals.trycloudflare.com/server";
-    document.getElementById("openLink").href = target;
-    document.getElementById("targetText").textContent = target;
-    setTimeout(() => {
-      window.location.replace(target);
-    }, 300);
+    const fallbackTarget = "https://produce-version-drag-professionals.trycloudflare.com/server";
+    const targetTextEl = document.getElementById("targetText");
+    const openLinkEl = document.getElementById("openLink");
+
+    function setTarget(target) {
+      openLinkEl.href = target;
+      targetTextEl.textContent = target;
+      setTimeout(() => {
+        window.location.replace(target);
+      }, 300);
+    }
+
+    async function resolveTarget() {
+      try {
+        const response = await fetch(`/server_target.json?ts=${Date.now()}`, {
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const payload = await response.json();
+        if (payload && typeof payload.target === "string" && payload.target.startsWith("https://")) {
+          return payload.target;
+        }
+      } catch (_error) {
+        // Keep fallback behavior if the dynamic target file is unavailable.
+      }
+      return fallbackTarget;
+    }
+
+    resolveTarget().then(setTarget);
   </script>
 </body>
 </html>

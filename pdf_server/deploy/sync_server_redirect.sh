@@ -5,6 +5,7 @@ REPO_DIR="${REPO_DIR:-/home/des/deploy/mymserver}"
 LOG_FILE="${LOG_FILE:-/home/des/mymserver-cloudflared.log}"
 BRANCH="${BRANCH:-main}"
 TARGET_FILE="$REPO_DIR/server.html"
+TARGET_JSON_FILE="$REPO_DIR/server_target.json"
 ORIGIN_SSH_URL="${ORIGIN_SSH_URL:-git@github.com:mymultiplatform/mymultiplatform.github.io.git}"
 
 if [[ ! -d "$REPO_DIR/.git" || ! -f "$TARGET_FILE" ]]; then
@@ -36,6 +37,7 @@ if [[ -z "$tunnel_url" ]]; then
 fi
 
 target="$tunnel_url/server"
+updated_utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 cd "$REPO_DIR"
 
@@ -54,14 +56,21 @@ git pull --ff-only origin "$BRANCH" >/dev/null 2>&1 || {
   exit 0
 }
 
-sed -i "s#const target = \".*\";#const target = \"$target\";#" "$TARGET_FILE"
+sed -i "s#const fallbackTarget = \".*\";#const fallbackTarget = \"$target\";#" "$TARGET_FILE"
 
-if git diff --quiet -- "$TARGET_FILE"; then
+cat > "$TARGET_JSON_FILE" <<EOF
+{
+  "target": "$target",
+  "updated_utc": "$updated_utc"
+}
+EOF
+
+if git diff --quiet -- "$TARGET_FILE" "$TARGET_JSON_FILE"; then
   echo "Redirect already current: $target"
   exit 0
 fi
 
-git add "$TARGET_FILE"
+git add "$TARGET_FILE" "$TARGET_JSON_FILE"
 git commit -m "Auto-update /server redirect to active Cloudflare tunnel" >/dev/null
 git push origin "$BRANCH" >/dev/null
 echo "Updated redirect to $target"
