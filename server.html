@@ -1,93 +1,65 @@
 <!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mymultiplatform — Server UI (Beta)</title>
-<style>
-  body{margin:0;background:#000;color:#fff;font:16px/1.45 system-ui,Segoe UI,Roboto,Arial,sans-serif}
-  .wrap{max-width:980px;margin:0 auto;padding:20px}
-  .card{background:#0d0d0d;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:16px;margin:16px 0}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  input,button{height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#0a0a0a;color:#fff;padding:0 12px}
-  button{background:#1db954;color:#000;border:0;font-weight:800;cursor:pointer}
-  table{width:100%;border-collapse:collapse;border:1px solid rgba(255,255,255,.14);border-radius:12px;overflow:hidden}
-  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.14);text-align:left}
-  .muted{color:#c7c7c7}
-  .ok{display:inline-block;background:#0e1a14;padding:6px 10px;border-radius:999px;border:1px solid rgba(49,209,123,.25)}
-</style>
-
-<div class="wrap">
-  <h1>Mymultiplatform — Server UI (Beta)</h1>
-  <p class="muted">URL: <code>https://www.mymultiplatform.com/server</code> • Soft auth only (no real backend).</p>
-
-  <div id="loginCard" class="card">
-    <h2>Login</h2>
-    <div class="row">
-      <input id="user" placeholder="User (Admin1 or Admin2)" autocomplete="off">
-      <input id="pass" placeholder="Password" type="password" autocomplete="off">
-      <button id="enterBtn">Enter</button>
-      <span id="loginMsg" class="muted"></span>
-    </div>
-  </div>
-
-  <div id="app" class="card" style="display:none">
-    <div class="row">
-      <strong id="who"></strong>
-      <a id="uploadLink" target="_blank" class="muted" style="margin-left:auto">
-        Upload PDF (opens GitHub)
-      </a>
-    </div>
-    <p class="muted">rentA — PDFs in <code>public/pdfs/</code></p>
-    <table aria-label="Contracts/PDFs">
-      <thead><tr><th>File</th><th>Status</th></tr></thead>
-      <tbody id="pdfBody"><tr><td class="muted">Loading…</td><td></td></tr></tbody>
-    </table>
-  </div>
-</div>
-
-<script>
-  // ---------- Soft login ----------
-  const allowedUsers = new Set(["Admin1","Admin2"]);
-  const PASSWORD = "real420";
-  const byId = id => document.getElementById(id);
-
-  byId("enterBtn").onclick = () => {
-    const u = byId("user").value.trim();
-    const p = byId("pass").value;
-    const msg = byId("loginMsg");
-    if (!allowedUsers.has(u) || p !== PASSWORD) {
-      msg.textContent = "Invalid credentials.";
-      return;
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyMultiplatform Server Redirect</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 20px;
     }
-    // show app
-    msg.textContent = "";
-    byId("loginCard").style.display = "none";
-    byId("app").style.display = "block";
-    byId("who").textContent = `Logged in as ${u}`;
-    // upload link opens GitHub "Add file" UI into public/pdfs/
-    const repo = "mymultiplatform/mymultiplatform.github.io";
-    byId("uploadLink").href = `https://github.com/${repo}/new/main/public/pdfs`;
-    // load manifest
-    loadManifest();
-  };
-
-  // ---------- List PDFs from manifest.json ----------
-  async function loadManifest(){
-    try{
-      // bust cache
-      const r = await fetch(`/manifest.json?ts=${Date.now()}`);
-      const files = await r.json(); // array of paths like "public/pdfs/file.pdf"
-      const body = byId("pdfBody");
-      body.innerHTML = "";
-      if(!files.length){ body.innerHTML = '<tr><td class="muted">No PDFs yet.</td><td></td></tr>'; return; }
-      for(const path of files){
-        const name = path.split("/").pop();
-        const url  = `/${path}`;
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td><a href="${url}" target="_blank">${name}</a></td><td><span class="ok">available</span></td>`;
-        body.appendChild(tr);
-      }
-    }catch(e){
-      byId("pdfBody").innerHTML = `<tr><td class="muted">Failed to load manifest.</td><td></td></tr>`;
+    .card {
+      width: min(560px, 100%);
+      border: 1px solid #334155;
+      border-radius: 14px;
+      background: #111827;
+      padding: 20px;
     }
-  }
-</script>
+    h1 { margin: 0 0 10px; font-size: 1.3rem; }
+    p { margin: 0 0 12px; color: #cbd5e1; line-height: 1.5; }
+    a {
+      display: inline-block;
+      margin-top: 8px;
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #22c55e;
+      color: #04210f;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    code {
+      background: #0b1220;
+      border: 1px solid #243247;
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Redirecting To PDF Server</h1>
+    <p>This route now uses the live Ubuntu backend.</p>
+    <p>If redirect does not happen automatically, open:
+      <br><code id="targetText"></code>
+    </p>
+    <a id="openLink" href="#">Open PDF Server</a>
+  </main>
+
+  <script>
+    const target = "http://192.168.137.139/server";
+    document.getElementById("openLink").href = target;
+    document.getElementById("targetText").textContent = target;
+    setTimeout(() => {
+      window.location.replace(target);
+    }, 300);
+  </script>
+</body>
+</html>
