@@ -1,5 +1,5 @@
 [Unit]
-Description=MyMultiplatform Public Tunnel (localtunnel)
+Description=MyMultiplatform Public Tunnel (Cloudflare Quick Tunnel)
 After=network-online.target nginx.service mymserver.service
 Wants=network-online.target
 
@@ -8,11 +8,11 @@ Type=simple
 User=des
 Group=des
 WorkingDirectory=/home/des
-ExecStart=/usr/bin/npx -y localtunnel --port 80 --subdomain __SUBDOMAIN__
+ExecStart=/usr/local/bin/cloudflared tunnel --url http://localhost:80 --no-autoupdate
 Restart=always
 RestartSec=5
-StandardOutput=append:/home/des/mymserver-tunnel.log
-StandardError=append:/home/des/mymserver-tunnel.log
+StandardOutput=append:/home/des/mymserver-cloudflared.log
+StandardError=append:/home/des/mymserver-cloudflared.log
 
 [Install]
 WantedBy=multi-user.target

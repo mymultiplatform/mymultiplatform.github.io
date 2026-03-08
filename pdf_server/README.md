@@ -40,17 +40,11 @@ chmod +x deploy/install_on_ubuntu.sh
 This installs and enables:
 
 - `mymserver.service` (Gunicorn backend on `127.0.0.1:8090`)
-- `mymserver-tunnel.service` (public HTTPS tunnel via `localtunnel`)
+- `mymserver-tunnel.service` (public HTTPS tunnel via Cloudflare quick tunnel)
+- `mymserver-redirect-sync.timer` (auto-updates `server.html` every 5 minutes to the active tunnel URL)
 
-Default public URL:
-
-- `https://mymserverdes333888.loca.lt/server`
-
-You can choose your own stable subdomain:
-
-```bash
-TUNNEL_SUBDOMAIN=mycustomsubdomain ./deploy/install_on_ubuntu.sh
-```
+Cloudflare quick tunnel hostnames are dynamic, so the sync timer keeps
+`https://www.mymultiplatform.com/server` pointing to the current live tunnel URL.
 
 Then add nginx location rules from:
 
@@ -68,4 +62,4 @@ sudo systemctl reload nginx
 - Upload validation checks extension and PDF magic bytes.
 - Session auth is required for dashboard, file listing, upload, and file view.
 - Max file size is controlled by `MMSERVER_MAX_UPLOAD_MB` (default `40`).
-- The global endpoint depends on `mymserver-tunnel.service` staying active at startup.
+- Global access depends on `mymserver-tunnel.service` and `mymserver-redirect-sync.timer`.

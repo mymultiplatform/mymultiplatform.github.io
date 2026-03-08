@@ -1,0 +1,14 @@
+[Unit]
+Description=Sync /server redirect with active tunnel URL
+After=network-online.target mymserver-tunnel.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=des
+Group=des
+WorkingDirectory=__REPO_DIR__
+Environment=REPO_DIR=__REPO_DIR__
+Environment=LOG_FILE=__LOG_FILE__
+Environment=BRANCH=main
+ExecStart=/usr/local/bin/mymserver-sync-redirect.sh
