@@ -451,8 +451,8 @@
     "source": "overpass",
     "score": 4.5,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:17:52.420Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:17:52.420Z"
   },
   {
     "id": "way-1002514113",
@@ -466,8 +466,8 @@
     "source": "overpass",
     "score": 4.5,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:17:50.498Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:17:50.498Z"
   },
   {
     "id": "node-5144565100",
@@ -753,8 +753,8 @@
     "source": "overpass",
     "score": 4,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:17:54.707Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:17:54.707Z"
   },
   {
     "id": "way-1305851964",
@@ -768,8 +768,8 @@
     "source": "overpass",
     "score": 4,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:17:57.197Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:17:57.197Z"
   },
   {
     "id": "node-2609048960",
@@ -783,8 +783,8 @@
     "source": "overpass",
     "score": 4,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:18:07.005Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:18:07.005Z"
   },
   {
     "id": "node-10170227727",
@@ -798,8 +798,8 @@
     "source": "overpass",
     "score": 4,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:18:05.752Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:18:05.752Z"
   },
   {
     "id": "node-12903818356",
@@ -813,8 +813,8 @@
     "source": "overpass",
     "score": 4,
     "emailSource": "website-enrichment",
-    "enrichedAtUtc": "2026-03-08T02:18:15.290Z",
-    "phoneSource": "website-enrichment"
+    "phoneSource": "website-enrichment",
+    "enrichedAtUtc": "2026-03-08T02:18:15.290Z"
   },
   {
     "id": "node-6311883429",

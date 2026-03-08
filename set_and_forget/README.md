@@ -125,6 +125,7 @@ Required to actually send:
 Optional:
 
 - `MYMSAF_REPLY_TO_EMAIL`
+- `MYMSAF_CONTACT_EMAIL` (shown in outreach message body/signature)
 - `MYMSAF_OUTREACH_DAILY_LIMIT` (default `20`)
 - `MYMSAF_SMS_DAILY_LIMIT` (default `20`)
 - `MYMSAF_SMS_ONLY_WHEN_NO_EMAIL` (default `true`)

@@ -17,6 +17,8 @@ const CTA_BASE_URL =
   process.env.MYMSAF_CTA_URL ||
   process.env.MYMSAF_PAYMENT_URL ||
   "https://www.mymultiplatform.com/set_and_forget/offer.html";
+const CONTACT_EMAIL =
+  process.env.MYMSAF_CONTACT_EMAIL || "mymultiplatform@gmail.com";
 
 const overpassEndpoints = (
   process.env.MYMSAF_OVERPASS_ENDPOINTS ||
@@ -272,9 +274,9 @@ function buildMessage(lead) {
     "No meetings or calls required.",
     "Flat setup: $299. Optional monthly optimization: $149.",
     `Start async setup: ${ctaUrl}`,
-    'Reply "YES" if you want me to send the one-page setup brief.',
+    `Reply to ${CONTACT_EMAIL} with "YES" for the one-page setup brief.`,
     "",
-    "Dante | MYMSAF"
+    `MYMSAF Ops | ${CONTACT_EMAIL}`
   ].join("\n");
   const sms = [
     `Hi ${lead.businessName},`,
