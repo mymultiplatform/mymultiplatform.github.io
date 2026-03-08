@@ -19,7 +19,11 @@ fi
 
 tunnel_url=""
 for _ in $(seq 1 45); do
-  tunnel_url="$(grep -Eo 'https://[-a-z0-9]+\.trycloudflare\.com' "$LOG_FILE" | tail -n 1 || true)"
+  tunnel_url="$(
+    grep -Eo 'https://[-a-z0-9]+\.trycloudflare\.com' "$LOG_FILE" \
+      | grep -v 'https://api.trycloudflare.com' \
+      | tail -n 1 || true
+  )"
   if [[ -n "$tunnel_url" ]]; then
     break
   fi

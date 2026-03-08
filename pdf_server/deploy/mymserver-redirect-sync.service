@@ -11,4 +11,5 @@ WorkingDirectory=__REPO_DIR__
 Environment=REPO_DIR=__REPO_DIR__
 Environment=LOG_FILE=__LOG_FILE__
 Environment=BRANCH=main
+Environment=HOME=/home/des
 ExecStart=/usr/local/bin/mymserver-sync-redirect.sh
