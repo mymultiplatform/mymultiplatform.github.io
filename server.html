@@ -67,19 +67,26 @@
     }
 
     async function resolveTarget() {
-      try {
-        const response = await fetch(`/server_target.json?ts=${Date.now()}`, {
-          cache: "no-store",
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+      const sources = [
+        "https://raw.githubusercontent.com/mymultiplatform/mymultiplatform.github.io/main/server_target.json",
+        "/server_target.json",
+      ];
+      for (const source of sources) {
+        try {
+          const separator = source.includes("?") ? "&" : "?";
+          const response = await fetch(`${source}${separator}ts=${Date.now()}`, {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            continue;
+          }
+          const payload = await response.json();
+          if (payload && typeof payload.target === "string" && payload.target.startsWith("https://")) {
+            return payload.target;
+          }
+        } catch (_error) {
+          // Try the next target source.
         }
-        const payload = await response.json();
-        if (payload && typeof payload.target === "string" && payload.target.startsWith("https://")) {
-          return payload.target;
-        }
-      } catch (_error) {
-        // Keep fallback behavior if the dynamic target file is unavailable.
       }
       return fallbackTarget;
     }
