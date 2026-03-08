@@ -8,7 +8,9 @@ This folder powers:
   - `/set_and_forget/live/sd_leads.json`
   - `/set_and_forget/live/outreach_queue.json`
 - Lead enrichment summary at `/set_and_forget/live/lead_enrichment_summary.json`
+- Follow-up queue summary at `/set_and_forget/live/followup_summary.json`
 - Outreach run summary at `/set_and_forget/live/outreach_summary.json`
+- Reply triage summary at `/set_and_forget/live/reply_triage.json`
 - Payment summary at `/set_and_forget/live/payments_summary.json`
 
 ## What runs automatically
@@ -42,7 +44,7 @@ This creates:
 - Runner clone at `~/.mymsaf/mymultiplatform.github.io`
 - Hourly run at minute `07` (plus run-at-load)
 - Logs under `~/.mymsaf/logs/`
-- Runner sequence: `refresh_leads` -> `enrich_leads` -> `sync_payments` -> `send_outreach` -> `update_metrics`
+- Runner sequence: `refresh_leads` -> `enrich_leads` -> `prepare_followups` -> `sync_payments` -> `send_outreach` -> `triage_replies` -> `update_metrics`
 
 Optional env file loaded by runner:
 
@@ -109,6 +111,7 @@ Optional env knobs:
 Outreach script:
 
 - `set_and_forget/scripts/send_outreach.mjs`
+- `set_and_forget/scripts/prepare_followups.mjs`
 
 Required to actually send:
 
@@ -129,6 +132,9 @@ Optional:
 - `MYMSAF_OUTREACH_DAILY_LIMIT` (default `20`)
 - `MYMSAF_SMS_DAILY_LIMIT` (default `20`)
 - `MYMSAF_SMS_ONLY_WHEN_NO_EMAIL` (default `true`)
+- `MYMSAF_FOLLOWUP1_DELAY_HOURS` (default `48`)
+- `MYMSAF_FOLLOWUP2_DELAY_HOURS` (default `120`)
+- `MYMSAF_FOLLOWUP_MAX_PER_RUN` (default `120`)
 - `MYMSAF_TEST_RECIPIENT` (routes all sends to one inbox for testing)
 - `MYMSAF_SMS_TEST_RECIPIENT` (routes all SMS to one phone number for testing)
 
@@ -143,6 +149,20 @@ It supports tracking parameters used by outreach links:
 - `src`
 - `lead`
 - `vertical`
+
+## Reply triage config
+
+Reply triage script:
+
+- `set_and_forget/scripts/triage_replies.mjs`
+
+Optional:
+
+- `GMAIL_ACCESS_TOKEN` (required for active Gmail triage)
+- `GMAIL_USER_ID` (default `me`)
+- `MYMSAF_REPLY_TRIAGE_HOURS` (default `6`)
+- `MYMSAF_REPLY_TRIAGE_MAX_MESSAGES` (default `200`)
+- `MYMSAF_REPLY_QUERY_DAYS` (default `14`)
 
 ## PayPal sync config
 

@@ -10,6 +10,7 @@ const outFile = path.join(outDir, "metrics.json");
 const seedFile = path.join(outDir, "seed.json");
 const paymentsSummaryFile = path.join(outDir, "payments_summary.json");
 const outreachSummaryFile = path.join(outDir, "outreach_summary.json");
+const replyTriageFile = path.join(outDir, "reply_triage.json");
 
 const DEFAULT_TARGET_WEEKLY = 500;
 const REQUEST_TIMEOUT_MS = 12000;
@@ -182,6 +183,23 @@ function buildMetrics(sourcePayload, sourceName) {
       0,
       Math.round(toNumber(sourcePayload.outreachSent7d, 0))
     ),
+    replyMatched7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.replyMatched7d, 0))
+    ),
+    replyHot7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.replyHot7d, 0))
+    ),
+    replyWarm7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.replyWarm7d, 0))
+    ),
+    replyCold7d: Math.max(
+      0,
+      Math.round(toNumber(sourcePayload.replyCold7d, 0))
+    ),
+    replyMode: String(sourcePayload.replyMode || "unknown"),
     paymentsCount7d: Math.max(
       0,
       Math.round(toNumber(sourcePayload.paymentsCount7d, 0))
@@ -246,6 +264,21 @@ async function main() {
         toNumber(payload.pipelineTrials7d, 0),
         sentLast7d
       )
+    };
+  }
+
+  const replyTriage = await loadJson(replyTriageFile, null);
+  if (replyTriage) {
+    payload = {
+      ...payload,
+      replyMode: String(replyTriage.mode || "unknown"),
+      replyMatched7d: toNumber(
+        replyTriage.hot7d,
+        0
+      ) + toNumber(replyTriage.warm7d, 0) + toNumber(replyTriage.cold7d, 0),
+      replyHot7d: toNumber(replyTriage.hot7d, 0),
+      replyWarm7d: toNumber(replyTriage.warm7d, 0),
+      replyCold7d: toNumber(replyTriage.cold7d, 0)
     };
   }
 

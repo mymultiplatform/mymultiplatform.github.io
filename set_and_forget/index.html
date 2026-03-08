@@ -534,6 +534,14 @@
             <div class="value" id="livePayments">n/a</div>
           </div>
           <div class="metric">
+            <div class="label">Reply triage</div>
+            <div class="value" id="liveReplyMode">n/a</div>
+          </div>
+          <div class="metric">
+            <div class="label">Hot replies (7d)</div>
+            <div class="value" id="liveHotReplies">0</div>
+          </div>
+          <div class="metric">
             <div class="label">Last update (UTC)</div>
             <div class="value" id="liveUpdated">n/a</div>
           </div>
@@ -683,6 +691,8 @@
     const liveEnriched = byId("liveEnriched");
     const liveDelivery = byId("liveDelivery");
     const livePayments = byId("livePayments");
+    const liveReplyMode = byId("liveReplyMode");
+    const liveHotReplies = byId("liveHotReplies");
     const liveUpdated = byId("liveUpdated");
 
     function runSimulation() {
@@ -829,11 +839,12 @@
 
     async function loadLeadMeta() {
       try {
-        const [metaRes, enrichRes, outreachRes, paymentsRes] = await Promise.all([
+        const [metaRes, enrichRes, outreachRes, paymentsRes, replyRes] = await Promise.all([
           fetch(`./live/lead_refresh_meta.json?t=${Date.now()}`, { cache: "no-store" }),
           fetch(`./live/lead_enrichment_summary.json?t=${Date.now()}`, { cache: "no-store" }),
           fetch(`./live/outreach_summary.json?t=${Date.now()}`, { cache: "no-store" }),
-          fetch(`./live/payments_summary.json?t=${Date.now()}`, { cache: "no-store" })
+          fetch(`./live/payments_summary.json?t=${Date.now()}`, { cache: "no-store" }),
+          fetch(`./live/reply_triage.json?t=${Date.now()}`, { cache: "no-store" })
         ]);
 
         if (metaRes.ok) {
@@ -872,6 +883,16 @@
           setStatusTone(livePayments, payments.mode === "active");
           if (Number.isFinite(Number(payments.activeClients)) && Number(payments.activeClients) > 0) {
             liveClients.textContent = String(payments.activeClients);
+          }
+        }
+
+        if (replyRes.ok) {
+          const reply = await replyRes.json();
+          liveReplyMode.textContent = String(reply.mode || "unknown");
+          setStatusTone(liveReplyMode, reply.mode === "active");
+          if (Number.isFinite(Number(reply.hot7d))) {
+            liveHotReplies.textContent = String(reply.hot7d);
+            setStatusTone(liveHotReplies, Number(reply.hot7d) > 0);
           }
         }
       } catch (error) {

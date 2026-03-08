@@ -1,5 +1,5 @@
 {
-  "updatedAtUtc": "2026-03-08T02:18:21.163Z",
+  "updatedAtUtc": "2026-03-08T02:38:23.238Z",
   "sourceName": "seed",
   "netWeeklyMode": "modeled",
   "runState": "at-risk",
@@ -19,6 +19,11 @@
   "pipelineClosed7d": 2,
   "pipelineTrials7d": 40,
   "outreachSent7d": 40,
+  "replyMatched7d": 0,
+  "replyHot7d": 0,
+  "replyWarm7d": 0,
+  "replyCold7d": 0,
+  "replyMode": "blocked-missing-token",
   "paymentsCount7d": 0,
   "manualHoursWeekly": 2.5,
   "confidenceScorePct": 65.9,

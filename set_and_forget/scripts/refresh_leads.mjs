@@ -100,11 +100,34 @@ function isPublicSectorLead({ businessName, website, tags }) {
 
 function leadScore(lead) {
   let score = 0;
-  if (lead.website) score += 2;
+  const vertical = String(lead.vertical || "");
+  const website = String(lead.website || "").toLowerCase();
+  const name = String(lead.businessName || "");
+
+  const verticalWeight = {
+    dentist: 2,
+    plumber: 2,
+    med_clinic: 1.8,
+    real_estate: 1.4,
+    med_spa: 0.8,
+    general_local: 0.6
+  };
+
+  score += verticalWeight[vertical] || 0.5;
+  if (lead.email) score += 3;
   if (lead.phone) score += 1;
-  if (lead.email) score += 1;
-  if (lead.vertical === "dentist" || lead.vertical === "plumber") score += 0.5;
-  return score;
+  if (lead.website) score += 1.5;
+  if (website.includes(".com")) score += 0.2;
+  if (
+    website &&
+    !website.includes("facebook.com") &&
+    !website.includes("instagram.com") &&
+    !website.includes("yelp.com")
+  ) {
+    score += 0.6;
+  }
+  if (name.length >= 4 && name.length <= 48) score += 0.3;
+  return Number(score.toFixed(2));
 }
 
 function toSlug(value) {
@@ -289,6 +312,11 @@ function buildMessage(lead) {
 function buildOutreachQueue(leads) {
   const topLeads = leads
     .filter((lead) => lead.website || lead.phone)
+    .sort((a, b) => {
+      const emailDelta = Number(Boolean(b.email)) - Number(Boolean(a.email));
+      if (emailDelta !== 0) return emailDelta;
+      return (b.score || 0) - (a.score || 0) || a.businessName.localeCompare(b.businessName);
+    })
     .slice(0, QUEUE_MAX);
   return topLeads.map((lead) => {
     const { subject, body, sms, ctaUrl } = buildMessage(lead);
@@ -303,9 +331,12 @@ function buildOutreachQueue(leads) {
       message: body,
       smsMessage: sms,
       ctaUrl,
+      messageKind: "initial",
+      followupStage: 0,
       status: "pending",
       emailStatus: "pending",
-      smsStatus: "pending"
+      smsStatus: "pending",
+      createdAtUtc: new Date().toISOString()
     };
   });
 }
@@ -325,11 +356,17 @@ function mergeQueueData(newQueue, previousQueue) {
       status: prev.status || item.status,
       emailStatus: prev.emailStatus || item.emailStatus || "pending",
       smsStatus: prev.smsStatus || item.smsStatus || "pending",
+      messageKind: prev.messageKind || item.messageKind || "initial",
+      followupStage:
+        Number.isFinite(Number(prev.followupStage))
+          ? Number(prev.followupStage)
+          : Number(item.followupStage || 0),
       sentAtUtc: prev.sentAtUtc || item.sentAtUtc,
       emailSentAtUtc: prev.emailSentAtUtc || item.emailSentAtUtc,
       smsSentAtUtc: prev.smsSentAtUtc || item.smsSentAtUtc,
       lastError: prev.lastError || item.lastError,
-      smsLastError: prev.smsLastError || item.smsLastError
+      smsLastError: prev.smsLastError || item.smsLastError,
+      createdAtUtc: prev.createdAtUtc || item.createdAtUtc
     };
   });
 }
@@ -400,11 +437,14 @@ async function main() {
     "message",
     "smsMessage",
     "ctaUrl",
+    "messageKind",
+    "followupStage",
     "status",
     "emailStatus",
     "smsStatus",
     "lastError",
-    "smsLastError"
+    "smsLastError",
+    "createdAtUtc"
   ]);
 
   const summary = {

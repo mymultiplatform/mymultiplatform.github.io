@@ -112,6 +112,15 @@ function sentChannel(item) {
   return item?.channel === "sms" ? "sms" : "email";
 }
 
+function normalizeMessageKind(item) {
+  const value = String(item?.messageKind || "initial").trim().toLowerCase();
+  return value || "initial";
+}
+
+function queueMessageKey(item) {
+  return `${String(item?.leadId || "")}|${normalizeMessageKind(item)}`;
+}
+
 async function sendWithResend({ to, subject, body }) {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -255,8 +264,9 @@ function dedupeSent(log) {
   const map = new Map();
   for (const item of log) {
     const channel = sentChannel(item);
+    const messageKind = normalizeMessageKind(item);
     const recipient = String(item.recipient || item.email || "");
-    const key = `${item.leadId}|${channel}|${item.sentDate}|${recipient.toLowerCase()}`;
+    const key = `${item.leadId}|${channel}|${messageKind}|${item.sentDate}|${recipient.toLowerCase()}`;
     map.set(key, item);
   }
   return [...map.values()];
@@ -313,6 +323,8 @@ async function main() {
     sent: 0,
     sentEmail: 0,
     sentSms: 0,
+    sentInitial: 0,
+    sentFollowup: 0,
     failed: 0,
     failedEmail: 0,
     failedSms: 0,
@@ -329,31 +341,34 @@ async function main() {
   const sentIndexEmail = new Set(
     sentLog
       .filter((item) => item.status === "sent" && sentChannel(item) === "email")
-      .map((item) => item.leadId)
+      .map((item) => `${String(item.leadId || "")}|${normalizeMessageKind(item)}`)
   );
   const sentIndexSms = new Set(
     sentLog
       .filter((item) => item.status === "sent" && sentChannel(item) === "sms")
-      .map((item) => item.leadId)
+      .map((item) => `${String(item.leadId || "")}|${normalizeMessageKind(item)}`)
   );
   const pendingQueue = queue.filter(
     (item) => item && typeof item === "object" && (!item.status || item.status === "pending")
   );
 
   for (const item of pendingQueue) {
+    if (!item.messageKind) item.messageKind = "initial";
+    if (!Number.isFinite(Number(item.followupStage))) item.followupStage = 0;
+    if (!item.createdAtUtc) item.createdAtUtc = new Date().toISOString();
     if (!item.email) summary.skippedNoEmail += 1;
     if (!normalizePhone(item.phone)) summary.skippedNoPhone += 1;
   }
 
   const emailTargets = pendingQueue.filter(
-    (item) => item.email && !sentIndexEmail.has(item.leadId)
+    (item) => item.email && !sentIndexEmail.has(queueMessageKey(item))
   );
   const smsCandidates = pendingQueue
     .map((item) => ({ ...item, phoneNormalized: normalizePhone(item.phone) }))
     .filter((item) => {
       if (!item.phoneNormalized) return false;
       if (SMS_ONLY_WHEN_NO_EMAIL && item.email) return false;
-      if (sentIndexSms.has(item.leadId)) return false;
+      if (sentIndexSms.has(queueMessageKey(item))) return false;
       return true;
     });
 
@@ -395,11 +410,14 @@ async function main() {
       "message",
       "smsMessage",
       "ctaUrl",
+      "messageKind",
+      "followupStage",
       "status",
       "emailStatus",
       "smsStatus",
       "lastError",
-      "smsLastError"
+      "smsLastError",
+      "createdAtUtc"
     ];
     await writeFile(queueJsonFile, JSON.stringify(queue, null, 2) + "\n", "utf8");
     await writeFile(queueCsvFile, toCsv(queue, headers), "utf8");
@@ -440,8 +458,11 @@ async function main() {
       item.emailStatus = "sent";
       item.emailSentAtUtc = new Date().toISOString();
       item.sentAtUtc = item.sentAtUtc || item.emailSentAtUtc;
+      const messageKind = normalizeMessageKind(item);
       summary.sent += 1;
       summary.sentEmail += 1;
+      if (messageKind === "initial") summary.sentInitial += 1;
+      else summary.sentFollowup += 1;
       sentLog.push({
         leadId: item.leadId,
         businessName: item.businessName,
@@ -449,6 +470,8 @@ async function main() {
         recipient,
         provider: providers.emailProvider,
         channel: "email",
+        messageKind,
+        followupStage: Number(item.followupStage || 0),
         messageId,
         sentAtUtc: item.emailSentAtUtc,
         sentDate: isoDate(new Date(item.emailSentAtUtc)),
@@ -498,14 +521,19 @@ async function main() {
       item.smsStatus = "sent";
       item.smsSentAtUtc = new Date().toISOString();
       item.sentAtUtc = item.sentAtUtc || item.smsSentAtUtc;
+      const messageKind = normalizeMessageKind(item);
       summary.sent += 1;
       summary.sentSms += 1;
+      if (messageKind === "initial") summary.sentInitial += 1;
+      else summary.sentFollowup += 1;
       sentLog.push({
         leadId: item.leadId,
         businessName: item.businessName,
         recipient,
         provider: providers.smsProvider,
         channel: "sms",
+        messageKind,
+        followupStage: Number(item.followupStage || 0),
         messageId,
         sentAtUtc: item.smsSentAtUtc,
         sentDate: isoDate(new Date(item.smsSentAtUtc)),
@@ -571,11 +599,14 @@ async function main() {
     "message",
     "smsMessage",
     "ctaUrl",
+    "messageKind",
+    "followupStage",
     "status",
     "emailStatus",
     "smsStatus",
     "lastError",
-    "smsLastError"
+    "smsLastError",
+    "createdAtUtc"
   ];
 
   await writeFile(queueJsonFile, JSON.stringify(queue, null, 2) + "\n", "utf8");

@@ -199,11 +199,35 @@ function buildMessage(lead) {
 
 function leadScore(lead) {
   let score = 0;
-  if (lead.website) score += 2;
+  const vertical = String(lead.vertical || "");
+  const website = String(lead.website || "").toLowerCase();
+  const name = String(lead.businessName || "");
+
+  const verticalWeight = {
+    dentist: 2,
+    plumber: 2,
+    med_clinic: 1.8,
+    real_estate: 1.4,
+    med_spa: 0.8,
+    general_local: 0.6
+  };
+
+  score += verticalWeight[vertical] || 0.5;
+  if (lead.email) score += 3;
   if (lead.phone) score += 1;
-  if (lead.email) score += 1;
-  if (lead.vertical === "dentist" || lead.vertical === "plumber") score += 0.5;
-  return score;
+  if (lead.website) score += 1.5;
+  if (website.includes(".com")) score += 0.2;
+  if (
+    website &&
+    !website.includes("facebook.com") &&
+    !website.includes("instagram.com") &&
+    !website.includes("yelp.com")
+  ) {
+    score += 0.6;
+  }
+  if (name.length >= 4 && name.length <= 48) score += 0.3;
+  if (lead.emailSource === "website-enrichment") score += 0.4;
+  return Number(score.toFixed(2));
 }
 
 async function main() {
@@ -307,9 +331,12 @@ async function main() {
         message: body,
         smsMessage: sms,
         ctaUrl,
+        messageKind: "initial",
+        followupStage: 0,
         status: "pending",
         emailStatus: "pending",
-        smsStatus: "pending"
+        smsStatus: "pending",
+        createdAtUtc: new Date().toISOString()
       });
       queueAdded += 1;
       continue;
@@ -317,6 +344,11 @@ async function main() {
     if (!existing.email && lead.email) existing.email = lead.email;
     if (!existing.phone && lead.phone) existing.phone = lead.phone;
     if (!existing.website && lead.website) existing.website = lead.website;
+    if (!existing.messageKind) existing.messageKind = "initial";
+    if (!Number.isFinite(Number(existing.followupStage))) {
+      existing.followupStage = 0;
+    }
+    if (!existing.createdAtUtc) existing.createdAtUtc = new Date().toISOString();
     if (existing.status === "pending" || !existing.status) {
       existing.subject = subject;
       existing.message = body;
@@ -357,11 +389,14 @@ async function main() {
     "message",
     "smsMessage",
     "ctaUrl",
+    "messageKind",
+    "followupStage",
     "status",
     "emailStatus",
     "smsStatus",
     "lastError",
-    "smsLastError"
+    "smsLastError",
+    "createdAtUtc"
   ];
 
   const summary = {

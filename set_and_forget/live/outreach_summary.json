@@ -1,5 +1,5 @@
 {
-  "updatedAtUtc": "2026-03-08T02:23:22.014Z",
+  "updatedAtUtc": "2026-03-08T02:38:23.152Z",
   "provider": "apple-mail",
   "emailProvider": "apple-mail",
   "smsProvider": "none",
@@ -17,6 +17,8 @@
   "sent": 0,
   "sentEmail": 0,
   "sentSms": 0,
+  "sentInitial": 0,
+  "sentFollowup": 0,
   "failed": 0,
   "failedEmail": 0,
   "failedSms": 0,
