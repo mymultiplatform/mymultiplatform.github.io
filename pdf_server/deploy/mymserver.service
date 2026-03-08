@@ -1,0 +1,18 @@
+[Unit]
+Description=MyMultiplatform PDF Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=des
+Group=des
+WorkingDirectory=/home/des/mymultiplatform.github.io/pdf_server
+EnvironmentFile=/home/des/.config/mymserver.env
+ExecStart=/home/des/mymserver-venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8090 app:app
+Restart=always
+RestartSec=3
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

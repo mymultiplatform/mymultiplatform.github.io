@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyMultiplatform Server Login</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #151b23;
+      --line: #2f3b4a;
+      --text: #e6edf3;
+      --muted: #9fb1c1;
+      --accent: #2ea043;
+      --danger: #f85149;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: radial-gradient(circle at top, #182030 0%, var(--bg) 45%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .card {
+      width: min(440px, 100%);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+    }
+    h1 { margin: 0 0 6px 0; font-size: 1.35rem; }
+    p { margin: 0 0 16px 0; color: var(--muted); }
+    label { display: block; margin: 12px 0 6px 0; font-weight: 600; }
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0f151f;
+      color: var(--text);
+      padding: 11px 12px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 16px;
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #06140a;
+      font-weight: 700;
+      padding: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .flash {
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(248, 81, 73, 0.35);
+      background: rgba(248, 81, 73, 0.12);
+      color: #ffd2cf;
+      padding: 9px 10px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>PDF Server Login</h1>
+    <p>Upload limit: {{ max_upload_mb }} MB per PDF.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/server/login">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+      <button type="submit">Enter Server</button>
+    </form>
+  </main>
+</body>
+</html>

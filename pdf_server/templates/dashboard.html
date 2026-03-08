@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyMultiplatform PDF Server</title>
+  <style>
+    :root {
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --line: #d6dee8;
+      --text: #0f1c2b;
+      --muted: #4d6277;
+      --accent: #0b7a75;
+      --ok: #0f9d58;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(180deg, #f0f4fb 0%, var(--bg) 100%);
+      color: var(--text);
+      padding: 24px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .user { color: var(--muted); font-weight: 600; }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #f4fffe;
+    }
+    .btn.logout { background: #1f2937; color: #e6edf3; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(16, 24, 40, 0.08);
+    }
+    h1 { margin: 0 0 8px 0; font-size: 1.42rem; }
+    p { margin: 0 0 8px 0; color: var(--muted); }
+    .muted { color: var(--muted); }
+    .flash {
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 10px 0;
+      border: 1px solid var(--line);
+      background: #f3f8ff;
+    }
+    .flash.success {
+      border-color: #9de0b7;
+      background: #edfdf3;
+      color: #146c2e;
+    }
+    .flash.error {
+      border-color: #f7b4ae;
+      background: #fff1f0;
+      color: var(--danger);
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 12px;
+    }
+    input[type="file"] {
+      flex: 1 1 260px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px;
+      background: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      font-size: 0.95rem;
+    }
+    th { background: #eef3f9; }
+    tr:last-child td { border-bottom: 0; }
+    a { color: #0550ae; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.82rem;
+      background: #e7f7ee;
+      color: var(--ok);
+      border: 1px solid #b8e4c8;
+    }
+    @media (max-width: 640px) {
+      body { padding: 14px; }
+      .top { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>PDF Server</h1>
+        <div class="user">Signed in as {{ username }}</div>
+      </div>
+      <form method="post" action="/server/logout">
+        <button class="btn logout" type="submit">Log Out</button>
+      </form>
+    </div>
+
+    <section class="card">
+      <p><strong>Storage folder:</strong> <code>{{ upload_dir }}</code></p>
+      <p><strong>Upload limit:</strong> {{ max_upload_mb }} MB per file (PDF only)</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="/server/upload" enctype="multipart/form-data">
+        <div class="row">
+          <input type="file" name="pdf" accept="application/pdf,.pdf" required>
+          <button class="btn" type="submit">Upload PDF</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px 0;font-size:1.08rem;">Saved PDFs</h2>
+      {% if files %}
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Size</th>
+              <th>Modified</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in files %}
+            <tr>
+              <td><a href="/server/files/{{ item.name }}" target="_blank" rel="noopener">{{ item.name }}</a></td>
+              <td>{{ item.size_mb }} MB</td>
+              <td>{{ item.modified }}</td>
+              <td><span class="pill">Stored</span></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="muted">No PDFs uploaded yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</body>
+</html>
