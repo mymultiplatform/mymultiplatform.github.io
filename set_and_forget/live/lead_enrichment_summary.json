@@ -1,9 +1,9 @@
 {
-  "updatedAtUtc": "2026-03-08T02:14:03.792Z",
-  "leadsScanned": 30,
+  "updatedAtUtc": "2026-03-08T02:18:17.351Z",
+  "leadsScanned": 100,
   "leadsTotal": 540,
-  "emailFound": 0,
-  "phoneFound": 0,
+  "emailFound": 14,
+  "phoneFound": 17,
   "queueAdded": 0,
   "queueTotal": 214
 }

@@ -14,7 +14,7 @@ const queueCsvFile = path.join(liveDir, "outreach_queue.csv");
 const summaryFile = path.join(liveDir, "lead_enrichment_summary.json");
 
 const ENRICH_HOURS = Number(process.env.MYMSAF_ENRICH_HOURS || 24);
-const MAX_SITES = Number(process.env.MYMSAF_ENRICH_MAX_SITES || 30);
+const MAX_SITES = Number(process.env.MYMSAF_ENRICH_MAX_SITES || 100);
 const FETCH_TIMEOUT_MS = Number(process.env.MYMSAF_ENRICH_TIMEOUT_MS || 10000);
 const ENRICH_CONCURRENCY = Number(process.env.MYMSAF_ENRICH_CONCURRENCY || 8);
 const CTA_BASE_URL =
