@@ -1,0 +1,18 @@
+[Unit]
+Description=MyMultiplatform Public Tunnel (localtunnel)
+After=network-online.target nginx.service mymserver.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=des
+Group=des
+WorkingDirectory=/home/des
+ExecStart=/usr/bin/npx -y localtunnel --port 80 --subdomain __SUBDOMAIN__
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/des/mymserver-tunnel.log
+StandardError=append:/home/des/mymserver-tunnel.log
+
+[Install]
+WantedBy=multi-user.target
