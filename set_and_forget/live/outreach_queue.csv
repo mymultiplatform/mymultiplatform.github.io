@@ -748,7 +748,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi The Dental Orchid, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi The Dental Orchid, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","failed","failed","pending","Command failed: osascript -e tell application ""Mail"" -e set outgoingMessage to make new outgoing message with properties {subject:""The Dental Orchid: 90% automated lead follow-up setup"", content:""Hi The Dental Orchid team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy ",""
 "node-5870511647","Town Centre Dental Group","dentist","https://tcdentalgroupchulavista.com/","+1-619-427-9440","tcdentalgroup@gmail.com","Town Centre Dental Group: 90% automated lead follow-up setup","Hi Town Centre Dental Group team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.
@@ -758,7 +758,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Town Centre Dental Group, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Town Centre Dental Group, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","failed","failed","pending","Command failed: osascript -e tell application ""Mail"" -e set outgoingMessage to make new outgoing message with properties {subject:""Town Centre Dental Group: 90% automated lead follow-up setup"", content:""Hi Town Centre Dental Group team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Dieg",""
 "node-12142984151","Walnut Avenue Dentistry","dentist","https://sddentistry.com","+1 619-291-1181","dr@sddentistry.com","Walnut Avenue Dentistry: 90% automated lead follow-up setup","Hi Walnut Avenue Dentistry team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.
@@ -768,7 +768,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Walnut Avenue Dentistry, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Walnut Avenue Dentistry, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-596157925","Western Dental","dentist","https://www.westerndental.com/en-us/find-a-location/california/san-diego/3802-clairemont-mesa-boulevard/","+1-858-200-7308","corporate@westerndental.com","Western Dental: 90% automated lead follow-up setup","Hi Western Dental team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.
@@ -778,7 +778,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Western Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Western Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-12724457522","Western Dental","dentist","https://www.westerndental.com/en-us/find-a-location/california/lemon-grove/7046-broadway","+1-619-419-1298","corporate@westerndental.com","Western Dental: 90% automated lead follow-up setup","Hi Western Dental team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.
@@ -788,7 +788,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Western Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Western Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-10650737460","8910 Villa La Jolla Drive - Imaging Services","med_clinic","https://health.ucsd.edu/locations/Pages/8910-villa-la-jolla-drive.aspx","+1 619-543-3405","","8910 Villa La Jolla Drive - Imaging Services: 90% automated lead follow-up setup","Hi 8910 Villa La Jolla Drive - Imaging Services team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.
@@ -838,7 +838,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Altura Mental Health, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Altura Mental Health, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-5185425049","Aumann Bender & Associates","real_estate","https://www.luxurysocalrealty.com","+1-760-212-2717","hello@luxurysocalrealty.com","Aumann Bender & Associates: 90% automated lead follow-up setup","Hi Aumann Bender & Associates team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.
@@ -848,7 +848,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Aumann Bender & Associates, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Aumann Bender & Associates, I run a no-call automated follow-up setup for real estate businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-8032920082","Blueprint Homes","real_estate","https://blueprinthomes.com/","+1 619-631-4863","","Blueprint Homes: 90% automated lead follow-up setup","Hi Blueprint Homes team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for real estate businesses in San Diego.
@@ -888,7 +888,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Crawford Glam, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Crawford Glam, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-10780254770","Crystal's Nails & Spa","med_spa","https://crystalnailslakeside.com/p/indoor-service","+1-619-390-4326","","Crystal's Nails & Spa: 90% automated lead follow-up setup","Hi Crystal's Nails & Spa team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for med spa businesses in San Diego.
@@ -998,7 +998,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi IWC Primary Care, An Innovative Wellness Clinic, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi IWC Primary Care, An Innovative Wellness Clinic, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-8840551525","Jamacha Urgent Medical Center","med_clinic","https://www.sharp.com/san-diego-doctors/dr-linda-rouel-82319","+1-619-456-9340","","Jamacha Urgent Medical Center: 90% automated lead follow-up setup","Hi Jamacha Urgent Medical Center team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.
@@ -1298,7 +1298,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Dental Pacifico, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Dental Pacifico, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-12078151303","Gechoff Orthodontics","dentist","https://www.gechofforthodontics.com","","","Gechoff Orthodontics: 90% automated lead follow-up setup","Hi Gechoff Orthodontics team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.
@@ -1328,7 +1328,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Pacific Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Pacific Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "way-1004818412","Pacific Production Plumbing","plumber","http://pacificproduction.com/","","","Pacific Production Plumbing: 90% automated lead follow-up setup","Hi Pacific Production Plumbing team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.
@@ -1358,7 +1358,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi Truong Orthodontist, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi Truong Orthodontist, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-10650737458","8910 Villa La Jolla Drive - Women's Health Services","med_clinic","https://health.ucsd.edu/locations/Pages/8910-villa-la-jolla-drive.aspx","","","8910 Villa La Jolla Drive - Women's Health Services: 90% automated lead follow-up setup","Hi 8910 Villa La Jolla Drive - Women's Health Services team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.
@@ -1518,7 +1518,7 @@ If useful, I can send a short async audit and projected weekly lift with zero me
 Direct checkout link: https://www.mymultiplatform.com/set_and_forget/
 Reply YES if you want a custom setup version first.
 
-Dante | MYMSAF","Hi The Beauty Bungalow, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","pending","pending","pending","",""
+Dante | MYMSAF","Hi The Beauty Bungalow, I run a no-call automated follow-up setup for med spa businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/","https://www.mymultiplatform.com/set_and_forget/","sent","sent","pending","",""
 "node-12903818356","Waxing the City","med_spa","https://www.waxingthecity.com/locations/w498/us/ca/san-diego/","","","Waxing the City: 90% automated lead follow-up setup","Hi Waxing the City team,
 
 I run MYMSAF (MyMultiPlatform Set-and-Forget) for med spa businesses in San Diego.
