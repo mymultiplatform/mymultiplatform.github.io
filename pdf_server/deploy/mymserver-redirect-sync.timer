@@ -2,8 +2,8 @@
 Description=Run /server redirect sync every 5 minutes
 
 [Timer]
-OnBootSec=90
-OnUnitActiveSec=5min
+OnBootSec=20
+OnUnitActiveSec=1min
 Persistent=true
 Unit=mymserver-redirect-sync.service
 

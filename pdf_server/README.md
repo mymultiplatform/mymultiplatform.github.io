@@ -41,7 +41,7 @@ This installs and enables:
 
 - `mymserver.service` (Gunicorn backend on `127.0.0.1:8090`)
 - `mymserver-tunnel.service` (public HTTPS tunnel via Cloudflare quick tunnel)
-- `mymserver-redirect-sync.timer` (auto-updates `server.html` every 5 minutes to the active tunnel URL)
+- `mymserver-redirect-sync.timer` (auto-updates `server.html` every 1 minute to the active tunnel URL)
 
 Cloudflare quick tunnel hostnames are dynamic, so the sync timer keeps
 `https://www.mymultiplatform.com/server` pointing to the current live tunnel URL.
