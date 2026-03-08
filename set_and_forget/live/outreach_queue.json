@@ -350,9 +350,10 @@
     "message": "Hi Restore SD Plastic Surgery: Katerina Gallus, MD, FACS team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Restore SD Plastic Surgery: Katerina Gallus, MD, FACS, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Restore SD Plastic Surgery: Katerina Gallus, MD, FACS: 90% automated lead follow-up setup\", content:\"Hi Restore SD Plastic Surgery: Katerina Gallus, MD, FACS team,\\n\\nI run MYMSAF (MyMultiP"
   },
   {
     "leadId": "node-4865734055",
@@ -365,9 +366,10 @@
     "message": "Hi The Secret Vein Clinic team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi The Secret Vein Clinic, I run a no-call automated follow-up setup for med clinic businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"The Secret Vein Clinic: 90% automated lead follow-up setup\", content:\"Hi The Secret Vein Clinic team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for med clinic businesses in San Diego"
   },
   {
     "leadId": "way-31842544",
@@ -380,9 +382,10 @@
     "message": "Hi A. O. Reed and Company team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi A. O. Reed and Company, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"A. O. Reed and Company: 90% automated lead follow-up setup\", content:\"Hi A. O. Reed and Company team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\n"
   },
   {
     "leadId": "node-6311883429",
@@ -410,9 +413,10 @@
     "message": "Hi Aero Dentistry Of San Diego team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Aero Dentistry Of San Diego, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Aero Dentistry Of San Diego: 90% automated lead follow-up setup\", content:\"Hi Aero Dentistry Of San Diego team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in Sa"
   },
   {
     "leadId": "node-9270946571",
@@ -440,9 +444,10 @@
     "message": "Hi Baja Dental Smile team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Baja Dental Smile, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Baja Dental Smile: 90% automated lead follow-up setup\", content:\"Hi Baja Dental Smile team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\\nWe deploy "
   },
   {
     "leadId": "node-9270946572",
@@ -515,9 +520,10 @@
     "message": "Hi Children's Dentistry of San Diego team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Children's Dentistry of San Diego, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Children's Dentistry of San Diego: 90% automated lead follow-up setup\", content:\"Hi Children's Dentistry of San Diego team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist busi"
   },
   {
     "leadId": "node-5870511642",
@@ -545,9 +551,10 @@
     "message": "Hi Ciampoli Plumbing team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Ciampoli Plumbing, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Ciampoli Plumbing: 90% automated lead follow-up setup\", content:\"Hi Ciampoli Plumbing team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\nWe deploy "
   },
   {
     "leadId": "way-31809757",
@@ -590,9 +597,10 @@
     "message": "Hi Collins Plumbing, Inc. team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Collins Plumbing, Inc., I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Collins Plumbing, Inc.: 90% automated lead follow-up setup\", content:\"Hi Collins Plumbing, Inc. team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\n"
   },
   {
     "leadId": "node-12128842939",
@@ -620,9 +628,10 @@
     "message": "Hi Core Plumbing team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Core Plumbing, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Core Plumbing: 90% automated lead follow-up setup\", content:\"Hi Core Plumbing team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\nWe deploy a no-cal"
   },
   {
     "leadId": "node-9968736672",
@@ -665,9 +674,10 @@
     "message": "Hi Greyling Dental team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Greyling Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Greyling Dental: 90% automated lead follow-up setup\", content:\"Hi Greyling Dental team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\\nWe deploy a no"
   },
   {
     "leadId": "node-9185141771",
@@ -680,9 +690,10 @@
     "message": "Hi Helix Mechanical Inc team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Helix Mechanical Inc, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Helix Mechanical Inc: 90% automated lead follow-up setup\", content:\"Hi Helix Mechanical Inc team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\nWe d"
   },
   {
     "leadId": "node-11247917476",
@@ -695,9 +706,10 @@
     "message": "Hi Ideal Plumbing Heating Air Electrical team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Ideal Plumbing Heating Air Electrical, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Ideal Plumbing Heating Air Electrical: 90% automated lead follow-up setup\", content:\"Hi Ideal Plumbing Heating Air Electrical team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plum"
   },
   {
     "leadId": "node-12356671875",
@@ -725,9 +737,10 @@
     "message": "Hi J Geyer Plumbing team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi J Geyer Plumbing, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"J Geyer Plumbing: 90% automated lead follow-up setup\", content:\"Hi J Geyer Plumbing team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\\nWe deploy a "
   },
   {
     "leadId": "node-12260054260",
@@ -740,9 +753,10 @@
     "message": "Hi Jagruti Patel, D.D.S. Family Dentistry team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Jagruti Patel, D.D.S. Family Dentistry, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Jagruti Patel, D.D.S. Family Dentistry: 90% automated lead follow-up setup\", content:\"Hi Jagruti Patel, D.D.S. Family Dentistry team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for de"
   },
   {
     "leadId": "node-4578719697",
@@ -770,9 +784,10 @@
     "message": "Hi La Jolla Colony Dental team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi La Jolla Colony Dental, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"La Jolla Colony Dental: 90% automated lead follow-up setup\", content:\"Hi La Jolla Colony Dental team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\\n"
   },
   {
     "leadId": "node-13479585253",
@@ -935,9 +950,10 @@
     "message": "Hi Palm Dental Group team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Palm Dental Group, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Palm Dental Group: 90% automated lead follow-up setup\", content:\"Hi Palm Dental Group team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\\nWe deploy "
   },
   {
     "leadId": "node-2222955809",
@@ -950,9 +966,10 @@
     "message": "Hi Pearl Cosmetic DDS team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Pearl Cosmetic DDS, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Pearl Cosmetic DDS: 90% automated lead follow-up setup\", content:\"Hi Pearl Cosmetic DDS team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\\nWe deplo"
   },
   {
     "leadId": "node-6036755254",
@@ -965,9 +982,10 @@
     "message": "Hi Perfect Smiles California team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Perfect Smiles California, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Perfect Smiles California: 90% automated lead follow-up setup\", content:\"Hi Perfect Smiles California team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Di"
   },
   {
     "leadId": "node-12653491370",
@@ -1070,9 +1088,10 @@
     "message": "Hi Singing Hills Dentistry team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Singing Hills Dentistry, I run a no-call automated follow-up setup for dentist businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Singing Hills Dentistry: 90% automated lead follow-up setup\", content:\"Hi Singing Hills Dentistry team,\\n\\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for dentist businesses in San Diego."
   },
   {
     "leadId": "node-12136805301",
@@ -1145,9 +1164,10 @@
     "message": "Hi Sunset Cliffs Plumbing, Water Heater Repair & Drain Cleaning team,\n\nI run MYMSAF (MyMultiPlatform Set-and-Forget) for plumber businesses in San Diego.\nWe deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.\n\nIf useful, I can send a short async audit and projected weekly lift with zero meetings.\nDirect checkout link: https://www.mymultiplatform.com/set_and_forget/\nReply YES if you want a custom setup version first.\n\nDante | MYMSAF",
     "smsMessage": "Hi Sunset Cliffs Plumbing, Water Heater Repair & Drain Cleaning, I run a no-call automated follow-up setup for plumber businesses in San Diego. Quick async details: https://www.mymultiplatform.com/set_and_forget/",
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/",
-    "status": "pending",
-    "emailStatus": "pending",
-    "smsStatus": "pending"
+    "status": "failed",
+    "emailStatus": "failed",
+    "smsStatus": "pending",
+    "lastError": "Command failed: osascript -e tell application \"Mail\" -e set outgoingMessage to make new outgoing message with properties {subject:\"Sunset Cliffs Plumbing, Water Heater Repair & Drain Cleaning: 90% automated lead follow-up setup\", content:\"Hi Sunset Cliffs Plumbing, Water Heater Repair & Drain Cleaning team,\\n\\nI run MY"
   },
   {
     "leadId": "node-12653491376",
