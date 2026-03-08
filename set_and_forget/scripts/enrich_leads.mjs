@@ -17,9 +17,10 @@ const ENRICH_HOURS = Number(process.env.MYMSAF_ENRICH_HOURS || 24);
 const MAX_SITES = Number(process.env.MYMSAF_ENRICH_MAX_SITES || 30);
 const FETCH_TIMEOUT_MS = Number(process.env.MYMSAF_ENRICH_TIMEOUT_MS || 10000);
 const ENRICH_CONCURRENCY = Number(process.env.MYMSAF_ENRICH_CONCURRENCY || 8);
-const PAYMENT_URL =
+const CTA_BASE_URL =
+  process.env.MYMSAF_CTA_URL ||
   process.env.MYMSAF_PAYMENT_URL ||
-  "https://www.mymultiplatform.com/set_and_forget/";
+  "https://www.mymultiplatform.com/set_and_forget/offer.html";
 const CONTACT_PATHS = ["/contact", "/contact-us", "/about", "/about-us"];
 
 function escapeCsv(value) {
@@ -142,30 +143,56 @@ function extractContactLinks(baseUrl, html) {
   return [...new Set(links)].slice(0, 2);
 }
 
+function toSlug(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 40);
+}
+
+function buildLeadCtaUrl(lead) {
+  try {
+    const url = new URL(CTA_BASE_URL);
+    url.searchParams.set("src", "outreach");
+    if (lead.id) url.searchParams.set("lead", toSlug(lead.id));
+    if (lead.vertical) url.searchParams.set("vertical", toSlug(lead.vertical));
+    return url.toString();
+  } catch {
+    return CTA_BASE_URL;
+  }
+}
+
 function buildMessage(lead) {
   const verticalLabel = String(lead.vertical || "local business").replaceAll(
     "_",
     " "
   );
-  const subject = `${lead.businessName}: 90% automated lead follow-up setup`;
+  const ctaUrl = buildLeadCtaUrl(lead);
+  const subject = `${lead.businessName}: 48-hour no-call lead follow-up setup`;
   const body = [
     `Hi ${lead.businessName} team,`,
     "",
-    `I run MYMSAF (MyMultiPlatform Set-and-Forget) for ${verticalLabel} businesses in San Diego.`,
-    "We deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.",
+    `I build automated lead-response systems for ${verticalLabel} businesses in San Diego.`,
     "",
-    "If useful, I can send a short async audit and projected weekly lift with zero meetings.",
-    `Direct checkout link: ${PAYMENT_URL}`,
-    "Reply YES if you want a custom setup version first.",
+    "What you get in 48 hours:",
+    "- instant reply to new leads",
+    "- 3-step follow-up sequence",
+    "- weekly KPI report sent automatically",
+    "",
+    "No meetings or calls required.",
+    "Flat setup: $299. Optional monthly optimization: $149.",
+    `Start async setup: ${ctaUrl}`,
+    'Reply "YES" if you want me to send the one-page setup brief.',
     "",
     "Dante | MYMSAF"
   ].join("\n");
   const sms = [
     `Hi ${lead.businessName},`,
-    `I run a no-call automated follow-up setup for ${verticalLabel} businesses in San Diego.`,
-    `Quick async details: ${PAYMENT_URL}`
+    `I can deploy a no-call lead follow-up setup for ${verticalLabel} in 48h.`,
+    `Flat setup is $299. Start async: ${ctaUrl}`
   ].join(" ");
-  return { subject, body, sms };
+  return { subject, body, sms, ctaUrl };
 }
 
 function leadScore(lead) {
@@ -265,7 +292,7 @@ async function main() {
     const key = String(lead.id || "");
     if (!key) continue;
     const existing = queueByLeadId.get(key);
-    const { subject, body, sms } = buildMessage(lead);
+    const { subject, body, sms, ctaUrl } = buildMessage(lead);
     if (!existing) {
       queue.push({
         leadId: key,
@@ -277,7 +304,7 @@ async function main() {
         subject,
         message: body,
         smsMessage: sms,
-        ctaUrl: PAYMENT_URL,
+        ctaUrl,
         status: "pending",
         emailStatus: "pending",
         smsStatus: "pending"
@@ -292,13 +319,13 @@ async function main() {
       existing.subject = subject;
       existing.message = body;
       existing.smsMessage = sms;
-      existing.ctaUrl = PAYMENT_URL;
+      existing.ctaUrl = ctaUrl;
     } else {
       if (!existing.subject) existing.subject = subject;
       if (!existing.message) existing.message = body;
       if (!existing.smsMessage) existing.smsMessage = sms;
       if (!existing.ctaUrl) {
-        existing.ctaUrl = PAYMENT_URL;
+        existing.ctaUrl = ctaUrl;
       }
     }
   }

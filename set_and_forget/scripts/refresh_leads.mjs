@@ -13,9 +13,10 @@ const queueJsonFile = path.join(liveDir, "outreach_queue.json");
 const metaFile = path.join(liveDir, "lead_refresh_meta.json");
 const REFRESH_HOURS = Number(process.env.MYMSAF_LEAD_REFRESH_HOURS || 24);
 const QUEUE_MAX = Math.max(20, Number(process.env.MYMSAF_QUEUE_MAX || 220));
-const PAYMENT_URL =
+const CTA_BASE_URL =
+  process.env.MYMSAF_CTA_URL ||
   process.env.MYMSAF_PAYMENT_URL ||
-  "https://www.mymultiplatform.com/set_and_forget/";
+  "https://www.mymultiplatform.com/set_and_forget/offer.html";
 
 const overpassEndpoints = (
   process.env.MYMSAF_OVERPASS_ENDPOINTS ||
@@ -102,6 +103,26 @@ function leadScore(lead) {
   if (lead.email) score += 1;
   if (lead.vertical === "dentist" || lead.vertical === "plumber") score += 0.5;
   return score;
+}
+
+function toSlug(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 40);
+}
+
+function buildLeadCtaUrl(lead) {
+  try {
+    const url = new URL(CTA_BASE_URL);
+    url.searchParams.set("src", "outreach");
+    if (lead.id) url.searchParams.set("lead", toSlug(lead.id));
+    if (lead.vertical) url.searchParams.set("vertical", toSlug(lead.vertical));
+    return url.toString();
+  } catch {
+    return CTA_BASE_URL;
+  }
 }
 
 function dedupe(leads) {
@@ -236,25 +257,31 @@ async function fetchLeadsFromOverpass() {
 
 function buildMessage(lead) {
   const verticalLabel = lead.vertical.replaceAll("_", " ");
-  const subject = `${lead.businessName}: 90% automated lead follow-up setup`;
+  const ctaUrl = buildLeadCtaUrl(lead);
+  const subject = `${lead.businessName}: 48-hour no-call lead follow-up setup`;
   const body = [
     `Hi ${lead.businessName} team,`,
     "",
-    `I run MYMSAF (MyMultiPlatform Set-and-Forget) for ${verticalLabel} businesses in San Diego.`,
-    "We deploy a no-call, mostly automated pipeline for lead response, follow-up, and client reporting.",
+    `I build automated lead-response systems for ${verticalLabel} businesses in San Diego.`,
     "",
-    "If useful, I can send a short async audit and projected weekly lift with zero meetings.",
-    `Direct checkout link: ${PAYMENT_URL}`,
-    "Reply YES if you want a custom setup version first.",
+    "What you get in 48 hours:",
+    "- instant reply to new leads",
+    "- 3-step follow-up sequence",
+    "- weekly KPI report sent automatically",
+    "",
+    "No meetings or calls required.",
+    "Flat setup: $299. Optional monthly optimization: $149.",
+    `Start async setup: ${ctaUrl}`,
+    'Reply "YES" if you want me to send the one-page setup brief.',
     "",
     "Dante | MYMSAF"
   ].join("\n");
   const sms = [
     `Hi ${lead.businessName},`,
-    `I run a no-call automated follow-up setup for ${verticalLabel} businesses in San Diego.`,
-    `Quick async details: ${PAYMENT_URL}`
+    `I can deploy a no-call lead follow-up setup for ${verticalLabel} in 48h.`,
+    `Flat setup is $299. Start async: ${ctaUrl}`
   ].join(" ");
-  return { subject, body, sms };
+  return { subject, body, sms, ctaUrl };
 }
 
 function buildOutreachQueue(leads) {
@@ -262,7 +289,7 @@ function buildOutreachQueue(leads) {
     .filter((lead) => lead.website || lead.phone)
     .slice(0, QUEUE_MAX);
   return topLeads.map((lead) => {
-    const { subject, body, sms } = buildMessage(lead);
+    const { subject, body, sms, ctaUrl } = buildMessage(lead);
     return {
       leadId: lead.id,
       businessName: lead.businessName,
@@ -273,7 +300,7 @@ function buildOutreachQueue(leads) {
       subject,
       message: body,
       smsMessage: sms,
-      ctaUrl: PAYMENT_URL,
+      ctaUrl,
       status: "pending",
       emailStatus: "pending",
       smsStatus: "pending"

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Diego Async Lead Follow-Up Setup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #1e293b;
+      --card: #0b1220cc;
+      --line: #334155;
+      --ink: #e2e8f0;
+      --muted: #94a3b8;
+      --mint: #22d3ee;
+      --mint-soft: #164e63;
+      --lime: #bef264;
+      --danger: #fb7185;
+      --ok: #34d399;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.18), transparent 35%),
+        radial-gradient(circle at 85% 0%, rgba(190, 242, 100, 0.16), transparent 42%),
+        linear-gradient(140deg, #0f172a 0%, #111827 60%, #0b1022 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1080px, 92%);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .home-link {
+      color: var(--mint);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      border: 1px solid var(--mint-soft);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #67e8f9;
+      background: rgba(8, 47, 73, 0.45);
+    }
+
+    .hero {
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(160deg, rgba(11, 18, 32, 0.95), rgba(30, 41, 59, 0.88));
+      padding: 30px;
+      box-shadow: 0 24px 70px rgba(2, 6, 23, 0.55);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4.6vw, 3.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      max-width: 900px;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 1.02rem;
+      line-height: 1.5;
+    }
+
+    .pill-row {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      border: 1px solid #334155;
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.65);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 18px;
+      backdrop-filter: blur(3px);
+    }
+
+    .card h2,
+    .card h3 {
+      margin: 0;
+    }
+
+    .offer {
+      grid-column: span 6;
+    }
+
+    .offer p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .price {
+      margin-top: 10px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 1.3rem;
+      color: var(--lime);
+    }
+
+    .list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: #cbd5e1;
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+
+    .proof {
+      grid-column: span 12;
+    }
+
+    .proof-grid {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .stat {
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(15, 23, 42, 0.72);
+    }
+
+    .stat .k {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--mint);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .stat .v {
+      margin-top: 4px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .form-card {
+      margin-top: 14px;
+      border: 1px solid #34506b;
+      border-radius: 16px;
+      background: rgba(8, 47, 73, 0.4);
+      padding: 20px;
+    }
+
+    .form-card h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .form-card p {
+      margin: 10px 0 0;
+      color: #bae6fd;
+      line-height: 1.5;
+      font-size: 0.93rem;
+    }
+
+    form {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.76rem;
+      color: #bfdbfe;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #3b82f6;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e2e8f0;
+      padding: 10px 11px;
+      font-size: 0.95rem;
+      font-family: "IBM Plex Mono", monospace;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #14b8a6;
+      background: linear-gradient(140deg, #0f766e, #0369a1);
+      color: #f0fdfa;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .submit:hover {
+      filter: brightness(1.08);
+    }
+
+    .tiny {
+      font-size: 0.8rem;
+      color: #7dd3fc;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+
+    .notice {
+      margin-top: 12px;
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      border-radius: 10px;
+      padding: 10px;
+      color: #a7f3d0;
+      background: rgba(6, 95, 70, 0.38);
+      display: none;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .risk {
+      margin-top: 16px;
+      border-left: 3px solid var(--danger);
+      padding-left: 10px;
+      color: #fda4af;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 760px) {
+      .offer,
+      .proof {
+        grid-column: span 12;
+      }
+
+      .span-2 {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="top">
+      <a class="home-link" href="https://www.mymultiplatform.com/">Back to Mymultiplatform</a>
+      <span class="badge">San Diego Async Offer</span>
+    </div>
+
+    <section class="hero">
+      <h1>48-hour no-call lead follow-up setup for local businesses.</h1>
+      <p>
+        If your business misses leads after-hours or forgets to follow up, this installs an automated response and nurturing system with no meetings required.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Built for San Diego services</span>
+        <span class="pill">No calls required</span>
+        <span class="pill">Async onboarding only</span>
+        <span class="pill">Setup starts same week</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card offer">
+        <h2>Starter Build</h2>
+        <p>Best for owner-operated service businesses that need a reliable response pipeline now.</p>
+        <div class="price">$299 one-time setup</div>
+        <ul class="list">
+          <li>Auto-reply for inbound leads</li>
+          <li>Three follow-up touches configured</li>
+          <li>Basic weekly KPI summary</li>
+        </ul>
+      </article>
+
+      <article class="card offer">
+        <h2>Growth Build</h2>
+        <p>For teams that want recurring optimization and tighter conversion tracking.</p>
+        <div class="price">$499 setup + $149/mo</div>
+        <ul class="list">
+          <li>Everything in Starter</li>
+          <li>Monthly optimization loop</li>
+          <li>Faster message + offer testing</li>
+        </ul>
+      </article>
+
+      <article class="card proof">
+        <h3>Operating Snapshot</h3>
+        <div class="proof-grid">
+          <div class="stat">
+            <div class="k">Lead Pool</div>
+            <div class="v">500+ local targets</div>
+          </div>
+          <div class="stat">
+            <div class="k">Automation Goal</div>
+            <div class="v">90% hands-off</div>
+          </div>
+          <div class="stat">
+            <div class="k">Delivery Mode</div>
+            <div class="v">Async only</div>
+          </div>
+          <div class="stat">
+            <div class="k">First Build Time</div>
+            <div class="v">~48 hours</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="form-card" id="start">
+      <h2>Start Async Setup</h2>
+      <p>
+        Fill this once. You get a written setup brief and next actions by email. No calendar booking.
+      </p>
+
+      <div class="notice" id="submittedNote">
+        Request sent. Check your inbox for the async setup brief.
+      </div>
+
+      <form action="https://formsubmit.co/dante.ethan.sanchez@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="MYMSAF Async Setup Request">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://www.mymultiplatform.com/set_and_forget/offer.html?submitted=1">
+        <input type="hidden" name="lead_ref" id="leadRef" value="">
+        <input type="hidden" name="vertical_ref" id="verticalRef" value="">
+        <input type="hidden" name="source_ref" id="sourceRef" value="">
+
+        <div class="field">
+          <label for="businessName">Business Name</label>
+          <input id="businessName" name="business_name" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="contactEmail">Contact Email</label>
+          <input id="contactEmail" name="contact_email" type="email" required>
+        </div>
+
+        <div class="field">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="url" placeholder="https://">
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel">
+        </div>
+
+        <div class="field">
+          <label for="vertical">Business Type</label>
+          <select id="vertical" name="business_type" required>
+            <option value="">Select one</option>
+            <option value="dentist">Dentist</option>
+            <option value="med_clinic">Medical Clinic</option>
+            <option value="med_spa">Med Spa</option>
+            <option value="plumber">Plumber</option>
+            <option value="real_estate">Real Estate</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="package">Package</label>
+          <select id="package" name="package" required>
+            <option value="starter_299">Starter ($299 setup)</option>
+            <option value="growth_499_149">Growth ($499 setup + $149/mo)</option>
+          </select>
+        </div>
+
+        <div class="field span-2">
+          <label for="problem">What is the main lead-follow-up problem now?</label>
+          <textarea id="problem" name="lead_problem" placeholder="Example: We miss evening leads and follow-up is inconsistent." required></textarea>
+        </div>
+
+        <div class="field span-2">
+          <button class="submit" type="submit">Send Async Setup Request</button>
+          <div class="tiny">
+            Submitting sends details directly to operations inbox. Response is async by email.
+          </div>
+        </div>
+      </form>
+
+      <div class="risk">
+        This page is for service setup requests only. Results depend on lead quality, response times, and offer fit.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const leadRef = document.getElementById("leadRef");
+    const verticalRef = document.getElementById("verticalRef");
+    const sourceRef = document.getElementById("sourceRef");
+    const submittedNote = document.getElementById("submittedNote");
+    const verticalSelect = document.getElementById("vertical");
+
+    const lead = params.get("lead") || "";
+    const vertical = params.get("vertical") || "";
+    const src = params.get("src") || "";
+
+    if (lead) leadRef.value = lead;
+    if (vertical) {
+      verticalRef.value = vertical;
+      const known = new Set(["dentist", "med_clinic", "med_spa", "plumber", "real_estate", "other"]);
+      if (known.has(vertical)) {
+        verticalSelect.value = vertical;
+      }
+    }
+    if (src) sourceRef.value = src;
+
+    if (params.get("submitted") === "1") {
+      submittedNote.classList.add("show");
+    }
+  </script>
+</body>
+</html>

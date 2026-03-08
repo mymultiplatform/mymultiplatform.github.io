@@ -115,11 +115,12 @@ Required to actually send:
 - Email path:
   - `MYMSAF_FROM_EMAIL` + (`RESEND_API_KEY` or `SENDGRID_API_KEY`)
   - or `MYMSAF_USE_APPLE_MAIL=1` (macOS Mail.app account, optional `MYMSAF_APPLE_MAIL_SENDER`)
+- `MYMSAF_CTA_URL` (recommended public offer page, default: `/set_and_forget/offer.html`)
 - Optional SMS path:
   - `TWILIO_ACCOUNT_SID`
   - `TWILIO_AUTH_TOKEN`
   - `TWILIO_FROM_NUMBER` (or `TWILIO_MESSAGING_SERVICE_SID`)
-- `MYMSAF_PAYMENT_URL` (direct checkout link inserted in outreach messages)
+- `MYMSAF_PAYMENT_URL` (optional direct payment URL override)
 
 Optional:
 
@@ -129,6 +130,18 @@ Optional:
 - `MYMSAF_SMS_ONLY_WHEN_NO_EMAIL` (default `true`)
 - `MYMSAF_TEST_RECIPIENT` (routes all sends to one inbox for testing)
 - `MYMSAF_SMS_TEST_RECIPIENT` (routes all SMS to one phone number for testing)
+
+## Offer page
+
+Public conversion page:
+
+- `set_and_forget/offer.html`
+
+It supports tracking parameters used by outreach links:
+
+- `src`
+- `lead`
+- `vertical`
 
 ## PayPal sync config
 
