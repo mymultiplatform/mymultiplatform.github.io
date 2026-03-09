@@ -51,15 +51,35 @@ if ! command -v git >/dev/null 2>&1; then
   exit 1
 fi
 
-NODE_BIN="$(command -v node || true)"
+NODE_BIN=""
+declare -a NODE_CANDIDATES=(
+  /opt/homebrew/bin/node
+  /opt/homebrew/opt/node@22/bin/node
+  /usr/local/bin/node
+  "$(command -v node || true)"
+  /usr/bin/node
+)
+
+for candidate in "${NODE_CANDIDATES[@]}"; do
+  if [ -z "$candidate" ] || [ ! -x "$candidate" ]; then
+    continue
+  fi
+  node_major="$("$candidate" -p 'process.versions.node.split(".")[0]' 2>/dev/null || true)"
+  if [ -n "$node_major" ] && [ "$node_major" -ge 18 ] 2>/dev/null; then
+    NODE_BIN="$candidate"
+    break
+  fi
+done
+
 if [ -z "$NODE_BIN" ]; then
-  for candidate in /opt/homebrew/bin/node /usr/local/bin/node /usr/bin/node; do
-    if [ -x "$candidate" ]; then
+  for candidate in "${NODE_CANDIDATES[@]}"; do
+    if [ -n "$candidate" ] && [ -x "$candidate" ]; then
       NODE_BIN="$candidate"
       break
     fi
   done
 fi
+
 if [ -z "$NODE_BIN" ]; then
   echo "node not found"
   exit 1

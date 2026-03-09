@@ -86,13 +86,14 @@ function buildFollowupMessage(base, stage) {
       message: [
         `Hi ${businessName} team,`,
         "",
-        `Quick follow-up on my note about the no-call lead response setup for ${vertical} businesses in San Diego.`,
+        `Quick follow-up on my note about Inbox-to-Booking Autopilot for ${vertical} businesses in San Diego.`,
+        "It handles instant response plus a 3-touch recovery sequence for missed leads.",
         "I can deploy the first version in 48 hours with async onboarding only.",
         "",
         `Start async setup: ${ctaUrl}`,
         `Reply to ${CONTACT_EMAIL} with "YES" if you want the one-page setup brief.`,
         "",
-        `MYMSAF Ops | ${CONTACT_EMAIL}`
+        `MyMultiPlatform Ops | ${CONTACT_EMAIL}`
       ].join("\n")
     };
   }
@@ -103,13 +104,13 @@ function buildFollowupMessage(base, stage) {
       `Hi ${businessName} team,`,
       "",
       "Final async check-in from me.",
-      "If you want the no-call lead follow-up system, I can still start this week.",
+      "If you want Inbox-to-Booking Autopilot, I can still start this week.",
       "",
       `Start async setup: ${ctaUrl}`,
       `Reply to ${CONTACT_EMAIL} with "YES" and I will send the setup brief.`,
       "If this is not relevant, reply STOP and I will close your thread.",
       "",
-      `MYMSAF Ops | ${CONTACT_EMAIL}`
+      `MyMultiPlatform Ops | ${CONTACT_EMAIL}`
     ].join("\n")
   };
 }

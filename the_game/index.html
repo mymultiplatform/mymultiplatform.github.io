@@ -3,160 +3,384 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Game | MyMultiPlatform</title>
+  <title>THE GAME | Membership</title>
+  <meta name="description" content="Support THE GAME and unlock dev logs, early builds, and creator perks.">
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+    :root {
+      --bg: #050607;
+      --panel: #17191d;
+      --panel-soft: #20232a;
+      --text: #eef4ff;
+      --muted: #b9c0cc;
+      --line: #2d323d;
+      --accent: #00c2d8;
+      --accent-strong: #19e3ff;
+      --danger: #ff6f6f;
+      --shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      --radius: 18px;
+    }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: radial-gradient(circle at 10% 0%, #1e1633 0%, transparent 35%), #06070b;
-      color: #f3f4f8;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 400px at 10% -10%, rgba(0, 194, 216, 0.16), transparent 62%),
+        radial-gradient(1000px 320px at 90% -20%, rgba(255, 111, 111, 0.12), transparent 56%),
+        var(--bg);
+      font-family: "Space Grotesk", "Avenir Next", "Trebuchet MS", sans-serif;
     }
-    .topbar {
+
+    .nav {
       position: sticky;
       top: 0;
-      z-index: 20;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      border-bottom: 1px solid #2b2f46;
-      background: rgba(9, 10, 17, 0.85);
+      z-index: 30;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 6, 7, 0.82);
       backdrop-filter: blur(8px);
     }
-    .brand {
-      color: #8bb3ff;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-    }
-    .topbar a {
-      color: #dbe5ff;
-      text-decoration: none;
-      border: 1px solid #394069;
-      border-radius: 8px;
-      padding: 7px 10px;
-      font-size: 13px;
-    }
-    main {
-      max-width: 1060px;
+
+    .nav-inner {
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 24px 16px 44px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: space-between;
     }
-    .hero {
-      background: linear-gradient(130deg, #12162a, #0c1020);
-      border: 1px solid #32395e;
-      border-left: 4px solid #79a2ff;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 14px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--text);
+      white-space: nowrap;
     }
-    .hero h1 {
-      margin: 0 0 8px 0;
-      font-size: 34px;
-      line-height: 1.1;
-    }
-    .hero p {
-      margin: 0;
-      color: #c4cdee;
-      line-height: 1.45;
-    }
-    .grid {
+
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #74ffe3);
+      color: #081012;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-      margin-top: 14px;
+      place-items: center;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 22px;
+      line-height: 1;
     }
-    .card {
-      background: #0e1220;
-      border: 1px solid #2a3152;
-      border-radius: 12px;
-      padding: 14px;
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-    .card h2 {
-      margin: 0 0 8px 0;
-      font-size: 18px;
-      color: #dbe6ff;
+
+    .nav-links a {
+      color: #d5dce8;
+      text-decoration: none;
+      font-size: 0.95rem;
     }
-    .card p {
-      margin: 0 0 10px 0;
-      color: #bbc6e8;
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #061015;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 10px 24px rgba(0, 194, 216, 0.24);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: var(--accent-strong);
+      box-shadow: 0 14px 28px rgba(0, 194, 216, 0.3);
+    }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 44px 18px 80px;
+    }
+
+    .hero {
+      text-align: center;
+      animation: fade-up 0.7s ease both;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 0.02em;
+      font-size: clamp(2.2rem, 7vw, 4.4rem);
+      line-height: 0.95;
+      font-weight: 400;
+    }
+
+    .subtitle {
+      margin: 0 auto;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 1.03rem;
+    }
+
+    .tiers {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .tier {
+      background: linear-gradient(180deg, var(--panel-soft), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: fade-up 0.65s ease both;
+      transform-origin: center bottom;
+    }
+
+    .tier:nth-child(1) { animation-delay: 0.06s; }
+    .tier:nth-child(2) { animation-delay: 0.14s; }
+    .tier:nth-child(3) { animation-delay: 0.22s; }
+
+    .tier.recommended {
+      border-color: #66e9f7;
+      box-shadow: 0 0 0 2px rgba(102, 233, 247, 0.18), var(--shadow);
+    }
+
+    .recommend {
+      margin: 0;
+      text-align: center;
+      background: linear-gradient(90deg, #89f6ff, #26d6f2);
+      color: #05272f;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+    }
+
+    .tier-image {
+      width: 100%;
+      height: 178px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid #343a46;
+    }
+
+    .tier-body {
+      padding: 20px 18px 18px;
+    }
+
+    .tier-name {
+      margin: 0;
+      font-size: 1.6rem;
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 0.03em;
+      font-weight: 400;
+    }
+
+    .price {
+      margin: 6px 0 14px;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .price span {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .tier p {
+      margin: 0 0 12px;
+      color: #d7deea;
       line-height: 1.45;
-      font-size: 14px;
+      font-size: 0.94rem;
     }
-    ul {
+
+    .tier ul {
       margin: 0;
       padding-left: 18px;
-      color: #d5ddf7;
-      line-height: 1.45;
-      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: 0.94rem;
     }
-    li { margin-bottom: 6px; }
-    a.link {
-      color: #90b8ff;
-      text-decoration: none;
-      border-bottom: 1px dotted #4a5fa2;
+
+    .tier li { margin-bottom: 7px; }
+
+    .roadmap {
+      margin-top: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(125deg, rgba(0, 194, 216, 0.08), rgba(255, 111, 111, 0.05));
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      animation: fade-up 0.65s ease both;
+      animation-delay: 0.3s;
     }
-    .foot {
-      margin-top: 14px;
-      color: #9ea8c8;
-      font-size: 13px;
+
+    .roadmap h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .roadmap p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: #8f97a5;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 1000px) {
+      .tiers { grid-template-columns: 1fr; }
+      .roadmap { grid-template-columns: 1fr; }
+      .tier-image { height: 200px; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links a:nth-child(-n+3) { display: none; }
+      .shell { padding-top: 28px; }
+      .tier-image { height: 172px; }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="brand">MyMultiPlatform | The Game</div>
-    <a href="/">Back To Home</a>
-  </div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-badge">TG</span>
+        <span>THE GAME</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">GitHub</a>
+        <a href="#tiers">Membership</a>
+        <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">Join Development</a>
+      </div>
+    </div>
+  </nav>
 
-  <main>
-    <section class="hero">
-      <h1>The Game Workspace</h1>
-      <p>
-        Central route for your videogame project assets, Unity branches, and game-system scripts collected across local projects and GitHub repositories.
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">Support The Build</p>
+      <h1>Choose your membership</h1>
+      <p class="subtitle">
+        Patreon-style support for THE GAME. Pick a tier, back development, and get direct access to previews, behind-the-scenes progress, and experimental gameplay branches.
       </p>
-    </section>
+    </header>
 
-    <section class="grid">
-      <article class="card">
-        <h2>Local Unity Sources</h2>
-        <ul>
-          <li>`backupnewthegame1`</li>
-          <li>`mymathegametj`</li>
-          <li>`UnityHelloWorld3D`</li>
-        </ul>
+    <section id="tiers" class="tiers">
+      <article class="tier">
+        <img class="tier-image" src="./media/tier-initiate.png" alt="THE GAME screenshot: player entering the arena">
+        <div class="tier-body">
+          <h2 class="tier-name">Initiate</h2>
+          <p class="price">MXN90 <span>/ month</span></p>
+          <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">Join</a>
+          <p style="margin-top:14px;">Start the mission and support core gameplay iteration.</p>
+          <ul>
+            <li>2 devlog posts per month</li>
+            <li>Roadmap snapshots and polls</li>
+            <li>Early patch notes</li>
+            <li>Community role in project channels</li>
+          </ul>
+        </div>
       </article>
 
-      <article class="card">
-        <h2>Game Repositories</h2>
-        <ul>
-          <li><a class="link" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">THE-GAME.mym</a></li>
-          <li><a class="link" href="https://github.com/mymultiplatform/KAMIKAZE-SCRIPT-UNITY-3D" target="_blank" rel="noopener">KAMIKAZE-SCRIPT-UNITY-3D</a></li>
-        </ul>
+      <article class="tier recommended">
+        <p class="recommend">You Might Like</p>
+        <img class="tier-image" src="./media/tier-raider.png" alt="THE GAME screenshot: player near custom trees and projectile effects">
+        <div class="tier-body">
+          <h2 class="tier-name">Raider</h2>
+          <p class="price">MXN240 <span>/ month</span></p>
+          <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">Join</a>
+          <p style="margin-top:14px;">For players who want direct influence on feature direction.</p>
+          <ul>
+            <li>All Initiate rewards</li>
+            <li>Playable build drops before public release</li>
+            <li>Monthly live Q&amp;A / test session</li>
+            <li>Vote on combat and environment updates</li>
+          </ul>
+        </div>
       </article>
 
-      <article class="card">
-        <h2>Current Script Focus</h2>
-        <ul>
-          <li>`GameLogicMym` versions and enemy systems</li>
-          <li>`ThirdPersonController` and camera follow behavior</li>
-          <li>City scene and shader experiments</li>
-        </ul>
+      <article class="tier">
+        <img class="tier-image" src="./media/tier-overdrive.png" alt="THE GAME screenshot: car system and fireball action">
+        <div class="tier-body">
+          <h2 class="tier-name">Overdrive</h2>
+          <p class="price">MXN590 <span>/ month</span></p>
+          <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">Join</a>
+          <p style="margin-top:14px;">Creator tier for heavy supporters and co-design contributors.</p>
+          <ul>
+            <li>All Raider rewards</li>
+            <li>Name in supporter wall</li>
+            <li>Priority feedback queue</li>
+            <li>Quarterly private design review call</li>
+          </ul>
+        </div>
       </article>
     </section>
 
-    <section class="card" style="margin-top:12px;">
-      <h2>Internal Workspace Path</h2>
-      <p>
-        Main local folder: <code>/Users/dantesanchez/Documents/New project/mymultiplatform/the_game</code>
-      </p>
-      <p>
-        Includes inventories, notes, repo sync script, and cloned game repos.
-      </p>
+    <section class="roadmap">
+      <div>
+        <h2>Current push: enemy systems, map expansion, and cinematic polish</h2>
+        <p>
+          Your support goes directly into weekly implementation cycles: AI behavior upgrades, scene content growth, and gameplay tuning for controller-first play.
+        </p>
+      </div>
+      <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">View Repository</a>
     </section>
 
-    <div class="foot">Updated February 27, 2026.</div>
+    <p class="footer-note">Template adapted for THE GAME from your Patreon-style reference layout.</p>
   </main>
 </body>
 </html>

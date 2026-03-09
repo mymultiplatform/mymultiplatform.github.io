@@ -257,7 +257,7 @@ function buildSmsMessage(item) {
   const message = String(item.smsMessage || item.message || "").replace(/\s+/g, " ").trim();
   if (message) return message.slice(0, 640);
   const business = String(item.businessName || "your team");
-  return `Hi ${business}, I run a no-call automated lead follow-up setup in San Diego. Reply YES for async details.`;
+  return `Hi ${business}, I run Inbox-to-Booking Autopilot for San Diego businesses. Reply YES for async details.`;
 }
 
 function dedupeSent(log) {

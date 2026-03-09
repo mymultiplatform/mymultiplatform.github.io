@@ -171,28 +171,28 @@ function buildMessage(lead) {
     " "
   );
   const ctaUrl = buildLeadCtaUrl(lead);
-  const subject = `${lead.businessName}: 48-hour no-call lead follow-up setup`;
+  const subject = `${lead.businessName}: 48-hour Inbox-to-Booking Autopilot`;
   const body = [
     `Hi ${lead.businessName} team,`,
     "",
-    `I build automated lead-response systems for ${verticalLabel} businesses in San Diego.`,
+    `I build Inbox-to-Booking Autopilot systems for ${verticalLabel} businesses in San Diego.`,
     "",
-    "What you get in 48 hours:",
-    "- instant reply to new leads",
-    "- 3-step follow-up sequence",
-    "- weekly KPI report sent automatically",
+    "What ships in 48 hours:",
+    "- instant response to new leads",
+    "- 3-touch recovery sequence for non-responders",
+    "- weekly conversion snapshot sent automatically",
     "",
     "No meetings or calls required.",
-    "Flat setup: $299. Optional monthly optimization: $149.",
+    "Starter: $299 setup. Optional monthly optimization: $149.",
     `Start async setup: ${ctaUrl}`,
     `Reply to ${CONTACT_EMAIL} with "YES" for the one-page setup brief.`,
     "",
-    `MYMSAF Ops | ${CONTACT_EMAIL}`
+    `MyMultiPlatform Ops | ${CONTACT_EMAIL}`
   ].join("\n");
   const sms = [
     `Hi ${lead.businessName},`,
-    `I can deploy a no-call lead follow-up setup for ${verticalLabel} in 48h.`,
-    `Flat setup is $299. Start async: ${ctaUrl}`
+    `I can deploy Inbox-to-Booking Autopilot for ${verticalLabel} in 48h.`,
+    `Starter is $299. Start async: ${ctaUrl}`
   ].join(" ");
   return { subject, body, sms, ctaUrl };
 }
@@ -354,6 +354,8 @@ async function main() {
       existing.message = body;
       existing.smsMessage = sms;
       existing.ctaUrl = ctaUrl;
+      existing.lastError = "";
+      existing.smsLastError = "";
     } else {
       if (!existing.subject) existing.subject = subject;
       if (!existing.message) existing.message = body;

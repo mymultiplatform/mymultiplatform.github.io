@@ -27,39 +27,32 @@ python app.py
 
 Open: `http://127.0.0.1:8090/server`
 
-## Ubuntu deployment
+## Ubuntu deployment (direct, no Cloudflare)
 
-From Ubuntu machine where repo exists at `/home/des/mymultiplatform.github.io`:
+From Ubuntu machine where repo exists at `/home/des/deploy/mymserver`:
 
 ```bash
-cd /home/des/mymultiplatform.github.io/pdf_server
-chmod +x deploy/install_on_ubuntu.sh
-./deploy/install_on_ubuntu.sh
+cd /home/des/deploy/mymserver/pdf_server
+chmod +x deploy/install_on_ubuntu_direct.sh
+./deploy/install_on_ubuntu_direct.sh
 ```
 
 This installs and enables:
 
 - `mymserver.service` (Gunicorn backend on `127.0.0.1:8090`)
-- `mymserver-tunnel.service` (public HTTPS tunnel via Cloudflare quick tunnel)
-- `mymserver-redirect-sync.timer` (auto-updates `server.html` every 1 minute to the active tunnel URL)
+- `nginx` route for `mymultiplatform.com/server`
+- Explicitly disables old Cloudflare tunnel services if they exist
 
-Cloudflare quick tunnel hostnames are dynamic, so the sync timer keeps
-`https://www.mymultiplatform.com/server` pointing to the current live tunnel URL.
+It writes nginx config using:
 
-Then add nginx location rules from:
-
-`deploy/nginx_server_location.conf`
-
-into your SSL site config for `mymultiplatform.com`, test and reload nginx:
-
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
+`deploy/nginx_mymultiplatform.conf`
 
 ## Notes
 
 - Upload validation checks extension and PDF magic bytes.
 - Session auth is required for dashboard, file listing, upload, and file view.
 - Max file size is controlled by `MMSERVER_MAX_UPLOAD_MB` (default `40`).
-- Global access depends on `mymserver-tunnel.service` and `mymserver-redirect-sync.timer`.
+- For real global access (no tunnel), you still need:
+  - Router port-forwarding (`80` and `443`) to the Ubuntu host
+  - DNS `A` records for `mymultiplatform.com` and `www` to your public IP
+  - HTTPS certificate (Let's Encrypt) once DNS points correctly

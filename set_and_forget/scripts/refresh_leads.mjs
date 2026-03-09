@@ -283,28 +283,28 @@ async function fetchLeadsFromOverpass() {
 function buildMessage(lead) {
   const verticalLabel = lead.vertical.replaceAll("_", " ");
   const ctaUrl = buildLeadCtaUrl(lead);
-  const subject = `${lead.businessName}: 48-hour no-call lead follow-up setup`;
+  const subject = `${lead.businessName}: 48-hour Inbox-to-Booking Autopilot`;
   const body = [
     `Hi ${lead.businessName} team,`,
     "",
-    `I build automated lead-response systems for ${verticalLabel} businesses in San Diego.`,
+    `I build Inbox-to-Booking Autopilot systems for ${verticalLabel} businesses in San Diego.`,
     "",
-    "What you get in 48 hours:",
-    "- instant reply to new leads",
-    "- 3-step follow-up sequence",
-    "- weekly KPI report sent automatically",
+    "What ships in 48 hours:",
+    "- instant response to new leads",
+    "- 3-touch recovery sequence for non-responders",
+    "- weekly conversion snapshot sent automatically",
     "",
     "No meetings or calls required.",
-    "Flat setup: $299. Optional monthly optimization: $149.",
+    "Starter: $299 setup. Optional monthly optimization: $149.",
     `Start async setup: ${ctaUrl}`,
     `Reply to ${CONTACT_EMAIL} with "YES" for the one-page setup brief.`,
     "",
-    `MYMSAF Ops | ${CONTACT_EMAIL}`
+    `MyMultiPlatform Ops | ${CONTACT_EMAIL}`
   ].join("\n");
   const sms = [
     `Hi ${lead.businessName},`,
-    `I can deploy a no-call lead follow-up setup for ${verticalLabel} in 48h.`,
-    `Flat setup is $299. Start async: ${ctaUrl}`
+    `I can deploy Inbox-to-Booking Autopilot for ${verticalLabel} in 48h.`,
+    `Starter is $299. Start async: ${ctaUrl}`
   ].join(" ");
   return { subject, body, sms, ctaUrl };
 }
@@ -351,11 +351,19 @@ function mergeQueueData(newQueue, previousQueue) {
   return newQueue.map((item) => {
     const prev = previousByLead.get(String(item.leadId || ""));
     if (!prev) return item;
+    const priorStatus = String(prev.status || item.status || "pending");
+    const status = priorStatus === "failed" ? "pending" : priorStatus;
     return {
       ...item,
-      status: prev.status || item.status,
-      emailStatus: prev.emailStatus || item.emailStatus || "pending",
-      smsStatus: prev.smsStatus || item.smsStatus || "pending",
+      status,
+      emailStatus:
+        status === "pending"
+          ? "pending"
+          : prev.emailStatus || item.emailStatus || "pending",
+      smsStatus:
+        status === "pending"
+          ? "pending"
+          : prev.smsStatus || item.smsStatus || "pending",
       messageKind: prev.messageKind || item.messageKind || "initial",
       followupStage:
         Number.isFinite(Number(prev.followupStage))
@@ -364,8 +372,9 @@ function mergeQueueData(newQueue, previousQueue) {
       sentAtUtc: prev.sentAtUtc || item.sentAtUtc,
       emailSentAtUtc: prev.emailSentAtUtc || item.emailSentAtUtc,
       smsSentAtUtc: prev.smsSentAtUtc || item.smsSentAtUtc,
-      lastError: prev.lastError || item.lastError,
-      smsLastError: prev.smsLastError || item.smsLastError,
+      lastError: status === "pending" ? "" : prev.lastError || item.lastError,
+      smsLastError:
+        status === "pending" ? "" : prev.smsLastError || item.smsLastError,
       createdAtUtc: prev.createdAtUtc || item.createdAtUtc
     };
   });
