@@ -674,10 +674,12 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-13461116078&vertical=med-clinic",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
-    "createdAtUtc": "2026-03-08T02:36:47.591Z"
+    "createdAtUtc": "2026-03-08T02:36:47.591Z",
+    "emailSentAtUtc": "2026-03-09T00:07:06.941Z",
+    "sentAtUtc": "2026-03-09T00:07:06.941Z"
   },
   {
     "leadId": "node-11150421504",
@@ -949,10 +951,12 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=way-1305851964&vertical=real-estate",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
-    "createdAtUtc": "2026-03-08T02:36:47.591Z"
+    "createdAtUtc": "2026-03-08T02:36:47.591Z",
+    "emailSentAtUtc": "2026-03-09T00:07:07.267Z",
+    "sentAtUtc": "2026-03-09T00:07:07.267Z"
   },
   {
     "leadId": "node-596448390",
@@ -1146,10 +1150,12 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-2609048960&vertical=med-spa",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
-    "createdAtUtc": "2026-03-08T02:36:47.591Z"
+    "createdAtUtc": "2026-03-08T02:36:47.591Z",
+    "emailSentAtUtc": "2026-03-09T00:07:07.625Z",
+    "sentAtUtc": "2026-03-09T00:07:07.625Z"
   },
   {
     "leadId": "node-10170227727",
@@ -1164,10 +1170,12 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-10170227727&vertical=med-spa",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
-    "createdAtUtc": "2026-03-08T02:36:47.591Z"
+    "createdAtUtc": "2026-03-08T02:36:47.591Z",
+    "emailSentAtUtc": "2026-03-09T00:07:07.902Z",
+    "sentAtUtc": "2026-03-09T00:07:07.902Z"
   },
   {
     "leadId": "node-12829538101",
@@ -1222,10 +1230,12 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-12903818356&vertical=med-spa",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
-    "createdAtUtc": "2026-03-08T02:36:47.591Z"
+    "createdAtUtc": "2026-03-08T02:36:47.591Z",
+    "emailSentAtUtc": "2026-03-09T00:07:08.318Z",
+    "sentAtUtc": "2026-03-09T00:07:08.318Z"
   },
   {
     "leadId": "node-3674344403",
