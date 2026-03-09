@@ -188,6 +188,7 @@ id,businessName,vertical,website,phone,email,lat,lon,source,score
 "node-13018183769","Bespoke Dentistry","dentist","","","","32.9506362","-117.2330641","overpass","2.3"
 "node-12466303969","Bird Rock Dental","dentist","","","","32.8163566","-117.2709096","overpass","2.3"
 "node-595977351","Bliss Dental Arts","dentist","","","","32.915796","-117.114128","overpass","2.3"
+"way-1486432908","Cable Pipe & Leak Detection","plumber","","","","32.8152178","-116.9354629","overpass","2.3"
 "node-10003055319","Cardinal Dental","dentist","","","","32.7865437","-117.0039924","overpass","2.3"
 "node-13007871401","Carmel Heights Dental","dentist","","","","32.9541673","-117.2300419","overpass","2.3"
 "node-12191939944","Carmel Plaza Dental Center","dentist","","","","32.9811421","-117.079206","overpass","2.3"

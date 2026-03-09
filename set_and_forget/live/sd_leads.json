@@ -2373,6 +2373,18 @@
     "score": 2.3
   },
   {
+    "id": "way-1486432908",
+    "businessName": "Cable Pipe & Leak Detection",
+    "vertical": "plumber",
+    "website": "",
+    "phone": "",
+    "email": "",
+    "lat": 32.8152178,
+    "lon": -116.9354629,
+    "source": "overpass",
+    "score": 2.3
+  },
+  {
     "id": "node-10003055319",
     "businessName": "Cardinal Dental",
     "vertical": "dentist",
