@@ -9,7 +9,7 @@
     body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); padding:28px;}
     .container{max-width:780px;margin:24px auto;padding:22px;background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(20,20,30,0.06)}
     h1{font-size:20px;margin:0 0 12px}
-    p.lead{margin:0 0 18px;color:var(--muted)}
+    p.intro{margin:0 0 18px;color:var(--muted)}
     form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     label{display:block;font-size:13px;margin-bottom:6px}
     input[type=text], input[type=email], input[type=tel], input[type=password], input[type=file], input[type=date], select, textarea{
@@ -28,7 +28,7 @@
 <body>
   <div class="container" role="main">
     <h1>Formulario de Registro / Solicitud</h1>
-    <p class="lead">Rellena los campos para completar tu registro. Los campos marcados con * son obligatorios.</p>
+    <p class="intro">Rellena los campos para completar tu registro. Los campos marcados con * son obligatorios.</p>
 
     <form id="registrationForm" action="#" method="post" enctype="multipart/form-data" novalidate>
       <div>

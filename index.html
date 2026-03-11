@@ -1,400 +1,353 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Mymultiplatform</title>
+  <title>MyMultiPlatform</title>
   <style>
-    /* Reset box-sizing for consistency */
-    *, *::before, *::after {
-      box-sizing: border-box;
+    :root {
+      --bg: #050709;
+      --bg2: #10161f;
+      --card: #121821;
+      --line: #2a3443;
+      --text: #eef3ff;
+      --muted: #b3c0d9;
+      --accent: #5aa8ff;
+      --accent2: #2b7fdc;
+      --max: 1080px;
     }
+
+    * { box-sizing: border-box; }
 
     body {
-      background-color: rgb(0, 0, 0);
+      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: white;
-      margin: 0;
-      padding: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, #1a2536 0%, transparent 36%),
+        radial-gradient(circle at 90% 0%, #14253a 0%, transparent 34%),
+        linear-gradient(180deg, #0a0f16, var(--bg));
+      min-height: 100vh;
     }
 
-    /* Banner Styles */
-    .banner {
-      background-color: green;
-      color: white;
-      padding: 10px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: left;
-      position: fixed;
+    .top {
+      position: sticky;
       top: 0;
-      width: 100%;
-      z-index: 1001;
-      height: 60px;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 12, 18, 0.88);
+      backdrop-filter: blur(8px);
+    }
+
+    .top-inner {
+      width: min(var(--max), 100% - 24px);
+      margin: 0 auto;
+      padding: 12px 0 10px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .title {
-      margin-left: 20px;
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #86bcff;
     }
 
-    /* Navbar Styles */
-    .navbar {
-      background: linear-gradient(to bottom, #666666, #000000);
-      text-align: center;
-      padding: 10px 0;
-      position: fixed;
-      top: 60px;
-      width: 100%;
-      z-index: 1000;
-      height: 50px;
+    .sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .tabs {
+      width: min(var(--max), 100% - 24px);
+      margin: 0 auto;
+      padding: 0 0 12px;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .navbar a {
-      color: white;
-      padding: 8px 16px;
-      text-decoration: none;
-      font-size: 18px;
+    .tab-btn {
+      border: 1px solid var(--line);
+      background: #0f141d;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
 
-    .navbar a:hover {
-      background-color: green;
-      border-radius: 4px;
+    .tab-btn.active {
+      border-color: #4f9cf4;
+      background: #122237;
+      color: #dbeafe;
     }
 
-    .cta-link {
-      background-color: #1db954;
-      border-radius: 4px;
-      font-weight: 700;
-      margin-left: 8px;
+    main {
+      width: min(var(--max), 100% - 24px);
+      margin: 16px auto 38px;
     }
 
-    /* Dynamic Banner Styles */
-    .dynamic-banner {
-      position: fixed;
-      top: 110px;
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-      z-index: 999;
-    }
-
-    .banner-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
+    .panel {
       display: none;
-    }
-
-    .banner-slide.active {
-      display: block;
-    }
-
-    /* Main Content Styles */
-    .tab-content {
-      padding: 290px 20px 20px 20px;
-      color: white;
-    }
-
-    .tab-content h2 {
-      display: none;
-    }
-
-    .tab-content h2.active {
-      display: block;
-    }
-
-    .hero-offer {
-      background: #111;
-      border: 1px solid #2f2f2f;
-      border-left: 4px solid #1db954;
-      border-radius: 8px;
-      max-width: 860px;
-      padding: 20px;
-      margin: 10px 0 20px 0;
-    }
-
-    .hero-offer h3 {
-      margin: 0 0 10px 0;
-      font-size: 28px;
-      color: #fff;
-    }
-
-    .hero-offer p {
-      margin: 0 0 12px 0;
-      color: #e7e7e7;
-      line-height: 1.45;
-    }
-
-    .offer-list {
-      margin: 0 0 18px 0;
-      padding-left: 18px;
-    }
-
-    .offer-list li {
-      margin-bottom: 6px;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: #1db954;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 17px;
-    }
-
-    .proof-block {
-      max-width: 860px;
-      background: #0b0b0b;
-      border: 1px solid #2f2f2f;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin-top: 14px;
-    }
-
-    .proof-block h4 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
-      color: #fff;
-    }
-
-    .proof-block ul {
-      margin: 0;
-      padding-left: 18px;
-      color: #e2e2e2;
-      line-height: 1.45;
-    }
-
-    .offer-grid {
-      max-width: 980px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .offer-card {
-      background: #101010;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(16, 22, 31, 0.78);
+      border-radius: 14px;
       padding: 16px;
     }
 
-    .offer-card h4 {
-      margin: 0 0 8px 0;
-      font-size: 19px;
+    .panel.active {
+      display: block;
     }
 
-    .offer-card p {
-      margin: 0 0 12px 0;
-      color: #dfdfdf;
-      line-height: 1.4;
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
-    .offer-card a {
-      display: inline-block;
-      background: #1db954;
-      color: #fff;
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .open-link {
       text-decoration: none;
-      padding: 10px 12px;
-      border-radius: 6px;
+      color: #eaf3ff;
+      border: 1px solid #487dbb;
+      background: #183257;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
       font-weight: 700;
-      font-size: 15px;
+      white-space: nowrap;
     }
 
-    .metric-strip {
-      max-width: 980px;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1px dashed #3a3a3a;
-      background: #0c0c0c;
-      color: #e9e9e9;
+    .panel p {
+      margin: 0 0 12px;
+      color: var(--muted);
       line-height: 1.45;
     }
 
-    .quick-links {
-      margin-top: 16px;
-      max-width: 980px;
-      font-size: 15px;
-      color: #e6e6e6;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .quick-links a {
-      color: #4ddf83;
-      text-decoration: none;
-      margin-right: 12px;
-      display: inline-block;
-      margin-bottom: 8px;
+    .card {
+      border: 1px solid #283546;
+      border-radius: 12px;
+      background: var(--card);
+      padding: 12px;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .navbar a {
-        font-size: 16px;
-        padding: 6px 12px;
-      }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
 
-      .banner {
-        font-size: 20px;
-        padding: 10px 15px;
-        height: 50px;
-      }
+    .card p {
+      margin: 0;
+      font-size: 14px;
+    }
 
-      .navbar {
-        top: 50px;
-        height: 45px;
-      }
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      color: #d8e3f7;
+      line-height: 1.5;
+      font-size: 14px;
+    }
 
-      .dynamic-banner {
-        top: 95px;
-        height: 135px;
-      }
+    .list li { margin-bottom: 6px; }
 
-      .tab-content {
-        padding: 230px 15px 15px 15px;
-      }
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
 
-      .hero-offer h3 {
-        font-size: 24px;
-      }
+    .pill {
+      border: 1px solid #314258;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #cfe0ff;
+      background: #111a27;
+    }
+
+    @media (max-width: 680px) {
+      h2 { font-size: 24px; }
+      .panel { padding: 14px; }
     }
   </style>
 </head>
 <body>
-  <!-- Fixed Banner -->
-  <div class="banner">
-    <div class="title">Mymultiplatform</div>
-  </div>
-
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="#home" class="tab-link">Home</a>
-    <a href="/software/">Software</a>
-    <a href="architecture_portfolio.html">Architecture</a>
-    <a href="/machine_learning/">Machine Learning</a>
-    <a href="/the_game/">Game Dev</a>
-    <a href="https://mymultihealth.com" target="_blank" rel="noopener">MyMultiHealth</a>
-    <a href="https://mymultihealth.com/wholesale.html" target="_blank" rel="noopener">Wholesale</a>
-    <a class="cta-link" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book 10-min call</a>
-  </div>
-
-  <!-- Dynamic Banner -->
-  <div class="dynamic-banner">
-    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand">MyMultiPlatform</div>
+      <div class="sub">Preview-first navigation inside one page</div>
     </div>
-    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
-    </div>
-  </div>
+    <nav class="tabs" aria-label="Main tabs">
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="architecture">Architecture</button>
+      <button class="tab-btn" data-tab="software">Software</button>
+      <button class="tab-btn" data-tab="machine-learning">Machine Learning</button>
+      <button class="tab-btn" data-tab="game-dev">Game Dev</button>
+      <button class="tab-btn" data-tab="health">Health</button>
+    </nav>
+  </header>
 
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
-    <div class="hero-offer">
-      <h3>Short-Form Content Sprint: $250</h3>
-      <p>MyMultiPlatform helps local businesses get more calls and inquiries with ready-to-post vertical videos.</p>
-      <ul class="offer-list">
-        <li>4 short-form videos (15-35 seconds)</li>
-        <li>72-hour turnaround</li>
-        <li>Hooks + captions + CTA for each video</li>
-        <li>One revision round included</li>
+  <main>
+    <section class="panel active" id="panel-home" role="tabpanel">
+      <div class="panel-top">
+        <h2>Welcome</h2>
+        <a class="open-link" href="/" aria-disabled="true">You Are On Home</a>
+      </div>
+      <p>
+        This homepage now keeps navigation in-page first. Select any tab to preview that area here,
+        then choose "Open Full Page" if you want to go deeper.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3>Architecture</h3>
+          <p>Preview projects and then open the full architecture portfolio.</p>
+        </article>
+        <article class="card">
+          <h3>Software</h3>
+          <p>Preview software products and open the full software catalog if needed.</p>
+        </article>
+        <article class="card">
+          <h3>Machine Learning + Game Dev</h3>
+          <p>Preview both technical tracks with direct links to their dedicated pages.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-architecture" role="tabpanel">
+      <div class="panel-top">
+        <h2>Architecture Preview</h2>
+        <a class="open-link" href="/architecture_portfolio.html">Open Full Architecture Page</a>
+      </div>
+      <p>
+        This tab gives a quick view first. Open the full page when you want full image browsing and deep project detail.
+      </p>
+      <ul class="list">
+        <li>Project presentation workflow for residential and urban studies.</li>
+        <li>Design communication and page-based portfolio navigation.</li>
+        <li>Fast access to complete visual portfolio when needed.</li>
       </ul>
-      <a class="cta-button" href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book your 10-minute call</a>
-    </div>
+      <div class="pill-row">
+        <span class="pill">Preview First</span>
+        <span class="pill">Single Page Navigation</span>
+        <span class="pill">Optional Full View</span>
+      </div>
+    </section>
 
-    <div class="proof-block">
-      <h4>Why businesses book with us</h4>
-      <ul>
-        <li>Fast delivery for promotions, offers, and social posting consistency</li>
-        <li>Clear productized pricing with no long contract required</li>
-        <li>Focused on local business lead generation, not vanity content</li>
+    <section class="panel" id="panel-software" role="tabpanel">
+      <div class="panel-top">
+        <h2>Software Preview</h2>
+        <a class="open-link" href="/software/">Open Full Software Page</a>
+      </div>
+      <p>
+        Software content is previewed directly here first. The full page is still available for complete details and installs.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3>Focus Path Blocker</h3>
+          <p>macOS-focused control for reducing distracting feed routes and keeping work flow stable.</p>
+        </article>
+        <article class="card">
+          <h3>Utility Modules</h3>
+          <p>Operational scripts and support utilities for day-to-day execution across projects.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-machine-learning" role="tabpanel">
+      <div class="panel-top">
+        <h2>Machine Learning Preview</h2>
+        <a class="open-link" href="/machine_learning/">Open Full Machine Learning Page</a>
+      </div>
+      <p>
+        Centralized RL/ML workspace is active, including repo inventories, notes, and standardized folder structure.
+      </p>
+      <ul class="list">
+        <li>Repo inventory across public and private sources.</li>
+        <li>Signal extraction for RL/ML files and references.</li>
+        <li>Workspace organized for experiments, models, and datasets.</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="offer-grid">
-      <div class="offer-card">
-        <h4>Direct Store Sales</h4>
-        <p>Send traffic to our dental-health product storefront for immediate purchases and repeat order follow-up.</p>
-        <a href="https://mymultihealth.com" target="_blank" rel="noopener">Open Storefront</a>
+    <section class="panel" id="panel-game-dev" role="tabpanel">
+      <div class="panel-top">
+        <h2>Game Dev Preview</h2>
+        <a class="open-link" href="/the_game/">Open Full Game Dev Page</a>
       </div>
-      <div class="offer-card">
-        <h4>Wholesale Partner Packs</h4>
-        <p>Pitch clinics and studios with pre-priced bundle packs and prefilled wholesale request flow.</p>
-        <a href="https://mymultihealth.com/wholesale.html" target="_blank" rel="noopener">Open Wholesale Page</a>
+      <p>
+        Unified game workspace built from local Unity projects and GitHub game repositories, with a dedicated project hub.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <h3>Unity Sources</h3>
+          <p>Includes tracked branches like <code>mymathegametj</code> and backup project variants.</p>
+        </article>
+        <article class="card">
+          <h3>Game Repos</h3>
+          <p>Includes <code>THE-GAME.mym</code> and <code>KAMIKAZE-SCRIPT-UNITY-3D</code>.</p>
+        </article>
       </div>
-      <div class="offer-card">
-        <h4>Content Sprint Offer</h4>
-        <p>Close service revenue with a short-form package and convert buyers into monthly media clients.</p>
-        <a href="https://calendly.com/mymultiplatform/10min" target="_blank" rel="noopener">Book Intro Call</a>
-      </div>
-    </div>
+    </section>
 
-    <div class="metric-strip">
-      Weekly target: <strong>$500+</strong> in closed revenue.
-      Primary focus: 1-2 wholesale packs and 5-8 direct product orders per week.
-    </div>
-
-    <div class="quick-links">
-      <a href="https://mymultihealth.com/privacy.html" target="_blank" rel="noopener">Store Privacy</a>
-      <a href="https://mymultihealth.com/returns.html" target="_blank" rel="noopener">Store Returns</a>
-      <a href="https://mymultihealth.com/terms.html" target="_blank" rel="noopener">Store Terms</a>
-    </div>
-  </div>
+    <section class="panel" id="panel-health" role="tabpanel">
+      <div class="panel-top">
+        <h2>Health Preview</h2>
+        <a class="open-link" href="https://mymultihealth.com" target="_blank" rel="noopener">Open MyMultiHealth Store</a>
+      </div>
+      <p>
+        MyMultiHealth pages stay external, but this tab gives direct quick access to retail and wholesale destinations.
+      </p>
+      <div class="pill-row">
+        <a class="open-link" href="https://mymultihealth.com" target="_blank" rel="noopener">Retail</a>
+        <a class="open-link" href="https://mymultihealth.com/wholesale.html" target="_blank" rel="noopener">Wholesale</a>
+      </div>
+    </section>
+  </main>
 
   <script>
-    // Tab Functionality
-    function showTabContent(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content h2");
-      tabContents.forEach(content => {
-        content.classList.toggle("active", content.id === tabId);
-      });
+    const buttons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
 
-      const dynamicBanner = document.querySelector('.dynamic-banner');
-      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
+    function showTab(tabId) {
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle('active', panel.id === `panel-${tabId}`);
+      });
+      history.replaceState(null, '', `#${tabId}`);
     }
 
-    const tabLinks = document.querySelectorAll(".navbar a");
-    tabLinks.forEach(link => {
-      link.addEventListener("click", event => {
-        const href = link.getAttribute("href") || "";
-        if (!href.startsWith("#")) {
-          return;
-        }
-        event.preventDefault();
-        const tabId = href.substring(1);
-        showTabContent(tabId);
-        history.pushState(null, null, `#${tabId}`);
-      });
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => showTab(btn.dataset.tab));
     });
 
-    // Dynamic Banner Animation
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".banner-slide");
-
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, 5000);
-
-    // Initial Content Display
-    window.addEventListener("DOMContentLoaded", () => {
-      const initialTab = window.location.hash.substring(1) || "home";
-      showTabContent(initialTab);
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = (window.location.hash || '').replace('#', '');
+      const valid = new Set(['home', 'architecture', 'software', 'machine-learning', 'game-dev', 'health']);
+      showTab(valid.has(hash) ? hash : 'home');
     });
   </script>
 </body>

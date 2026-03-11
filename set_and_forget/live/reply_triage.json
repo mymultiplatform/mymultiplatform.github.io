@@ -1,6 +1,0 @@
-{
-  "updatedAtUtc": "2026-03-08T02:38:23.196Z",
-  "mode": "blocked-missing-token",
-  "source": "gmail-api",
-  "note": "Set GMAIL_ACCESS_TOKEN to enable Gmail reply triage."
-}
