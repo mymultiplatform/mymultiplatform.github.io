@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CERBERUS Division | MyMultiPlatform</title>
+  <meta name="description" content="CERBERUS Division: public hidden dashboard for CEO life performance, roadblocks, priorities, and umbrella execution.">
+  <style>
+    :root {
+      --bg: #070c15;
+      --bg-soft: #0f1a2a;
+      --panel: #121f33;
+      --panel-2: #16253c;
+      --line: #2b3f5d;
+      --ink: #ecf3ff;
+      --muted: #9fb2cf;
+      --aqua: #28d4c6;
+      --aqua-deep: #1aa99d;
+      --sun: #ffbe4a;
+      --alert: #ff6f6f;
+      --ok: #5be29a;
+      --max: 1140px;
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(980px 430px at 95% -10%, rgba(40, 212, 198, 0.15), transparent 58%),
+        radial-gradient(840px 460px at 0% 100%, rgba(255, 190, 74, 0.13), transparent 60%),
+        linear-gradient(160deg, #070c15, #0a1220 52%, #0b1626);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(var(--max), 92%);
+      margin: 0 auto;
+      padding: 24px 0 36px;
+    }
+
+    .top {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      background: linear-gradient(170deg, rgba(18, 31, 51, 0.9), rgba(13, 22, 35, 0.95));
+      box-shadow: var(--shadow);
+    }
+
+    .kicker {
+      margin: 0;
+      color: #8de5dc;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 8px 0 8px;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 920px;
+      font-size: clamp(15px, 1.8vw, 18px);
+    }
+
+    .identity {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid #355173;
+      background: #13223a;
+      color: #cfe1ff;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #dbe8ff;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .list li { margin-bottom: 6px; }
+
+    .priority {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .prio-row {
+      border: 1px solid #334f74;
+      border-radius: 10px;
+      padding: 10px;
+      background: #101f35;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .tag {
+      display: inline-block;
+      min-width: 45px;
+      margin-right: 8px;
+      border-radius: 999px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .tag-p0 { background: rgba(255, 111, 111, 0.18); color: #ffb5b5; border: 1px solid rgba(255, 111, 111, 0.5); }
+    .tag-p1 { background: rgba(255, 190, 74, 0.16); color: #ffd99a; border: 1px solid rgba(255, 190, 74, 0.5); }
+    .tag-p2 { background: rgba(40, 212, 198, 0.14); color: #a9f1e8; border: 1px solid rgba(40, 212, 198, 0.45); }
+    .tag-p3 { background: rgba(122, 156, 255, 0.14); color: #c7d9ff; border: 1px solid rgba(122, 156, 255, 0.45); }
+
+    .status {
+      font-weight: 700;
+      margin-left: 6px;
+      font-size: 12px;
+    }
+
+    .ok { color: var(--ok); }
+    .warn { color: var(--sun); }
+    .risk { color: var(--alert); }
+
+    .roadblocks {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .rb {
+      border-left: 3px solid #456b9a;
+      background: #0f1d32;
+      border-radius: 8px;
+      padding: 10px 10px 10px 12px;
+      font-size: 13px;
+      color: #c8daf7;
+      line-height: 1.4;
+    }
+
+    .foot {
+      margin-top: 18px;
+      border-top: 1px solid #2e4463;
+      padding-top: 12px;
+      color: #93abca;
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    @media (max-width: 740px) {
+      .card h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <p class="kicker">Public Hidden Division</p>
+      <h1>CERBERUS Division</h1>
+      <p class="sub">
+        Umbrella execution board focused on CEO life performance and company performance alignment.
+        This page tracks priorities, roadblocks, and execution hierarchies for MyMultiPlatform.
+      </p>
+      <div class="identity">
+        <span class="pill">CEO: Dante Sanchez</span>
+        <span class="pill">Division: CERBERUS</span>
+        <span class="pill">Mode: Public Hidden URL</span>
+      </div>
+    </header>
+
+    <section class="grid" aria-label="Core trackers">
+      <article class="card">
+        <h2>North Star</h2>
+        <p>Personal performance and business performance must move together.</p>
+        <ul class="list">
+          <li>Education pipeline completion (ASU university requirement).</li>
+          <li>Architecture license pathway as long-term professional asset.</li>
+          <li>Execution consistency across all company divisions.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Umbrella Scope</h2>
+        <p>Active divisions and projects currently under MyMultiPlatform:</p>
+        <ul class="list">
+          <li>Main platform website and hidden strategy pages.</li>
+          <li>The Game development track.</li>
+          <li>MyMultiHealth online shop and health products.</li>
+          <li>Software products and machine learning tracks.</li>
+          <li>CERBERUS division for CEO-level system control.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>CEO Operating Metrics</h2>
+        <ul class="list">
+          <li>Daily Deep Work Blocks <span class="status warn">Target: 3+</span></li>
+          <li>University Progress (ASU) <span class="status risk">Current bottleneck</span></li>
+          <li>Revenue execution cadence <span class="status warn">Weekly review required</span></li>
+          <li>Roadblock closure speed <span class="status ok">Must improve</span></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:12px;" aria-label="Priority hierarchy">
+      <h2>Priority Hierarchy</h2>
+      <div class="priority">
+        <div class="prio-row"><span class="tag tag-p0">P0</span> Finish ASU milestones required to unlock architecture license path.</div>
+        <div class="prio-row"><span class="tag tag-p1">P1</span> Protect CEO routine: sleep, health, deep work, and weekly execution review.</div>
+        <div class="prio-row"><span class="tag tag-p2">P2</span> Run operational priorities for Game, Shop, Software, and ML tracks.</div>
+        <div class="prio-row"><span class="tag tag-p3">P3</span> Expansion and experimentation once P0/P1 stability is sustained.</div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="TODO and roadblocks" style="margin-top:12px;">
+      <article class="card">
+        <h2>CERBERUS TODO Stack</h2>
+        <ul class="list">
+          <li>Define weekly CEO scorecard template.</li>
+          <li>Map ASU requirements by deadlines and pass thresholds.</li>
+          <li>Build one-page weekly command dashboard across divisions.</li>
+          <li>Set Monday planning + Friday retrospective ritual.</li>
+          <li>Keep all strategic pages public-hidden and deployment-ready.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Current Roadblocks</h2>
+        <div class="roadblocks">
+          <div class="rb">ASU completion dependency delays architecture licensing progress.</div>
+          <div class="rb">Too many parallel company fronts can dilute focus if priorities are not enforced.</div>
+          <div class="rb">Execution load sits too heavily on CEO without enough automation and delegation.</div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="foot">
+      CERBERUS Division public hidden endpoint: /cerberus888777999829758r9Q<br>
+      Last updated: <span id="last-updated"></span>
+    </footer>
+  </main>
+
+  <script>
+    const target = document.getElementById('last-updated');
+    const now = new Date();
+    target.textContent = now.toLocaleString();
+  </script>
+</body>
+</html>
