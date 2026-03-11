@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ventas Personales | MyMultiPlatform</title>
+  <meta name="description" content="Personal board to track items you need to sell or rent." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #101925;
+      --bg-soft: #1b2a3d;
+      --card: #122033;
+      --line: #2d4763;
+      --text: #f5f8fd;
+      --muted: #afc2d8;
+      --accent: #ff8a45;
+      --accent-2: #2fd5bd;
+      --warn: #ffd15b;
+      --ok: #6ee7b7;
+      --danger: #ff7b8f;
+      --max: 1050px;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(850px 450px at 0% 0%, rgba(47, 213, 189, 0.14), transparent 70%),
+        radial-gradient(900px 500px at 100% 0%, rgba(255, 138, 69, 0.2), transparent 72%),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.015) 8px,
+          transparent 8px,
+          transparent 20px
+        ),
+        linear-gradient(165deg, #0c131d, var(--bg));
+      padding: 22px 0 30px;
+    }
+
+    .wrap {
+      width: min(var(--max), 94vw);
+      margin: 0 auto;
+    }
+
+    .hero {
+      border: 1px solid #355277;
+      border-radius: calc(var(--radius) + 2px);
+      padding: 18px;
+      background: linear-gradient(155deg, rgba(24, 41, 63, 0.94), rgba(15, 26, 40, 0.95));
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+      animation: rise 0.55s ease both;
+    }
+
+    .kicker {
+      margin: 0;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      color: #9ec7f6;
+    }
+
+    h1 {
+      margin: 8px 0 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(30px, 4.8vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 820px;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .hero-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-link {
+      text-decoration: none;
+      border: 1px solid #3b5f87;
+      color: var(--text);
+      background: #173150;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-link:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .layout {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: minmax(300px, 0.95fr) minmax(320px, 1.3fr);
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #122235, #0f1d2d);
+      padding: 14px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+      animation: rise 0.58s ease both;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 21px;
+      letter-spacing: -0.015em;
+    }
+
+    .card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    form {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      color: #d6e4f5;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #305173;
+      border-radius: 11px;
+      background: #0f1b2c;
+      color: var(--text);
+      padding: 10px 11px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #3e6ea3;
+      border-color: #4d82ba;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .actions {
+      margin-top: 2px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 11px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .btn.primary {
+      background: linear-gradient(155deg, #ff9f53, var(--accent));
+      color: #1a1208;
+    }
+
+    .btn.secondary {
+      background: #14293f;
+      color: #dce8f8;
+      border-color: #355678;
+    }
+
+    .summary {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .summary-box {
+      border: 1px solid #335679;
+      border-radius: 11px;
+      background: #0f1a29;
+      padding: 9px;
+      text-align: center;
+    }
+
+    .summary-box strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 19px;
+      line-height: 1.1;
+      color: #f6fbff;
+    }
+
+    .summary-box span {
+      font-size: 12px;
+      color: #acc2da;
+    }
+
+    .filters {
+      margin-top: 12px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      border: 1px solid #355678;
+      border-radius: 999px;
+      background: #102238;
+      color: #d7e7fa;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .filter-btn.active {
+      background: #1f3854;
+      border-color: #5e87b4;
+      color: #f1f7ff;
+    }
+
+    .items {
+      list-style: none;
+      margin: 12px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      border: 1px solid #355677;
+      border-radius: 12px;
+      background: #102133;
+      padding: 11px;
+      animation: rise 0.4s ease both;
+    }
+
+    .item.done {
+      border-color: #3a715f;
+      background: #102a2a;
+    }
+
+    .item-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .item-title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      word-break: break-word;
+    }
+
+    .item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .tag {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tag.sell {
+      background: rgba(255, 138, 69, 0.14);
+      border-color: rgba(255, 138, 69, 0.45);
+      color: #ffc9a6;
+    }
+
+    .tag.rent {
+      background: rgba(47, 213, 189, 0.14);
+      border-color: rgba(47, 213, 189, 0.42);
+      color: #b9f6ec;
+    }
+
+    .tag.pending {
+      background: rgba(255, 209, 91, 0.14);
+      border-color: rgba(255, 209, 91, 0.4);
+      color: #ffe8a2;
+    }
+
+    .tag.done {
+      background: rgba(110, 231, 183, 0.15);
+      border-color: rgba(110, 231, 183, 0.4);
+      color: #b6f5d7;
+    }
+
+    .item-notes {
+      margin: 8px 0 0;
+      color: #d5e4f8;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .item-meta {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #abc2da;
+      font-size: 12px;
+    }
+
+    .item-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .item-btn {
+      border: 1px solid #355678;
+      border-radius: 9px;
+      background: #10263d;
+      color: #dceaf8;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .item-btn.status-done {
+      border-color: #4f8c78;
+      background: #19392f;
+      color: #d9ffef;
+    }
+
+    .item-btn.delete {
+      border-color: #7d4450;
+      background: #34161f;
+      color: #ffd1d8;
+    }
+
+    .empty {
+      margin-top: 12px;
+      border: 1px dashed #3d5d80;
+      border-radius: 12px;
+      background: #0f1d2f;
+      padding: 16px;
+      color: #a8bfd9;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 16px;
+      text-align: center;
+      color: #9fb5ce;
+      font-size: 12px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(11px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding-top: 14px;
+      }
+
+      .hero,
+      .card {
+        padding: 12px;
+      }
+
+      .form-row,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .item-head {
+        flex-direction: column;
+      }
+
+      .item-tags {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">mymultiplatform.com/ventas_personales88666Q</p>
+      <h1>Ventas personales</h1>
+      <p>
+        Add and track personal items you want to sell or rent. Entries are saved in this browser so you can keep working from the same device without losing notes.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-link" href="/">Back to Home</a>
+      </div>
+    </section>
+
+    <section class="layout">
+      <article class="card">
+        <h2>New entry</h2>
+        <p>Write what you need to sell or rent, add optional target price, then save it.</p>
+        <form id="entry-form" novalidate>
+          <div>
+            <label for="item-name">Item</label>
+            <input id="item-name" name="item-name" type="text" placeholder="Ford Focus, Honda, New house..." required />
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label for="item-type">Type</label>
+              <select id="item-type" name="item-type">
+                <option value="sell">Sell</option>
+                <option value="rent">Rent</option>
+              </select>
+            </div>
+            <div>
+              <label for="item-price">Target price (optional)</label>
+              <input id="item-price" name="item-price" type="text" inputmode="decimal" placeholder="2500 or 1500/month" />
+            </div>
+          </div>
+
+          <div>
+            <label for="item-notes">Notes (optional)</label>
+            <textarea id="item-notes" name="item-notes" placeholder="Extra details, contact, deadlines..."></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn primary">Save entry</button>
+            <button type="button" id="clear-form" class="btn secondary">Clear form</button>
+          </div>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>My board</h2>
+        <p>Track pending and completed items for sales and rentals.</p>
+
+        <div class="summary" aria-label="Board summary">
+          <div class="summary-box">
+            <strong id="total-count">0</strong>
+            <span>Total</span>
+          </div>
+          <div class="summary-box">
+            <strong id="pending-count">0</strong>
+            <span>Pending</span>
+          </div>
+          <div class="summary-box">
+            <strong id="done-count">0</strong>
+            <span>Done</span>
+          </div>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filters">
+          <button class="filter-btn active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="sell" type="button">Sell</button>
+          <button class="filter-btn" data-filter="rent" type="button">Rent</button>
+          <button class="filter-btn" data-filter="pending" type="button">Pending</button>
+          <button class="filter-btn" data-filter="done" type="button">Done</button>
+        </div>
+
+        <ul id="items" class="items" aria-live="polite"></ul>
+        <div id="empty" class="empty" hidden>No items in this filter yet.</div>
+      </article>
+    </section>
+
+    <footer>MyMultiPlatform personal tracker</footer>
+  </main>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "ventas_personales88666Q_items_v1";
+
+      const form = document.getElementById("entry-form");
+      const nameInput = document.getElementById("item-name");
+      const typeInput = document.getElementById("item-type");
+      const priceInput = document.getElementById("item-price");
+      const notesInput = document.getElementById("item-notes");
+      const clearBtn = document.getElementById("clear-form");
+      const itemsEl = document.getElementById("items");
+      const emptyEl = document.getElementById("empty");
+      const filterButtons = Array.from(document.querySelectorAll(".filter-btn"));
+      const totalCountEl = document.getElementById("total-count");
+      const pendingCountEl = document.getElementById("pending-count");
+      const doneCountEl = document.getElementById("done-count");
+
+      let activeFilter = "all";
+      let items = loadItems();
+
+      function randomId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+        return "id-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+      }
+
+      function seedItem(name, type, notes) {
+        const now = new Date().toISOString();
+        return {
+          id: randomId(),
+          name: name,
+          type: type,
+          price: "",
+          notes: notes,
+          status: "pending",
+          createdAt: now,
+          updatedAt: now
+        };
+      }
+
+      function loadItems() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              return parsed.map(normalizeItem).filter(Boolean);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to load board data:", error);
+        }
+
+        const defaults = [
+          seedItem("Ford Focus", "sell", "Need to sell the Ford Focus."),
+          seedItem("Honda", "sell", "Need to sell the Honda."),
+          seedItem("New house", "rent", "Need to rent the new house.")
+        ];
+        saveItems(defaults);
+        return defaults;
+      }
+
+      function normalizeItem(item) {
+        if (!item || typeof item !== "object") return null;
+        if (!item.id || !item.name) return null;
+        const safeType = item.type === "rent" ? "rent" : "sell";
+        const safeStatus = item.status === "done" ? "done" : "pending";
+        const createdAt = item.createdAt || new Date().toISOString();
+        const updatedAt = item.updatedAt || createdAt;
+        return {
+          id: String(item.id),
+          name: String(item.name),
+          type: safeType,
+          price: item.price ? String(item.price) : "",
+          notes: item.notes ? String(item.notes) : "",
+          status: safeStatus,
+          createdAt: createdAt,
+          updatedAt: updatedAt
+        };
+      }
+
+      function saveItems(nextItems) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
+      }
+
+      function formatDate(iso) {
+        const date = new Date(iso);
+        if (Number.isNaN(date.getTime())) return "Unknown date";
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        }).format(date);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function applyFilter(allItems) {
+        if (activeFilter === "all") return allItems;
+        if (activeFilter === "sell" || activeFilter === "rent") {
+          return allItems.filter((item) => item.type === activeFilter);
+        }
+        return allItems.filter((item) => item.status === activeFilter);
+      }
+
+      function render() {
+        const total = items.length;
+        const pending = items.filter((item) => item.status === "pending").length;
+        const done = total - pending;
+
+        totalCountEl.textContent = String(total);
+        pendingCountEl.textContent = String(pending);
+        doneCountEl.textContent = String(done);
+
+        filterButtons.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.filter === activeFilter);
+        });
+
+        const filtered = applyFilter(items);
+        itemsEl.innerHTML = "";
+
+        if (!filtered.length) {
+          emptyEl.hidden = false;
+          return;
+        }
+        emptyEl.hidden = true;
+
+        filtered.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.className = "item " + (item.status === "done" ? "done" : "pending");
+          li.style.animationDelay = Math.min(index, 10) * 60 + "ms";
+          li.innerHTML = `
+            <div class="item-head">
+              <h3 class="item-title">${escapeHtml(item.name)}</h3>
+              <div class="item-tags">
+                <span class="tag ${item.type}">${item.type === "sell" ? "Sell" : "Rent"}</span>
+                <span class="tag ${item.status}">${item.status === "done" ? "Done" : "Pending"}</span>
+              </div>
+            </div>
+            ${item.notes ? `<p class="item-notes">${escapeHtml(item.notes)}</p>` : ""}
+            <div class="item-meta">
+              ${item.price ? `<span>Target: ${escapeHtml(item.price)}</span>` : ""}
+              <span>Created: ${escapeHtml(formatDate(item.createdAt))}</span>
+            </div>
+            <div class="item-actions">
+              <button class="item-btn ${item.status === "done" ? "status-done" : ""}" type="button" data-action="toggle" data-id="${escapeHtml(item.id)}">
+                ${item.status === "done" ? "Reopen" : "Mark done"}
+              </button>
+              <button class="item-btn delete" type="button" data-action="delete" data-id="${escapeHtml(item.id)}">
+                Delete
+              </button>
+            </div>
+          `;
+          itemsEl.appendChild(li);
+        });
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const name = nameInput.value.trim();
+        if (!name) {
+          nameInput.focus();
+          return;
+        }
+
+        const now = new Date().toISOString();
+        const newItem = {
+          id: randomId(),
+          name: name,
+          type: typeInput.value === "rent" ? "rent" : "sell",
+          price: priceInput.value.trim(),
+          notes: notesInput.value.trim(),
+          status: "pending",
+          createdAt: now,
+          updatedAt: now
+        };
+
+        items = [newItem].concat(items);
+        saveItems(items);
+        form.reset();
+        nameInput.focus();
+        render();
+      });
+
+      clearBtn.addEventListener("click", function () {
+        form.reset();
+        nameInput.focus();
+      });
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          activeFilter = button.dataset.filter || "all";
+          render();
+        });
+      });
+
+      itemsEl.addEventListener("click", function (event) {
+        const target = event.target.closest("button[data-action]");
+        if (!target) return;
+        const id = target.dataset.id;
+        const action = target.dataset.action;
+        if (!id || !action) return;
+
+        if (action === "toggle") {
+          items = items.map((item) => {
+            if (item.id !== id) return item;
+            const nextStatus = item.status === "done" ? "pending" : "done";
+            return {
+              ...item,
+              status: nextStatus,
+              updatedAt: new Date().toISOString()
+            };
+          });
+          saveItems(items);
+          render();
+          return;
+        }
+
+        if (action === "delete") {
+          const sure = window.confirm("Delete this entry?");
+          if (!sure) return;
+          items = items.filter((item) => item.id !== id);
+          saveItems(items);
+          render();
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
