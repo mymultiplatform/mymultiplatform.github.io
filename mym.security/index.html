@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MYM Security | MyMultiPlatform</title>
+  <meta name="description" content="MYM Security: servicio de guardias para negocios, obras y bodegas en Tijuana con turnos flexibles y arranque rapido.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0e1a2c;
+      --ink-soft: #42526b;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --line: #dbe5f3;
+      --navy: #16315b;
+      --mint: #19b5a4;
+      --mint-deep: #0f8e81;
+      --sun: #ffb233;
+      --sun-deep: #e9961a;
+      --danger: #cf3d3d;
+      --shadow: 0 18px 45px rgba(12, 27, 52, 0.12);
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Archivo", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(800px 420px at 100% 0%, rgba(25, 181, 164, 0.14), transparent 60%),
+        radial-gradient(760px 440px at 0% 100%, rgba(255, 178, 51, 0.16), transparent 62%),
+        linear-gradient(170deg, #f8fbff 0%, var(--bg) 46%, #eef3fa 100%);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(var(--max), 92%);
+      margin: 0 auto;
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: rgba(244, 247, 251, 0.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      text-decoration: none;
+      color: var(--navy);
+      font-family: "Sora", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.72);
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--navy);
+      border-color: #aac2e3;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 52px 0 24px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .hero-main {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(165deg, #ffffff 0%, #f4f9ff 55%, #f0fff8 100%);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .kicker {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--mint-deep);
+    }
+
+    h1 {
+      margin: 10px 0 10px;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      color: var(--navy);
+      max-width: 760px;
+    }
+
+    .hero-main p {
+      margin: 0;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      font-size: clamp(16px, 2vw, 19px);
+      max-width: 760px;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      border-radius: 12px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--mint);
+      color: #062625;
+    }
+
+    .btn-primary:hover {
+      background: var(--mint-deep);
+      color: #e9fffc;
+    }
+
+    .btn-secondary {
+      background: var(--sun);
+      color: #3b2300;
+    }
+
+    .btn-secondary:hover {
+      background: var(--sun-deep);
+      color: #fff4dc;
+    }
+
+    .hero-side {
+      border: 1px solid #d7e2f0;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #1b3762, #122947);
+      color: #eff6ff;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-side h2 {
+      margin: 0 0 12px;
+      font-family: "Sora", sans-serif;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .hero-side ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.5;
+    }
+
+    .hero-side li { margin-bottom: 8px; }
+
+    .section {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h2 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: 30px;
+      color: var(--navy);
+      line-height: 1.1;
+    }
+
+    .section p {
+      margin: 10px 0 0;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid #dbe5f2;
+      border-radius: 14px;
+      padding: 16px;
+      background: #fbfdff;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-family: "Sora", sans-serif;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #ecf6ff;
+      border: 1px solid #c8dcf6;
+      color: #17427a;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 8px 8px 0;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .price-card {
+      border: 1px solid #d8e4f3;
+      border-radius: 14px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff, #f6fbff);
+    }
+
+    .price-card h3 {
+      margin: 0;
+      font-family: "Sora", sans-serif;
+      font-size: 19px;
+      color: var(--navy);
+    }
+
+    .price {
+      margin: 10px 0 8px;
+      font-family: "Sora", sans-serif;
+      font-size: 29px;
+      color: #0f355f;
+      line-height: 1;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #61748f;
+      line-height: 1.4;
+    }
+
+    .warning {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #f3d7d7;
+      background: #fff8f8;
+      color: #7d2b2b;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .foot {
+      margin: 20px 0 36px;
+      color: #60738e;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .top-inner {
+        min-height: 72px;
+        padding: 10px 0;
+        align-items: flex-start;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .section h2 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="/">MyMultiPlatform | MYM Security</a>
+      <nav class="nav" aria-label="Navegacion principal">
+        <a href="/">Inicio</a>
+        <a href="/software/">Software</a>
+        <a href="mailto:security@mymultiplatform.com?subject=Cotizacion%20MYM%20Security">Cotizacion</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <article class="hero-main">
+        <p class="kicker">Nuevo producto de servicio</p>
+        <h1>MYM Security</h1>
+        <p>
+          Guardias para negocios, obra y estacionamientos en Tijuana. Modelo operativo para arrancar rapido,
+          cubrir turnos y escalar por contrato.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:security@mymultiplatform.com?subject=Quiero%20una%20cotizacion%20de%20MYM%20Security">Solicitar cotizacion</a>
+          <a class="btn btn-secondary" href="mailto:security@mymultiplatform.com?subject=Quiero%20ser%20guardia%20en%20MYM%20Security">Aplicar como guardia</a>
+        </div>
+      </article>
+
+      <aside class="hero-side">
+        <h2>Enfoque operativo</h2>
+        <ul>
+          <li>Turnos de 12h y 24h con cobertura nocturna.</li>
+          <li>Asignacion por zona, tipo de riesgo y horario.</li>
+          <li>Reportes diarios de incidencias y rondines.</li>
+          <li>Supervision y reemplazo rapido si hay faltas.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section" aria-label="Servicios principales">
+      <h2>Servicios disponibles</h2>
+      <p>Configuramos el servicio por giro y horario para reducir robos, daños y accesos no autorizados.</p>
+      <div style="margin-top:12px;">
+        <span class="badge">Cobertura Tijuana</span>
+        <span class="badge">Guardia fijo o rotativo</span>
+        <span class="badge">Control de acceso</span>
+        <span class="badge">Rondines documentados</span>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Vigilancia nocturna</h3>
+          <p>Ideal para obras, bodegas y talleres. Turnos enfocados en prevencion de robo y deteccion temprana.</p>
+        </article>
+        <article class="card">
+          <h3>Control de acceso</h3>
+          <p>Filtro de entradas y salidas, registro de visitantes y seguimiento de proveedores por horario.</p>
+        </article>
+        <article class="card">
+          <h3>Rondines y reporte</h3>
+          <p>Bitacora diaria con evidencia de recorridos, incidencias y alertas criticas para responsables del sitio.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Paquetes base">
+      <h2>Paquetes base</h2>
+      <p>Precios iniciales para pruebas y arranque comercial. Ajustables segun zona, riesgo y dias de cobertura.</p>
+      <div class="pricing">
+        <article class="price-card">
+          <h3>Plan Start</h3>
+          <p class="price">Desde $700 <span style="font-size:14px; font-family:Archivo,sans-serif;">/ turno</span></p>
+          <p class="small">1 guardia, 12 horas, cobertura puntual o eventos de alta necesidad.</p>
+        </article>
+        <article class="price-card">
+          <h3>Plan Mensual</h3>
+          <p class="price">Desde $18,000 <span style="font-size:14px; font-family:Archivo,sans-serif;">/ mes</span></p>
+          <p class="small">Cobertura continua con guardia asignado, cambios de turno y reportes semanales.</p>
+        </article>
+        <article class="price-card">
+          <h3>Plan Obra</h3>
+          <p class="price">Cotizacion</p>
+          <p class="small">Servicio para construccion con rondines extras y control de herramientas/material.</p>
+        </article>
+      </div>
+      <div class="warning">
+        Operacion sujeta a alta legal, contratos laborales y permisos estatales aplicables para seguridad privada en Baja California.
+      </div>
+    </section>
+
+    <section class="section" aria-label="Proceso de arranque">
+      <h2>Como arrancamos en 72 horas</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>1) Diagnostico</h3>
+          <p>Revisamos ubicacion, horarios criticos y puntos vulnerables del sitio.</p>
+        </article>
+        <article class="card">
+          <h3>2) Asignacion</h3>
+          <p>Seleccionamos perfil de guardia, definimos turnos y lineamientos por cliente.</p>
+        </article>
+        <article class="card">
+          <h3>3) Operacion</h3>
+          <p>Iniciamos cobertura, supervisamos cumplimiento y entregamos reporte de arranque.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="foot">
+      MYM Security - MyMultiPlatform.<br>
+      Contacto directo: <a href="mailto:security@mymultiplatform.com">security@mymultiplatform.com</a>
+    </footer>
+  </main>
+</body>
+</html>
