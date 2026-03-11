@@ -138,6 +138,37 @@
       line-height: 1.45;
     }
 
+    .home-banner {
+      position: relative;
+      height: clamp(180px, 32vw, 260px);
+      border: 1px solid #2d415b;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #0b1420;
+    }
+
+    .home-banner-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+
+    .home-banner-slide.active {
+      opacity: 1;
+    }
+
+    .home-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 10, 18, 0.12), rgba(5, 10, 18, 0.55));
+      pointer-events: none;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -225,6 +256,11 @@
       <div class="panel-top">
         <h2>Welcome</h2>
         <a class="open-link" href="/" aria-disabled="true">You Are On Home</a>
+      </div>
+      <div class="home-banner" aria-label="Animated home banner">
+        <div class="home-banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');"></div>
+        <div class="home-banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');"></div>
+        <div class="home-banner-slide" style="background-image: linear-gradient(140deg, #223b5b, #152438 55%, #0f1827);"></div>
       </div>
       <p>
         This homepage now keeps navigation in-page first. Select any tab to preview that area here,
@@ -352,6 +388,9 @@
   <script>
     const buttons = document.querySelectorAll('.tab-btn');
     const panels = document.querySelectorAll('.panel');
+    const homeSlides = document.querySelectorAll('.home-banner-slide');
+    const homePanel = document.getElementById('panel-home');
+    let homeSlideIndex = 0;
 
     function showTab(tabId) {
       buttons.forEach((btn) => {
@@ -366,6 +405,15 @@
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => showTab(btn.dataset.tab));
     });
+
+    if (homeSlides.length > 1) {
+      setInterval(() => {
+        if (!homePanel.classList.contains('active')) return;
+        homeSlides[homeSlideIndex].classList.remove('active');
+        homeSlideIndex = (homeSlideIndex + 1) % homeSlides.length;
+        homeSlides[homeSlideIndex].classList.add('active');
+      }, 5000);
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
       const hash = (window.location.hash || '').replace('#', '');
