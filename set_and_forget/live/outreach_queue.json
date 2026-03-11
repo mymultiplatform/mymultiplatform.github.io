@@ -932,12 +932,14 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-10113857462&vertical=med-clinic",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
     "createdAtUtc": "2026-03-08T02:36:47.591Z",
     "lastError": "",
-    "smsLastError": ""
+    "smsLastError": "",
+    "emailSentAtUtc": "2026-03-11T02:07:04.588Z",
+    "sentAtUtc": "2026-03-11T02:07:04.588Z"
   },
   {
     "leadId": "node-5144565100",
@@ -1092,12 +1094,14 @@
     "ctaUrl": "https://www.mymultiplatform.com/set_and_forget/offer.html?src=outreach&lead=node-13585620065&vertical=dentist",
     "messageKind": "initial",
     "followupStage": 0,
-    "status": "pending",
-    "emailStatus": "pending",
+    "status": "sent",
+    "emailStatus": "sent",
     "smsStatus": "pending",
     "createdAtUtc": "2026-03-08T02:36:47.591Z",
     "lastError": "",
-    "smsLastError": ""
+    "smsLastError": "",
+    "emailSentAtUtc": "2026-03-11T02:07:04.836Z",
+    "sentAtUtc": "2026-03-11T02:07:04.836Z"
   },
   {
     "leadId": "node-12281098009",

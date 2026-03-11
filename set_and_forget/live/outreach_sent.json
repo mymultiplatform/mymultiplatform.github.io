@@ -1114,5 +1114,33 @@
     "sentAtUtc": "2026-03-10T04:25:40.406Z",
     "sentDate": "2026-03-10",
     "status": "sent"
+  },
+  {
+    "leadId": "node-10113857462",
+    "businessName": "Restore SD Plastic Surgery: Katerina Gallus, MD, FACS",
+    "email": "info@restoresdplasticsurgery.com",
+    "recipient": "info@restoresdplasticsurgery.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageKind": "initial",
+    "followupStage": 0,
+    "messageId": "",
+    "sentAtUtc": "2026-03-11T02:07:04.588Z",
+    "sentDate": "2026-03-11",
+    "status": "sent"
+  },
+  {
+    "leadId": "node-13585620065",
+    "businessName": "Baja Dental Smile",
+    "email": "hello@mexdentalimplants.com",
+    "recipient": "hello@mexdentalimplants.com",
+    "provider": "apple-mail",
+    "channel": "email",
+    "messageKind": "initial",
+    "followupStage": 0,
+    "messageId": "",
+    "sentAtUtc": "2026-03-11T02:07:04.836Z",
+    "sentDate": "2026-03-11",
+    "status": "sent"
   }
 ]
