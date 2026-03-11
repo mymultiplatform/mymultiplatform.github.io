@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MyMultiplatform Server Redirect</title>
+  <title>MyMultiplatform /server</title>
   <style>
     body {
       margin: 0;
@@ -16,15 +16,15 @@
       padding: 20px;
     }
     .card {
-      width: min(560px, 100%);
+      width: min(720px, 100%);
       border: 1px solid #334155;
       border-radius: 14px;
       background: #111827;
-      padding: 20px;
+      padding: 22px;
     }
-    h1 { margin: 0 0 10px; font-size: 1.3rem; }
+    h1 { margin: 0 0 10px; font-size: 1.35rem; }
     p { margin: 0 0 12px; color: #cbd5e1; line-height: 1.5; }
-    a {
+    .btn {
       display: inline-block;
       margin-top: 8px;
       border-radius: 10px;
@@ -45,53 +45,38 @@
 </head>
 <body>
   <main class="card">
-    <h1>Redirecting To PDF Server</h1>
-    <p>This route now uses the live Ubuntu backend.</p>
-    <p>If redirect does not happen automatically, open:
-      <br><code id="targetText"></code>
-    </p>
-    <a id="openLink" href="#">Open PDF Server</a>
+    <h1>Direct /server Deployment</h1>
+    <p>Cloudflare tunnel mode was disabled. This route is now expected to be served directly by your Ubuntu nginx backend.</p>
+    <p>Current direct target configured in this repo:</p>
+    <p><code id="targetText">Loading...</code></p>
+    <a id="openLink" class="btn" href="#">Open Direct Server</a>
   </main>
 
   <script>
-    const fallbackTarget = "https://endangered-itself-fda-star.trycloudflare.com/server";
     const targetTextEl = document.getElementById("targetText");
     const openLinkEl = document.getElementById("openLink");
-
-    function setTarget(target) {
-      openLinkEl.href = target;
-      targetTextEl.textContent = target;
-      setTimeout(() => {
-        window.location.replace(target);
-      }, 300);
-    }
+    const fallbackTarget = "https://licensing-islands-league-ever.trycloudflare.com/server";
 
     async function resolveTarget() {
-      const sources = [
-        "https://raw.githubusercontent.com/mymultiplatform/mymultiplatform.github.io/main/server_target.json",
-        "/server_target.json",
-      ];
-      for (const source of sources) {
-        try {
-          const separator = source.includes("?") ? "&" : "?";
-          const response = await fetch(`${source}${separator}ts=${Date.now()}`, {
-            cache: "no-store",
-          });
-          if (!response.ok) {
-            continue;
-          }
+      try {
+        const response = await fetch(`/server_target.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (response.ok) {
           const payload = await response.json();
-          if (payload && typeof payload.target === "string" && payload.target.startsWith("https://")) {
+          if (payload && typeof payload.target === "string" && payload.target.length > 0) {
             return payload.target;
           }
-        } catch (_error) {
-          // Try the next target source.
         }
+      } catch (_err) {
+        // Use fallback target.
       }
       return fallbackTarget;
     }
 
-    resolveTarget().then(setTarget);
+    resolveTarget().then((target) => {
+      targetTextEl.textContent = target;
+      openLinkEl.href = target;
+      window.location.replace(target);
+    });
   </script>
 </body>
 </html>
