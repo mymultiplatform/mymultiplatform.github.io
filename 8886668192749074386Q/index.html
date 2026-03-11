@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blueprint Seguridad | MyMultiPlatform</title>
+  <meta name="description" content="Blueprint operativo para crecimiento de empresa de guardias de seguridad.">
+  <style>
+    :root {
+      --bg: #071426;
+      --bg-soft: #0e223d;
+      --card: #122b4d;
+      --line: #284b76;
+      --ink: #ebf3ff;
+      --muted: #b7c9e5;
+      --accent: #5aa8ff;
+      --accent-2: #2f7be0;
+      --ok: #29cf92;
+      --warn: #ffcc66;
+      --max: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 90% -5%, rgba(90, 168, 255, 0.16), transparent 60%),
+        radial-gradient(760px 420px at 0% 100%, rgba(47, 123, 224, 0.18), transparent 62%),
+        linear-gradient(165deg, #06101f, var(--bg));
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(var(--max), 92%);
+      margin: 0 auto;
+      padding: 24px 0 36px;
+    }
+
+    .top {
+      margin-bottom: 14px;
+    }
+
+    .kicker {
+      margin: 0;
+      color: #8fc1ff;
+      font-size: 12px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 6px 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 800px;
+      font-size: 16px;
+    }
+
+    .note {
+      margin-top: 14px;
+      border: 1px solid #2f5686;
+      background: #0c1e36;
+      border-radius: 12px;
+      padding: 12px;
+      color: #c3d6f2;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #112744, #0d2038);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.15;
+      color: #dcedff;
+    }
+
+    .card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    pre {
+      margin: 10px 0 0;
+      background: #08192f;
+      border: 1px solid #254a78;
+      border-radius: 12px;
+      padding: 12px;
+      color: #dbe9ff;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #d8e8ff;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .pill-row {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid #355f92;
+      background: #102744;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #d4e6ff;
+      font-weight: 600;
+    }
+
+    .ok { color: var(--ok); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
+
+    .foot {
+      margin-top: 18px;
+      border-top: 1px solid #26436a;
+      padding-top: 12px;
+      color: #9cb6d8;
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      .wrap { padding-top: 20px; }
+      .card h2 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <p class="kicker">MYM Security Blueprint</p>
+      <h1>Estructura de supervision para empresa de guardias</h1>
+      <p class="lead">
+        Si: el supervisor supervisa a los guardias. Este documento sirve como blueprint
+        para escalar sin que el dueno tenga que operar todo manualmente.
+      </p>
+      <div class="note">
+        Objetivo: tener un plan claro por etapa de crecimiento. Empezar simple,
+        delegar supervision al crecer, y despues profesionalizar operaciones.
+      </div>
+    </header>
+
+    <section class="grid" aria-label="Etapas">
+      <article class="card">
+        <h2>Etapa 1 - Inicio (1 a 5 guardias)</h2>
+        <pre>Dueno (tu)
+  |
+Guardias</pre>
+        <ul>
+          <li>Hablas con el cliente.</li>
+          <li>Revisas asistencia y puntualidad.</li>
+          <li>Pagas sueldos y controlas turnos basicos.</li>
+        </ul>
+        <p><span class="ok">No necesitas supervisor todavia.</span></p>
+      </article>
+
+      <article class="card">
+        <h2>Etapa 2 - Crecimiento (6 a 15 guardias)</h2>
+        <pre>Dueno
+  |
+Supervisor
+  |
+Guardias</pre>
+        <ul>
+          <li>El supervisor valida cobertura en sitio.</li>
+          <li>Cubre faltas y coordina reemplazos.</li>
+          <li>Entrega uniforme y revisa reportes.</li>
+          <li>Hace rondas en carro o moto.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Etapa 3 - Empresa grande (20+ guardias)</h2>
+        <pre>Dueno
+  |
+Operaciones
+  |
+Supervisores
+  |
+Guardias</pre>
+        <ul>
+          <li>Supervisores por zona.</li>
+          <li>Oficina y control operativo.</li>
+          <li>Contratos grandes: plazas, fabricas, hospitales.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:12px;" aria-label="Regla practica">
+      <h2>Regla operativa recomendada</h2>
+      <p>
+        Muchas empresas grandes usan <strong>1 supervisor por cada 10 a 15 guardias</strong>.
+        Si tienes 30 guardias, intentar revisar todo tu solo rompe la operacion.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Escala con delegacion</span>
+        <span class="pill">1:10 a 1:15 supervision</span>
+        <span class="pill">Priorizar cobertura y reporte</span>
+      </div>
+      <p class="note" style="margin-top:12px;">
+        Riesgo principal: operar sin control de cobertura (faltas, reemplazos y reportes).
+        <span class="warn">Ese es uno de los fallos que mas destruye empresas de seguridad.</span>
+      </p>
+    </section>
+
+    <footer class="foot">
+      Hidden URL publico para uso interno de planeacion: /8886668192749074386Q
+    </footer>
+  </main>
+</body>
+</html>
