@@ -188,6 +188,16 @@
       background: #111a27;
     }
 
+    .site-foot {
+      width: min(var(--max), 100% - 24px);
+      margin: 0 auto 30px;
+      text-align: center;
+      font-size: 13px;
+      color: #a7b8d3;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
     @media (max-width: 680px) {
       h2 { font-size: 24px; }
       .panel { padding: 14px; }
@@ -336,6 +346,8 @@
       </div>
     </section>
   </main>
+
+  <footer class="site-foot">In San Diego Coming Soon</footer>
 
   <script>
     const buttons = document.querySelectorAll('.tab-btn');
