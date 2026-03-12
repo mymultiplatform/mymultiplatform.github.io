@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Sanchez Applications</title>
+  <style>
+    :root {
+      --bg: #f3f7fb;
+      --card: #ffffff;
+      --line: #d8e3ef;
+      --text: #122235;
+      --muted: #556779;
+      --accent: #0f766e;
+      --secondary: #1d4ed8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, #d9f7ec 0%, transparent 30%),
+        radial-gradient(circle at 80% 20%, #dce9ff 0%, transparent 36%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .card {
+      width: min(860px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      box-shadow: 0 18px 40px rgba(11, 32, 58, 0.12);
+      padding: 26px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.8rem; }
+    p { margin: 0 0 12px; color: var(--muted); line-height: 1.5; }
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 15px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      color: #ffffff;
+      background: var(--accent);
+    }
+    .btn.secondary { background: var(--secondary); }
+    .btn.ghost {
+      background: #f0f5ff;
+      color: #1d3f8b;
+      border: 1px solid #bdd0f3;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .tile {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #f9fbff;
+      padding: 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .tile strong { color: var(--text); display: block; margin-bottom: 4px; }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Rentas Sanchez</h1>
+    <p>Tenant application portal for apartment rooms 1, 2, 3, 4, and 5.</p>
+    <p>Create your account with your email, sign in, complete the application, and upload all requested documents.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="row">
+      <a class="btn" href="{{ url_for('rentas_signup_page') }}">Sign Up</a>
+      <a class="btn secondary" href="{{ url_for('rentas_login_page') }}">Tenant Sign In</a>
+      <a class="btn ghost" href="{{ url_for('rentas_manager_login_page') }}">Manager Dashboard</a>
+    </div>
+
+    <div class="grid">
+      <div class="tile">
+        <strong>Account Fields</strong>
+        Full name, email (username), and password.
+      </div>
+      <div class="tile">
+        <strong>Application Fields</strong>
+        Room, IDs, bank, address details, reference, income proof, and bank statement.
+      </div>
+      <div class="tile">
+        <strong>Manager Access</strong>
+        Only manager credentials can review and select candidates.
+      </div>
+      <div class="tile">
+        <strong>Route</strong>
+        <code>/rentas.sanchez</code>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

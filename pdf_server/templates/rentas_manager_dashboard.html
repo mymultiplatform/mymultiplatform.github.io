@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Sanchez Manager Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #111b2d;
+      --line: #2d3d57;
+      --text: #e6eefb;
+      --muted: #9cb0cf;
+      --accent: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #101a2e 0%, var(--bg) 45%);
+      padding: 18px;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn.logout { background: #24344f; color: #e9f1ff; }
+    .btn.save { background: var(--accent); color: #06210f; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .tile {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: #0f1727;
+    }
+    .tile .k { color: var(--muted); font-size: 0.88rem; }
+    .tile .v { font-size: 1.5rem; font-weight: 800; }
+    .flash {
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #38537e;
+      background: #17243b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    th { background: #132138; }
+    tr:last-child td { border-bottom: 0; }
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.82rem;
+      text-transform: capitalize;
+      border: 1px solid #4a628c;
+      background: #162743;
+    }
+    .status.pending { color: #ffd784; }
+    .status.selected { color: #9df0bf; }
+    .status.rejected { color: #ffb3b3; }
+    .docs a {
+      display: block;
+      color: #93c5fd;
+      text-decoration: none;
+      margin-bottom: 3px;
+    }
+    .docs a:hover { text-decoration: underline; }
+    select, textarea {
+      width: 100%;
+      border: 1px solid #41557b;
+      border-radius: 8px;
+      background: #0c1423;
+      color: var(--text);
+      padding: 8px;
+      margin-bottom: 7px;
+      font: inherit;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    @media (max-width: 980px) {
+      .stats { grid-template-columns: 1fr; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px; }
+      td { border: 0; border-bottom: 1px solid #22314b; }
+      td:last-child { border-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1 style="margin:0 0 6px;">Manager Dashboard</h1>
+        <div style="color:var(--muted);">Signed in as {{ manager_username }}</div>
+      </div>
+      <form method="post" action="{{ url_for('rentas_manager_logout') }}">
+        <button class="btn logout" type="submit">Log Out</button>
+      </form>
+    </div>
+
+    <div class="stats">
+      <div class="tile"><div class="k">Pending</div><div class="v">{{ stats.pending }}</div></div>
+      <div class="tile"><div class="k">Selected</div><div class="v">{{ stats.selected }}</div></div>
+      <div class="tile"><div class="k">Rejected</div><div class="v">{{ stats.rejected }}</div></div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <section class="card">
+      {% if candidates %}
+      <table>
+        <thead>
+          <tr>
+            <th>Candidate</th>
+            <th>Application</th>
+            <th>Documents</th>
+            <th>Decision</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in candidates %}
+            <tr>
+              <td>
+                <strong>{{ c.full_name }}</strong><br>
+                {{ c.email }}<br>
+                Room {{ c.apartment_room }}<br>
+                Bank: {{ c.bank_name|upper }}<br>
+                Status: <span class="status {{ c.status }}">{{ c.status }}</span>
+              </td>
+              <td>
+                <strong>Address:</strong> {{ c.current_address }}<br>
+                <strong>Reference:</strong> {{ c.reference_name }} ({{ c.reference_phone }})<br>
+                <strong>Submitted:</strong> {{ c.created_at }}<br>
+                <strong>Updated:</strong> {{ c.updated_at }}
+              </td>
+              <td class="docs">
+                <a href="{{ url_for('rentas_manager_file', application_id=c.id, doc_kind='photo-id') }}" target="_blank" rel="noopener">Photo ID</a>
+                <a href="{{ url_for('rentas_manager_file', application_id=c.id, doc_kind='second-id') }}" target="_blank" rel="noopener">Second ID</a>
+                <a href="{{ url_for('rentas_manager_file', application_id=c.id, doc_kind='address-proof') }}" target="_blank" rel="noopener">Address Proof</a>
+                <a href="{{ url_for('rentas_manager_file', application_id=c.id, doc_kind='income-proof') }}" target="_blank" rel="noopener">Income Proof</a>
+                <a href="{{ url_for('rentas_manager_file', application_id=c.id, doc_kind='bank-statement') }}" target="_blank" rel="noopener">Bank Statement</a>
+              </td>
+              <td>
+                <form method="post" action="{{ url_for('rentas_manager_candidate_status', application_id=c.id) }}">
+                  <select name="status" required>
+                    {% for status in status_options %}
+                      <option value="{{ status }}" {% if c.status == status %}selected{% endif %}>{{ status|capitalize }}</option>
+                    {% endfor %}
+                  </select>
+                  <textarea name="manager_notes" placeholder="Manager notes (optional)">{{ c.manager_notes }}</textarea>
+                  <button class="btn save" type="submit">Save Decision</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p style="margin:0;color:var(--muted);">No candidates submitted yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</body>
+</html>

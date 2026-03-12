@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Sanchez Application</title>
+  <style>
+    :root {
+      --bg: #f5f9ff;
+      --card: #ffffff;
+      --line: #d8e5f5;
+      --text: #10233a;
+      --muted: #576e86;
+      --accent: #0f766e;
+      --ok: #127a45;
+      --warn: #8a5d00;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 80% 5%, #d7f4e9 0%, transparent 26%),
+        radial-gradient(circle at 10% 15%, #dbe8ff 0%, transparent 30%),
+        var(--bg);
+      padding: 20px;
+    }
+    .wrap { max-width: 940px; margin: 0 auto; }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #f1fffd;
+      background: var(--accent);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn.ghost {
+      background: #eef4ff;
+      color: #234f92;
+      border: 1px solid #bcd0f2;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(12, 34, 60, 0.08);
+      margin-bottom: 14px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.45rem; }
+    h2 { margin: 0 0 8px; font-size: 1.06rem; }
+    p { margin: 0 0 10px; color: var(--muted); }
+    label { display: block; margin: 12px 0 6px; font-weight: 600; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fbfdff;
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 1rem;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .flash {
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border: 1px solid var(--line);
+      background: #f0f7ff;
+    }
+    .flash.success {
+      border-color: #9ddfbe;
+      background: #edfdf4;
+      color: var(--ok);
+    }
+    .flash.error {
+      border-color: #f4b8b3;
+      background: #fff1f0;
+      color: var(--danger);
+    }
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid #bad4f6;
+      background: #edf4ff;
+      color: #174d9a;
+      text-transform: capitalize;
+      font-weight: 700;
+      font-size: 0.87rem;
+    }
+    .doc-line {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      .top { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Rentas Sanchez Application</h1>
+        <p>Applicant: <strong>{{ user.full_name }}</strong> ({{ user.email }})</p>
+      </div>
+      <form method="post" action="{{ url_for('rentas_logout') }}">
+        <button class="btn ghost" type="submit">Tenant Log Out</button>
+      </form>
+    </div>
+
+    <section class="card">
+      <p>Complete the form and upload all documents to become a potential candidate for manager review.</p>
+      {% if application %}
+        <p>Current status: <span class="status">{{ application.status }}</span></p>
+        <p>Last update: {{ application.updated_at }}</p>
+      {% else %}
+        <p>Current status: <span class="status">not submitted</span></p>
+      {% endif %}
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </section>
+
+    <form class="card" method="post" action="{{ url_for('rentas_apply_submit') }}" enctype="multipart/form-data">
+      <h2>Application Details</h2>
+      <div class="grid">
+        <div>
+          <label for="apartment_room">Select Apartment Room</label>
+          <select id="apartment_room" name="apartment_room" required>
+            <option value="">Choose one...</option>
+            {% for room in apartment_options %}
+              <option value="{{ room }}" {% if application and application.apartment_room|string == room %}selected{% endif %}>Room {{ room }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="bank_name">Select Your Bank</label>
+          <select id="bank_name" name="bank_name" required>
+            <option value="">Choose one...</option>
+            {% for bank in bank_options %}
+              <option value="{{ bank }}" {% if application and application.bank_name == bank %}selected{% endif %}>{{ bank|upper }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <label for="current_address">Current Address</label>
+      <textarea id="current_address" name="current_address" required>{{ application.current_address if application else '' }}</textarea>
+
+      <div class="grid">
+        <div>
+          <label for="reference_name">Reference Name</label>
+          <input id="reference_name" name="reference_name" value="{{ application.reference_name if application else '' }}" required>
+        </div>
+        <div>
+          <label for="reference_phone">Reference Phone Number</label>
+          <input id="reference_phone" name="reference_phone" value="{{ application.reference_phone if application else '' }}" required>
+        </div>
+      </div>
+
+      <h2 style="margin-top:16px;">Required Uploads</h2>
+      {% for form_name, column_name, _, label in doc_specs %}
+        <label for="{{ form_name }}">{{ label }}</label>
+        <input id="{{ form_name }}" name="{{ form_name }}" type="file" accept=".pdf,.png,.jpg,.jpeg" {% if not application %}required{% endif %}>
+        {% if application and application[column_name] %}
+          <div class="doc-line">Current file: {{ application[column_name] }} (leave blank to keep current file)</div>
+        {% endif %}
+      {% endfor %}
+
+      <button class="btn" style="margin-top:16px;" type="submit">Submit Complete Application</button>
+    </form>
+  </div>
+</body>
+</html>

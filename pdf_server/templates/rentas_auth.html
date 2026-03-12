@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Sanchez Access</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2b;
+      --line: #33435e;
+      --text: #e8f0ff;
+      --muted: #9eb2cf;
+      --accent: #22c55e;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, #1e2c49 0%, transparent 34%),
+        radial-gradient(circle at 90% 30%, #173b3f 0%, transparent 26%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    .card {
+      width: min(520px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 22px;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    p { margin: 0 0 14px; color: var(--muted); }
+    label { display: block; margin: 10px 0 6px; font-weight: 600; }
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b1220;
+      color: var(--text);
+      padding: 11px 12px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 14px;
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #05210f;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .flash {
+      margin-bottom: 10px;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      border-radius: 10px;
+      background: rgba(248, 113, 113, 0.12);
+      color: #ffd7d7;
+      padding: 9px 10px;
+    }
+    .alt {
+      display: inline-block;
+      margin-top: 12px;
+      color: #86a8ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>{{ heading }}</h1>
+    <p>{{ subheading }}</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ action_url }}">
+      {% if show_full_name %}
+        <label for="full_name">Full Name</label>
+        <input id="full_name" name="full_name" autocomplete="name" required>
+      {% endif %}
+
+      <label for="email">Email (username)</label>
+      <input id="email" name="email" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+      <button type="submit">{{ submit_label }}</button>
+    </form>
+
+    <a class="alt" href="{{ alternate_url }}">{{ alternate_label }}</a>
+  </main>
+</body>
+</html>

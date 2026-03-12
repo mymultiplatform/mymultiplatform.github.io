@@ -1,158 +1,97 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Rentas Sanchez - Landlord App</title>
-    <meta charset="UTF-8">
-    <style>
-        body { font-family: Arial; background:#f3f3f3; padding:20px; }
-        h1 { color:#333; }
-        #tenantTable { width:100%; border-collapse: collapse; margin-top:20px; }
-        #tenantTable th, #tenantTable td {
-            border:1px solid #aaa; padding:8px; text-align:left;
-        }
-        #tenantTable th { background:#ddd; }
-        .upload-box {
-            border:2px dashed #888; padding:20px; width:300px;
-            background:white; cursor:pointer; margin-bottom:20px;
-        }
-        .plus-btn {
-            font-size:30px; font-weight:bold;
-            background:#4CAF50; color:white; padding:10px 20px;
-            border:none; border-radius:5px; cursor:pointer;
-        }
-    </style>
-
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Sanchez / Redirect</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --line: #334155;
+      --text: #e2e8f0;
+      --muted: #cbd5e1;
+      --accent: #22c55e;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, #182236 0%, var(--bg) 50%);
+    }
+    .card {
+      width: min(740px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 22px;
+    }
+    h1 { margin: 0 0 10px; }
+    p { margin: 0 0 10px; color: var(--muted); line-height: 1.45; }
+    code {
+      display: inline-block;
+      border: 1px solid #273447;
+      border-radius: 8px;
+      padding: 4px 8px;
+      color: #93c5fd;
+      background: #0b1220;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: var(--accent);
+      color: #06210f;
+      font-weight: 700;
+    }
+  </style>
 </head>
-
 <body>
+  <main class="card">
+    <h1>Rentas Sanchez</h1>
+    <p>Redirecting to your live rental application server.</p>
+    <p><code id="targetText">Loading target...</code></p>
+    <a id="openLink" class="btn" href="#">Open Rentas Sanchez</a>
+  </main>
 
-<h1>🏠 Rentas Sanchez — Landlord Dashboard</h1>
+  <script>
+    const targetTextEl = document.getElementById("targetText");
+    const openLinkEl = document.getElementById("openLink");
+    const fallbackTarget = "https://duo-gradually-interface-carolina.trycloudflare.com/rentas.sanchez";
 
-<p>Upload a .txt contract to auto-create a new tenant profile.</p>
-
-<!-- plus button -->
-<button class="plus-btn" onclick="document.getElementById('fileInput').click()">+ Add New Contract</button>
-
-<input type="file" id="fileInput" accept=".txt,.pdf" style="display:none">
-
-<div id="output"></div>
-
-<table id="tenantTable">
-    <thead>
-        <tr>
-            <th>Tenant Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Monthly Rent</th>
-            <th>Rent Due Day</th>
-        </tr>
-    </thead>
-    <tbody id="tenantBody">
-    </tbody>
-</table>
-
-
-<script>
-// Listen for contract file upload
-document.getElementById("fileInput").addEventListener("change", function() {
-    const file = this.files[0];
-    if (!file) return;
-
-    const ext = (file.name.split(".").pop() || "").toLowerCase();
-
-    // Reset so user can upload the same file again
-    this.value = "";
-
-    if (ext === "txt") {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            handleContractText(e.target.result);
-        };
-        reader.readAsText(file);
-        return;
+    function routeFromTarget(rawTarget) {
+      if (typeof rawTarget !== "string" || rawTarget.length === 0) {
+        return fallbackTarget;
+      }
+      const base = rawTarget.replace(/\/server\/?$/, "");
+      return `${base}/rentas.sanchez`;
     }
 
-    if (ext === "pdf") {
-        const reader = new FileReader();
-
-        reader.onload = async function(e) {
-            try {
-                // Important for pdf.js worker
-                pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-
-                const typedArray = new Uint8Array(e.target.result);
-                const pdf = await pdfjsLib.getDocument({ data: typedArray }).promise;
-
-                let fullText = "";
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
-                    const strings = content.items.map(item => item.str);
-                    fullText += strings.join(" ") + "\n";
-                }
-
-                handleContractText(fullText);
-            } catch (err) {
-                document.getElementById("output").innerHTML =
-                    "<h3>Error reading PDF:</h3><pre>" + (err && err.message ? err.message : err) + "</pre>";
-            }
-        };
-
-        reader.readAsArrayBuffer(file);
-        return;
+    async function resolveTarget() {
+      try {
+        const response = await fetch(`/server_target.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (response.ok) {
+          const payload = await response.json();
+          if (payload && typeof payload.target === "string" && payload.target.length > 0) {
+            return routeFromTarget(payload.target);
+          }
+        }
+      } catch (_err) {
+      }
+      return fallbackTarget;
     }
 
-    document.getElementById("output").innerHTML =
-        "<h3>Unsupported file type:</h3><pre>Please upload a .txt or .pdf file.</pre>";
-});
-
-function handleContractText(text) {
-    // DISPLAY RAW TEXT FOR DEBUGGING (same behavior you had)
-    document.getElementById("output").innerHTML =
-        "<h3>Parsed Contract Text:</h3><pre>" + text + "</pre>";
-
-    // --- SPANISH CONTRACT EXTRACTION LOGIC (matches your PDF format) ---
-
-    // ARRENDATARIO: NAME...
-    const tenantMatch = text.match(/ARRENDATARIO:\s*([A-ZÁÉÍÓÚÑ\s]+?)(?:\s+ACEPTANDO|\s+CLÁUSULAS:|\n|$)/i);
-
-    // "a partir del día 3 de Marzo del 2024"
-    const startMatch  = text.match(/a partir del día\s+(\d{1,2}\s+de\s+[A-Za-zÁÉÍÓÚñ]+\s+del\s+\d{4})/i);
-
-    // "hasta el día 3 de Septiembre de 2024"  (sometimes "del", sometimes "de")
-    const endMatch    = text.match(/hasta el día\s+(\d{1,2}\s+de\s+[A-Za-zÁÉÍÓÚñ]+\s+(?:del|de)\s+\d{4})/i);
-
-    // Rent formats seen:
-    // - "será de 4,000.00 pesos"
-    // - "será de $500 usd dólares estadounidenses"
-    // - could also appear as "será de $ 4,000.00"
-    const rentMatch = text.match(/precio del arrendamiento será de\s+(\$?\s*[\d.,]+(?:\s*(?:pesos|usd|dólares|dolares))?)/i);
-
-    const tenantName = tenantMatch ? tenantMatch[1].replace(/\s+/g, " ").trim() : "Not found";
-    const startDate  = startMatch ? startMatch[1].replace(/\s+/g, " ").trim() : "Not found";
-    const endDate    = endMatch ? endMatch[1].replace(/\s+/g, " ").trim() : "Not found";
-    const rentAmount = rentMatch ? rentMatch[1].replace(/\s+/g, " ").trim() : "Not found";
-
-    // Your PDF format doesn't explicitly state a numeric "due day", it states monthly advance payment
-    const dueDay = "Mensual por adelantado";
-
-    // Add row to table
-    const row = `
-        <tr>
-            <td>${tenantName}</td>
-            <td>${startDate}</td>
-            <td>${endDate}</td>
-            <td>${rentAmount}</td>
-            <td>${dueDay}</td>
-        </tr>
-    `;
-
-    document.getElementById("tenantBody").innerHTML += row;
-}
-</script>
-
+    resolveTarget().then((target) => {
+      targetTextEl.textContent = target;
+      openLinkEl.href = target;
+      window.location.replace(target);
+    });
+  </script>
 </body>
 </html>
