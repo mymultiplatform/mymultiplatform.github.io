@@ -243,6 +243,7 @@
     </div>
     <nav class="tabs" aria-label="Main tabs">
       <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="ad-division">Ad Division</button>
       <button class="tab-btn" data-tab="architecture">Architecture</button>
       <button class="tab-btn" data-tab="software">Software</button>
       <button class="tab-btn" data-tab="machine-learning">Machine Learning</button>
@@ -268,8 +269,16 @@
       </p>
       <div class="grid">
         <article class="card">
+          <h3>Ad Division</h3>
+          <p>Launch the MYM service lines with a focused lead-generation plan and a dedicated ad route.</p>
+        </article>
+        <article class="card">
           <h3>Architecture</h3>
           <p>Preview projects and then open the full architecture portfolio.</p>
+        </article>
+        <article class="card">
+          <h3>MYM Security</h3>
+          <p>New security-operations product for guard coverage in Tijuana and surrounding zones.</p>
         </article>
         <article class="card">
           <h3>Software</h3>
@@ -280,16 +289,34 @@
           <p>Preview both technical tracks with direct links to their dedicated pages.</p>
         </article>
         <article class="card">
-          <h3>MYM Security</h3>
-          <p>New security-operations product for guard coverage in Tijuana and surrounding zones.</p>
-        </article>
-        <article class="card">
           <h3>Ventas Personales</h3>
           <p>Track personal items to sell or rent in one simple private board.</p>
         </article>
       </div>
       <div class="pill-row">
+        <a class="open-link" href="/ad_division/">Open Ad Division</a>
         <a class="open-link" href="/ventas_personales88666Q/">Open Ventas Personales</a>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-ad-division" role="tabpanel">
+      <div class="panel-top">
+        <h2>Ad Division Preview</h2>
+        <a class="open-link" href="/ad_division/">Open Full Ad Division Page</a>
+      </div>
+      <p>
+        This lane is built to help MyMultiPlatform start offering services more aggressively, with a simple
+        demand plan for architecture, software, and security.
+      </p>
+      <ul class="list">
+        <li>Channel mix focused on high-intent Google demand and B2B LinkedIn capture.</li>
+        <li>Budget shape for test, operating, and scale phases.</li>
+        <li>30-day launch plan with offer tightening, ads, and follow-up discipline.</li>
+      </ul>
+      <div class="pill-row">
+        <span class="pill">Lead Generation</span>
+        <span class="pill">Offer Positioning</span>
+        <span class="pill">30-Day Sprint</span>
       </div>
     </section>
 
@@ -424,7 +451,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       const hash = (window.location.hash || '').replace('#', '');
-      const valid = new Set(['home', 'architecture', 'software', 'machine-learning', 'game-dev', 'health']);
+      const valid = new Set(['home', 'ad-division', 'architecture', 'software', 'machine-learning', 'game-dev', 'health']);
       showTab(valid.has(hash) ? hash : 'home');
     });
   </script>

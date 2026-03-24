@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyMultiPlatform Ad Division</title>
+  <meta
+    name="description"
+    content="MyMultiPlatform Ad Division: service launch plan, offer map, paid channel mix, landing-page strategy, and 30-day campaign rollout."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #fff8eb;
+      --bg-deep: #f3e7d1;
+      --panel: rgba(255, 252, 246, 0.88);
+      --panel-strong: rgba(255, 249, 241, 0.96);
+      --ink: #1f1a16;
+      --muted: #685b4c;
+      --line: rgba(66, 46, 22, 0.12);
+      --signal: #db5b18;
+      --signal-deep: #a33e0d;
+      --teal: #0f7268;
+      --navy: #18324b;
+      --sun: #ffcb52;
+      --shadow: 0 24px 70px rgba(85, 58, 28, 0.12);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --content: min(1180px, calc(100vw - 28px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.84), transparent 28%),
+        radial-gradient(circle at 100% 0, rgba(219, 91, 24, 0.16), transparent 22%),
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+      background-size: auto, auto, 36px 36px, 36px 36px, auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus-visible {
+      text-decoration: none;
+    }
+
+    .page {
+      width: var(--content);
+      margin: 0 auto;
+      padding: 18px 0 54px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: 10px;
+      border: 1px solid rgba(53, 39, 22, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 250, 242, 0.76);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 40px rgba(59, 41, 19, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mark {
+      width: 13px;
+      height: 13px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--sun), var(--signal));
+      box-shadow: 0 0 0 7px rgba(219, 91, 24, 0.12);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-copy strong {
+      font-size: 0.96rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-copy span {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(53, 39, 22, 0.08);
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      background: #ffffff;
+      outline: none;
+    }
+
+    .hero {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section,
+    .budget-card,
+    .metric-card {
+      border: 1px solid rgba(53, 39, 22, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(140deg, rgba(255, 255, 255, 0.9), rgba(255, 246, 235, 0.98)),
+        linear-gradient(160deg, rgba(219, 91, 24, 0.08), transparent 52%);
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -80px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 203, 82, 0.34), transparent 64%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(219, 91, 24, 0.08);
+      color: var(--signal-deep);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(163, 62, 13, 0.42);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(3rem, 8vw, 5rem);
+      max-width: 11ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    h3 {
+      font-size: 1.55rem;
+    }
+
+    .hero-copy,
+    .section-copy,
+    .body-copy {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .hero-copy {
+      max-width: 64ch;
+      margin-top: 18px;
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(45, 31, 15, 0.14);
+      outline: none;
+    }
+
+    .button-primary {
+      color: #fff7f1;
+      background: linear-gradient(135deg, var(--signal), var(--signal-deep));
+    }
+
+    .button-secondary {
+      color: var(--navy);
+      background: rgba(15, 114, 104, 0.08);
+      border-color: rgba(15, 114, 104, 0.18);
+    }
+
+    .button-ghost {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(53, 39, 22, 0.12);
+    }
+
+    .hero-meta {
+      margin-top: 22px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(53, 39, 22, 0.08);
+      font-size: 0.86rem;
+      color: var(--ink);
+    }
+
+    .hero-side {
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      background: linear-gradient(180deg, #17324b, #10263a);
+      color: #eff8ff;
+    }
+
+    .hero-side p,
+    .hero-side li {
+      color: rgba(239, 248, 255, 0.8);
+      line-height: 1.58;
+    }
+
+    .hero-side ul {
+      margin: 16px 0 0;
+      padding-left: 18px;
+    }
+
+    .hero-side li {
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-top: 18px;
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .section-copy {
+      max-width: 66ch;
+      margin-top: 10px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .offer-grid,
+    .channel-grid,
+    .budget-grid,
+    .metrics-grid,
+    .ad-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .offer-card,
+    .channel-card,
+    .ad-card {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: var(--panel-strong);
+      border: 1px solid rgba(53, 39, 22, 0.08);
+    }
+
+    .tag {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .tag-signal {
+      background: rgba(219, 91, 24, 0.1);
+      color: var(--signal-deep);
+    }
+
+    .tag-teal {
+      background: rgba(15, 114, 104, 0.1);
+      color: var(--teal);
+    }
+
+    .tag-navy {
+      background: rgba(24, 50, 75, 0.1);
+      color: var(--navy);
+    }
+
+    .key-list,
+    .source-list,
+    .timeline-list,
+    .headline-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      line-height: 1.62;
+    }
+
+    .key-list li,
+    .timeline-list li,
+    .headline-list li,
+    .source-list li {
+      margin-bottom: 8px;
+    }
+
+    .budget-card,
+    .metric-card {
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 237, 0.9));
+    }
+
+    .budget-card strong,
+    .metric-card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 1.85rem;
+      line-height: 1.05;
+      font-family: "Fraunces", serif;
+    }
+
+    .budget-card p,
+    .metric-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .timeline-card {
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 245, 0.88));
+      border: 1px solid rgba(53, 39, 22, 0.08);
+    }
+
+    .timeline-card h3 {
+      font-size: 1.3rem;
+    }
+
+    .source-note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(15, 114, 104, 0.08);
+      border: 1px solid rgba(15, 114, 104, 0.14);
+      color: #20433d;
+      line-height: 1.6;
+    }
+
+    .source-list a {
+      color: var(--signal-deep);
+      text-decoration: underline;
+      text-underline-offset: 0.16em;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 18px 0 6px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100vw - 18px, 100%);
+      }
+
+      .hero-main,
+      .hero-side,
+      .section {
+        padding: 22px;
+      }
+
+      h1 {
+        max-width: 11ch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="brand-copy">
+            <strong>MyMultiPlatform</strong>
+            <span>Ad Division</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Ad division navigation">
+          <a href="../index.html">Home</a>
+          <a href="../architectural/">Architecture</a>
+          <a href="../software/">Software</a>
+          <a href="../mym.security/">Security</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <article class="hero-main">
+          <span class="eyebrow">Demand Engine</span>
+          <h1>Offer our services with a sharper ad system</h1>
+          <p class="hero-copy">
+            This page turns MyMultiPlatform into a cleaner client-acquisition machine: what we sell first,
+            who we target, which channels we use, what budget shape makes sense, and how to move from
+            site traffic to booked conversations. Assumption: near-term revenue should focus on
+            <strong>architecture / millwork</strong>, <strong>software / AI tools</strong>, and
+            <strong>security operations</strong>.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:support@mymultiplatform.com?subject=Ad%20Division%20Strategy%20Call">Start the launch inbox</a>
+            <a class="button button-secondary" href="#plan">See 30-day plan</a>
+            <a class="button button-ghost" href="#channels">Channel mix</a>
+          </div>
+          <div class="hero-meta">
+            <span class="chip">30-day launch sprint</span>
+            <span class="chip">Paid + organic handoff</span>
+            <span class="chip">Built around current MYM pages</span>
+          </div>
+        </article>
+
+        <aside class="hero-side">
+          <h2>What this division is for</h2>
+          <p>
+            The first job of the ad division is not “brand awareness.” It is to turn the strongest MYM
+            offers into repeatable lead flow with simple routing and visible numbers.
+          </p>
+          <ul>
+            <li>Put each service behind one clear promise and one clear next action.</li>
+            <li>Use high-intent channels first before broad awareness spending.</li>
+            <li>Route all early leads into one inbox so nothing gets dropped.</li>
+            <li>Scale only after one lane shows qualified demand, not just clicks.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="section" id="offers">
+        <div class="section-head">
+          <div>
+            <h2>Offer Map</h2>
+            <p class="section-copy">
+              These are the three service lanes closest to real demand right now. Each lane needs its own
+              ad promise, landing page, and response workflow.
+            </p>
+          </div>
+        </div>
+        <div class="grid offer-grid">
+          <article class="offer-card">
+            <span class="tag tag-signal">Lane 1</span>
+            <h3>Architectural / millwork packages</h3>
+            <p class="body-copy">
+              Target general contractors, developers, homeowners, and owners who need shop drawings,
+              fabrication coordination, finish packages, or install-ready planning.
+            </p>
+            <ul class="key-list">
+              <li>Primary promise: move from idea to buildable package faster.</li>
+              <li>Primary conversion: quote request or scope review.</li>
+              <li>Landing page: <a href="../architectural/">/architectural/</a></li>
+            </ul>
+          </article>
+
+          <article class="offer-card">
+            <span class="tag tag-teal">Lane 2</span>
+            <h3>Software / AI operations tools</h3>
+            <p class="body-copy">
+              Target founders, operators, and teams that want practical automation, internal tools, or
+              attention-control software with a clear business use case.
+            </p>
+            <ul class="key-list">
+              <li>Primary promise: less operational drag, faster execution.</li>
+              <li>Primary conversion: booked intro or early-access request.</li>
+              <li>Landing page: <a href="../software/">/software/</a></li>
+            </ul>
+          </article>
+
+          <article class="offer-card">
+            <span class="tag tag-navy">Lane 3</span>
+            <h3>MYM Security service coverage</h3>
+            <p class="body-copy">
+              Target warehouses, stores, worksites, and property operators that need guard coverage,
+              fast deployment, or cleaner security presence.
+            </p>
+            <ul class="key-list">
+              <li>Primary promise: dependable coverage with quick start.</li>
+              <li>Primary conversion: quotation request.</li>
+              <li>Landing page: <a href="../mym.security/">/mym.security/</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="channels">
+        <div class="section-head">
+          <div>
+            <h2>Channel Mix</h2>
+            <p class="section-copy">
+              This channel choice is an inference based on current MYM services and official platform
+              capabilities. The order favors channels that capture intent before channels that interrupt.
+            </p>
+          </div>
+        </div>
+        <div class="grid channel-grid">
+          <article class="channel-card">
+            <span class="tag tag-signal">Priority 1</span>
+            <h3>Google Search + local presence</h3>
+            <p class="body-copy">
+              Best for architecture / millwork and security because the lead already has intent. Search
+              campaigns catch active demand, while a compliant Google Business Profile supports local trust
+              for businesses with a location or service area.
+            </p>
+            <ul class="key-list">
+              <li>Use separate campaigns by service lane and city/region.</li>
+              <li>Add strong assets and callouts so ads take more real estate.</li>
+              <li>Use lead forms only when the account meets Google’s eligibility requirements.</li>
+            </ul>
+          </article>
+
+          <article class="channel-card">
+            <span class="tag tag-teal">Priority 2</span>
+            <h3>LinkedIn lead generation for B2B</h3>
+            <p class="body-copy">
+              Best fit for software / AI services and selected contractor outreach because the platform’s
+              lead generation objective opens a native pre-filled form and keeps friction low.
+            </p>
+            <ul class="key-list">
+              <li>Use one offer per ad set: audit, pilot, or consultation.</li>
+              <li>Keep forms short so completion stays high.</li>
+              <li>Focus on founders, operations leaders, and project decision-makers.</li>
+            </ul>
+          </article>
+
+          <article class="channel-card">
+            <span class="tag tag-navy">Priority 3</span>
+            <h3>Landing pages + follow-up discipline</h3>
+            <p class="body-copy">
+              Ads do not rescue weak offers. Each service lane should point to one page, one CTA, one inbox,
+              and one fast response workflow.
+            </p>
+            <ul class="key-list">
+              <li>Every ad points to a single service page, not the whole homepage.</li>
+              <li>Use one subject line per lane in the inbox to classify leads quickly.</li>
+              <li>Reply fast, because response time is part of conversion rate.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="source-note">
+          Official platform notes behind this plan: Google documents Search campaigns, assets, Business Profile
+          location/service-area eligibility, and lead form requirements; LinkedIn documents the lead generation
+          objective, native Lead Gen Forms, and the recommendation to keep form fields light. The budget split
+          and launch order here are MYM recommendations inferred from those platform capabilities.
+        </div>
+      </section>
+
+      <section class="section" id="budget">
+        <div class="section-head">
+          <div>
+            <h2>Budget Shape</h2>
+            <p class="section-copy">
+              These are planning ranges, not platform quotes. They are designed to keep early spend controlled
+              while proving which lane can actually produce qualified leads.
+            </p>
+          </div>
+        </div>
+        <div class="grid budget-grid">
+          <article class="budget-card">
+            <span class="tag tag-signal">Test</span>
+            <strong>$1.2k / month</strong>
+            <p>
+              Use when the goal is learning fast with low burn. Suggested split: 70% Google Search for
+              architecture / security, 20% LinkedIn for software outreach, 10% creative and landing-page tests.
+            </p>
+          </article>
+          <article class="budget-card">
+            <span class="tag tag-teal">Operating</span>
+            <strong>$2.4k / month</strong>
+            <p>
+              Use when one lane is already showing signals. Suggested split: 55% Search, 25% LinkedIn,
+              20% retests, new creatives, and follow-up support assets.
+            </p>
+          </article>
+          <article class="budget-card">
+            <span class="tag tag-navy">Scale</span>
+            <strong>$4.5k+ / month</strong>
+            <p>
+              Use only after booked calls or quote requests prove real pipeline. At this point, duplicate the
+              winning lane into tighter geographies, job titles, or offer variations.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="plan">
+        <div class="section-head">
+          <div>
+            <h2>30-Day Launch Plan</h2>
+            <p class="section-copy">
+              The fastest path is to tighten pages, tracking, and reply speed before broadening budget.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-grid">
+          <article class="timeline-card">
+            <span class="tag tag-signal">Days 1-7</span>
+            <h3>Fix the offer surfaces</h3>
+            <ul class="timeline-list">
+              <li>Pick the first two service lanes to advertise.</li>
+              <li>Tighten headline, proof, and CTA on each landing page.</li>
+              <li>Route all ad replies into <code>support@mymultiplatform.com</code> first.</li>
+            </ul>
+          </article>
+          <article class="timeline-card">
+            <span class="tag tag-teal">Days 8-14</span>
+            <h3>Launch the first campaigns</h3>
+            <ul class="timeline-list">
+              <li>Build one Google Search campaign per local service lane.</li>
+              <li>Build one LinkedIn lead-gen offer for software / AI.</li>
+              <li>Use separate message angles instead of one generic company ad.</li>
+            </ul>
+          </article>
+          <article class="timeline-card">
+            <span class="tag tag-navy">Days 15-21</span>
+            <h3>Trim weak demand</h3>
+            <ul class="timeline-list">
+              <li>Pause weak keywords, weak headlines, and weak audiences fast.</li>
+              <li>Keep only queries and audiences that create qualified replies.</li>
+              <li>Add proof blocks or FAQ content where friction appears.</li>
+            </ul>
+          </article>
+          <article class="timeline-card">
+            <span class="tag tag-signal">Days 22-30</span>
+            <h3>Scale what closes</h3>
+            <ul class="timeline-list">
+              <li>Move budget toward the lane producing calls, site visits, or quotes.</li>
+              <li>Write one case-study style post from the best early lead.</li>
+              <li>Keep the losing lanes alive only if the message can still be improved.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="ads">
+        <div class="section-head">
+          <div>
+            <h2>First Ad Angles</h2>
+            <p class="section-copy">
+              These are starter angles for creative and copy. The goal is clarity, not corporate language.
+            </p>
+          </div>
+        </div>
+        <div class="grid ad-grid">
+          <article class="ad-card">
+            <span class="tag tag-signal">Architecture / Millwork</span>
+            <h3>Sell speed to buildable output</h3>
+            <ul class="headline-list">
+              <li>Shop drawings and millwork packages that move projects forward.</li>
+              <li>Need a buildable interior package in San Diego? Start here.</li>
+              <li>From design intent to fabrication-ready coordination.</li>
+            </ul>
+          </article>
+          <article class="ad-card">
+            <span class="tag tag-teal">Software / AI</span>
+            <h3>Sell reduced operational drag</h3>
+            <ul class="headline-list">
+              <li>Internal tools that remove admin friction from your team.</li>
+              <li>AI workflows for operators who need output, not hype.</li>
+              <li>Ship a practical automation pilot in weeks, not quarters.</li>
+            </ul>
+          </article>
+          <article class="ad-card">
+            <span class="tag tag-navy">Security</span>
+            <h3>Sell reliability and speed</h3>
+            <ul class="headline-list">
+              <li>Guard coverage for obras, bodegas, and negocios with quick start.</li>
+              <li>Security presence without the usual launch delay.</li>
+              <li>Cotizacion rapida para cobertura operativa en Tijuana.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="metrics">
+        <div class="section-head">
+          <div>
+            <h2>Metrics That Matter</h2>
+            <p class="section-copy">
+              Early-stage ad performance should be judged by qualified conversations, not vanity reach.
+            </p>
+          </div>
+        </div>
+        <div class="grid metrics-grid">
+          <article class="metric-card">
+            <span class="tag tag-signal">Response time</span>
+            <strong>&lt; 15 min</strong>
+            <p>Reply speed is part of the funnel. A slow inbox makes paid traffic look worse than it is.</p>
+          </article>
+          <article class="metric-card">
+            <span class="tag tag-teal">Qualified lead rate</span>
+            <strong>Track by lane</strong>
+            <p>Measure how many leads are actually relevant for architecture, software, or security.</p>
+          </article>
+          <article class="metric-card">
+            <span class="tag tag-navy">Booked next step</span>
+            <strong>Calls / quotes / visits</strong>
+            <p>Count booked calls, quote requests, and site visits before thinking about scale.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="section-head">
+          <div>
+            <h2>Platform Notes</h2>
+            <p class="section-copy">
+              These official platform docs informed the channel choices on this page.
+            </p>
+          </div>
+        </div>
+        <ol class="source-list">
+          <li><a href="https://support.google.com/google-ads/answer/7476658?hl=en" target="_blank" rel="noopener noreferrer">Google Ads Help: add keywords to Search campaigns</a></li>
+          <li><a href="https://support.google.com/google-ads/answer/16726829?hl=en" target="_blank" rel="noopener noreferrer">Google Ads Help: use lead forms in campaigns</a></li>
+          <li><a href="https://support.google.com/google-ads/answer/9451609?hl=en" target="_blank" rel="noopener noreferrer">Google Ads Help: campaign setup and asset guidance</a></li>
+          <li><a href="https://support.google.com/business/answer/7039811?hl=en" target="_blank" rel="noopener noreferrer">Google Business Profile Help: get started with Business Profile</a></li>
+          <li><a href="https://www.linkedin.com/help/lms/answer/a422440" target="_blank" rel="noopener noreferrer">LinkedIn: lead generation ad objective</a></li>
+          <li><a href="https://www.linkedin.com/help/lms/answer/a423364" target="_blank" rel="noopener noreferrer">LinkedIn: Lead Gen Form specifications</a></li>
+          <li><a href="https://www.linkedin.com/help/lms/answer/a421181" target="_blank" rel="noopener noreferrer">LinkedIn: Lead Gen Form best practices</a></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="footer">
+      MyMultiPlatform Ad Division | build the offer, route the lead, then scale the lane that closes.
+    </footer>
+  </div>
+</body>
+</html>
