@@ -1,0 +1,6287 @@
+[
+  {
+    "year": 2024,
+    "project": "6TH & PALM",
+    "file_count": 28,
+    "pdf_count": 17,
+    "spreadsheet_count": 7,
+    "drawing_count": 0,
+    "image_count": 3,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 17
+      },
+      {
+        "extension": ".xls",
+        "count": 5
+      },
+      {
+        "extension": ".png",
+        "count": 3
+      },
+      {
+        "extension": ".xlsx",
+        "count": 2
+      },
+      {
+        "extension": ".db",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "6TH AND PALM 24-127 CLOSET BREAKOUT.pdf",
+      "6TH AND PALM 24-127 CLOSET BREAKOUT.xls",
+      "6TH AND PALM 24-127 REVISED COMMON AREAS(AutoRecovered) 2.xls",
+      "6TH AND PALM 24-127 REVISED COMMON AREAS.pdf",
+      "6TH AND PALM 24-127 REVISED COMMON AREAS.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "ALLEGION ACCESS TECHNOLOGIES 24-109",
+    "file_count": 10,
+    "pdf_count": 3,
+    "spreadsheet_count": 2,
+    "drawing_count": 3,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      },
+      {
+        "extension": ".abv",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "ALLEGION 224-109 Kitchenette Material Spec. Sheet.xlsx",
+      "ALLEGION ACCESS TECHNOLOGIES 24-109.pdf",
+      "ALLEGION ACCESS TECHNOLOGIES 24-109.xls",
+      "Allegion 24-109- FOR CONSTRUCTION- Approved Set 1-31-24.pdf",
+      "Allegion 24-109 Kitchenette Shop Drawings 1st Set 1-30-24.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BARNES & THORNBURG 24-162",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BARNES & THORNBURG 24-162.pdf",
+      "BARNES & THORNBURG 24-162.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BETTER BUZZ DEL MAR 24-154",
+    "file_count": 9,
+    "pdf_count": 5,
+    "spreadsheet_count": 4,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 4
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BETTER BUZZ COFFEE DEL MAR 24-154 DOOR REHANG.pdf",
+      "BETTER BUZZ COFFEE DEL MAR 24-154 DOOR REHANG.xls",
+      "BETTER BUZZ COFFEE DEL MAR 24-154 REVISED B.pdf",
+      "BETTER BUZZ COFFEE DEL MAR 24-154 REVISED B.xls",
+      "BETTER BUZZ COFFEE DEL MAR 24-154 REVISED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BETTER BUZZ POWAY 24-158",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BETTER BUZZ COFFEE POWAY 24-158.pdf",
+      "BETTER BUZZ COFFEE POWAY 24-158.xls",
+      "Better Buzz Poway.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BKM CHINA LAKE DISPLAY 24-176",
+    "file_count": 25,
+    "pdf_count": 4,
+    "spreadsheet_count": 2,
+    "drawing_count": 7,
+    "image_count": 4,
+    "top_extensions": [
+      {
+        "extension": ".bak",
+        "count": 5
+      },
+      {
+        "extension": ".pdf",
+        "count": 4
+      },
+      {
+        "extension": ".jpg",
+        "count": 4
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      },
+      {
+        "extension": ".cvj",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "#3 Release 25-08-31.xlsx",
+      "BKM CHINA LAKE DISPLAY 24-176.pdf",
+      "BKM CHINA LAKE DISPLAY 24-176.xls",
+      "AKLF4946.JPG",
+      "NLED3222.JPG"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BKM OFFICE CUSTOM BAR 24-186",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BKM OFFICE CUSTOM BAR 24-186.pdf",
+      "BKM OFFICE CUSTOM BAR 24-186.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BKM TAILORING PLATFORM 24-115",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BKM TAILORING PLATFORM 24-115.pdf",
+      "BKM TAILORING PLATFORM 24-115.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BRENDEN THEATRES LAUGHLIN 24-181",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BRENDEN THEATRES LAUGHLIN 24-181.pdf",
+      "BRENDEN THEATRES LAUGHLIN 24-181.xls",
+      "01) 09-06-2024_BMR BlossomHill_Permit Submittal Drawings COMPRESSED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "BUCHALTER 14th Floor TI 24-161",
+    "file_count": 10,
+    "pdf_count": 7,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 7
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "655 W Broadway_Construction COI Requirements.pdf",
+      "655 WB Construction Rules and Regulations 05.15.19.pdf",
+      "BUCHALTER 23-121.pdf",
+      "BUCHALTER 23-121.xls",
+      "BUCHALTER 24-161 REVISED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "CAMPANILE MONTEZUMA 24-179",
+    "file_count": 4,
+    "pdf_count": 3,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "11_-_LANDSCAPE MONTEZUMA.pdf",
+      "16_-_ID MONTEZUMA.pdf",
+      "4_-_ARCHITECTURAL MONTEZUMA.pdf",
+      "CAMPANILE MONTEZUMA 24-179.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "CASA DE MANANA 24-190",
+    "file_count": 73,
+    "pdf_count": 39,
+    "spreadsheet_count": 15,
+    "drawing_count": 2,
+    "image_count": 12,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 39
+      },
+      {
+        "extension": ".png",
+        "count": 12
+      },
+      {
+        "extension": ".xls",
+        "count": 8
+      },
+      {
+        "extension": ".xlsx",
+        "count": 7
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "1- Building Construction Plans- Issued PRJ-1125966.pdf",
+      "2025-02-05_CDM SECOND CITY SUBMITTAL.pdf",
+      "CASA DE MANANA 24-190 SCOPE PER 8-29-25 NOTES REVISED WITH STONE BREAKOUT.xls",
+      "CASA DE MANANA 24-190 SCOPE PER 8-29-25 NOTES REVISED.pdf",
+      "CASA DE MANANA 24-190 SCOPE PER 8-29-25 NOTES REVISED.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "CASTELLANA RES 24-139",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Castellana Drawings PRJ-1105846.pdf",
+      "CASTELLANA RES 24-139 DOOR SCOPE.pdf",
+      "CASTELLANA RES 24-139 DOOR SCOPE.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "CHEROKEE MIXED USE 24-178",
+    "file_count": 71,
+    "pdf_count": 22,
+    "spreadsheet_count": 28,
+    "drawing_count": 5,
+    "image_count": 9,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 22
+      },
+      {
+        "extension": ".xls",
+        "count": 21
+      },
+      {
+        "extension": ".jpg",
+        "count": 9
+      },
+      {
+        "extension": ".xlsx",
+        "count": 7
+      },
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2023.09.15- Cherokee Apartments_100_ CD Set- with 4-9-24 Updates.pdf",
+      "CHANGE ORDER 001 GYM RESTROOM TRIM.pdf",
+      "CHANGE ORDER 001 GYM RESTROOM TRIM.xlsx",
+      "CHANGE ORDER 002 RESTROOM MIRROR, LOBBY ART PANEL.pdf",
+      "CHANGE ORDER 002 RESTROOM MIRROR, LOBBY ART PANEL.xlsx"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 123807.0,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Pay App #003 25-04-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 123807.0,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "Pay App #004 25-04-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 123807.0,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "COURTHOUSE COMMONS NORTH BLOCK 24-170",
+    "file_count": 38,
+    "pdf_count": 33,
+    "spreadsheet_count": 5,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 33
+      },
+      {
+        "extension": ".xlsx",
+        "count": 5
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "COURTHOUSE COMMONS NORTH BLOCK 24-170 ASI 09 REVISED.pdf",
+      "COURTHOUSE COMMONS NORTH BLOCK 24-170 ASI 09 REVISED.xlsx",
+      "COURTHOUSE COMMONS NORTH BLOCK 24-170 ASI 09.pdf",
+      "COURTHOUSE COMMONS NORTH BLOCK 24-170 ASI 09.xlsx",
+      "COURTHOUSE COMMONS NORTH BLOCK 24-170 REVISED (B).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "DCN 24-126",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xltx",
+        "count": 1
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "DCN 24-126.pdf",
+      "DCN 24-126.xltx",
+      "DCN 24-1261.xlsx",
+      "DCN II_CONTRACTOR BID SET 1.0 (02_05).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "DENEAN SCOTT 24-104",
+    "file_count": 57,
+    "pdf_count": 22,
+    "spreadsheet_count": 6,
+    "drawing_count": 16,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 22
+      },
+      {
+        "extension": ".bak",
+        "count": 11
+      },
+      {
+        "extension": ".dwg",
+        "count": 7
+      },
+      {
+        "extension": ".xls",
+        "count": 6
+      },
+      {
+        "extension": ".abv",
+        "count": 3
+      },
+      {
+        "extension": ".cvj",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Copy of DENEAN 24-104 PROGRESS 25-12-08.pdf",
+      "Copy of DENEAN 24-104 PROGRESS 25-12-08.xls",
+      "Copy of DENEAN 24-104 PROGRESS 25-12-09.pdf",
+      "Copy of DENEAN 24-104 PROGRESS 25-12-09.xls",
+      "Copy of DENEAN 24-104 PROGRESS.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "DR. ERIC DIXON 24-187",
+    "file_count": 6,
+    "pdf_count": 5,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "(A3) PROPOSED FLOOR PLAN.pdf",
+      "DR ERIC DIXON 24-187.pdf",
+      "DR ERIC DIXON 24-187.xls",
+      "Dr. Dixon- Millwork 11-7-24.pdf",
+      "Millwork Shop Drawings-Dr. Dixon.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "ENCINITAS SAGE OLIVENHAIN COMMON AREA 24-116",
+    "file_count": 225,
+    "pdf_count": 149,
+    "spreadsheet_count": 39,
+    "drawing_count": 5,
+    "image_count": 20,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 149
+      },
+      {
+        "extension": ".xlsx",
+        "count": 25
+      },
+      {
+        "extension": ".png",
+        "count": 20
+      },
+      {
+        "extension": ".xls",
+        "count": 14
+      },
+      {
+        "extension": ".zip",
+        "count": 6
+      },
+      {
+        "extension": ".bak",
+        "count": 5
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "25-0514-ADDENDUM-E_ID-NARR.pdf",
+      "25-0514-ADDENDUM-E_ID.pdf",
+      "GMP Addendum C- 24.11.04.zip",
+      "gsc_sage_olivenhain_(gd8_encinitas)-rfi#242-outdoor_leasing_banquette_bench_detail_GL Response.pdf",
+      "SAGE OLIVENHAIN 24-116 REVISED C 6-07-24.pdf"
+    ],
+    "verified_total": {
+      "sheet": "AIA G703",
+      "cell": "D56",
+      "value": 641705.0,
+      "context": "subtotal construction costs"
+    },
+    "verified_evidence": [
+      {
+        "file": "Copy of Exhibit C-G702_G703 Pay Application Forms- #2.xlsx",
+        "matches": [
+          {
+            "sheet": "AIA G703",
+            "cell": "D56",
+            "value": 641705.0,
+            "context": "subtotal construction costs"
+          }
+        ]
+      },
+      {
+        "file": "Copy of Exhibit C-G702_G703 Pay Application Forms-.xlsx",
+        "matches": [
+          {
+            "sheet": "AIA G703",
+            "cell": "D50",
+            "value": 634745.0,
+            "context": "pm / overhead | subtotal construction costs"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "ESET 655 BROADWAY 24-108",
+    "file_count": 109,
+    "pdf_count": 44,
+    "spreadsheet_count": 35,
+    "drawing_count": 14,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 44
+      },
+      {
+        "extension": ".xlsx",
+        "count": 28
+      },
+      {
+        "extension": ".bak",
+        "count": 9
+      },
+      {
+        "extension": ".xls",
+        "count": 7
+      },
+      {
+        "extension": ".dxf",
+        "count": 5
+      },
+      {
+        "extension": ".log",
+        "count": 4
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "4764 ESET_06400.01-04 Millwork Samples_NET WM.pdf",
+      "C&D Letter.pdf",
+      "Care & Maintenance + Warranty's.pdf",
+      "CHANGE ORDER 005 COPY NEW CABINETS WITH TRASH.pdf",
+      "CHANGE ORDER 005 COPY NEW CABINETS WITH TRASH.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "EVOFEM 24-132",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "12400 HBD- Neos Partners Schematic Plans (004) 2024-02-28.pdf",
+      "EVOFEM 24-132.pdf",
+      "EVOFEM 24-132.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "FLORA & FAUNA 24-129",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "FLORA & FAUNA 24-129.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "GLASSER RES 24-177",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "GLASSER RES 24-177.pdf",
+      "GLASSER RES 24-177.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "GOFUNDME 24-192",
+    "file_count": 39,
+    "pdf_count": 13,
+    "spreadsheet_count": 12,
+    "drawing_count": 8,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 13
+      },
+      {
+        "extension": ".xlsx",
+        "count": 11
+      },
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".abv",
+        "count": 3
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      },
+      {
+        "extension": ".cvj",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "5237-06400-01 & 02 Millwork Product Data_RS Approval.pdf",
+      "5237-06400-03 Millwork Shop Drawings_Rapt-AAN.pdf",
+      "5237-06400-04 thru 06 Millwork Samples_Approval.pdf",
+      "Change Order 001 EXTRA HANDLES.pdf",
+      "Change Order 001 EXTRA HANDLES.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "HDC NORTH BEACH WELCOME CENTER 24-113",
+    "file_count": 13,
+    "pdf_count": 9,
+    "spreadsheet_count": 2,
+    "drawing_count": 1,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 9
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Extracted Plans.pdf",
+      "HDC NORTH BEACH WELCOME CENTER 24-113.pdf",
+      "HDC NORTH BEACH WELCOME CENTER 24-113.xls",
+      "HDC NORTH BEACH WELCOME CENTER DOORS 24-113.pdf",
+      "HDC NORTH BEACH WELCOME CENTER DOORS 24-113.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "HDC SHEERWATER NOBU 24-107",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "HDC SHEERWATER NOBU 24-107.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "HDC TACO BAR 24-114",
+    "file_count": 3118,
+    "pdf_count": 18,
+    "spreadsheet_count": 2,
+    "drawing_count": 5,
+    "image_count": 3088,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 3080
+      },
+      {
+        "extension": ".pdf",
+        "count": 18
+      },
+      {
+        "extension": ".jpg",
+        "count": 8
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "HDC TACO BAR 24-114 REVISED.pdf",
+      "HDC TACO BAR 24-114 REVISED.xls",
+      "HDC TACO BAR 24-114.pdf",
+      "HDC TACO BAR 24-114.xls",
+      "Plans to Print (002).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "HDC VICTORIAN BALCONYS 24-106",
+    "file_count": 4694,
+    "pdf_count": 322,
+    "spreadsheet_count": 62,
+    "drawing_count": 75,
+    "image_count": 4151,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 4137
+      },
+      {
+        "extension": ".pdf",
+        "count": 322
+      },
+      {
+        "extension": ".dwg",
+        "count": 69
+      },
+      {
+        "extension": ".bak",
+        "count": 68
+      },
+      {
+        "extension": ".xlsx",
+        "count": 40
+      },
+      {
+        "extension": ".xls",
+        "count": 22
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "HDC Balconies Procurement.pdf",
+      "HDC VIC BALCONY PROCURMENT MATERIAL.xlsx",
+      "HDC VIC BALCONY PROCURMENT.xlsx",
+      "HDC VICTORIAN BALCONY 24-106 REVISED TRELLIS (D).pdf",
+      "HDC VICTORIAN BALCONY 24-106 REVISED TRELLIS (D).xls"
+    ],
+    "verified_total": {
+      "sheet": "Sheet1",
+      "cell": "C57",
+      "value": 875856.9999999999,
+      "context": "pm / overhead | base contract total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Schedule of Values.xlsx",
+        "matches": [
+          {
+            "sheet": "Sheet1",
+            "cell": "C57",
+            "value": 875856.9999999999,
+            "context": "pm / overhead | base contract total:"
+          },
+          {
+            "sheet": "Sheet1",
+            "cell": "C69",
+            "value": 875856.9999999999,
+            "context": "grand total"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "ID3 OFFICE SPACE #204 24-169",
+    "file_count": 26,
+    "pdf_count": 10,
+    "spreadsheet_count": 5,
+    "drawing_count": 7,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 10
+      },
+      {
+        "extension": ".xls",
+        "count": 4
+      },
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".abv",
+        "count": 3
+      },
+      {
+        "extension": ".cvj",
+        "count": 3
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "ID3 OFFICE SPACE #204 24-169 REVISED (B).pdf",
+      "ID3 OFFICE SPACE #204 24-169 REVISED (B).xls",
+      "ID3 OFFICE SPACE #204 24-169 REVISED (C).pdf",
+      "ID3 OFFICE SPACE #204 24-169 REVISED (C).xls",
+      "ID3 OFFICE SPACE #204 24-169 REVISED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "JAMILE LIMA 24-183",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "JIMILE LIMA 24-183.pdf",
+      "JIMILE LIMA 24-183.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "KEN BERTRAND 24-156",
+    "file_count": 10,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 5,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".bak",
+        "count": 3
+      },
+      {
+        "extension": ".abv",
+        "count": 2
+      },
+      {
+        "extension": ".cvj",
+        "count": 2
+      },
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Ken Bertrand 24-156 FOR CONSTRUCTION.abv",
+      "Ken Bertrand 24-156 FOR CONSTRUCTION.bak",
+      "Ken Bertrand 24-156 FOR CONSTRUCTION.cvj",
+      "Ken Bertrand 24-156 Shop Drawings.abv",
+      "Ken Bertrand 24-156 Shop Drawings.bak"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "LA JOLLA PRESBYTERIAN SUN HOUSE 24-121",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "LA JOLLA PRESBYTERIAN SUNHOUSE 24-121.pdf",
+      "LA JOLLA PRESBYTERIAN SUNHOUSE 24-121.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "LAUGHLIN NV 24-181",
+    "file_count": 1,
+    "pdf_count": 1,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1-A-0.0.1- Modesto Plan Check Set (1).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "LEGO LAND 24-140",
+    "file_count": 55,
+    "pdf_count": 36,
+    "spreadsheet_count": 8,
+    "drawing_count": 5,
+    "image_count": 1,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 36
+      },
+      {
+        "extension": ".xlsx",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      },
+      {
+        "extension": ".dwg",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "20250113_135426.jpg",
+      "Change Order 001 2ND TRIP GROMMET CUT OUTS.pdf",
+      "Change Order 001 2ND TRIP GROMMET CUT OUTS.xlsx",
+      "Change Order Log.pdf",
+      "Change Order Log.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "MARGO FITNESS CENTER 24-180",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2024-09-18 Margo Fitness- Arch COMPRESSED.pdf",
+      "MARGO FITNESS 24-180.pdf",
+      "MARGO FITNESS 24-180.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "META REALITY LABS SD 24-150",
+    "file_count": 8,
+    "pdf_count": 5,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Exhibit N- Meta L8 Tenant Improvement_90_CD_Set_2024 05 31.pdf",
+      "Exhibit N- SAN101 L8 Labs- 50_ CD SET (1).pdf",
+      "META REALITY LABS SD 24-150 REVISED 90% CD.pdf",
+      "META REALITY LABS SD 24-150 REVISED 90% CD.xls",
+      "META REALITY LABS SD 24-150 REVISED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "MIDFIRST BANK 24-157",
+    "file_count": 87,
+    "pdf_count": 43,
+    "spreadsheet_count": 27,
+    "drawing_count": 6,
+    "image_count": 2,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 43
+      },
+      {
+        "extension": ".xlsx",
+        "count": 27
+      },
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      },
+      {
+        "extension": ".jpg",
+        "count": 2
+      },
+      {
+        "extension": ".log",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Change Order 001 DEDUCT TRASH RECYCLE LOGOS.pdf",
+      "Change Order 001 DEDUCT TRASH RECYCLE LOGOS.xlsx",
+      "Change Order 002 FLOATING SHELF.pdf",
+      "Change Order 002 FLOATING SHELF.xlsx",
+      "Change Order 003 ADDED BASE AT WINDOW.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "MODEL RR MUSEUM 24-191",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "MODEL RR MUSEUM 24-191 REVISED.pdf",
+      "MODEL RR MUSEUM 24-191 REVISED.xls",
+      "MODEL RR MUSEUM 24-191.pdf",
+      "MODEL RR MUSEUM 24-191.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "MORRISON FOERSTER 24-172",
+    "file_count": 2855,
+    "pdf_count": 115,
+    "spreadsheet_count": 56,
+    "drawing_count": 51,
+    "image_count": 2610,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 2610
+      },
+      {
+        "extension": ".pdf",
+        "count": 115
+      },
+      {
+        "extension": ".xlsx",
+        "count": 56
+      },
+      {
+        "extension": ".dxf",
+        "count": 30
+      },
+      {
+        "extension": ".bak",
+        "count": 15
+      },
+      {
+        "extension": ".abv",
+        "count": 8
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "240906_MoFo Addendum 1_Architectural.pdf",
+      "250109_RFI38_Layout of Print Stations_HDG RESPONSE.pdf",
+      "Architectural plans MORRISON FOERSTER 9.3.24 COMPRESSED.pdf",
+      "B123_ MILLWORK DETAILS Rev.2 markup.pdf",
+      "B124_ DETAILS Rev.1.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "NAVAL AIR EL CENTRO P262 24-141",
+    "file_count": 96,
+    "pdf_count": 21,
+    "spreadsheet_count": 8,
+    "drawing_count": 13,
+    "image_count": 45,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 44
+      },
+      {
+        "extension": ".pdf",
+        "count": 21
+      },
+      {
+        "extension": ".bak",
+        "count": 7
+      },
+      {
+        "extension": ".dxf",
+        "count": 7
+      },
+      {
+        "extension": ".xls",
+        "count": 5
+      },
+      {
+        "extension": ".dwg",
+        "count": 4
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "#3 Release 24-10-31.xlsx",
+      "#3 Release 24-10-31a.xlsx",
+      "Invoice 24-4293 ~ Purchase Order B614324-26-ARS.pdf",
+      "Invoice 24-4294 ~ Purchase Order B614324-1-ARS.pdf",
+      "NAVAL AIR EL CENTRO 24-141 REVISION 1_Millwork Review 8.27.2024 (003) APPROVED SHOPS.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "NAVY GATEWAY INNS & SUITES 24-184",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "NAVY GATEWAY INNS & SUITES 24-184.pdf",
+      "NAVY GATEWAY INNS & SUITES 24-184.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "NEPTUNE SURF ROOM 24-196",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "NEPTUNE SURF ROOM 24-196.pdf",
+      "NEPTUNE SURF ROOM 24-196.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "NGIS-NEX CORONADO 24-184",
+    "file_count": 9,
+    "pdf_count": 9,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 9
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Prevailing Wage Rates CA20240001.pdf",
+      "Certificate of Insurance- PSA EXAMPLE (1).pdf",
+      "Certificate of Insurance- SERVICE ORDER EXAMPLE (1) (2).pdf",
+      "Stellar Subcontractor Insurance Requirements Summary.pdf",
+      "Subcontract INS example.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "PACIFICA EXECUTIVE OFFICE 24-168",
+    "file_count": 210,
+    "pdf_count": 111,
+    "spreadsheet_count": 55,
+    "drawing_count": 17,
+    "image_count": 10,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 111
+      },
+      {
+        "extension": ".xls",
+        "count": 28
+      },
+      {
+        "extension": ".xlsx",
+        "count": 27
+      },
+      {
+        "extension": ".dwg",
+        "count": 9
+      },
+      {
+        "extension": ".bak",
+        "count": 8
+      },
+      {
+        "extension": ".png",
+        "count": 6
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1.jpg",
+      "2.jpg",
+      "CAT_EN_Hawa_Folding_Concepta_25.pdf",
+      "Door Window Drawing.docx",
+      "Pacifica- Renderings from 5-15-25.docx"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D40",
+      "value": 270309.0,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Pay App #002 25-07-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D40",
+            "value": 270309.0,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "Pay App #003 25-09-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D40",
+            "value": 270309.0,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "PALA COUNTERTOP 24-138",
+    "file_count": 2,
+    "pdf_count": 0,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xlsx",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "#3 Release 24-05-31.xlsx",
+      "Pay App #001 24-05-31.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "PENCHECKS TI 24-165",
+    "file_count": 1,
+    "pdf_count": 1,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TI PENCHECKS 8.8.24 COMPRESSED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "POKE HOUSE 24-133",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "POKE HOUSE 24-133.pdf",
+      "POKE HOUSE 24-133.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "PROCEDES OFFICE 24-112",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "PROCEDES OFFICE 24-112.pdf",
+      "PROCEDES OFFICE 24-112.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "QUALCOMM M AUTO LAB 24-195",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "QUALCOMM M AUTO LAB 24-195.pdf",
+      "QUALCOMM M AUTO LAB 24-195.xls",
+      "._QUALCOMM M AUTO LAB 24-195.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "QUINCE APARTMENTS 24-128",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "QUINCE APARTMENTS 24-128.pdf",
+      "QUINCE APARTMENTS 24-128.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "RAINTREE 4TH & IVY",
+    "file_count": 43,
+    "pdf_count": 42,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 42
+      },
+      {
+        "extension": ".xlsm",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Document_Log.pdf",
+      "01.1-PROJECT_INFO.pdf",
+      "01.2-CAL_GREEN.pdf",
+      "01.3_MECH-T-24_CD6.pdf",
+      "02-CIVIL_CD6.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "RUMEUR LINGERIE RELOCATION 24-153",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "RUMEUR LINGERIE RELOCATION 24-153.pdf",
+      "RUMEUR LINGERIE RELOCATION 24-153.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SCHULZ RES 24-124",
+    "file_count": 38,
+    "pdf_count": 17,
+    "spreadsheet_count": 10,
+    "drawing_count": 8,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 17
+      },
+      {
+        "extension": ".xlsx",
+        "count": 6
+      },
+      {
+        "extension": ".xls",
+        "count": 4
+      },
+      {
+        "extension": ".abv",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 3
+      },
+      {
+        "extension": ".dxf",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "Certificate_257_2024-08-01.pdf",
+      "Schulz Hardware.pdf",
+      "SCHULZ RES 24-124 REVISED B.pdf",
+      "SCHULZ RES 24-124 REVISED B.xls",
+      "SCHULZ RES 24-124 REVISED C.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SCOTT JONES 24-146",
+    "file_count": 19,
+    "pdf_count": 8,
+    "spreadsheet_count": 2,
+    "drawing_count": 6,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 8
+      },
+      {
+        "extension": ".abv",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 3
+      },
+      {
+        "extension": ".cvj",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SCOTT JONES 24-146.pdf",
+      "SCOTT JONES 24-146.xls",
+      "Submittal Form1.xlsx",
+      "1-5 updated 6-17-24.pdf",
+      "1-5.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SD NATURAL HISTORY MUSEUM 24-173",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SD NATURAL HISTORY MUSEUM 24-173.pdf",
+      "SD NATURAL HISTORY MUSEUM 24-173.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SD PADRES WOMENS CLUB HOUSE #2 24-131",
+    "file_count": 6,
+    "pdf_count": 1,
+    "spreadsheet_count": 2,
+    "drawing_count": 2,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".abv",
+        "count": 1
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".cvj",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SD PADRES WOMENS CLUB HOUSE #2 24-131.pdf",
+      "SD PADRES WOMENS CLUB HOUSE #2 24-131.xls",
+      "SD PADRES WOMENS CLUB HOUSE 24-131.xls",
+      "SD Padres Womens Clubhouse NEW CABS 3-1-24.abv",
+      "SD Padres Womens Clubhouse NEW CABS 3-1-24.bak"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SHOREBIRD 24-117",
+    "file_count": 8,
+    "pdf_count": 6,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 6
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "01 Architectural- Shorebird (1).pdf",
+      "01 Architectural- Shorebird.pdf",
+      "A-2.2 SHOREBIRD-CP.pdf",
+      "A-3.1 DETAILS.pdf",
+      "SHOREBIRD 24-117 REVISED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLANA CROSSING 24-101",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2023-12-08_AAT Regency Centers- NOT FOR CONSTRUCTION.pdf",
+      "SOLANA CROSSINGS 24-101.pdf",
+      "SOLANA CROSSINGS 24-101.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLAR TURBINE FILE ROOM 24-164",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SOLAR TURBINE FILE ROOM 24-164.pdf",
+      "SOLAR TURBINE FILE ROOM 24-164.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLAR TURBINES 24-110",
+    "file_count": 26,
+    "pdf_count": 8,
+    "spreadsheet_count": 12,
+    "drawing_count": 3,
+    "image_count": 1,
+    "top_extensions": [
+      {
+        "extension": ".xlsx",
+        "count": 9
+      },
+      {
+        "extension": ".pdf",
+        "count": 8
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      },
+      {
+        "extension": ".png",
+        "count": 1
+      },
+      {
+        "extension": ".abv",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1.png",
+      "Solar Turbines 22-110 Shop Drawings FOR CONSTRUCTION 3-6-24.pdf",
+      "Solar Turbines 22-110 Shop Drawings 1st Set 2-7-24.pdf",
+      "Solar Turbines 24-110 Electronics Cab.abv",
+      "Solar Turbines 24-110 Electronics Cab.bak"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLAR TURBINES BLDG 28 24-148",
+    "file_count": 7,
+    "pdf_count": 5,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "6.20.24 Addendum #3 Set.pdf",
+      "SOLAR TURBINES BLDG 28 24-148 ADDENDUM 3.pdf",
+      "SOLAR TURBINES BLDG 28 24-148 ADDENDUM 3.xls",
+      "SOLAR TURBINES BLDG 28 24-148.pdf",
+      "SOLAR TURBINES BLDG 28 24-148.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLAR TURBINES KM20 24-155",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SOLAR TURBINES KM20 24-155.pdf",
+      "SOLAR TURBINES KM20 24-155.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SOLAR TURBINES SKY PARK 4 24-189",
+    "file_count": 5,
+    "pdf_count": 3,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Attach_E_241108_SP4_Issue_to_Plan_Check_Reduced.pdf",
+      "SOLAR TURBINES SKY PARK 4 24-189 REVISED.pdf",
+      "SOLAR TURBINES SKY PARK 4 24-189 REVISED.xls",
+      "SOLAR TURBINES SKY PARK 4 24-189.pdf",
+      "SOLAR TURBINES SKY PARK 4 24-189.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "ST PAULS PACE 24-143",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "ST PAULS PACE 24-143.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "STEPHEN FLINT 24-188",
+    "file_count": 28,
+    "pdf_count": 8,
+    "spreadsheet_count": 2,
+    "drawing_count": 11,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 8
+      },
+      {
+        "extension": ".bak",
+        "count": 6
+      },
+      {
+        "extension": ".abv",
+        "count": 4
+      },
+      {
+        "extension": ".cvj",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".dxf",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "STEPEN FLINT 24-188 REV1.pdf",
+      "STEPEN FLINT 24-188 REV1.xls",
+      "STEPEN FLINT 24-188.pdf",
+      "STEPEN FLINT 24-188.xls",
+      "1.bak"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "STUDIO THREE SAN DIEGO 24-120",
+    "file_count": 164,
+    "pdf_count": 75,
+    "spreadsheet_count": 36,
+    "drawing_count": 33,
+    "image_count": 8,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 75
+      },
+      {
+        "extension": ".xlsx",
+        "count": 25
+      },
+      {
+        "extension": ".dxf",
+        "count": 18
+      },
+      {
+        "extension": ".xls",
+        "count": 11
+      },
+      {
+        "extension": ".bak",
+        "count": 9
+      },
+      {
+        "extension": ".jpg",
+        "count": 8
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "2023_0726 S3 San Diego Final Schematic Package_VE markups.pdf",
+      "20241030_105656.jpg",
+      "20241030_105746.jpg",
+      "20241030_110019.jpg",
+      "20241030_110131.jpg"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "SUNLIFE ORGANICS 24-152",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SUNLIFE ORGANICS 24-152.pdf",
+      "SUNLIFE ORGANICS 24-152.xls",
+      "SunLife Organics.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "TERI CAMPUS OF LIFE 24-167",
+    "file_count": 4,
+    "pdf_count": 3,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TERI CAMPUS OF LIFE 24-167.pdf",
+      "TERI CAMPUS OF LIFE 24-167.xls",
+      "2024-0812_TERI 100% DD COMPRESSED 8.21.24.pdf",
+      "FW_ TERI Campus of Life Phase 4.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "THE TERRACES MURRIETA 24-134",
+    "file_count": 287,
+    "pdf_count": 115,
+    "spreadsheet_count": 24,
+    "drawing_count": 109,
+    "image_count": 10,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 115
+      },
+      {
+        "extension": ".dxf",
+        "count": 96
+      },
+      {
+        "extension": ".xlsx",
+        "count": 16
+      },
+      {
+        "extension": ".bak",
+        "count": 14
+      },
+      {
+        "extension": ".jpg",
+        "count": 10
+      },
+      {
+        "extension": ".dwg",
+        "count": 10
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1A_-_The_Terraces_at_Murrieta_-_Phase_1_-_Architectural__317_SHEETS_.pdf",
+      "OFF SITE SHADE CANOPY#2.docx",
+      "OFF SITE SHADE CANOPY.docx",
+      "OFFSITE SHADE CANOPY.pdf",
+      "OFFSITE SHADE CANOPY.xls"
+    ],
+    "verified_total": {
+      "sheet": "AIA G703",
+      "cell": "D57",
+      "value": 747706.0,
+      "context": "subtotal construction costs"
+    },
+    "verified_evidence": [
+      {
+        "file": "Schedule of Values 8.23.24- KB FINAL.xlsx",
+        "matches": [
+          {
+            "sheet": "AIA G703",
+            "cell": "D57",
+            "value": 747706.0,
+            "context": "subtotal construction costs"
+          }
+        ]
+      },
+      {
+        "file": "Schedule of Values.xlsx",
+        "matches": [
+          {
+            "sheet": "AIA G703",
+            "cell": "D56",
+            "value": 713940.0,
+            "context": "subtotal construction costs"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "TOM RAGLAND STAIR 24-137",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TOM RAGLAND STAIR 24-137 RADIUS MISC PARTS.pdf",
+      "TOM RAGLAND STAIR 24-137 RADIUS MISC PARTS.xls",
+      "TOM RAGLAND STAIR 24-137.pdf",
+      "TOM RAGLAND STAIR 24-137.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "TOWER 180 24-174",
+    "file_count": 6,
+    "pdf_count": 4,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "REV_Finish Material Reference.pdf",
+      "TOWER 180 24-174 REVISED.pdf",
+      "TOWER 180 24-174 REVISED.xls",
+      "TOWER 180 24-174.pdf",
+      "TOWER 180 24-174.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "TRUECARE OCEANSIDE DENTAL TI 24-135",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TRUECARE OCEANSIDE DENTAL TI 24-135.pdf",
+      "TRUECARE OCEANSIDE DENTAL TI 24-135.xls",
+      "Truecare Oceanside Dental TI COMPRESSED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "TRUECARE OCEANSIDE MEDICAL TI 24-130",
+    "file_count": 5,
+    "pdf_count": 3,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Truecare Oceanside COMPRESSED.pdf",
+      "TRUECARE OCEANSIDE MEDICAL TI 24-130 REVISED PSI INSURANCE.pdf",
+      "TRUECARE OCEANSIDE MEDICAL TI 24-130 REVISED PSI INSURANCE.xls",
+      "TRUECARE OCEANSIDE MEDICAL TI 24-130.pdf",
+      "TRUECARE OCEANSIDE MEDICAL TI 24-130.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "TUMI 24-160",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TUMI 24-160.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "VALLEY VIEW CASINO 24-144",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "VALLEY VIEW CASINO 24-144.pdf",
+      "VALLEY VIEW CASINO 24-144.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "VENTANA BENCH 24-103",
+    "file_count": 84,
+    "pdf_count": 48,
+    "spreadsheet_count": 16,
+    "drawing_count": 2,
+    "image_count": 9,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 48
+      },
+      {
+        "extension": ".xlsx",
+        "count": 8
+      },
+      {
+        "extension": ".xls",
+        "count": 8
+      },
+      {
+        "extension": ".jpg",
+        "count": 6
+      },
+      {
+        "extension": ".dot",
+        "count": 3
+      },
+      {
+        "extension": ".png",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "CHANGE ORDER 001 DEDUCT.pdf",
+      "CHANGE ORDER 001 DEDUCT.xlsx",
+      "IPE Wood Care and Maintenance.pdf",
+      "LC-1.pdf",
+      "RE_ Ventana Wood Benches and Counters.msg"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 35998.0,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Pay App #001 24-05-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 35998.0,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "Pay App #001 24-08-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 35998.0,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2024,
+    "project": "VET POWERED 24-151",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "VET POWERED 24-151.pdf",
+      "VET POWERED 24-151.xls",
+      "._VET POWERED 24-151.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "VIBE FLOW YOGA 24-118",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "VIBE FLOW YOGA 24-118.pdf",
+      "VIBE FLOW YOGA 24-118.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "VISTA HIGH SCHOOL 24-123",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "VISTA HIGH SCHOOL 24-123.pdf",
+      "VISTA HIGH SCHOOL 24-123.xls",
+      "._VISTA HIGH SCHOOL 24-123.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "WELLS PARK PICKLEBALL 24-182",
+    "file_count": 6,
+    "pdf_count": 6,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 6
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Sheet 29 WELLS PARK PICKLEBALL Plans Set 2.pdf",
+      "Sheet 31 WELLS PARK PICKLEBALL Plans Set 2.pdf",
+      "Sheet 33 WELLS PARK PICKLEBALL Plans Set 2.pdf",
+      "Sheet34 WELLS PARK PICKLEBALL Plans Set 2.pdf",
+      "WELLS PARK PICKLEBALL Plans Set 2.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "WOMENS CLUB CARLSBAD 24-147",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "WOMENS CLUB CARLSBAD 24-147.pdf",
+      "WOMENS CLUB CARLSBAD 24-147.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2024,
+    "project": "YORK RES 24-163",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "YORK RES 24-163.pdf",
+      "YORK RES 24-163.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "10TH & ROBINSON 25-179",
+    "file_count": 1515,
+    "pdf_count": 8,
+    "spreadsheet_count": 1,
+    "drawing_count": 1,
+    "image_count": 1504,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 1504
+      },
+      {
+        "extension": ".pdf",
+        "count": 8
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "10TH & ROBINSON 25-179.pdf",
+      "10TH & ROBINSON 25-179.xls",
+      "JOBSITE CONTACT INFO.pdf",
+      "A1.1-Level-1-Floor-Plan-Rev.3.pdf",
+      "A2.1a-Exterior-Finish-Elevations-Rev.2reduced_copy.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "6TH & PALM 25-123",
+    "file_count": 117,
+    "pdf_count": 72,
+    "spreadsheet_count": 40,
+    "drawing_count": 1,
+    "image_count": 3,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 72
+      },
+      {
+        "extension": ".xlsx",
+        "count": 26
+      },
+      {
+        "extension": ".xls",
+        "count": 14
+      },
+      {
+        "extension": ".png",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "21112_6th_+_Palm_Delta_5_IFC_08.29.25.pdf",
+      "6th & Palm Updated Arch Drawings.pdf",
+      "Architecturals IFC Set 8.29.25.pdf",
+      "Interior Design IFC Set 8.29.25.pdf",
+      "Copy of Schedule of Values Millwork 7-23-25.xlsx"
+    ],
+    "verified_total": {
+      "sheet": "Exhibit C- SOV for Textura",
+      "cell": "C91",
+      "value": 3314273.0,
+      "context": "total contract amount"
+    },
+    "verified_evidence": [
+      {
+        "file": "Copy of Schedule of Values Millwork 7-23-25.xlsx",
+        "matches": [
+          {
+            "sheet": "Exhibit C- SOV for Textura",
+            "cell": "C91",
+            "value": 3314273.0,
+            "context": "total contract amount"
+          }
+        ]
+      },
+      {
+        "file": "Schedule of Values.xlsx",
+        "matches": [
+          {
+            "sheet": "Exhibit C- SOV for Textura",
+            "cell": "C92",
+            "value": 3293474.0,
+            "context": "total contract amount"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "8TH & UNIVERSITY 25-120",
+    "file_count": 5220,
+    "pdf_count": 37,
+    "spreadsheet_count": 13,
+    "drawing_count": 24,
+    "image_count": 5134,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 5133
+      },
+      {
+        "extension": ".pdf",
+        "count": 37
+      },
+      {
+        "extension": ".dxf",
+        "count": 21
+      },
+      {
+        "extension": ".xlsx",
+        "count": 10
+      },
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".log",
+        "count": 4
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "8TH & UNIVERSITY 25-120 REVISED.pdf",
+      "8TH & UNIVERSITY 25-120 REVISED.xls",
+      "8TH & UNIVERSITY 25-120.pdf",
+      "8TH & UNIVERSITY 25-120.xls",
+      "A4.7_ Enlarged Common Plans & Elevations Rev.7 markup.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "AUSTIN X NOLA 25-133",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "250313_AUSTIN NOLA VE SET.pdf",
+      "AUSTIN X NOLA 25-133.pdf",
+      "AUSTIN X NOLA 25-133.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "Ave C Typ Drawings",
+    "file_count": 13,
+    "pdf_count": 3,
+    "spreadsheet_count": 1,
+    "drawing_count": 4,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".bak",
+        "count": 4
+      },
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".cvj",
+        "count": 3
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      },
+      {
+        "extension": ".log",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Ave C Equipment Electrical Requirements (2).xlsx",
+      "Ave C Microwave Caps.bak",
+      "Ave C Microwave Caps.dwg",
+      "Ave C Typ Drawings with New Small Fridge Sizes PDF.pdf",
+      "Ave C Typ Drawings PDF.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "BALL KIA NATIONAL CITY 25-153",
+    "file_count": 4,
+    "pdf_count": 3,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BALL KIA NATIONAL CITY 25-153.pdf",
+      "BALL KIA NATIONAL CITY 25-153.xls",
+      "Ball Kia Service Reception- CDs- Bldg submittal- (25-05-13).pdf",
+      "BD24-00617- Ball Kia- Resubmittal CDs- REV.1- (25-04-24).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "BELARDO DR 25-142",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BELARDO DR 25-142.pdf",
+      "BELARDO DR 25-142.xls",
+      "BELARDO DR 25-144 WORK STATION.pdf",
+      "BELARDO DR 25-144 WORK STATION.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "BETTER BUZZ VISTA 25-102",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BETTER BUZZ VISTA 25-102.pdf",
+      "BETTER BUZZ VISTA 25-102.xls",
+      "Better Buzz VISTA Drawings COMPRESSED.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "BONGIOVANNI 25-135",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "BONGIOVANNI RESTAURANT 25-135.pdf",
+      "BONGIOVANNI RESTAURANT 25-135.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "BUI RES 25-121",
+    "file_count": 89,
+    "pdf_count": 45,
+    "spreadsheet_count": 9,
+    "drawing_count": 23,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 45
+      },
+      {
+        "extension": ".abv",
+        "count": 10
+      },
+      {
+        "extension": ".bak",
+        "count": 10
+      },
+      {
+        "extension": ".xls",
+        "count": 9
+      },
+      {
+        "extension": ".cvj",
+        "count": 9
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "BUI RES 25-121 PANTRY- CLOSET PAINT GRADE.pdf",
+      "BUI RES 25-121 PANTRY- CLOSET PAINT GRADE.xls",
+      "BUI RES 25-121 PANTRY- CLOSET.xls",
+      "BUI RES 25-121 PANTRY- MELAMINE CLOSET & CAP.pdf",
+      "BUI RES 25-121 PANTRY- MELAMINE CLOSET & CAP.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CAMPANILE MONTEZUMA 25-127",
+    "file_count": 36,
+    "pdf_count": 23,
+    "spreadsheet_count": 9,
+    "drawing_count": 2,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 23
+      },
+      {
+        "extension": ".xlsx",
+        "count": 8
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      },
+      {
+        "extension": ".dwg",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "Accolade SDSU Exhibit A SOW.pdf",
+      "CAMPANILE MONTEZUMA 25-127 REVISED C.pdf",
+      "CAMPANILE MONTEZUMA 25-127 REVISED C.xlsx",
+      "Copy of Book1.xlsx",
+      "Copy of Copy of Book1.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CAMPUS COLLEGE PARK 25-103",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "CAMPUS COLLEGE PARK 25-103.pdf",
+      "CAMPUS COLLEGE PARK 25-103.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CARLSBAD VILLAGE TI 25-156",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "CARLSBAD VILLAGE TI 25-156 REV1.pdf",
+      "CARLSBAD VILLAGE TI 25-156 REV1.xls",
+      "CARLSBAD VILLAGE TI 25-156.pdf",
+      "CARLSBAD VILLAGE TI 25-156.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CHRIST LUTHERAN CHURCH 25-163",
+    "file_count": 15,
+    "pdf_count": 8,
+    "spreadsheet_count": 7,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 8
+      },
+      {
+        "extension": ".xlsx",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "#1 Release 25-09-30.xlsx",
+      "#1 SOV 25-09-30.xlsx",
+      "#2 SOV 25-09-30.xlsx",
+      "#3 Release 25-09-30.xlsx",
+      "CHRIST LUTHERAN CHURCH 25-163 ARTWORK BASE REWORK.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CITY HEIGHTS PERFORMANCE ANNEX 25-171",
+    "file_count": 17,
+    "pdf_count": 4,
+    "spreadsheet_count": 2,
+    "drawing_count": 1,
+    "image_count": 9,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 9
+      },
+      {
+        "extension": ".pdf",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "A. DWG 2025-0919 City Heights Library City Submittal Set.pdf",
+      "CITY HEIGHTS PERFORMANCE ANNEX 25-171 ADDENDUM 1.pdf",
+      "CITY HEIGHTS PERFORMANCE ANNEX 25-171 ADDENDUM 1.xls",
+      "CITY HEIGHTS PERFORMANCE ANNEX 25-171.pdf",
+      "CITY HEIGHTS PERFORMANCE ANNEX 25-171.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "COLRICH 25-152",
+    "file_count": 104,
+    "pdf_count": 43,
+    "spreadsheet_count": 14,
+    "drawing_count": 26,
+    "image_count": 4,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 43
+      },
+      {
+        "extension": ".bak",
+        "count": 14
+      },
+      {
+        "extension": ".dwg",
+        "count": 10
+      },
+      {
+        "extension": ".xlsx",
+        "count": 10
+      },
+      {
+        "extension": ".cvj",
+        "count": 6
+      },
+      {
+        "extension": ".abv",
+        "count": 5
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "05-30-25 ColRich IFP1--BidSet.pdf",
+      "08-27-25 ColRich--220000-1 Plumbing Fixtures Product Data.pdf",
+      "ColRich 25-152 Autocad- 1st Set.bak",
+      "ColRich 25-152 Autocad- 1st Set.dwg",
+      "COLRICH 25-152 FINAL.pdf"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 120994.6,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "#1 Release 25-09-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "#1 Release 25-10-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "COR NAVAL BASE SMASHBURGER 25-136",
+    "file_count": 61,
+    "pdf_count": 25,
+    "spreadsheet_count": 7,
+    "drawing_count": 1,
+    "image_count": 26,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 26
+      },
+      {
+        "extension": ".pdf",
+        "count": 25
+      },
+      {
+        "extension": ".xlsx",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".docx",
+        "count": 1
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Change Order 002 Deduct.pdf",
+      "Change Order 002 Deduct.xlsx",
+      "plans.png",
+      "Smashbuger Sheet A3.1 Addendum 2.pdf",
+      "Smashburger_Navy_Air- Combined-Bid Set 3.11.25.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "CORONADO P-821 WARCOM OPS GATOR BEACH",
+    "file_count": 5,
+    "pdf_count": 2,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".pdf",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "CORONADO P-821 GATOR BEACH POTFF.pdf",
+      "CORONADO P-821 GATOR BEACH POTFF.xls",
+      "CORONADO P-821 WARCOM OPS GATOR BEACH.xls",
+      "CORONADO P-821 WARCOM OPS MAIN BLDG.pdf",
+      "CORONADO P-821 WARCOM OPS MAIN BLDG.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "COURTHOUSE COMMONS 25-104",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "COURTHOUSE COMMONS 25-104.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "DANS HOUSE ARCHES",
+    "file_count": 7,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 5,
+    "image_count": 1,
+    "top_extensions": [
+      {
+        "extension": ".dxf",
+        "count": 4
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      },
+      {
+        "extension": ".jpeg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Dan's House- Arches.bak",
+      "Dan's House- Arches.dwg",
+      "ranchhousedoors.com.jpeg",
+      "A.dxf",
+      "B.dxf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "Davids New Computer",
+    "file_count": 3,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 3,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".cvj",
+        "count": 2
+      },
+      {
+        "extension": ".abv",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "David CV2025 Test File 1.cvj",
+      "David CV2025 Test File 2 10-17-25.cvj",
+      "Untitled.abv"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "DINSMORE 655 BROADWAY 25-112",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "DINSMORE 655 BROADWAY 25-112.pdf",
+      "DINSMORE 655 BROADWAY 25-112.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "DIRECTORS CUT CINEMA 25-143",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1-01- Directors Cut permit set (version 01).pdf",
+      "DIRECTORS CUT CINEMA 25-143.pdf",
+      "DIRECTORS CUT CINEMA 25-143.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "DR CUNNINGHAM 25-175",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "DR CUNNINGHAM 25-175.pdf",
+      "DR CUNNINGHAM 25-175.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "DR DIXON 25-106",
+    "file_count": 158,
+    "pdf_count": 38,
+    "spreadsheet_count": 30,
+    "drawing_count": 42,
+    "image_count": 28,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 38
+      },
+      {
+        "extension": ".jpg",
+        "count": 27
+      },
+      {
+        "extension": ".xls",
+        "count": 25
+      },
+      {
+        "extension": ".dxf",
+        "count": 20
+      },
+      {
+        "extension": ".bak",
+        "count": 14
+      },
+      {
+        "extension": ".cvj",
+        "count": 11
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "Change Order 001 STAFF LOUNGE & RESTROOMS DEDUCT.pdf",
+      "Change Order 001 STAFF LOUNGE & RESTROOMS DEDUCT.xlsx",
+      "Change Order 003 ORTHO BAY RELOCATION.pdf",
+      "Change Order 003 ORTHO BAY RELOCATION.xlsx",
+      "Door Lock.pdf"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 173658.0,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Pay App #005 25-08-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 173658.0,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "Pay App #006 25-08-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 173658.0,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "DR RODRIGUEZ SD PLASTIC SURGERY 25-165",
+    "file_count": 68,
+    "pdf_count": 16,
+    "spreadsheet_count": 6,
+    "drawing_count": 35,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".dxf",
+        "count": 24
+      },
+      {
+        "extension": ".pdf",
+        "count": 16
+      },
+      {
+        "extension": ".bak",
+        "count": 11
+      },
+      {
+        "extension": ".abv",
+        "count": 4
+      },
+      {
+        "extension": ".cvj",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "DR RODRIGUEZ SD PLASTIC SURGERY 25-165 NEW SCOPE.pdf",
+      "DR RODRIGUEZ SD PLASTIC SURGERY 25-165 NEW SCOPE.xls",
+      "DR RODRIGUEZ SD PLASTIC SURGERY 25-165 REVISED.pdf",
+      "DR RODRIGUEZ SD PLASTIC SURGERY 25-165 REVISED.xls",
+      "DR RODRIGUEZ SD PLASTIC SURGERY 25-165.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "EMBLEM BOARD B-1457 CORONADO",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "EMBLEM BOARD B-1457 CORONADO.pdf",
+      "EMBLEM BOARD B-1457 CORONADO.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "EMBLEM DISK NAVY CORONADO 25-177",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "EMBLEM DISK NAVY CORONADO 25-177.pdf",
+      "EMBLEM DISK NAVY CORONADO 25-177.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "EMBLEM MONTEREY HALLIGAN HALL 25",
+    "file_count": 3,
+    "pdf_count": 1,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".pdf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "CHINA LAKE P-1904 RM19 1867 MAIL RM EMBLEM 23-151.xls",
+      "EMBLEM HALLIGAN HALL MONTEREY 25-1.pdf",
+      "EMBLEM HALLIGAN HALL MONTEREY 25-1.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "EVERLEIGH SAN CLEMENTE 25-126",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "EVERLEIGH SAN CLEMENTE 25-126.pdf",
+      "EVERLEIGH SAN CLEMENTE 25-126.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "FADY MUNEER PHARMACY 25-164",
+    "file_count": 0,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "FIFTH FLOOR CORRIDOR 25-160",
+    "file_count": 62,
+    "pdf_count": 10,
+    "spreadsheet_count": 4,
+    "drawing_count": 7,
+    "image_count": 35,
+    "top_extensions": [
+      {
+        "extension": ".jpg",
+        "count": 35
+      },
+      {
+        "extension": ".pdf",
+        "count": 10
+      },
+      {
+        "extension": ".dwg",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".dxf",
+        "count": 3
+      },
+      {
+        "extension": ".bak",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "07-01-25 Fifth Floor Corridor IFP1.pdf",
+      "FIFTH FLOOR CORRIDOR 25-160 NEW LAYOUT.pdf",
+      "FIFTH FLOOR CORRIDOR 25-160 NEW LAYOUT.xls",
+      "FIFTH FLOOR CORRIDOR 25-160.pdf",
+      "FIFTH FLOOR CORRIDOR 25-160.xls"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 120994.6,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "#1 Release 25-12-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "FISH AND RICHARDSON 25-105",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "4. Issue for Construction Set 02.12.20 A.pdf",
+      "FISH & RICHARDSON 25-105.pdf",
+      "FISH & RICHARDSON 25-105.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "JUNIPER & IVY WINE STATION 25-118",
+    "file_count": 47,
+    "pdf_count": 19,
+    "spreadsheet_count": 12,
+    "drawing_count": 9,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 19
+      },
+      {
+        "extension": ".xls",
+        "count": 9
+      },
+      {
+        "extension": ".bak",
+        "count": 5
+      },
+      {
+        "extension": ".dwg",
+        "count": 4
+      },
+      {
+        "extension": ".xlsx",
+        "count": 3
+      },
+      {
+        "extension": ".dxf",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "250214_Juniper Ivy Wine Station RENDERINGS.pdf",
+      "250214_Wine Center Drawings.pdf",
+      "Change Order 001 GLASS MW-4 UPGRADE.pdf",
+      "Change Order 001 GLASS MW-4 UPGRADE.xlsx",
+      "JUNIPER IVY WINE STATION 25-118 R1 Approved as Noted.pdf"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 120994.6,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "#1 Release 25-06-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "#3 Release 25-06-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "KEARNY MESA BRANCH RELOCATION 25-148",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "KEARNY MESA BRANCH RELOCATION 25-148 R1.pdf",
+      "KEARNY MESA BRANCH RELOCATION 25-148 R1.xlsx",
+      "KEARNY MESA BRANCH RELOCATION 25-148.pdf",
+      "KEARNY MESA BRANCH RELOCATION 25-148.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "KEARNY MESA GATEWAY 25-110",
+    "file_count": 4,
+    "pdf_count": 3,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".docx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "1-KMG TITLE SHEETS Compressed.pdf",
+      "12-KMG INTERIOR DESIGN Compressed.pdf",
+      "3-KMG ARCHITECTURAL Compressed.pdf",
+      "Kearny Mesa Gateway PC #2 Bid Invitation.docx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "KEARNY MESA GATEWAY 25-161",
+    "file_count": 4,
+    "pdf_count": 3,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "11-KMG INTERIOR DESIGN Condensed.pdf",
+      "3-KMG ARCHITECTURAL (1) Condensed.pdf",
+      "KEARNY MESA GATEWAY 25-161.pdf",
+      "KEARNY MESA GATEWAY 25-161.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "LAKEHOUSE 25-122",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "LAKEHOUSE RESORT MODEL ROOM 25-122.pdf",
+      "LAKEHOUSE RESORT MODEL ROOM 25-122.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "LAKEHOUSE HOTEL 25-122",
+    "file_count": 7,
+    "pdf_count": 1,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 5,
+    "top_extensions": [
+      {
+        "extension": ".jpg",
+        "count": 5
+      },
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".db",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Barn Door (1).jpg",
+      "Barn Door (2).jpg",
+      "Barn Door (3).jpg",
+      "Bathroom Vanity.jpg",
+      "Closet Shelf.jpg"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "LIBERTY STATION BLDG 208 25-157",
+    "file_count": 26,
+    "pdf_count": 15,
+    "spreadsheet_count": 6,
+    "drawing_count": 1,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 15
+      },
+      {
+        "extension": ".xlsx",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      },
+      {
+        "extension": ".docx",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Change Order 001 DELETE CABINET AND ADD BASE.pdf",
+      "Change Order 001 DELETE CABINET AND ADD BASE.xlsx",
+      "Change Order 002 BASE REWORK SPECIAL TRIP.pdf",
+      "Change Order 002 BASE REWORK SPECIAL TRIP.xlsx",
+      "LIBERTY STATION BLDG 208 25-157.pdf"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "value": 120994.6,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "#1 Release 25-11-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "#1 Release 25-12-31.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D35",
+            "value": 120994.6,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "LINDLEY CONST. OFFICE BUILD BACK 25-130",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "LINDLEY CONST. OFFICE BUILD BACK 25-130.pdf",
+      "LINDLEY CONST. OFFICE BUILD BACK 25-130.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "LINDLEY ROFF DECK BBQ 25-124",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "LINDLEY ROOF DECK BBQ 25-124.pdf",
+      "LINDLEY ROOF DECK BBQ 25-124.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "LOEWS HOTELS 25-140",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "240830 ARCH_MR 90_ CD.pdf",
+      "LOEWS CORONADO MODEL ROOMS 25-140.pdf",
+      "LOEWS CORONADO MODEL ROOMS 25-140.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "METEME BARREL WINERY 25-155",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "METEME BARREL WINERY 25-155.pdf",
+      "METEME BARREL WINERY 25-155.xls",
+      "Meteme Barrel Winery Drawings.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "MISSION FLATS 25-158",
+    "file_count": 5,
+    "pdf_count": 3,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "MISSION FLATS 25-158 A.xls",
+      "MISSION FLATS 25-158.pdf",
+      "MISSION FLATS 25-158.xls",
+      "Mission_Flats_-_Architectural_CDs.pdf",
+      "Mission_Flats_-_Landscape_CDs.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "MISSION VALLEY PUBLIC SPACE 25-159",
+    "file_count": 495,
+    "pdf_count": 6,
+    "spreadsheet_count": 3,
+    "drawing_count": 3,
+    "image_count": 479,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 479
+      },
+      {
+        "extension": ".pdf",
+        "count": 6
+      },
+      {
+        "extension": ".bak",
+        "count": 3
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "MISSION VALLEY PUBLIC SPACE 25-159 UPDATED.pdf",
+      "MISSION VALLEY PUBLIC SPACE 25-159 UPDATED.xls",
+      "Change Order 001 MATERIAL MINIMUM ORDER.pdf",
+      "Change Order 001 MATERIAL MINIMUM ORDER.xlsx",
+      "Sheraton San Diego- Public Space Plans00a1738d.png"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "MORRISON FOERSTER BOOK 25-138",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "MORRISON FOERSTER BOOK 25-138.pdf",
+      "MORRISON FOERSTER BOOK 25-138.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "MUNEER PHARMACY 5-164",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "MUNEER PHARMACY 25-164.pdf",
+      "MUNEER PHARMACY 25-164.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "NAVY INN CORONADO 25-146",
+    "file_count": 4,
+    "pdf_count": 2,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "NAVY INN CORONADO 25-146 REVISED.pdf",
+      "NAVY INN CORONADO 25-146 REVISED.xls",
+      "NAVY INN CORONADO 25-146.pdf",
+      "NAVY INN CORONADO 25-146.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "New folder",
+    "file_count": 0,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "OHIO STREET 25-125",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "OHIO STREET 25-125.pdf",
+      "OHIO STREET 25-125.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "P951 CORONADO 25-109",
+    "file_count": 15,
+    "pdf_count": 6,
+    "spreadsheet_count": 3,
+    "drawing_count": 1,
+    "image_count": 3,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 6
+      },
+      {
+        "extension": ".jpg",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      },
+      {
+        "extension": ".db",
+        "count": 1
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "#3 Release 25-10-31.xlsx",
+      "IMG_7817.jpg",
+      "IMG_7827.jpg",
+      "IMG_7866.jpg",
+      "IMG_7866.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "PALL CORPORATION BREAKROOM 25-180",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "PALL CORPORATION BREAKROOM 25-180.pdf",
+      "PALL CORPORATION BREAKROOM 25-180.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "PERRY'S CAFE 25-128",
+    "file_count": 7,
+    "pdf_count": 6,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 6
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "PERRY'S CAFE 25-128.pdf",
+      "PERRY'S CAFE 25-128.xls",
+      "Cover Page Levels Segment Plans.pdf",
+      "Interior Design Plans.pdf",
+      "Unit Interior Details.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "PLAZA LA JOLLA 25-145",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".zip",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "PlazaLaJolla.zip"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "RaDD Bldg 2A 25-151",
+    "file_count": 47,
+    "pdf_count": 25,
+    "spreadsheet_count": 10,
+    "drawing_count": 3,
+    "image_count": 5,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 25
+      },
+      {
+        "extension": ".xlsx",
+        "count": 8
+      },
+      {
+        "extension": ".png",
+        "count": 5
+      },
+      {
+        "extension": ".dwg",
+        "count": 3
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "25.08.14- IQHQ RaDD 2A L3- Pricing Package- ARCH.pdf",
+      "25.08.14- IQHQ RaDD 4A L2- Pricing Package- ARCH.pdf",
+      "25.10.15- BLDG 2A- TI Submittal- ARCH.pdf",
+      "25.10.15- BLDG 4A- TI Submittal- ARCH.pdf",
+      "25.11.17- BLDG 2A- Multi-Tenant Corridor Resubmittal- ARCH.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "RENAISSANCE LOBBY 25-109",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "00. 2304 Renaissance_Front Street Lobby_PC Set 121524 Rev6.pdf",
+      "RENAISSANCE LOBBY 25-109.pdf",
+      "RENAISSANCE LOBBY 25-109.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "RIVERWALK 25-147",
+    "file_count": 3,
+    "pdf_count": 3,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Riverwalk ID drawings Compressed 1-10.pdf",
+      "Riverwalk ID drawings Compressed.pdf",
+      "Riverwalk A1.100-A1.206 compressed.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SAIC 10TH FLOOR 25-154",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SAIC 10TH FLOOR 25-154.pdf",
+      "SAIC 10TH FLOOR 25-154.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SAIC AF FRAZEE 25-154",
+    "file_count": 1,
+    "pdf_count": 1,
+    "spreadsheet_count": 0,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "Drawings.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SAIC MURRAY CANYON 1ST FLOOR 25-116",
+    "file_count": 1,
+    "pdf_count": 0,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SAIC MURRAY CANYON 1ST FLOOR 25-116.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SD PADRES CLUB HOUSE DAMAGE 25-169",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SD PADRES CLUB HOUSE DAMAGE 25-169.pdf",
+      "SD PADRES CLUB HOUSE DAMAGE 25-169.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SD PADRES CLUB HOUSE STAFF 25-107",
+    "file_count": 91,
+    "pdf_count": 5,
+    "spreadsheet_count": 2,
+    "drawing_count": 25,
+    "image_count": 48,
+    "top_extensions": [
+      {
+        "extension": ".jpg",
+        "count": 47
+      },
+      {
+        "extension": ".dxf",
+        "count": 21
+      },
+      {
+        "extension": ".bak",
+        "count": 7
+      },
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".abv",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "image001.png",
+      "SD Padres Club House Staff- CABS.abv",
+      "SD Padres Club House Staff- CABS.bak",
+      "SD Padres Club House Staff- CABS.cvj",
+      "SD PADRES CLUB HOUSE STAFF 25-107.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SD PADRES EXECUTIVE CONFERENCE ROOM 25-168",
+    "file_count": 90,
+    "pdf_count": 9,
+    "spreadsheet_count": 5,
+    "drawing_count": 4,
+    "image_count": 70,
+    "top_extensions": [
+      {
+        "extension": ".png",
+        "count": 70
+      },
+      {
+        "extension": ".pdf",
+        "count": 9
+      },
+      {
+        "extension": ".xls",
+        "count": 4
+      },
+      {
+        "extension": ".bak",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      },
+      {
+        "extension": ".dxf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2025.1014_Padres Executive Conference Room_VE.pdf",
+      "RFI 25-168 001.pdf",
+      "RFI 25-168 001.xlsx",
+      "SD PADRES EXECUTIVE CONFERENCE ROOM 25-168 REDLINE DRAWINGS.pdf",
+      "SD PADRES EXECUTIVE CONFERENCE ROOM 25-168 REDLINE DRAWINGS.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SD YOUTH SERVICES 15-150",
+    "file_count": 12,
+    "pdf_count": 5,
+    "spreadsheet_count": 4,
+    "drawing_count": 0,
+    "image_count": 2,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xlsx",
+        "count": 4
+      },
+      {
+        "extension": ".png",
+        "count": 2
+      },
+      {
+        "extension": ".db",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "A10.07.png",
+      "A10.11.png",
+      "Drawings.pdf",
+      "FULL SET Drawings.pdf",
+      "SD YOUTH SERVICES 25-150 REVISED A.xlsx"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SDSU EVOLVE 1A 25-113",
+    "file_count": 19,
+    "pdf_count": 12,
+    "spreadsheet_count": 7,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 12
+      },
+      {
+        "extension": ".xls",
+        "count": 6
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": true
+    },
+    "sample_files": [
+      "04 co_hourly_labor_rate_worksheet (1).xlsx",
+      "2025-03-14_Evolve_Apartment 1 Exhibit.pdf",
+      "2025-03-14_Evolve_Peninsula Site Exhibits.pdf",
+      "SDSU EVOLVE 1A AMENITY 25-113-2.pdf",
+      "SDSU EVOLVE 1A AMENITY 25-113-2.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SEAU RESIDENCE 25-139",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SEAU RESIDENCE 25-139.pdf",
+      "SEAU RESIDENCE 25-139.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SHARP CHULA VISTA 25-162",
+    "file_count": 8,
+    "pdf_count": 5,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 5
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "SCV_765_MOB_SUITE 210_2025-7-14_progress set.pdf",
+      "SHARP CHULA VISTA 765 MOB- SUITE 210 #25-162 REVISED B.pdf",
+      "SHARP CHULA VISTA 765 MOB- SUITE 210 #25-162 REVISED B.xls",
+      "SHARP CHULA VISTA 765 MOB- SUITE 210 #25-162 REVISED.pdf",
+      "SHARP CHULA VISTA 765 MOB- SUITE 210 #25-162 REVISED.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "SPRAY BOOTH SIGN",
+    "file_count": 2,
+    "pdf_count": 0,
+    "spreadsheet_count": 0,
+    "drawing_count": 1,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".log",
+        "count": 1
+      },
+      {
+        "extension": ".dxf",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "plot.log",
+      "Sign 1.dxf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "STADLER RES 25-117",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "STADLER RES 25-117.pdf",
+      "STADLER RES 25-117.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "THE MARK 25-172",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "THE MARK 25-172.pdf",
+      "THE MARK 25-172.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "THE TERRACES MURRIETA PHASE 2 25-141",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "THE TERRACES MURRIETA PHASE 2 25-141.pdf",
+      "THE TERRACES MURRIETA PHASE 2 25-141.xls",
+      "11ID_-_Terraces_at_Murrieta_-_PH_2_-_GMP_Set_-_Drawings_-_Interior_Design.pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "TIDE ROCK 25-149",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TIDE ROCK 25-149.pdf",
+      "TIDE ROCK 25-149.xls",
+      "Tide Rock Expansion TI- Contractor Bid Set 1.0 (05_13).pdf"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "TREEHOUSE APARTMENTS 25-134",
+    "file_count": 3,
+    "pdf_count": 2,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 2
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TREEHOUSE- ISSUED FOR CONSTRUCTION- COMPILED SET.pdf",
+      "TREEHOUSE APARTMENTS 25-134.pdf",
+      "TREEHOUSE APARTMENTS 25-134.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "TRUDEAU RES 25-178",
+    "file_count": 2,
+    "pdf_count": 1,
+    "spreadsheet_count": 1,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 1
+      },
+      {
+        "extension": ".xls",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "TRUDEAU RES 25-178.pdf",
+      "TRUDEAU RES 25-178.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "UCSD PINES & ROOTS 25-170",
+    "file_count": 188,
+    "pdf_count": 10,
+    "spreadsheet_count": 2,
+    "drawing_count": 0,
+    "image_count": 164,
+    "top_extensions": [
+      {
+        "extension": ".jpeg",
+        "count": 94
+      },
+      {
+        "extension": ".jpg",
+        "count": 61
+      },
+      {
+        "extension": ".pdf",
+        "count": 10
+      },
+      {
+        "extension": ".heic",
+        "count": 9
+      },
+      {
+        "extension": ".mp4",
+        "count": 7
+      },
+      {
+        "extension": ".mov",
+        "count": 4
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": true,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2025-0903- UCSD Pines_ Roots 100_ SD.pdf",
+      "DEDUCTIONS UCSD ROOTS 25-170 v1.pdf",
+      "DEDUCTIONS UCSD ROOTS 25-170 v1.xls",
+      "UCSD ROOTS 25-170.pdf",
+      "UCSD ROOTS 25-170.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "VALLEY PLAZA CINEMAS 25-131",
+    "file_count": 39,
+    "pdf_count": 21,
+    "spreadsheet_count": 9,
+    "drawing_count": 8,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 21
+      },
+      {
+        "extension": ".xls",
+        "count": 9
+      },
+      {
+        "extension": ".dxf",
+        "count": 7
+      },
+      {
+        "extension": ".bak",
+        "count": 1
+      },
+      {
+        "extension": ".dwg",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": true,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "7KQX76W0VBVPVXP3ZXVZWF60MX.pdf",
+      "VALLEY PLAZA RAILING DETAILS.pdf",
+      "VALLEY PLAZA READING CINEMAS.pdf",
+      "EXHIBIT F Conditional Waiver Release On Progress Payment (2).pdf",
+      "EXHIBIT F Conditional Waiver Release On Progress Payment 25-10-31.pdf"
+    ],
+    "verified_total": {
+      "sheet": "Schedule of Values",
+      "cell": "D40",
+      "value": 112551.0,
+      "context": "grand total:"
+    },
+    "verified_evidence": [
+      {
+        "file": "Pay App #003 25-11-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D40",
+            "value": 112551.0,
+            "context": "grand total:"
+          }
+        ]
+      },
+      {
+        "file": "Pay App #001 25-09-30.xls",
+        "matches": [
+          {
+            "sheet": "Schedule of Values",
+            "cell": "D40",
+            "value": 83290.0,
+            "context": "grand total:"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "year": 2025,
+    "project": "VAN HOUTEN AVE 25-114",
+    "file_count": 9,
+    "pdf_count": 6,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 6
+      },
+      {
+        "extension": ".xls",
+        "count": 3
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": true,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "457- Building Construction Plans- Submittal 3.pdf",
+      "457 Van Houten- 1st Submittal Set Selected.pdf",
+      "521 Van Houten- 1st Submittal Set Selected.pdf",
+      "VAN HOUTEN AVE 25-114 REVISED B.pdf",
+      "VAN HOUTEN AVE 25-114 REVISED B.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  },
+  {
+    "year": 2025,
+    "project": "VEBA 25-129",
+    "file_count": 7,
+    "pdf_count": 4,
+    "spreadsheet_count": 3,
+    "drawing_count": 0,
+    "image_count": 0,
+    "top_extensions": [
+      {
+        "extension": ".pdf",
+        "count": 4
+      },
+      {
+        "extension": ".xls",
+        "count": 2
+      },
+      {
+        "extension": ".xlsx",
+        "count": 1
+      }
+    ],
+    "signals": {
+      "has_billing": false,
+      "has_plans": false,
+      "has_photos": false,
+      "has_contract_pricing": false
+    },
+    "sample_files": [
+      "2025-03-11_VEBA- Progress Set VEBA.pdf",
+      "VEBA 25-129.xlsx",
+      "VEBA 3990 Ruffin_Bid Set.pdf",
+      "VEBA RUFFIN ROAD 25-129 REVISED.pdf",
+      "VEBA RUFFIN ROAD 25-129 REVISED.xls"
+    ],
+    "verified_total": null,
+    "verified_evidence": []
+  }
+]

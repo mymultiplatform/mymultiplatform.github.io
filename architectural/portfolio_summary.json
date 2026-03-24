@@ -1,0 +1,121 @@
+{
+  "source_volume": "MYM-AARCH",
+  "source_root": "Generic Spy",
+  "total_projects": 161,
+  "total_files": 21424,
+  "total_pdfs": 2021,
+  "total_spreadsheets": 811,
+  "total_drawings": 649,
+  "total_images": 17503,
+  "years": [
+    {
+      "year": 2024,
+      "project_count": 82
+    },
+    {
+      "year": 2025,
+      "project_count": 79
+    }
+  ],
+  "featured_project": {
+    "year": 2025,
+    "project": "6TH & PALM 25-123",
+    "value": 3314273.0,
+    "context": "total contract amount",
+    "sheet": "Exhibit C- SOV for Textura",
+    "cell": "C91",
+    "source_file": "Copy of Schedule of Values Millwork 7-23-25.xlsx"
+  },
+  "top_verified_projects": [
+    {
+      "year": 2025,
+      "project": "6TH & PALM 25-123",
+      "value": 3314273.0,
+      "context": "total contract amount",
+      "sheet": "Exhibit C- SOV for Textura",
+      "cell": "C91",
+      "source_file": "Copy of Schedule of Values Millwork 7-23-25.xlsx"
+    },
+    {
+      "year": 2024,
+      "project": "HDC VICTORIAN BALCONYS 24-106",
+      "value": 875856.9999999999,
+      "context": "pm / overhead | base contract total:",
+      "sheet": "Sheet1",
+      "cell": "C57",
+      "source_file": "Schedule of Values.xlsx"
+    },
+    {
+      "year": 2024,
+      "project": "THE TERRACES MURRIETA 24-134",
+      "value": 747706.0,
+      "context": "subtotal construction costs",
+      "sheet": "AIA G703",
+      "cell": "D57",
+      "source_file": "Schedule of Values 8.23.24- KB FINAL.xlsx"
+    },
+    {
+      "year": 2024,
+      "project": "ENCINITAS SAGE OLIVENHAIN COMMON AREA 24-116",
+      "value": 641705.0,
+      "context": "subtotal construction costs",
+      "sheet": "AIA G703",
+      "cell": "D56",
+      "source_file": "Copy of Exhibit C-G702_G703 Pay Application Forms- #2.xlsx"
+    },
+    {
+      "year": 2024,
+      "project": "PACIFICA EXECUTIVE OFFICE 24-168",
+      "value": 270309.0,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D40",
+      "source_file": "Pay App #002 25-07-31.xls"
+    },
+    {
+      "year": 2025,
+      "project": "DR DIXON 25-106",
+      "value": 173658.0,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "source_file": "Pay App #005 25-08-31.xls"
+    },
+    {
+      "year": 2024,
+      "project": "CHEROKEE MIXED USE 24-178",
+      "value": 123807.0,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "source_file": "Pay App #003 25-04-30.xls"
+    },
+    {
+      "year": 2025,
+      "project": "COLRICH 25-152",
+      "value": 120994.6,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "source_file": "#1 Release 25-09-30.xls"
+    },
+    {
+      "year": 2025,
+      "project": "FIFTH FLOOR CORRIDOR 25-160",
+      "value": 120994.6,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "source_file": "#1 Release 25-12-31.xls"
+    },
+    {
+      "year": 2025,
+      "project": "JUNIPER & IVY WINE STATION 25-118",
+      "value": 120994.6,
+      "context": "grand total:",
+      "sheet": "Schedule of Values",
+      "cell": "D35",
+      "source_file": "#1 Release 25-06-30.xls"
+    }
+  ]
+}

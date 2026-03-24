@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyMultiPlatform Architectural Archive</title>
+  <meta
+    name="description"
+    content="Architectural archive migrated into MyMultiPlatform with searchable project inventory, document counts, and verified project totals."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f3ede0;
+      --bg-strong: #e5d4be;
+      --paper: rgba(255, 250, 242, 0.82);
+      --paper-strong: rgba(255, 247, 237, 0.96);
+      --ink: #221d18;
+      --muted: #66584a;
+      --line: rgba(96, 74, 48, 0.18);
+      --accent: #9c5b2e;
+      --accent-strong: #5f3413;
+      --accent-soft: rgba(156, 91, 46, 0.14);
+      --forest: #405242;
+      --shadow: 0 24px 80px rgba(70, 49, 26, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --content: min(1180px, calc(100vw - 32px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 34%),
+        radial-gradient(circle at top right, rgba(156, 91, 46, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.35), transparent 48%),
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        linear-gradient(180deg, #efe7d6 0%, #e6ddca 100%);
+      background-size: auto, auto, auto, 36px 36px, 36px 36px, auto;
+      background-position: center, center, center, center, center, center;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page-shell {
+      width: var(--content);
+      margin: 0 auto;
+      padding: 18px 0 56px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      backdrop-filter: blur(18px);
+      background: rgba(252, 247, 239, 0.76);
+      border: 1px solid rgba(109, 83, 53, 0.08);
+      border-radius: 999px;
+      box-shadow: 0 14px 32px rgba(65, 45, 24, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 20px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #b76f35, #5f3413);
+      box-shadow: 0 0 0 7px rgba(156, 91, 46, 0.12);
+    }
+
+    .brand-text {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-text strong {
+      font-size: 0.97rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .topbar nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(109, 83, 53, 0.08);
+      font-size: 0.92rem;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+
+    .nav-pill:hover,
+    .nav-pill:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(96, 74, 48, 0.2);
+      outline: none;
+    }
+
+    .hero {
+      margin-top: 18px;
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 247, 237, 0.9)),
+        linear-gradient(125deg, rgba(96, 52, 19, 0.12), transparent 46%);
+      border: 1px solid rgba(96, 74, 48, 0.1);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -6% -14% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(156, 91, 46, 0.18), transparent 62%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: rgba(96, 52, 19, 0.4);
+    }
+
+    .hero h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .hero h1 {
+      margin-top: 16px;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      line-height: 0.94;
+      max-width: 9ch;
+    }
+
+    .hero-copy {
+      margin-top: 16px;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      color: #fff8f2;
+      box-shadow: 0 14px 34px rgba(95, 52, 19, 0.18);
+    }
+
+    .hero-link.secondary {
+      background: rgba(255, 255, 255, 0.65);
+      color: var(--ink);
+      border: 1px solid rgba(96, 74, 48, 0.12);
+      box-shadow: none;
+    }
+
+    .stats-grid,
+    .top-projects,
+    .inventory-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats-grid {
+      margin-top: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .stat-card,
+    .featured-card,
+    .top-card,
+    .inventory-card,
+    .note-card {
+      border-radius: var(--radius-lg);
+      background: var(--paper);
+      border: 1px solid rgba(96, 74, 48, 0.1);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat-card {
+      padding: 18px 18px 20px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 4px 0;
+    }
+
+    .section-header p {
+      margin: 0;
+      max-width: 64ch;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .featured-card {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      background:
+        linear-gradient(135deg, rgba(255, 251, 245, 0.94), rgba(242, 229, 208, 0.88)),
+        linear-gradient(140deg, rgba(156, 91, 46, 0.1), transparent 52%);
+    }
+
+    .featured-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+    }
+
+    .project-kicker,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(96, 74, 48, 0.1);
+      color: var(--accent-strong);
+    }
+
+    .featured-card h2 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      line-height: 0.96;
+      max-width: 11ch;
+    }
+
+    .money {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      line-height: 0.95;
+      color: var(--accent-strong);
+    }
+
+    .context-line {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .evidence-row,
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .note-card {
+      padding: 18px 20px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .top-projects {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .top-card {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top-card h3,
+    .inventory-card h3 {
+      font-size: 1.65rem;
+      line-height: 1.03;
+    }
+
+    .top-money {
+      font-size: 1.5rem;
+      color: var(--accent-strong);
+      font-weight: 700;
+    }
+
+    .inventory-panel {
+      padding: 20px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 251, 245, 0.72);
+      border: 1px solid rgba(96, 74, 48, 0.1);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 18px;
+    }
+
+    .inventory-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .toolbar-copy {
+      display: grid;
+      gap: 6px;
+    }
+
+    .toolbar-copy p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-input {
+      width: min(340px, 100%);
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(96, 74, 48, 0.16);
+      background: rgba(255, 255, 255, 0.84);
+      color: var(--ink);
+      font: inherit;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .search-input:focus-visible {
+      outline: 2px solid rgba(156, 91, 46, 0.25);
+      outline-offset: 1px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(96, 74, 48, 0.12);
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--ink);
+      font: inherit;
+      cursor: pointer;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(96, 74, 48, 0.22);
+      outline: none;
+    }
+
+    .filter-btn.active {
+      background: var(--accent-strong);
+      color: #fff8f2;
+      border-color: transparent;
+    }
+
+    .inventory-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .inventory-card {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      background: var(--paper-strong);
+    }
+
+    .inventory-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px;
+    }
+
+    .inventory-top .year {
+      flex: 0 0 auto;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--forest);
+      background: rgba(64, 82, 66, 0.12);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mini-stat {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(156, 91, 46, 0.08);
+      border: 1px solid rgba(96, 74, 48, 0.08);
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 1.15rem;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .verified-block {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(156, 91, 46, 0.12), rgba(255, 255, 255, 0.9));
+      border: 1px solid rgba(96, 74, 48, 0.08);
+    }
+
+    .verified-block strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--accent-strong);
+    }
+
+    .verified-block span {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .details {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .details summary {
+      cursor: pointer;
+      color: var(--accent-strong);
+      font-weight: 600;
+      list-style: none;
+    }
+
+    .details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .details ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .details li + li {
+      margin-top: 6px;
+    }
+
+    .empty-state {
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px dashed rgba(96, 74, 48, 0.22);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding: 0 4px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .inventory-panel {
+        padding: 24px;
+      }
+
+      .topbar {
+        border-radius: 24px;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .topbar nav {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        width: min(100vw - 18px, 100%);
+        padding-bottom: 38px;
+      }
+
+      .hero h1 {
+        max-width: none;
+      }
+
+      .controls,
+      .hero-actions {
+        width: 100%;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      .stats-grid,
+      .top-projects,
+      .inventory-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand-lockup" href="../index.html">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <strong>MyMultiPlatform</strong>
+            <span>Architectural archive</span>
+          </span>
+        </a>
+        <nav aria-label="Architectural navigation">
+          <a class="nav-pill" href="../index.html">Home</a>
+          <a class="nav-pill" href="../architecture_portfolio.html">Legacy gallery</a>
+          <a class="nav-pill" href="#inventory">Inventory</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">Architectural Migration</span>
+        <h1>USB Archive to Searchable Portfolio</h1>
+        <p class="hero-copy">
+          This section translates the MYM-AARCH archive into a MyMultiPlatform catalog.
+          The page summarizes the job folders, surfaces verified pricing where the source spreadsheets
+          clearly label totals, and keeps the project inventory searchable from one place.
+        </p>
+        <div class="hero-actions">
+          <a class="hero-link" href="#featured">See Featured Project</a>
+          <a class="hero-link secondary" href="#inventory">Browse Inventory</a>
+        </div>
+        <div class="stats-grid" id="summary-stats" aria-live="polite"></div>
+      </section>
+
+      <section class="section" id="featured">
+        <div class="section-header">
+          <div>
+            <h2>Highest Verified Project</h2>
+            <p>
+              The featured value comes from the strongest spreadsheet evidence in the archive:
+              cells labeled like <em>total contract amount</em>, <em>grand total</em>, or
+              <em>subtotal construction costs</em>.
+            </p>
+          </div>
+        </div>
+        <article class="featured-card" id="featured-project" aria-live="polite"></article>
+        <div class="note-card" id="verification-note">
+          Verified totals are sourced from workbook labels that explicitly point to a contract or total line.
+          They are intended as archive evidence, not as a public estimating tool.
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2>Top Verified Totals</h2>
+            <p>
+              These are the strongest archive totals I could verify directly from the USB spreadsheets.
+            </p>
+          </div>
+        </div>
+        <div class="top-projects" id="top-projects" aria-live="polite"></div>
+      </section>
+
+      <section class="section" id="inventory">
+        <div class="inventory-panel">
+          <div class="inventory-toolbar">
+            <div class="toolbar-copy">
+              <h2>Project Inventory</h2>
+              <p id="inventory-meta">Loading project inventory…</p>
+            </div>
+            <div class="controls">
+              <label class="sr-only" for="project-search">Search projects</label>
+              <input
+                class="search-input"
+                id="project-search"
+                type="search"
+                placeholder="Search project names, years, counts, or totals"
+              />
+              <div class="filter-row" id="year-filters" aria-label="Filter by year"></div>
+            </div>
+          </div>
+          <div class="inventory-grid" id="inventory-grid" aria-live="polite"></div>
+        </div>
+        <p class="footer-note">
+          The public page shows portfolio metadata and verified totals only. The original raw drawings,
+          spreadsheets, and photos remain in the USB archive and are not bulk-published here.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
