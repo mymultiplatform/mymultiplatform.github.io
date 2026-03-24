@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DanteHealth</title>
+    <style>
+      :root {
+        --sand: #f4efe5;
+        --paper: rgba(255, 251, 244, 0.9);
+        --ink: #1f1a17;
+        --muted: #655b53;
+        --olive: #52634d;
+        --terracotta: #b96c4a;
+        --line: rgba(31, 26, 23, 0.08);
+        --shadow: 0 20px 60px rgba(60, 37, 20, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(185, 108, 74, 0.16), transparent 28%),
+          radial-gradient(circle at top right, rgba(82, 99, 77, 0.18), transparent 34%),
+          linear-gradient(180deg, #efe6d6 0%, #f8f4ee 48%, #fbfaf7 100%);
+      }
+
+      .page-shell {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2rem 0 3rem;
+      }
+
+      .hero {
+        display: grid;
+        gap: 1.25rem;
+        align-items: end;
+        grid-template-columns: 1.5fr 0.9fr;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-copy,
+      .hero-card,
+      .panel {
+        background: var(--paper);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero-copy {
+        padding: 2.25rem;
+      }
+
+      .eyebrow,
+      .panel-kicker,
+      .card-label {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      h1,
+      h2,
+      .card-date {
+        font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        line-height: 0.95;
+        margin-top: 0.35rem;
+      }
+
+      .subtitle {
+        max-width: 34rem;
+        margin: 0.85rem 0 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .hero-card {
+        padding: 1.5rem;
+      }
+
+      .card-date {
+        margin: 0.5rem 0 0.3rem;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+
+      .card-note {
+        margin: 0;
+        color: var(--olive);
+        font-weight: 600;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .panel {
+        padding: 1.5rem;
+      }
+
+      .panel-wide {
+        grid-column: 1 / -1;
+      }
+
+      .panel-heading {
+        margin-bottom: 1rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .item-card {
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.52);
+      }
+
+      .item-title-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        align-items: baseline;
+      }
+
+      .item-title {
+        margin: 0;
+        font-size: 1.06rem;
+      }
+
+      .item-date {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .item-meta,
+      .item-notes,
+      .footer-copy {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .checklist-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.95rem 1rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid var(--line);
+      }
+
+      .checklist-text {
+        font-weight: 600;
+      }
+
+      .checklist-status {
+        color: var(--terracotta);
+        font-size: 0.92rem;
+      }
+
+      .footer {
+        margin-top: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        border-radius: 24px;
+        background: rgba(255, 251, 244, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        box-shadow: var(--shadow);
+      }
+
+      a {
+        color: var(--olive);
+      }
+
+      @media (max-width: 820px) {
+        .hero,
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .page-shell {
+          width: min(100% - 1rem, 1120px);
+          padding-top: 1rem;
+        }
+
+        .hero-copy,
+        .hero-card,
+        .panel,
+        .footer {
+          border-radius: 22px;
+        }
+
+        .item-title-row,
+        .checklist-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Personal health command center</p>
+          <h1>DanteHealth</h1>
+          <p class="subtitle">
+            A simple public tracker for medication history, follow-ups, and labs.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="card-label">Next key date</p>
+          <p class="card-date">2026-09-24</p>
+          <p class="card-note">Next dewormer reminder</p>
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-heading">
+            <p class="panel-kicker">Medication log</p>
+            <h2>Recent entries</h2>
+          </div>
+          <div class="stack">
+            <article class="item-card">
+              <div class="item-title-row">
+                <h3 class="item-title">Dewormer</h3>
+                <p class="item-date">2026-03-24</p>
+              </div>
+              <p class="item-meta">Taken • Dose not specified • Next due: 2026-09-24</p>
+              <p class="item-notes">Follow-up dose planned six months after the dose taken on March 24, 2026.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <p class="panel-kicker">Reminders</p>
+            <h2>Upcoming</h2>
+          </div>
+          <div class="stack">
+            <article class="item-card">
+              <div class="item-title-row">
+                <h3 class="item-title">Next dewormer dose</h3>
+                <p class="item-date">2026-09-24</p>
+              </div>
+              <p class="item-meta">Scheduled</p>
+              <p class="item-notes">Six months after the dose taken on 2026-03-24.</p>
+            </article>
+            <article class="item-card">
+              <div class="item-title-row">
+                <h3 class="item-title">Check hormones and testosterone levels</h3>
+                <p class="item-date">Date not set</p>
+              </div>
+              <p class="item-meta">Pending scheduling</p>
+              <p class="item-notes">Book lab work or clinician visit and record results here.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="panel-heading">
+            <p class="panel-kicker">Lab follow-up</p>
+            <h2>Hormones and testosterone</h2>
+          </div>
+          <div class="stack">
+            <div class="checklist-item">
+              <div class="checklist-text">Schedule hormone and testosterone lab panel</div>
+              <div class="checklist-status">Pending</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-text">Ask clinician which markers to include</div>
+              <div class="checklist-status">Pending</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-text">Record testosterone result</div>
+              <div class="checklist-status">Waiting for labs</div>
+            </div>
+            <div class="checklist-item">
+              <div class="checklist-text">Record follow-up notes and next action</div>
+              <div class="checklist-status">Pending</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="panel-heading">
+            <p class="panel-kicker">Journal</p>
+            <h2>Recent notes</h2>
+          </div>
+          <div class="stack">
+            <article class="item-card">
+              <div class="item-title-row">
+                <h3 class="item-title">Started DanteHealth tracking</h3>
+                <p class="item-date">2026-03-24</p>
+              </div>
+              <p class="item-meta">Journal note</p>
+              <p class="item-notes">Logged dewormer dose and created follow-up tasks for hormone and testosterone labs.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <section class="footer">
+        <p class="footer-copy">This page was published from DanteHealth on March 24, 2026.</p>
+        <p class="footer-copy">Local project folder: <a href="file:///Users/dantesanchez/Documents/New%20project/DanteHealth">DanteHealth</a></p>
+      </section>
+    </div>
+  </body>
+</html>
