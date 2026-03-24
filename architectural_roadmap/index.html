@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyMultiPlatform Architectural Roadmap</title>
+  <meta
+    name="description"
+    content="San Diego relaunch roadmap for a MyMultiPlatform architectural and millwork business, with California licensing, registration, and fee research."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f4efe5;
+      --panel: rgba(255, 251, 245, 0.9);
+      --panel-strong: rgba(255, 248, 239, 0.98);
+      --ink: #231d17;
+      --muted: #625548;
+      --line: rgba(92, 66, 39, 0.14);
+      --accent: #7b431d;
+      --accent-2: #a86636;
+      --forest: #405144;
+      --warn: #fff1d9;
+      --warn-line: #d3943f;
+      --danger: #8b1e16;
+      --shadow: 0 22px 80px rgba(63, 44, 24, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --content: min(1180px, calc(100vw - 28px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 30%),
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        linear-gradient(180deg, #efe6d6 0%, #e7dcc8 100%);
+      background-size: auto, 38px 38px, 38px 38px, auto;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .page {
+      width: var(--content);
+      margin: 0 auto;
+      padding: 18px 0 54px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+      background: rgba(255, 249, 241, 0.76);
+      border: 1px solid rgba(92, 66, 39, 0.09);
+      box-shadow: 0 12px 30px rgba(56, 39, 20, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: inherit;
+    }
+
+    .mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: 0 0 0 7px rgba(168, 102, 54, 0.12);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-copy strong {
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      font-size: 0.96rem;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(92, 66, 39, 0.08);
+      color: var(--ink);
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      background: rgba(255, 255, 255, 0.98);
+      outline: none;
+      text-decoration: none;
+    }
+
+    .hero {
+      margin-top: 18px;
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(254, 247, 236, 0.95)),
+        linear-gradient(135deg, rgba(123, 67, 29, 0.08), transparent 48%);
+      border: 1px solid rgba(92, 66, 39, 0.1);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      bottom: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 102, 54, 0.2), transparent 64%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(123, 67, 29, 0.08);
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(123, 67, 29, 0.4);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(2.8rem, 8vw, 4.8rem);
+      max-width: 10ch;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    h3 {
+      font-size: 1.6rem;
+    }
+
+    .hero-copy,
+    .section-copy,
+    .body-copy {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .hero-copy {
+      max-width: 65ch;
+      margin-top: 16px;
+    }
+
+    .hero-meta {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(92, 66, 39, 0.08);
+      color: var(--accent);
+      font-size: 0.88rem;
+    }
+
+    .warning {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      background: var(--warn);
+      border: 1px solid rgba(211, 148, 63, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .warning strong {
+      display: block;
+      color: var(--danger);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-top: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      padding: 0 4px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .decision-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .card,
+    .table-card,
+    .budget-card,
+    .source-card {
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(92, 66, 39, 0.1);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .card p,
+    .budget-card p,
+    .source-card p,
+    .source-card li {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card ul,
+    .budget-card ul,
+    .source-card ul,
+    .action-list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+
+    .card li,
+    .budget-card li,
+    .source-card li,
+    .action-list li {
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(64, 81, 68, 0.1);
+      color: var(--forest);
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+
+    .table-card {
+      overflow-x: auto;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+
+    thead th {
+      background: rgba(123, 67, 29, 0.08);
+      color: var(--accent);
+      text-align: left;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 16px;
+      border-bottom: 1px solid rgba(92, 66, 39, 0.1);
+      vertical-align: bottom;
+    }
+
+    tbody td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(92, 66, 39, 0.08);
+      vertical-align: top;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .fee {
+      color: var(--ink);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .scenario-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .budget-card strong {
+      display: block;
+      color: var(--accent);
+      font-size: 1.7rem;
+      margin: 8px 0 6px;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 10px;
+      padding-left: 18px;
+    }
+
+    .source-card ol {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .muted-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        border-radius: 24px;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .nav {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100vw - 18px, 100%);
+        padding-bottom: 36px;
+      }
+
+      .hero {
+        padding: 22px;
+      }
+
+      .decision-grid,
+      .scenario-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="brand-copy">
+            <strong>MyMultiPlatform</strong>
+            <span>Architectural Roadmap</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Roadmap navigation">
+          <a class="nav-link" href="../index.html">Home</a>
+          <a class="nav-link" href="../architectural/">Archive</a>
+          <a class="nav-link" href="#licenses">Licenses</a>
+          <a class="nav-link" href="#budget">Budget</a>
+          <a class="nav-link" href="#sources">Sources</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">San Diego Relaunch Plan</span>
+        <h1>Rebuild the business under MyMultiPlatform</h1>
+        <p class="hero-copy">
+          This page is a restart roadmap for rebuilding the legacy company under
+          <strong>MyMultiPlatform</strong> in San Diego. I am assuming the closest legacy scope is
+          <strong>architectural millwork / cabinet / finish carpentry / shop drawings / installation</strong>
+          because that is what the archive most strongly reflects. Research date: <strong>March 24, 2026</strong>.
+        </p>
+        <div class="hero-meta">
+          <span class="chip">Track A: millwork contractor</span>
+          <span class="chip">Track B: licensed architecture practice</span>
+          <span class="chip">Official sources only</span>
+        </div>
+        <div class="warning">
+          <strong>Critical California naming warning</strong>
+          The California Architects Board says that if a business uses the terms
+          <em>architect</em>, <em>architecture</em>, or <em>architectural</em> in its name or service
+          description to offer professional architectural services, the business must have a
+          California licensed architect in management control of the professional services and in
+          responsible control of all design services. CAB also says an <strong>LLC is not allowed to provide architectural services in California</strong>.
+          If you are not yet operating with a California architect in control, the safer launch lane is the
+          <strong>contractor / millwork</strong> business first, and the architecture practice second.
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Recommended Structure</h2>
+            <p class="section-copy">
+              The cleanest rebuild is to separate what is clearly permitted today from what becomes
+              permitted only after California architecture compliance is in place.
+            </p>
+          </div>
+        </div>
+        <div class="grid decision-grid">
+          <article class="card">
+            <span class="tag">Phase 1</span>
+            <h3>Launch the contractor / millwork company first</h3>
+            <p>
+              This is the closest match to the legacy operation shown by the archive. The primary CSLB lane is
+              <strong>C-6 Cabinet, Millwork and Finish Carpentry</strong>, with optional future expansion into
+              <strong>C-5 Framing and Rough Carpentry</strong> or <strong>B General Building</strong> if scope grows.
+            </p>
+            <ul>
+              <li>Use this lane for fabrication, finish carpentry, cabinetry, install, and millwork packages.</li>
+              <li>Build the operating company, insurance, estimating, and client pipeline here first.</li>
+              <li>Do not sell regulated architectural services through this entity unless CAB rules are satisfied.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">Phase 2</span>
+            <h3>Add the architecture practice only when compliant</h3>
+            <p>
+              If MyMultiPlatform will offer architectural services in California, the business needs a California architect
+              in management control and responsible control, plus the correct CAB-compliant entity structure.
+            </p>
+            <ul>
+              <li>CAB says a <strong>general stock corporation</strong>, <strong>registered LLP</strong>, or <strong>professional corporation</strong> can be used for architectural services subject to restrictions.</li>
+              <li>CAB says a <strong>California LLC may not provide architectural services</strong>.</li>
+              <li>Architect license, BERF compliance, and written contracts become mandatory in this lane.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">Practical recommendation</span>
+            <h3>Use a two-lane migration</h3>
+            <p>
+              Rebuild the revenue engine under a contractor lane now, then formalize the architecture lane only when the
+              licensing and entity structure are ready. That avoids the biggest regulatory mistake: selling an
+              “architectural” service before CAB compliance is in place.
+            </p>
+            <ul>
+              <li>Lane 1: MyMultiPlatform millwork contractor.</li>
+              <li>Lane 2: MyMultiPlatform architecture practice, later.</li>
+              <li>Keep proposals and public copy aligned with the lane you are legally operating.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="licenses">
+        <div class="section-head">
+          <div>
+            <h2>Licenses, Registrations, and Costs</h2>
+            <p class="section-copy">
+              This table is split between the contractor-first relaunch and the architecture-practice lane.
+              Variable items are marked as such when the government source does not set the premium.
+            </p>
+          </div>
+        </div>
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Lane</th>
+                <th>When it is required</th>
+                <th>Official cost</th>
+                <th>Why it matters / note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>California LLC formation</strong></td>
+                <td>Contractor lane only</td>
+                <td>Use if the operating company is an LLC.</td>
+                <td class="fee">$70 filing + $20 Statement of Information</td>
+                <td>Good fit for a contractor or millwork company. CAB says an LLC is <strong>not allowed</strong> to provide architectural services in California.</td>
+              </tr>
+              <tr>
+                <td><strong>California stock corporation formation</strong></td>
+                <td>Contractor or architecture lane</td>
+                <td>Use if the operating company is a corporation.</td>
+                <td class="fee">$100 filing + $25 Statement of Information</td>
+                <td>Most flexible option if you want a contractor company now and may later align the entity for architecture work under CAB rules.</td>
+              </tr>
+              <tr>
+                <td><strong>San Diego County Fictitious Business Name (DBA)</strong></td>
+                <td>Both lanes</td>
+                <td>Required if you operate under a name different from the exact legal owner/entity name.</td>
+                <td class="fee">$54 first name/registrant + $5 each additional</td>
+                <td>County also requires publication for new filings; publication cost varies by newspaper and is not fixed by the county.</td>
+              </tr>
+              <tr>
+                <td><strong>IRS EIN</strong></td>
+                <td>Both lanes</td>
+                <td>Needed for an LLC, corporation, employees, banking, and most business registrations.</td>
+                <td class="fee">$0</td>
+                <td>Get it directly from the IRS after the entity is formed.</td>
+              </tr>
+              <tr>
+                <td><strong>City of San Diego Business Tax Certificate</strong></td>
+                <td>Both lanes</td>
+                <td>Required for businesses operating in the City of San Diego.</td>
+                <td class="fee">$38 base shown by the City, plus $1.47 per employee annually starting July 1, 2025</td>
+                <td>The city notes possible additional assessments for larger businesses or special districts.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB original contractor application</strong></td>
+                <td>Contractor lane</td>
+                <td>Required to obtain the California contractor license.</td>
+                <td class="fee">$450</td>
+                <td>Use the contractor lane for millwork, cabinetry, finish carpentry, and installation work.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB initial license fee</strong></td>
+                <td>Contractor lane</td>
+                <td>Required before CSLB issues the license.</td>
+                <td class="fee">$200 sole owner / $350 non-sole owner</td>
+                <td>LLC or corporation will usually fall into the non-sole-owner bucket.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB qualifier experience</strong></td>
+                <td>Contractor lane</td>
+                <td>Required before approval.</td>
+                <td class="fee">No filing fee beyond the application</td>
+                <td>The qualifier must document at least four years of journeyman-level or higher experience in the classification sought, obtained within the last 10 years.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB Live Scan background check</strong></td>
+                <td>Contractor lane</td>
+                <td>Required with the contractor license process.</td>
+                <td class="fee">$32 DOJ + $17 FBI + rolling fee varies by site</td>
+                <td>The CSLB sets the state and federal processing fees; the Live Scan operator sets the rolling fee.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB contractor bond</strong></td>
+                <td>Contractor lane</td>
+                <td>Required before an active contractor license is issued.</td>
+                <td class="fee">$25,000 bond amount required; premium varies</td>
+                <td>CSLB requires the bond amount, but the actual premium is set by the surety/insurer, not by the state.</td>
+              </tr>
+              <tr>
+                <td><strong>Bond of Qualifying Individual</strong></td>
+                <td>Contractor lane</td>
+                <td>Required if the qualifier does not meet an ownership-based exemption.</td>
+                <td class="fee">$25,000 bond amount if applicable; premium varies</td>
+                <td>CSLB notes this can be waived in some ownership situations, especially where the RMO owns at least 10%.</td>
+              </tr>
+              <tr>
+                <td><strong>Workers' compensation insurance</strong></td>
+                <td>Contractor lane</td>
+                <td>Required if the business has one or more employees.</td>
+                <td class="fee">Variable; not state-set</td>
+                <td>DIR says all California employers must provide coverage. Premiums vary by carrier, payroll, and classification.</td>
+              </tr>
+              <tr>
+                <td><strong>California seller's permit</strong></td>
+                <td>Contractor lane</td>
+                <td>Needed if the business sells taxable fabricated goods, materials, or other taxable items.</td>
+                <td class="fee">$0</td>
+                <td>CDTFA says there is no charge, but it may ask for a security deposit depending on the business.</td>
+              </tr>
+              <tr>
+                <td><strong>EDD employer payroll tax account</strong></td>
+                <td>Contractor or architecture lane with employees</td>
+                <td>Required if you hire employees.</td>
+                <td class="fee">No registration fee listed by EDD</td>
+                <td>This is the payroll tax account, not the payroll taxes themselves.</td>
+              </tr>
+              <tr>
+                <td><strong>CSLB classification target</strong></td>
+                <td>Contractor lane</td>
+                <td>Pick the classification that matches the real work.</td>
+                <td class="fee">Included with the original application for the first class</td>
+                <td>Closest legacy fit: <strong>C-6 Cabinet, Millwork and Finish Carpentry</strong>. Expansion options: <strong>C-5 Framing and Rough Carpentry</strong> and <strong>B General Building</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>CAB eligibility evaluation</strong></td>
+                <td>Architecture lane</td>
+                <td>Required for candidates who do not already hold a license in another jurisdiction.</td>
+                <td class="fee">$100</td>
+                <td>This is part of the California architect licensure path.</td>
+              </tr>
+              <tr>
+                <td><strong>California Supplemental Examination (CSE)</strong></td>
+                <td>Architecture lane</td>
+                <td>Required for California architect licensure.</td>
+                <td class="fee">$100</td>
+                <td>CAB also requires the ARE and the licensure experience path; those external exam costs are not included in this page.</td>
+              </tr>
+              <tr>
+                <td><strong>CAB application for licensure</strong></td>
+                <td>Architecture lane</td>
+                <td>Required before CAB issues the architect license.</td>
+                <td class="fee">$400</td>
+                <td>CAB also requires ARE completion, AXP/IAP, and eight years of combined architectural training and education experience.</td>
+              </tr>
+              <tr>
+                <td><strong>Architect's Business Entity Report Form (BERF)</strong></td>
+                <td>Architecture lane</td>
+                <td>Required when a California architect provides architectural services through a business entity.</td>
+                <td class="fee">No fee listed by CAB</td>
+                <td>CAB says the board must be notified immediately of changes and an updated BERF must be filed within 30 days.</td>
+              </tr>
+              <tr>
+                <td><strong>Written contract for architectural services</strong></td>
+                <td>Architecture lane</td>
+                <td>Required before architectural work starts, unless the client authorizes earlier start in writing.</td>
+                <td class="fee">No state filing fee</td>
+                <td>CAB says architects must use written contracts when contracting to provide architectural services in California.</td>
+              </tr>
+              <tr>
+                <td><strong>CAB renewal</strong></td>
+                <td>Architecture lane</td>
+                <td>Required to keep the architect license active.</td>
+                <td class="fee">$400 every two years</td>
+                <td>Expired architects cannot legally practice architecture or use the title while expired.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted-note">
+          This roadmap focuses on licenses and registrations. It does <strong>not</strong> include normal operating overhead
+          such as rent, vehicles, payroll, fabrication equipment, accounting, franchise/income tax, general liability insurance,
+          or external NCARB/ARE fees.
+        </p>
+      </section>
+
+      <section class="section" id="budget">
+        <div class="section-head">
+          <div>
+            <h2>Budget Snapshots</h2>
+            <p class="section-copy">
+              These are planning ranges for the fixed government items only. Variable insurance and surety premiums are intentionally excluded.
+            </p>
+          </div>
+        </div>
+        <div class="grid scenario-grid">
+          <article class="budget-card">
+            <span class="tag">Scenario A</span>
+            <h3>Contractor-first relaunch as an LLC</h3>
+            <strong>About $977 fixed fees</strong>
+            <p>
+              Includes California LLC filing, LLC Statement of Information, IRS EIN, City of San Diego Business Tax Certificate,
+              CSLB original application, CSLB non-sole-owner initial license fee, and the fixed DOJ/FBI fingerprint fees.
+            </p>
+            <ul>
+              <li>Add <strong>$54</strong> if you need a San Diego FBN.</li>
+              <li>Add newspaper publication cost if you file the FBN.</li>
+              <li>Add Live Scan rolling fee, contractor bond premium, and workers' comp if you have employees.</li>
+            </ul>
+          </article>
+          <article class="budget-card">
+            <span class="tag">Scenario B</span>
+            <h3>Contractor-first relaunch as a corporation</h3>
+            <strong>About $1,012 fixed fees</strong>
+            <p>
+              Includes California stock corporation filing, corporate Statement of Information, EIN, City Business Tax Certificate,
+              CSLB original application, CSLB non-sole-owner initial license fee, and the fixed DOJ/FBI fingerprint fees.
+            </p>
+            <ul>
+              <li>Add <strong>$54</strong> if you also need a DBA/FBN.</li>
+              <li>Corporation may be the cleaner bridge if you plan to add a compliant architecture lane later.</li>
+            </ul>
+          </article>
+          <article class="budget-card">
+            <span class="tag">Scenario C</span>
+            <h3>Add the architecture lane later</h3>
+            <strong>Add at least $600 in CAB fees</strong>
+            <p>
+              That adds CAB eligibility evaluation, the California Supplemental Examination, and the CAB licensure application.
+              It does not include ARE / NCARB charges, nor any legal/accounting cost of forming the correct architecture entity.
+            </p>
+            <ul>
+              <li>Use this only when the architect license path is real and the entity is CAB-compliant.</li>
+              <li>CAB says an LLC may not provide architectural services in California.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>30-Day Action Sequence</h2>
+            <p class="section-copy">
+              If the goal is to rebuild fast and legally, this is the order with the least regulatory friction.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <ol class="action-list">
+            <li>Choose the launch lane: <strong>contractor / millwork first</strong> unless the architecture lane is already compliant.</li>
+            <li>Choose the entity: corporation if you want maximum future flexibility; LLC if this will stay a contractor-only company.</li>
+            <li>File the California entity, then get the <strong>EIN</strong>.</li>
+            <li>File the <strong>San Diego FBN</strong> only if the public-facing business name differs from the exact legal entity name.</li>
+            <li>Register for the <strong>City of San Diego Business Tax Certificate</strong>.</li>
+            <li>Pick the CSLB qualifier and collect the work experience proof for the <strong>C-6</strong> application.</li>
+            <li>Submit the <strong>CSLB original application</strong>, fingerprints, and then satisfy the bond / issuance items.</li>
+            <li>Open the <strong>seller's permit</strong> if taxable fabricated goods or material sales will run through the company.</li>
+            <li>Open the <strong>EDD payroll account</strong> and workers' comp only when hiring starts.</li>
+            <li>If architecture services will be offered later, create the CAB-compliant entity and complete the California architect licensing / BERF / contract rules before public launch of that lane.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="section-head">
+          <div>
+            <h2>Official Sources</h2>
+            <p class="section-copy">
+              All research below was checked on March 24, 2026 and limited to official government sources.
+            </p>
+          </div>
+        </div>
+        <div class="source-card">
+          <ol>
+            <li><a href="https://www.sandiego.gov/treasurer/taxesfees/btax/btaxhow" target="_blank" rel="noopener noreferrer">City of San Diego: Apply for a Business Tax Certificate</a></li>
+            <li><a href="https://www.sdarcc.gov/content/arcc/home/divisions/recorder-clerk/fictitious-business-name.html" target="_blank" rel="noopener noreferrer">San Diego County Recorder/Clerk: Fictitious Business Name</a></li>
+            <li><a href="https://bpd.cdn.sos.ca.gov/bizfile/bizfile-brochure.pdf" target="_blank" rel="noopener noreferrer">California Secretary of State: Starting a New Business in California</a></li>
+            <li><a href="https://www.sos.ca.gov/business-programs/customer-alerts/misleading-statement-information-solicitations" target="_blank" rel="noopener noreferrer">California Secretary of State: Statement of Information fees</a></li>
+            <li><a href="https://www.cslb.ca.gov/About_Us/Library/Fees.aspx" target="_blank" rel="noopener noreferrer">CSLB: List of All Fees</a></li>
+            <li><a href="https://cslb.ca.gov/Contractors/Applicants/Contractors_License/Exam_Application/Before_Applying_For_License.aspx" target="_blank" rel="noopener noreferrer">CSLB: Before Applying for Exam</a></li>
+            <li><a href="https://web.cslb.ca.gov/Contractors/Applicants/Contractors_License/Exam_Application/Experience_For_Exam.aspx" target="_blank" rel="noopener noreferrer">CSLB: Qualifying Experience for the Examination</a></li>
+            <li><a href="https://www.cslb.ca.gov/Resources/FormsAndApplications/CertificationOfWorkExperience.pdf" target="_blank" rel="noopener noreferrer">CSLB: Certification of Work Experience</a></li>
+            <li><a href="https://www2.cslb.ca.gov/About_Us/Library/Licensing_Classifications/Default.aspx" target="_blank" rel="noopener noreferrer">CSLB: Licensing Classifications</a></li>
+            <li><a href="https://web.cslb.ca.gov/contractors/applicants/contractors_license/Exam_Application/Issuing_My_License.aspx" target="_blank" rel="noopener noreferrer">CSLB: Issuing My License</a></li>
+            <li><a href="https://www.cab.ca.gov/lic/bus_or_firm.shtml" target="_blank" rel="noopener noreferrer">California Architects Board: Business or Firm (Forming a Corporate Business Entity)</a></li>
+            <li><a href="https://www.cab.ca.gov/cand/become_arch/fees.shtml" target="_blank" rel="noopener noreferrer">California Architects Board: Fees</a></li>
+            <li><a href="https://www.cab.ca.gov/cand/become_arch/index.shtml" target="_blank" rel="noopener noreferrer">California Architects Board: Becoming a Licensed Architect</a></li>
+            <li><a href="https://www.cab.ca.gov/lic/berf_info.shtml" target="_blank" rel="noopener noreferrer">California Architects Board: BERF Information</a></li>
+            <li><a href="https://www.cab.ca.gov/docs/forms/business_entity_report_form.pdf" target="_blank" rel="noopener noreferrer">California Architects Board: Business Entity Report Form</a></li>
+            <li><a href="https://www.cab.ca.gov/lic/contract_req.shtml" target="_blank" rel="noopener noreferrer">California Architects Board: Written Contract Requirement</a></li>
+            <li><a href="https://www.cab.ca.gov/docs/publications/can_i_call_myself_architect.pdf" target="_blank" rel="noopener noreferrer">California Architects Board: Can I Call Myself an Architect?</a></li>
+            <li><a href="https://cdtfa.ca.gov/formspubs/pub107/applying-for-a-sellers-permit.htm" target="_blank" rel="noopener noreferrer">CDTFA: Applying for a Seller's Permit</a></li>
+            <li><a href="https://www.irs.gov/businesses/employer-identification-number" target="_blank" rel="noopener noreferrer">IRS: Employer Identification Number</a></li>
+            <li><a href="https://edd.ca.gov/en/payroll_taxes/Save_Time_and_Register_Online" target="_blank" rel="noopener noreferrer">EDD: Employer Payroll Tax Account Registration</a></li>
+            <li><a href="https://www.dir.ca.gov/DWC/faqs.html" target="_blank" rel="noopener noreferrer">DIR / DWC: Workers' Compensation FAQ for Employers</a></li>
+          </ol>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
