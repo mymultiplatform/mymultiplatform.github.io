@@ -263,6 +263,51 @@
       line-height: 1.5;
     }
 
+    .news {
+      margin-top: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 194, 216, 0.04));
+      padding: 22px 20px;
+      animation: fade-up 0.7s ease both;
+      animation-delay: 0.38s;
+    }
+
+    .news h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .news-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background: rgba(10, 13, 17, 0.72);
+      padding: 16px 16px 15px;
+    }
+
+    .news-meta {
+      margin: 0 0 8px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .news-title {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+      font-weight: 700;
+    }
+
+    .news-body {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.58;
+    }
+
     .footer-note {
       margin-top: 16px;
       color: #8f97a5;
@@ -378,6 +423,17 @@
         </p>
       </div>
       <a class="btn" href="https://github.com/mymultiplatform/THE-GAME.mym" target="_blank" rel="noopener">View Repository</a>
+    </section>
+
+    <section class="news" aria-labelledby="news-updates-title">
+      <h2 id="news-updates-title">NEWS / Updates</h2>
+      <article class="news-card">
+        <p class="news-meta">Wed Apr 8 2026 announcement / game news</p>
+        <h3 class="news-title">iOS publication checkout is in progress</h3>
+        <p class="news-body">
+          We are currently doing hard checkouts for iOS publication for THE GAME. This phase is focused on App Store readiness, including mobile controls, signing setup, icons, touch-friendly UX, and replacing desktop-only assets and debug dependencies so the project can move toward a cleaner iPhone and TestFlight release candidate.
+        </p>
+      </article>
     </section>
 
     <p class="footer-note">Template adapted for THE GAME from your Patreon-style reference layout.</p>
