@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MYM Construction and Design | Rammed Earth Walls</title>
+  <meta
+    name="description"
+    content="MYM Construction and Design by MyMultiPlatform offers rammed earth wall studies, material direction, mockups, and construction coordination for feature walls, courtyards, and architectural interiors."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --sand-50: #f6f0e4;
+      --sand-100: #ebdfca;
+      --sand-200: #d9c6a7;
+      --sand-300: #c8a57d;
+      --clay-400: #ab714b;
+      --clay-500: #8f5b39;
+      --clay-700: #553622;
+      --stone-300: #a69d93;
+      --ink: #241a13;
+      --muted: #6f5d4f;
+      --line: rgba(84, 57, 35, 0.14);
+      --panel: rgba(255, 249, 240, 0.84);
+      --panel-strong: rgba(255, 247, 235, 0.95);
+      --shadow: 0 24px 70px rgba(84, 57, 35, 0.14);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --content: min(1200px, calc(100vw - 28px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.78), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(171, 113, 75, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 22%),
+        repeating-linear-gradient(
+          180deg,
+          rgba(143, 91, 57, 0.05) 0px,
+          rgba(143, 91, 57, 0.05) 2px,
+          transparent 2px,
+          transparent 68px
+        ),
+        linear-gradient(180deg, #efe6d7 0%, #e6d8c2 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page-shell {
+      width: var(--content);
+      margin: 0 auto;
+      padding: 18px 0 60px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-top: 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(18px);
+      background: rgba(250, 243, 232, 0.82);
+      border: 1px solid rgba(84, 57, 35, 0.08);
+      box-shadow: 0 16px 36px rgba(84, 57, 35, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--sand-300), var(--clay-700));
+      box-shadow: 0 0 0 8px rgba(171, 113, 75, 0.12);
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-copy strong {
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.97rem;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill,
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+
+    .nav-pill {
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(84, 57, 35, 0.1);
+      font-size: 0.92rem;
+    }
+
+    .nav-pill:hover,
+    .nav-pill:focus-visible,
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .hero {
+      margin-top: 18px;
+      padding: 32px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 250, 243, 0.94), rgba(246, 235, 217, 0.92)),
+        linear-gradient(120deg, rgba(143, 91, 57, 0.14), transparent 52%);
+      border: 1px solid rgba(84, 57, 35, 0.08);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -120px;
+      bottom: -120px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(171, 113, 75, 0.18), transparent 66%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(171, 113, 75, 0.1);
+      color: var(--clay-700);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: rgba(84, 57, 35, 0.44);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 700;
+      line-height: 0.96;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 8vw, 5.6rem);
+      max-width: 8ch;
+    }
+
+    .hero-copy p {
+      margin: 18px 0 0;
+      max-width: 62ch;
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 1.03rem;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 13px 18px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: var(--clay-700);
+      color: #fff7f0;
+      box-shadow: 0 16px 34px rgba(85, 54, 34, 0.18);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(84, 57, 35, 0.12);
+    }
+
+    .hero-frame {
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(84, 57, 35, 0.08);
+      box-shadow: 0 24px 54px rgba(84, 57, 35, 0.12);
+      background: #d7c8b1;
+      min-height: 100%;
+    }
+
+    .hero-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .stat-grid,
+    .services-grid,
+    .applications-grid,
+    .gallery-grid,
+    .process-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stat-grid {
+      margin-top: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+    .stat-card,
+    .section-panel,
+    .service-card,
+    .app-card,
+    .process-card,
+    .gallery-card,
+    .quote-card {
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(84, 57, 35, 0.1);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card {
+      padding: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .stat-card span {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stat-card strong {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--clay-700);
+    }
+
+    .section {
+      margin-top: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .section-header p {
+      margin: 0;
+      max-width: 64ch;
+      color: var(--muted);
+      line-height: 1.66;
+    }
+
+    .section-panel {
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(255, 250, 243, 0.96), rgba(243, 232, 215, 0.82)),
+        linear-gradient(150deg, rgba(171, 113, 75, 0.12), transparent 56%);
+    }
+
+    .material-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .layer-note {
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(84, 57, 35, 0.08);
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .swatch-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .swatch {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(84, 57, 35, 0.08);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .swatch-bar {
+      height: 74px;
+    }
+
+    .swatch-copy {
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .services-grid,
+    .applications-grid,
+    .process-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .service-card,
+    .app-card,
+    .process-card,
+    .quote-card {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .service-kicker,
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--clay-700);
+      font-size: 0.82rem;
+      border: 1px solid rgba(84, 57, 35, 0.08);
+    }
+
+    .service-card p,
+    .app-card p,
+    .process-card p,
+    .quote-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.62;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .gallery-card {
+      overflow: hidden;
+      background: var(--panel-strong);
+    }
+
+    .gallery-card figure {
+      margin: 0;
+      display: grid;
+      gap: 0;
+      height: 100%;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #e8dac4;
+    }
+
+    .gallery-card figcaption {
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(84, 57, 35, 0.08);
+      color: var(--muted);
+      line-height: 1.58;
+      font-size: 0.92rem;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .bullet-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .bullet-list li + li {
+      margin-top: 8px;
+    }
+
+    .quote-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+      gap: 16px;
+    }
+
+    .quote-card strong {
+      font-size: 1.9rem;
+      color: var(--clay-700);
+    }
+
+    .footnote {
+      margin-top: 18px;
+      padding: 0 4px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.68;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .material-grid,
+      .gallery-grid,
+      .quote-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell {
+        width: min(100vw - 18px, 100%);
+        padding-bottom: 40px;
+      }
+
+      .topbar {
+        border-radius: 28px;
+      }
+
+      .topbar-inner {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .hero,
+      .section-panel {
+        padding: 22px;
+      }
+
+      .hero-copy h1 {
+        max-width: none;
+      }
+
+      .services-grid,
+      .applications-grid,
+      .process-grid,
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand-lockup" href="../index.html">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-copy">
+            <strong>MyMultiPlatform</strong>
+            <span>MYM Construction and Design</span>
+          </span>
+        </a>
+        <nav aria-label="Page navigation">
+          <a class="nav-pill" href="../index.html">Home</a>
+          <a class="nav-pill" href="../architectural/">Architecture</a>
+          <a class="nav-pill" href="#service">Service</a>
+          <a class="nav-pill" href="#gallery">Gallery</a>
+          <a class="nav-pill" href="#quote">Quote</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">Natural Material Offer</span>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>Rammed Earth Walls With Real Layer Logic</h1>
+            <p>
+              MYM Construction and Design by MyMultiPlatform is building a dedicated rammed-earth wall
+              offer for feature walls, entry sequences, courtyards, and calm architectural interiors.
+              The direction is simple: compacted earth lifts, sandy matte texture, custom mineral color
+              bands, and wall studies that feel built instead of painted.
+            </p>
+            <p>
+              This page is positioned as a service lane for clients who want a distinctive wall system
+              with tactile depth, thermal mass, and a one-of-a-kind material signature. The visuals below
+              are in-house Blender studies used to shape palette, lift height, edge softness, and overall
+              wall presence before a mockup or site-specific scope review.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="mailto:support@mymultiplatform.com?subject=Rammed%20Earth%20Wall%20Scope%20Review">Start a scope review</a>
+              <a class="btn btn-secondary" href="#gallery">See render studies</a>
+            </div>
+          </div>
+          <div class="hero-frame">
+            <img
+              src="../assets/rammed-earth/rammed-earth-hero.jpg"
+              alt="Rendered rammed earth wall study with horizontal compacted lifts and warm sandy tones."
+            />
+          </div>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card">
+            <span>Material Read</span>
+            <strong>Lift by lift</strong>
+          </article>
+          <article class="stat-card">
+            <span>Finish Language</span>
+            <strong>Sand + clay + mineral</strong>
+          </article>
+          <article class="stat-card">
+            <span>Best Use</span>
+            <strong>Feature walls and entries</strong>
+          </article>
+          <article class="stat-card">
+            <span>Delivery Lane</span>
+            <strong>Study to build coordination</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2>What Makes This Wall Different</h2>
+            <p>
+              Rammed earth is not a faux finish and not a stripe applied after the fact. Each band reads
+              as a compacted lift of soil. That is the core visual language we are protecting in the
+              material development and service positioning.
+            </p>
+          </div>
+          <span class="section-tag">Real compressed lift expression</span>
+        </div>
+        <div class="section-panel">
+          <div class="material-grid">
+            <div class="layer-note">
+              <p>
+                The banding comes from repeated lifts of earth compacted inside formwork. That means the
+                most important design decisions happen early: wall proportion, where the lifts should read,
+                how much contrast the mineral bands should carry, how openings interrupt the composition,
+                and whether the final wall should feel pale and sandy or richer with ochre and clay tones.
+              </p>
+              <p>
+                Our current direction favors a calm sand-heavy palette with room to push toward stronger
+                terracotta or cooler gray lifts depending on the project. The render studies are meant to
+                help clients approve that language before execution.
+              </p>
+            </div>
+            <div class="swatch-row" aria-label="Material palette direction">
+              <article class="swatch">
+                <div class="swatch-bar" style="background: linear-gradient(180deg, #ede2cf 0%, #d8c0a0 100%);"></div>
+                <div class="swatch-copy">Pale sand base for large wall areas and softer daylight interiors.</div>
+              </article>
+              <article class="swatch">
+                <div class="swatch-bar" style="background: linear-gradient(180deg, #b88058 0%, #8f5b39 100%);"></div>
+                <div class="swatch-copy">Clay-rich bands used to emphasize lift rhythm and give the wall weight.</div>
+              </article>
+              <article class="swatch">
+                <div class="swatch-bar" style="background: linear-gradient(180deg, #b8afa6 0%, #8e857c 100%);"></div>
+                <div class="swatch-copy">Mineral gray accents that keep the wall from feeling too flat or decorative.</div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="service">
+        <div class="section-header">
+          <div>
+            <h2>Service Scope</h2>
+            <p>
+              The offer is structured so the page can support both early client conversations and later
+              execution planning.
+            </p>
+          </div>
+          <span class="section-tag">MYM Construction and Design</span>
+        </div>
+        <div class="services-grid">
+          <article class="service-card">
+            <span class="service-kicker">01 · Wall Study</span>
+            <h3>Concept and placement</h3>
+            <p>
+              We shape the wall as an architectural element first: size, proportion, location, approach
+              sequence, and how the wall should land against floor, ceiling, glazing, or adjacent finishes.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-kicker">02 · Material Direction</span>
+            <h3>Lift rhythm and palette</h3>
+            <p>
+              We define lift height, wave softness, sandy versus clay-rich balance, and the overall tone
+              so the wall has a coherent material identity rather than a generic earth look.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-kicker">03 · Mockup Logic</span>
+            <h3>Render studies before the build</h3>
+            <p>
+              Blender render studies help preview the wall before a physical sample or mockup. This makes
+              it easier to approve color drift, edge softness, and the amount of contrast in the bands.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-kicker">04 · Build Coordination</span>
+            <h3>Openings, joints, and sequencing</h3>
+            <p>
+              We use the wall study to coordinate how the rammed earth meets door frames, corners,
+              reveals, services, and adjacent trades so the final expression survives construction.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="gallery">
+        <div class="section-header">
+          <div>
+            <h2>Render Studies</h2>
+            <p>
+              These images come from the in-house Blender material exploration for the new offer page.
+              They are intentionally clean, so the material logic can read clearly before site-specific
+              adjustments push the palette warmer, darker, rougher, or more stratified.
+            </p>
+          </div>
+          <span class="section-tag">Blender previews by MYM</span>
+        </div>
+        <div class="gallery-grid">
+          <article class="gallery-card">
+            <figure>
+                <img
+                  src="../assets/rammed-earth/rammed-earth-hero.jpg"
+                  alt="Full rammed earth wall render showing the overall lift pattern and sandy color shifts."
+                />
+              <figcaption>
+                Overall wall presence with soft horizontal lift transitions and a matte sand-heavy finish.
+              </figcaption>
+            </figure>
+          </article>
+          <div class="gallery-stack">
+            <article class="gallery-card">
+              <figure>
+                <img
+                  src="../assets/rammed-earth/rammed-earth-detail.jpg"
+                  alt="Close-up rammed earth render showing compacted granular texture and layered band edges."
+                />
+                <figcaption>
+                  Close detail focused on compacted grain, seam softness, and subtle mineral variation.
+                </figcaption>
+              </figure>
+            </article>
+            <article class="gallery-card">
+              <figure>
+                <img
+                  src="../assets/rammed-earth/rammed-earth-edge.jpg"
+                  alt="Rendered rammed earth corner showing wall thickness and continuous lift bands wrapping the edge."
+                />
+                <figcaption>
+                  Edge condition study showing wall thickness and how the lift bands should wrap the corner.
+                </figcaption>
+              </figure>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2>Where This Offer Fits Best</h2>
+            <p>
+              The wall system is strongest when it is treated as a major architectural move, not background finish.
+            </p>
+          </div>
+        </div>
+        <div class="applications-grid">
+          <article class="app-card">
+            <h3>Entry walls</h3>
+            <p>Arrival moments where a full-height wall gives weight and identity to the project from the first step.</p>
+          </article>
+          <article class="app-card">
+            <h3>Interior feature walls</h3>
+            <p>Living spaces, corridors, stair landings, and hospitality interiors that need warmth without losing calm.</p>
+          </article>
+          <article class="app-card">
+            <h3>Courtyard and garden edges</h3>
+            <p>Exterior walls where earth texture, shade, and mass can sit naturally against landscape and paving.</p>
+          </article>
+          <article class="app-card">
+            <h3>Fireplace or hearth surrounds</h3>
+            <p>Vertical elements that benefit from a grounded, geological read rather than polished finish systems.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2>Typical Process</h2>
+            <p>
+              The goal is to make the material intentional early, then carry that intent through mockup and build.
+            </p>
+          </div>
+        </div>
+        <div class="process-grid">
+          <article class="process-card">
+            <span class="service-kicker">Step 1</span>
+            <h3>Project brief</h3>
+            <p>Review the wall location, dimensions, environmental exposure, and the surrounding architectural finishes.</p>
+          </article>
+          <article class="process-card">
+            <span class="service-kicker">Step 2</span>
+            <h3>Render direction</h3>
+            <p>Produce banding, palette, and texture studies so the client can react to real material character instead of abstract descriptions.</p>
+          </article>
+          <article class="process-card">
+            <span class="service-kicker">Step 3</span>
+            <h3>Mockup and decisions</h3>
+            <p>Align on lift height, target tones, edge conditions, and the degree of variation before full-scale execution.</p>
+          </article>
+          <article class="process-card">
+            <span class="service-kicker">Step 4</span>
+            <h3>Build coordination</h3>
+            <p>Translate the approved material direction into a build package, sequencing plan, and site-specific execution scope.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="quote">
+        <div class="section-header">
+          <div>
+            <h2>Request a Rammed Earth Wall Review</h2>
+            <p>
+              Use the inbox to start with project type, location, wall dimensions, and whether you need
+              concept development, render studies, mockup planning, or full construction coordination.
+            </p>
+          </div>
+        </div>
+        <div class="quote-panel">
+          <article class="quote-card">
+            <strong>Start with a wall, not a whole building.</strong>
+            <p>
+              The easiest entry point is one wall or one feature zone. That keeps the first scope focused
+              while still delivering a strong architectural identity and a real sample of the material language.
+            </p>
+            <ul class="bullet-list">
+              <li>Feature wall or entry sequence</li>
+              <li>Interior accent wall with openings or niches</li>
+              <li>Courtyard wall or exterior focal edge</li>
+              <li>Material mockup for a larger future project</li>
+            </ul>
+          </article>
+          <article class="quote-card">
+            <strong>support@mymultiplatform.com</strong>
+            <p>
+              For the fastest review, include your city, wall width and height, interior or exterior use,
+              and a few reference images of the tone you want to reach.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="mailto:support@mymultiplatform.com?subject=Rammed%20Earth%20Wall%20Scope%20Review&body=Project%20type%3A%0ALocation%3A%0AWall%20dimensions%3A%0AInterior%20or%20exterior%3A%0AWhat%20you%20need%3A%20concept%20study%2C%20render%20study%2C%20mockup%2C%20or%20build%20coordination%0AReference%20tone%3A%0A">Email the scope review</a>
+              <a class="btn btn-secondary" href="../architectural/">Open architecture section</a>
+            </div>
+          </article>
+        </div>
+        <p class="footnote">
+          Page direction: MYM Construction and Design by MyMultiPlatform. Rendered imagery on this page
+          is internal visualization used to communicate the rammed-earth material offer and is not
+          presented as installed project photography.
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
