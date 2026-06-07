@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Multiple Copy Buttons List</title>
+    <title>Job Application Copy Helper</title>
     <style>
         :root {
             --bg: #eef2f3;
@@ -40,11 +40,29 @@
             padding: 0;
             margin: 0 auto 60px;
         }
+        .toolbar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 0 0 24px;
+        }
         .section-title {
             margin: 35px 0 10px;
             font-size: 18px;
             font-weight: bold;
             color: #222;
+        }
+        .section-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 35px 0 10px;
+        }
+        .section-tools .section-title {
+            margin: 0;
         }
         .copy-item {
             background-color: var(--card);
@@ -72,8 +90,25 @@
             border-radius: 8px;
             transition: background-color 0.2s, transform 0.02s;
         }
+        .copy-button.secondary {
+            background-color: #1f6feb;
+        }
+        .copy-button.secondary:hover {
+            background-color: #195ec4;
+        }
         .copy-button:hover { background-color: var(--primary-hover); }
         .copy-button:active { transform: translateY(1px); }
+        .copy-item.highlight {
+            border-color: #98c1a3;
+            box-shadow: 0 6px 18px rgba(76, 175, 80, 0.12);
+        }
+        .copy-text strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        .copy-answer {
+            display: block;
+        }
         .row {
             display: grid;
             grid-template-columns: 1fr;
@@ -97,8 +132,14 @@
 </head>
 <body>
 <div class="container">
-    <h1>Multiple Texts with Copy Buttons</h1>
-    <p class="subhead">Tap “Copy” to quickly paste into job applications.</p>
+    <h1>Job Application Copy Helper</h1>
+    <p class="subhead">Tap “Copy” to quickly paste into job applications, EEO forms, and recruiter messages.</p>
+
+    <div class="toolbar">
+        <button class="copy-button secondary" onclick="copySection(['dateText','text18','text3','text4','text2','text12','text13','text16'], this)">Copy Core Application Pack</button>
+        <button class="copy-button secondary" onclick="copySection(['text27','text28','text29','text30','text34','text35'], this)">Copy EEO Quick Answers</button>
+        <button class="copy-button secondary" onclick="copySection(['text31','text32','text33'], this)">Copy Availability Pack</button>
+    </div>
 
     <!-- Top: Copyable Today's Date -->
     <div class="section-title">Today&apos;s Date</div>
@@ -109,7 +150,10 @@
 
     <ul class="copy-list">
 
-        <div class="section-title">Original Entries</div>
+        <div class="section-tools">
+            <div class="section-title">Original Entries</div>
+            <button class="copy-button secondary" onclick="copySection(['text2','text3','text4','text12','text13','text14','text15','text16'], this)">Copy Contact Block</button>
+        </div>
         <li class="copy-item">
             <div class="copy-text" id="text1">python "C:\Users\PCEL SERVICE\Desktop\THE.py"</div>
             <button class="copy-button" onclick="copyText('text1', this)">Copy</button>
@@ -131,7 +175,10 @@
             <button class="copy-button" onclick="copyText('text5', this)">Copy</button>
         </li>
 
-        <div class="section-title">Contact References</div>
+        <div class="section-tools">
+            <div class="section-title">Contact References</div>
+            <button class="copy-button secondary" onclick="copySection(['text6','text7','text8','text9','text10','text11'], this)">Copy References</button>
+        </div>
         <li class="copy-item">
             <div class="copy-text" id="text6">Ernest Rodrigo</div>
             <button class="copy-button" onclick="copyText('text6', this)">Copy</button>
@@ -158,7 +205,10 @@
             <button class="copy-button" onclick="copyText('text11', this)">Copy</button>
         </li>
 
-        <div class="section-title">Tags / Locations</div>
+        <div class="section-tools">
+            <div class="section-title">Tags / Locations</div>
+            <button class="copy-button secondary" onclick="copySection(['text12','text13','text14','text15','text16'], this)">Copy Location Set</button>
+        </div>
         <li class="copy-item">
             <div class="copy-text" id="text12">California</div>
             <button class="copy-button" onclick="copyText('text12', this)">Copy</button>
@@ -180,7 +230,10 @@
             <button class="copy-button" onclick="copyText('text16', this)">Copy</button>
         </li>
 
-        <div class="section-title">Name Variations</div>
+        <div class="section-tools">
+            <div class="section-title">Name Variations</div>
+            <button class="copy-button secondary" onclick="copySection(['text17','text18','text19','text20'], this)">Copy Name Variants</button>
+        </div>
         <li class="copy-item">
             <div class="copy-text" id="text17">Dante S</div>
             <button class="copy-button" onclick="copyText('text17', this)">Copy</button>
@@ -215,7 +268,51 @@
             <button class="copy-button" onclick="copyText('text26', this)">Copy</button>
         </li>
 
-        <div class="section-title">Job</div>
+        <div class="section-tools">
+            <div class="section-title">Application Quick Answers</div>
+            <button class="copy-button secondary" onclick="copySection(['text27','text28','text29','text30','text34','text35','text31','text32','text33'], this)">Copy Quick Answers</button>
+        </div>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text34" data-copy="Male"><strong>Gender</strong><span class="copy-answer">Male</span></div>
+            <button class="copy-button" onclick="copyText('text34', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text35" data-copy="Heterosexual cisgender male."><strong>Identity note</strong><span class="copy-answer">Heterosexual cisgender male.</span></div>
+            <button class="copy-button" onclick="copyText('text35', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text27" data-copy="No, I am not a veteran."><strong>Veteran status</strong><span class="copy-answer">No, I am not a veteran.</span></div>
+            <button class="copy-button" onclick="copyText('text27', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text28" data-copy="No, I do not identify as disabled."><strong>Disability status</strong><span class="copy-answer">No, I do not identify as disabled.</span></div>
+            <button class="copy-button" onclick="copyText('text28', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text29" data-copy="White"><strong>Race</strong><span class="copy-answer">White</span></div>
+            <button class="copy-button" onclick="copyText('text29', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text30" data-copy="English"><strong>Language</strong><span class="copy-answer">English</span></div>
+            <button class="copy-button" onclick="copyText('text30', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text31" data-copy="Available to start immediately."><strong>Start date</strong><span class="copy-answer">Available to start immediately.</span></div>
+            <button class="copy-button" onclick="copyText('text31', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text32" data-copy="I can start working as soon as the next day."><strong>Work availability</strong><span class="copy-answer">I can start working as soon as the next day.</span></div>
+            <button class="copy-button" onclick="copyText('text32', this)">Copy</button>
+        </li>
+        <li class="copy-item highlight">
+            <div class="copy-text" id="text33" data-copy="Currently available and ready to begin work immediately."><strong>Current status</strong><span class="copy-answer">Currently available and ready to begin work immediately.</span></div>
+            <button class="copy-button" onclick="copyText('text33', this)">Copy</button>
+        </li>
+
+        <div class="section-tools">
+            <div class="section-title">Job</div>
+            <button class="copy-button secondary" onclick="copySection(['text21','text22'], this)">Copy Job Reference</button>
+        </div>
         <li class="copy-item">
             <div class="copy-text" id="text21">Job Name: CCG Metal Works</div>
             <button class="copy-button" onclick="copyText('text21', this)">Copy</button>
@@ -249,27 +346,61 @@
         if (dateNode) dateNode.innerText = formatted;
     });
 
-    async function copyText(elementId, btnEl) {
+    function getNodeText(elementId) {
         const node = document.getElementById(elementId);
-        const textToCopy = node ? node.innerText : '';
+        if (!node) return '';
+        const explicitCopy = node.getAttribute('data-copy');
+        return explicitCopy ? explicitCopy.trim() : node.innerText.trim();
+    }
+
+    async function writeClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return;
+        }
+
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+
+    async function copyText(elementId, btnEl) {
+        const textToCopy = getNodeText(elementId);
         const button = btnEl || document.activeElement;
 
         const original = button ? button.innerText : null;
         try {
-            if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(textToCopy);
-            } else {
-                // Fallback for older browsers
-                const ta = document.createElement('textarea');
-                ta.value = textToCopy;
-                ta.style.position = 'fixed';
-                ta.style.left = '-9999px';
-                document.body.appendChild(ta);
-                ta.focus();
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
+            await writeClipboard(textToCopy);
+            if (button) {
+                button.innerText = 'Copied!';
+                button.disabled = true;
+                setTimeout(() => {
+                    button.innerText = original;
+                    button.disabled = false;
+                }, 1500);
             }
+        } catch (err) {
+            console.error('Copy failed: ', err);
+            alert('Copy failed. Please try again.');
+        }
+    }
+
+    async function copySection(elementIds, btnEl) {
+        const textToCopy = elementIds
+            .map(getNodeText)
+            .filter(Boolean)
+            .join('\n');
+        const button = btnEl || document.activeElement;
+        const original = button ? button.innerText : null;
+
+        try {
+            await writeClipboard(textToCopy);
             if (button) {
                 button.innerText = 'Copied!';
                 button.disabled = true;
