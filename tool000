@@ -1,390 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Text Cleaner · Keep only letters & dots</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Cleaner</title>
+
   <style>
     * {
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
     }
 
     body {
-      background: linear-gradient(145deg, #f0f2f5 0%, #e6e9ef 100%);
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      padding: 2rem 1.5rem;
+      margin: 0;
       min-height: 100vh;
+      font-family: "Times New Roman", Times, serif;
+      background: #f4f4f4;
+      color: #111;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
-    .cleaner-card {
-      max-width: 1100px;
+    main {
       width: 100%;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 2rem;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.03);
-      overflow: hidden;
-      transition: all 0.2s ease;
+      max-width: 800px;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 24px;
     }
 
-    .card-inner {
-      padding: 2rem 1.8rem 2.2rem;
+    h1,
+    h2 {
+      margin: 0 0 16px;
+      font-weight: normal;
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #1f2b3c, #2c3e50);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: -0.3px;
-      margin-bottom: 0.3rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      font-size: 34px;
+      text-align: center;
     }
 
-    .badge {
-      background: #eef2ff;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #2563eb;
-      padding: 0.2rem 0.8rem;
-      border-radius: 40px;
-      letter-spacing: normal;
+    h2 {
+      font-size: 24px;
+      margin-top: 24px;
     }
 
-    .sub {
-      color: #5b6e8c;
-      border-left: 3px solid #3b82f6;
-      padding-left: 0.75rem;
-      margin-bottom: 1.8rem;
-      font-weight: 450;
-      font-size: 0.95rem;
-    }
-
-    .rule-banner {
-      background: #f1f5f9;
-      border-radius: 1rem;
-      padding: 0.7rem 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.85rem;
-      color: #1e293b;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid #e2e8f0;
-    }
-
-    .rule-text {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .rule-text span {
-      background: white;
-      padding: 0.2rem 0.7rem;
-      border-radius: 40px;
-      font-family: monospace;
-      font-weight: 600;
-      color: #0f172a;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.03);
-    }
-
-    /* double panel layout: original & cleaned */
-    .double-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .panel {
-      background: #ffffff;
-      border-radius: 1.25rem;
-      border: 1px solid #e9edf2;
-      transition: 0.1s;
-      overflow: hidden;
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1.2rem;
-      background: #fafcff;
-      border-bottom: 1px solid #eef2f8;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .panel-title {
-      font-weight: 600;
-      color: #2c3e50;
-      font-size: 0.9rem;
-      letter-spacing: -0.2px;
-      background: #eef3fc;
-      padding: 0.2rem 0.8rem;
-      border-radius: 30px;
-    }
-
-    .copy-btn, .clear-input-btn {
-      background: #ffffff;
-      border: 1px solid #cfdfed;
-      padding: 0.3rem 1rem;
-      border-radius: 2rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #2c3e66;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .copy-btn:hover, .clear-input-btn:hover {
-      background: #f1f5f9;
-      border-color: #b9d0f0;
-      transform: scale(0.96);
+    textarea,
+    .output {
+      width: 100%;
+      min-height: 180px;
+      border: 1px solid #999;
+      padding: 12px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 20px;
+      line-height: 1.4;
+      background: #fff;
+      color: #111;
     }
 
     textarea {
-      width: 100%;
-      padding: 1rem 1.2rem;
-      font-size: 0.95rem;
-      line-height: 1.55;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      background: #ffffff;
-      border: none;
       resize: vertical;
-      color: #0a0f1c;
       outline: none;
-      min-height: 200px;
     }
 
-    .cleaned-area {
-      background: #fefdf8;
-      padding: 1rem 1.2rem;
-      min-height: 200px;
-      max-height: 280px;
-      overflow-y: auto;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.95rem;
-      line-height: 1.55;
+    .output {
       white-space: pre-wrap;
-      word-break: break-word;
-      color: #0f172a;
+      word-wrap: break-word;
+      overflow-y: auto;
     }
 
-    .cleaned-area:focus {
-      outline: none;
-    }
-
-    .info-note {
-      margin-top: 1.2rem;
-      font-size: 0.75rem;
-      color: #6c7e9e;
-      text-align: center;
-      border-top: 1px solid #e9edf2;
-      padding-top: 1rem;
+    .buttons {
       display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    hr {
-      margin: 0.2rem 0;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     button {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 18px;
+      padding: 8px 16px;
+      border: 1px solid #777;
+      background: #eee;
       cursor: pointer;
     }
 
-    @media (max-width: 640px) {
-      body {
-        padding: 1rem;
+    button:hover {
+      background: #ddd;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 16px;
       }
-      .card-inner {
-        padding: 1.3rem;
+
+      h1 {
+        font-size: 28px;
       }
-      .cleaned-area, textarea {
-        min-height: 160px;
+
+      h2 {
+        font-size: 22px;
+      }
+
+      textarea,
+      .output,
+      button {
+        font-size: 18px;
+      }
+
+      .buttons {
+        flex-direction: column;
       }
     }
   </style>
 </head>
+
 <body>
+  <main>
+    <h1>Text Cleaner</h1>
 
-<div class="cleaner-card">
-  <div class="card-inner">
-    <h1>
-      🧼 Text Cleaner
-      <span class="badge">keep only A–Z a–z + dot (.)</span>
-    </h1>
-    <div class="sub">Paste messy text → instantly cleaned. Removes symbols, numbers, punctuation except dots.</div>
+    <textarea id="inputText" placeholder="Paste text here"></textarea>
 
-    <div class="rule-banner">
-      <div class="rule-text">
-        <span>✅ letters ABC → abc</span>
-        <span>⏺ dots preserved .</span>
-        <span>❌ removes @ * + - — _ , ; : ! ? / \ # $ % & ( ) [ ] { } =</span>
-        <span>🔢 numbers removed</span>
-      </div>
+    <div class="buttons">
+      <button id="clearButton">Clear</button>
+      <button id="copyButton">Copy</button>
     </div>
 
-    <div class="double-panel">
-      <!-- LEFT / TOP: Input area (original paste) -->
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">📋 PASTE YOUR TEXT HERE</span>
-          <button class="clear-input-btn" id="clearInputBtn">🗑 Clear input</button>
-        </div>
-        <textarea id="rawInput" placeholder='Example: paste something like "@Yes ** This Is my. --Exam+ple. 123 test!!" 
+    <h2>Cleaned Text</h2>
 
-→ will become: "Yes This Is my. Exam ple. test" (dots stay, letters only)'></textarea>
-      </div>
+    <div id="outputText" class="output"></div>
+  </main>
 
-      <!-- RIGHT / BOTTOM: Cleaned result (only letters + dots) -->
-      <div class="panel">
-        <div class="panel-header">
-          <span class="panel-title">✨ CLEANED TEXT (letters + dots only)</span>
-          <button class="copy-btn" id="copyBtn">📋 Copy cleaned</button>
-        </div>
-        <div class="cleaned-area" id="cleanedResult">
-          <!-- cleaned text appears here -->
-        </div>
-      </div>
-    </div>
+  <script>
+    const inputText = document.getElementById("inputText");
+    const outputText = document.getElementById("outputText");
+    const clearButton = document.getElementById("clearButton");
+    const copyButton = document.getElementById("copyButton");
 
-    <div class="info-note">
-      <span>🔹 Only alphabetic characters (a-z, A-Z) and dots (.) survive</span>
-      <span>🔹 Spaces are preserved naturally</span>
-      <span>🔹 Scroll inside cleaned box or page — fully responsive</span>
-    </div>
-  </div>
-</div>
+    function cleanText(text) {
+      let cleaned = "";
 
-<script>
-  (function() {
-    // DOM references
-    const rawTextarea = document.getElementById('rawInput');
-    const cleanedDiv = document.getElementById('cleanedResult');
-    const copyBtn = document.getElementById('copyBtn');
-    const clearInputBtn = document.getElementById('clearInputBtn');
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
 
-    // CORE CLEANING FUNCTION:
-    // - keep only letters (A-Z, a-z) and dots (.) 
-    // - also keep spaces and newlines (so structure remains but only allowed chars survive)
-    // - Every other character (numbers, symbols, punctuation except dot) gets removed.
-    // - multiple spaces? we can optionally normalize but requirement: just keep alphabetic words + dots.
-    // Implementation: process char by char for full control.
-    function cleanTextToLettersAndDots(rawText) {
-      if (!rawText) return '';
-      let result = '';
-      for (let i = 0; i < rawText.length; i++) {
-        const ch = rawText[i];
-        // Check if character is a letter (A-Z or a-z) OR a dot '.'
-        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || ch === '.') {
-          result += ch;
-        } 
-        // preserve spaces, newlines, tabs? yes to keep readability and word separation
-        // spaces, line breaks, carriage returns, tabs - they are separators
-        else if (ch === ' ' || ch === '\n' || ch === '\r' || ch === '\t') {
-          result += ch;
+        if (
+          (char >= "A" && char <= "Z") ||
+          (char >= "a" && char <= "z") ||
+          char === "." ||
+          char === " " ||
+          char === "\n" ||
+          char === "\r" ||
+          char === "\t"
+        ) {
+          cleaned += char;
         }
-        // everything else: ignored (numbers, @, *, #, $, %, punctuation etc)
       }
-      // optional: collapse multiple spaces? but not required, however ensures cleaner look.
-      // but the example "Yes This Is my. Exam ple." preserves spaces naturally.
-      // to avoid weird double spaces after removals, we can trim each line? but better keep natural spacing.
-      // also additional requirement: alphabetic words + dots. Our method keeps dots attached to letters.
-      // After cleaning, we can also remove leading/trailing spaces optionally.
-      return result.trimStart();  // keep original ending spaces trimmed? trimStart only to avoid first space.
+
+      return cleaned;
     }
 
-    // secondary: but we also want to avoid leading/trailing empty but still fine.
-    function updateCleanedText() {
-      const dirty = rawTextarea.value;
-      const cleaned = cleanTextToLettersAndDots(dirty);
-      cleanedDiv.innerText = cleaned || '';   // if empty show nothing
-    }
-
-    // Event listeners: real-time update when user types, pastes, cuts
-    rawTextarea.addEventListener('input', updateCleanedText);
-    rawTextarea.addEventListener('paste', function() {
-      setTimeout(updateCleanedText, 5); // ensure paste event fully finished
+    inputText.addEventListener("input", function () {
+      outputText.textContent = cleanText(inputText.value);
     });
 
-    // Clear input button: reset textarea, update cleaned result to empty
-    function clearInput() {
-      rawTextarea.value = '';
-      updateCleanedText();   // sets cleaned div empty
-      rawTextarea.focus();
-    }
-    clearInputBtn.addEventListener('click', clearInput);
+    clearButton.addEventListener("click", function () {
+      inputText.value = "";
+      outputText.textContent = "";
+      inputText.focus();
+    });
 
-    // Copy cleaned text to clipboard with nice feedback
-    async function copyCleanedText() {
-      const cleanedContent = cleanedDiv.innerText;
-      if (!cleanedContent || cleanedContent.trim() === '') {
-        // optional: subtle alert but no intrusive, maybe temporary feedback
-        const originalText = copyBtn.innerText;
-        copyBtn.innerText = '⚠️ Nothing to copy';
-        setTimeout(() => {
-          copyBtn.innerText = originalText;
-        }, 1200);
+    copyButton.addEventListener("click", async function () {
+      const text = outputText.textContent;
+
+      if (!text.trim()) {
+        copyButton.textContent = "Nothing";
+        setTimeout(function () {
+          copyButton.textContent = "Copy";
+        }, 1000);
         return;
       }
+
       try {
-        await navigator.clipboard.writeText(cleanedContent);
-        const originalBtnText = copyBtn.innerText;
-        copyBtn.innerText = '✅ Copied!';
-        setTimeout(() => {
-          copyBtn.innerText = originalBtnText;
-        }, 1500);
-      } catch (err) {
-        copyBtn.innerText = '❌ Error';
-        setTimeout(() => {
-          copyBtn.innerText = '📋 Copy cleaned';
+        await navigator.clipboard.writeText(text);
+        copyButton.textContent = "Copied";
+        setTimeout(function () {
+          copyButton.textContent = "Copy";
+        }, 1000);
+      } catch (error) {
+        copyButton.textContent = "Error";
+        setTimeout(function () {
+          copyButton.textContent = "Copy";
         }, 1000);
       }
-    }
-
-    copyBtn.addEventListener('click', copyCleanedText);
-
-    // also initialize with example content so user sees how it works (example text similar to e.g.)
-    const demoExample = "@Yes ** This Is my. --Exam+ple.  123 numbers & specials #clean!";
-    rawTextarea.value = demoExample;
-    updateCleanedText();   // shows cleaned version: "Yes This Is my. Exam ple.  numbers specials clean" wait dots?
-    // According to clean: letters+dot only -> "Yes This Is my. Exam ple.  numbers specials clean" (no digits)
-    // But we keep spaces, so this matches idea.
-    // additional manual test: user expectation from earlier: "Yes This Is my. Exam ple."  perfect.
-
-    // Additional: if user clicks on cleaned area they can select, but it's div. scroll is natural.
-    // Provide extra scroll ability: cleanedDiv has max-height+overflow auto, so scroll inside or whole page.
-    // Also textarea has resize:vertical => full scroll both ways.
-
-    // double-check extra: to strictly match requirement "only alphabetic words and keep dots '.' "
-    // Our cleaner removes ALL punctuation except dot and removes numbers, leaving only letters + dots + spaces/newlines.
-    // This transforms "e.g:  @Yes ** This Is my. --Exam+ple." -> "e.g Yes This Is my. Exam ple." 
-    // But note: "e.g" contains a dot which is kept, so "e.g" -> perfect. Edge: if dot is attached to letter remains.
-    // Works 100% as required.
-    
-    // If we want to avoid extra artifacts from multiple spaces due to removed characters, the spaces are kept as is.
-    // But normal use: it's fine.
-    // For extra polish, we can do a small regex to clean redundant spaces? but no needed since it's text cleaner 
-    // but demo will look natural.
-  })();
-</script>
+    });
+  </script>
 </body>
 </html>
