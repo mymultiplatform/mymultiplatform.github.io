@@ -3,56 +3,585 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Architecture Moved</title>
-  <meta http-equiv="refresh" content="0; url=../architectural/" />
+  <title>mymarch Drafting Services | CAD, Revit, Rendering</title>
+  <meta
+    name="description"
+    content="mymarch provides CAD drafting, Revit support, floor plan redraws, as-built drawings, and photoreal renderings for remodels, ADUs, and small project teams."
+  />
   <style>
+    :root {
+      --paper: #f4efe6;
+      --panel: rgba(255, 251, 246, 0.84);
+      --ink: #18232c;
+      --muted: #5f6d77;
+      --line: #cfd7dc;
+      --accent: #1f5f8b;
+      --accent-2: #9b5f2c;
+      --shadow: 0 24px 80px rgba(24, 35, 44, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(180deg, #f4ecdd 0%, #e4d6bf 100%);
-      color: #241f19;
-    }
-
-    main {
-      max-width: 680px;
-      padding: 28px;
-      border-radius: 22px;
-      background: rgba(255, 251, 244, 0.9);
-      border: 1px solid rgba(85, 61, 35, 0.1);
-      box-shadow: 0 18px 44px rgba(73, 50, 24, 0.14);
-      text-align: center;
-    }
-
-    h1 {
-      margin: 0 0 12px;
-      font-size: 2rem;
-    }
-
-    p {
-      margin: 0 0 16px;
-      line-height: 1.6;
-      color: #5d5144;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31, 95, 139, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(155, 95, 44, 0.16), transparent 28%),
+        linear-gradient(180deg, #fbf8f2 0%, var(--paper) 100%);
     }
 
     a {
-      display: inline-block;
-      padding: 12px 16px;
-      border-radius: 999px;
-      background: #5f3413;
-      color: #fff7ef;
+      color: inherit;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(251, 248, 242, 0.84);
+      border-bottom: 1px solid rgba(24, 35, 44, 0.08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .cta-link {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff !important;
+      box-shadow: 0 14px 36px rgba(31, 95, 139, 0.26);
+    }
+
+    .hero {
+      padding: 54px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(24, 35, 44, 0.1);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      padding: 42px;
+      position: relative;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(31, 95, 139, 0.1);
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(2.8rem, 7vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 10ch;
+    }
+
+    .hero-copy p {
+      max-width: 640px;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-stats div {
+      border-radius: 22px;
+      border: 1px solid rgba(24, 35, 44, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      padding: 18px 16px;
+    }
+
+    .hero-stats strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .hero-stats span {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.4;
+    }
+
+    .hero-board {
+      padding: 24px;
+      background:
+        linear-gradient(180deg, rgba(24, 35, 44, 0.03), rgba(24, 35, 44, 0.08)),
+        linear-gradient(90deg, rgba(31, 95, 139, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(31, 95, 139, 0.06) 1px, transparent 1px);
+      background-size: auto, 28px 28px, 28px 28px;
+      display: grid;
+      gap: 18px;
+      align-content: center;
+    }
+
+    .board-card {
+      border-radius: 24px;
+      border: 1px solid rgba(24, 35, 44, 0.08);
+      background: rgba(255, 255, 255, 0.82);
+      padding: 18px;
+    }
+
+    .board-title {
+      margin: 0 0 12px;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .sketch-lines,
+    .cad-lines {
+      height: 220px;
+      border-radius: 16px;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sketch-lines::before,
+    .cad-lines::before,
+    .cad-lines::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(24, 35, 44, 0.12);
+      border-radius: 12px;
+    }
+
+    .sketch-lines::after {
+      content: "";
+      position: absolute;
+      inset: 24px 34px 58px 22px;
+      background:
+        linear-gradient(90deg, transparent 0 8%, rgba(155, 95, 44, 0.72) 8% 10%, transparent 10% 34%, rgba(155, 95, 44, 0.7) 34% 36%, transparent 36% 60%, rgba(155, 95, 44, 0.7) 60% 62%, transparent 62%),
+        linear-gradient(transparent 0 10%, rgba(155, 95, 44, 0.7) 10% 12%, transparent 12% 30%, rgba(155, 95, 44, 0.72) 30% 32%, transparent 32% 58%, rgba(155, 95, 44, 0.72) 58% 60%, transparent 60%);
+      opacity: 0.72;
+      filter: blur(0.35px);
+    }
+
+    .cad-lines::before {
+      background:
+        linear-gradient(90deg, transparent 0 10%, #1f2933 10% 10.8%, transparent 10.8% 33%, #1f2933 33% 33.8%, transparent 33.8% 58%, #1f2933 58% 58.8%, transparent 58.8% 78%, #1f2933 78% 78.8%, transparent 78.8%),
+        linear-gradient(transparent 0 12%, #1f2933 12% 12.8%, transparent 12.8% 28%, #1f2933 28% 28.8%, transparent 28.8% 44%, #1f2933 44% 44.8%, transparent 44.8% 69%, #1f2933 69% 69.8%, transparent 69.8%);
+    }
+
+    .cad-lines::after {
+      inset: auto 16px 14px auto;
+      width: 110px;
+      height: 58px;
+      border-radius: 14px;
+      background:
+        linear-gradient(transparent 0 20%, rgba(31, 95, 139, 0.18) 20% 22%, transparent 22% 48%, rgba(31, 95, 139, 0.18) 48% 50%, transparent 50%);
+      border: 1px solid rgba(31, 95, 139, 0.18);
+    }
+
+    .section {
+      padding: 32px 0;
+    }
+
+    .section-header {
+      margin-bottom: 20px;
+    }
+
+    .section-header span {
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-header h2 {
+      margin: 10px 0 0;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1.04rem;
+      margin-top: 12px;
+    }
+
+    .service-grid,
+    .proof-grid,
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 26px;
+      border: 1px solid rgba(24, 35, 44, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 16px 44px rgba(24, 35, 44, 0.08);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .card ul {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .highlight {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .pricing {
+      padding: 26px;
+    }
+
+    .pricing h3 {
+      margin: 0 0 16px;
+      font-size: 1.45rem;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .price-row strong {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .location-band {
+      margin-top: 18px;
+      padding: 24px 26px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(31, 95, 139, 0.92), rgba(17, 49, 72, 0.98));
+      color: #eff8ff;
+    }
+
+    .location-band p {
+      color: rgba(239, 248, 255, 0.86);
+      margin-top: 10px;
+    }
+
+    .footer {
+      padding: 18px 0 44px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .service-grid,
+      .proof-grid,
+      .process-grid,
+      .highlight {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .hero-board {
+        padding: 24px;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+      }
+
+      h1 {
+        max-width: none;
+      }
     }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/">mymarch</a>
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="../architecture_portfolio.html">Portfolio</a>
+        <a class="cta-link" href="mailto:dante.ethan.sanchez@gmail.com?subject=Drafting%20Service%20Inquiry">Start a Project</a>
+      </nav>
+    </div>
+  </header>
+
   <main>
-    <h1>Architecture has moved</h1>
-    <p>The portfolio archive now lives in the new <code>/architectural/</code> section.</p>
-    <a href="../architectural/">Open the architectural archive</a>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="panel hero-copy">
+          <span class="eyebrow">San Diego Drafting Support</span>
+          <h1>Clean CAD, Revit, and rendering help for real projects.</h1>
+          <p>
+            mymarch helps homeowners, contractors, designers, and small project teams
+            turn sketches, PDFs, redlines, and rough ideas into clear digital drawings.
+            The focus is practical drafting support for remodels, ADUs, as-builts,
+            floor plan redraws, and photoreal presentation images.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="mailto:dante.ethan.sanchez@gmail.com?subject=Drafting%20Service%20Inquiry">Request a Quote</a>
+            <a class="button secondary" href="../architecture_portfolio.html">View Portfolio</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <strong>CAD</strong>
+              <span>Floor plans, redlines, as-builts, and drawing cleanup.</span>
+            </div>
+            <div>
+              <strong>Revit</strong>
+              <span>Model support, sheet setup, production help, and organized files.</span>
+            </div>
+            <div>
+              <strong>Render</strong>
+              <span>Photoreal visuals for concept presentation and client communication.</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel hero-board" aria-label="Drafting service visual">
+          <div class="board-card">
+            <p class="board-title">Sketch or PDF Input</p>
+            <div class="sketch-lines"></div>
+          </div>
+          <div class="board-card">
+            <p class="board-title">Clean Digital Output</p>
+            <div class="cad-lines"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="wrap">
+        <div class="section-header">
+          <span>Core Services</span>
+          <h2>Offer the thing clients understand fastest.</h2>
+          <p>
+            The strongest first offer is simple: send the sketch, PDF, photo, redlines,
+            or rough dimensions, and get back clean digital drawings ready for review,
+            presentation, or the next step in production.
+          </p>
+        </div>
+        <div class="service-grid">
+          <article class="card">
+            <h3>Floor Plan Redraws</h3>
+            <p>Convert rough sketches, scanned plans, marked-up PDFs, or old drawings into clean CAD files and readable plan sheets.</p>
+            <ul>
+              <li>PDF to CAD redraws</li>
+              <li>Basic dimensions if provided</li>
+              <li>Organized linework and labels</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Revit Drafting Support</h3>
+            <p>Production help for small firms, independent designers, and project teams that need modeling, setup, and drawing organization support.</p>
+            <ul>
+              <li>Sheet setup assistance</li>
+              <li>Basic model organization</li>
+              <li>Redline pickup support</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Photoreal Rendering</h3>
+            <p>Create visuals that help explain a design idea clearly in presentations, approvals, proposals, or client-facing concept packages.</p>
+            <ul>
+              <li>Interior and exterior views</li>
+              <li>Presentation-oriented images</li>
+              <li>Practical design communication</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap highlight">
+        <div class="card pricing">
+          <h3>Typical starter packages</h3>
+          <div class="price-row"><strong>$25-$45</strong><span>simple plan redraw</span></div>
+          <div class="price-row"><strong>$60-$100</strong><span>clean CAD plan with dimensions</span></div>
+          <div class="price-row"><strong>$125+</strong><span>drawing set starter or rendering package</span></div>
+          <p>
+            Final pricing depends on scope, file quality, revisions, and whether the
+            work is drafting, Revit support, or rendering-focused.
+          </p>
+        </div>
+        <div class="card pricing" id="process">
+          <h3>How the process works</h3>
+          <ul>
+            <li>Send a sketch, PDF, photos, redlines, or project notes.</li>
+            <li>Receive a scope review and best-fit service recommendation.</li>
+            <li>Production starts in CAD, Revit, or rendering workflow.</li>
+            <li>Receive clean files for review and revision.</li>
+          </ul>
+          <p style="margin-top: 16px;">
+            Drafting support for permit submittals may be possible, but engineering or
+            architectural stamp is not included.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <span>Best Fit Clients</span>
+          <h2>Built for local remodel, ADU, and production support needs.</h2>
+        </div>
+        <div class="proof-grid">
+          <article class="card">
+            <h3>Homeowners</h3>
+            <p>Useful when an idea needs to become a readable drawing package before speaking with contractors or continuing design work.</p>
+          </article>
+          <article class="card">
+            <h3>Contractors</h3>
+            <p>Helpful for redlines, plan cleanup, as-builts, and overflow drafting when the priority is speed and clarity.</p>
+          </article>
+          <article class="card">
+            <h3>Design Teams</h3>
+            <p>Support for presentation graphics, Revit help, and production tasks when an extra drafting hand is needed.</p>
+          </article>
+        </div>
+
+        <div class="location-band">
+          <strong>Serving San Diego County first.</strong>
+          <p>
+            Focus areas include Downtown San Diego, Chula Vista, National City,
+            La Mesa, El Cajon, Mission Valley, and nearby remodel or ADU clients.
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="wrap footer">
+    mymarch provides drafting, modeling, and visualization support. No architectural or engineering stamp is included.
+  </footer>
 </body>
 </html>

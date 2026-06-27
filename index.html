@@ -1,208 +1,215 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <title>Mymultiplatform</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mymultiplatform | Drafting Services</title>
+  <meta
+    name="description"
+    content="Mymultiplatform home for drafting services, CAD support, Revit help, and photoreal rendering through mymarch."
+  />
   <style>
-    /* Reset box-sizing for consistency */
-    *, *::before, *::after {
+    :root {
+      --bg: #f3ede3;
+      --ink: #17212b;
+      --muted: #5f6d77;
+      --accent: #1f5f8b;
+      --warm: #9b5f2c;
+      --panel: rgba(255, 251, 246, 0.84);
+    }
+
+    * {
       box-sizing: border-box;
     }
 
     body {
-      background-color: rgb(0, 0, 0);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      color: white;
       margin: 0;
-      padding: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31, 95, 139, 0.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(155, 95, 44, 0.18), transparent 24%),
+        linear-gradient(180deg, #faf6f0 0%, var(--bg) 100%);
     }
 
-    /* Banner Styles */
-    .banner {
-      background-color: green;
-      color: white;
-      padding: 10px 20px;
-      font-size: 24px;
-      font-weight: bold;
-      text-align: left;
-      position: fixed;
-      top: 0;
+    .wrap {
+      width: min(1140px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 0;
+    }
+
+    .panel {
       width: 100%;
-      z-index: 1001;
-      height: 60px;
+      border-radius: 34px;
+      padding: 34px;
+      background: var(--panel);
+      border: 1px solid rgba(23, 33, 43, 0.08);
+      box-shadow: 0 28px 90px rgba(23, 33, 43, 0.14);
+    }
+
+    .topline {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(31, 95, 139, 0.1);
+      color: var(--accent);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      max-width: 11ch;
+    }
+
+    .lead {
+      font-size: 1.12rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
       align-items: center;
-    }
-
-    .title {
-      margin-left: 20px;
-    }
-
-    /* Navbar Styles */
-    .navbar {
-      background: linear-gradient(to bottom, #666666, #000000);
-      text-align: center;
-      padding: 10px 0;
-      position: fixed;
-      top: 60px;
-      width: 100%;
-      z-index: 1000;
-      height: 50px;
-      display: flex;
       justify-content: center;
-      align-items: center;
-    }
-
-    .navbar a {
-      color: white;
-      padding: 8px 16px;
+      padding: 14px 20px;
+      border-radius: 999px;
       text-decoration: none;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      font-weight: 700;
+      border: 1px solid var(--ink);
+      color: var(--ink);
     }
 
-    .navbar a:hover {
-      background-color: green;
-      border-radius: 4px;
+    .button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    /* Dynamic Banner Styles */
-    .dynamic-banner {
-      position: fixed;
-      top: 110px;
-      width: 100%;
-      height: 180px;
-      overflow: hidden;
-      z-index: 999;
+    .stack {
+      display: grid;
+      gap: 16px;
     }
 
-    .banner-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      display: none;
+    .mini-card {
+      border-radius: 24px;
+      border: 1px solid rgba(23, 33, 43, 0.08);
+      background: rgba(255, 255, 255, 0.76);
+      padding: 22px;
     }
 
-    .banner-slide.active {
-      display: block;
+    .mini-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
     }
 
-    /* Main Content Styles */
-    .tab-content {
-      padding: 290px 20px 20px 20px;
-      color: white;
+    .mini-card p,
+    .mini-card li {
+      color: var(--muted);
+      line-height: 1.65;
     }
 
-    .tab-content h2 {
-      display: none;
+    .mini-card ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
     }
 
-    .tab-content h2.active {
-      display: block;
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .navbar a {
-        font-size: 16px;
-        padding: 6px 12px;
+    .footer-links a {
+      color: var(--warm);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
       }
 
-      .banner {
-        font-size: 20px;
-        padding: 10px 15px;
-        height: 50px;
+      .panel {
+        padding: 24px;
       }
 
-      .navbar {
-        top: 50px;
-        height: 45px;
-      }
-
-      .dynamic-banner {
-        top: 95px;
-        height: 135px;
-      }
-
-      .tab-content {
-        padding: 230px 15px 15px 15px;
+      h1 {
+        max-width: none;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Fixed Banner -->
-  <div class="banner">
-    <div class="title">Mymultiplatform</div>
-  </div>
+  <main class="hero">
+    <div class="wrap panel">
+      <span class="topline">Mymultiplatform • Featured Focus</span>
+      <div class="grid">
+        <section>
+          <h1>Drafting services are the focus now.</h1>
+          <p class="lead">
+            The main active offer is <strong>mymarch</strong>: CAD drafting, Revit support,
+            floor plan redraws, as-built drawings, and photoreal renderings for remodels,
+            ADUs, and small project teams in San Diego County.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="/architecture/">Open Drafting Services</a>
+            <a class="button" href="/architecture_portfolio.html">View Portfolio</a>
+          </div>
+          <div class="footer-links">
+            <a href="/architecture/">/architecture</a>
+            <a href="mailto:dante.ethan.sanchez@gmail.com?subject=Drafting%20Service%20Inquiry">dante.ethan.sanchez@gmail.com</a>
+          </div>
+        </section>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="#home" class="tab-link">Home</a>
-    <a href="#architecture" class="tab-link">Architecture</a>
-    <a href="#gamedev" class="tab-link">Game Dev</a>
-    <a href="#bobaup" class="tab-link">Boba Up</a>
-    <a href="#Shop" class="tab-link">Shop</a>
-  </div>
-
-  <!-- Dynamic Banner -->
-  <div class="dynamic-banner">
-    <div class="banner-slide active" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEjcyQ82tObWGkHePTzzy2oKl-J9BA1LDHB6BaV0NlJDUSUiMc26-0jq__r7FSpJjcmBi_bxaLSZf5icZun3ryZwa-OnANx6qwfbfMTSTjMszUVZKlXLxH389v-NooDihNcTxHCWVTltGjQsn1bCPpCiBKA-y1lhERfth3j70t_ynUzi1Fz8056LbHgOVB7E');">
+        <aside class="stack">
+          <article class="mini-card">
+            <h2>Best first offer</h2>
+            <p>Send a sketch, PDF, old plan, photo, or redlines and get back a clean digital drawing.</p>
+          </article>
+          <article class="mini-card">
+            <h2>Core tools</h2>
+            <ul>
+              <li>AutoCAD drafting</li>
+              <li>Revit support</li>
+              <li>Photoreal rendering</li>
+            </ul>
+          </article>
+          <article class="mini-card">
+            <h2>Best fit clients</h2>
+            <p>Homeowners, contractors, ADU teams, interior designers, and small offices needing overflow drafting support.</p>
+          </article>
+        </aside>
+      </div>
     </div>
-    <div class="banner-slide" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEiLr9R6RhTkk56hyQh3Dpm-kS24xdViaRRxqN0hiBWuO8JLIWKQSjJ-aODpJw7g-DyV8NKn29dAcM11kfq19fzt34jPYDhvjg_nZbAAWK-CeQzQgsDopPdpg1EFzPWJH-aa9fx3GFvoXWrrzILRbq_ic7jD_IF0ADPgkIrNc_s4xpCxo1W90sAgAMXxTSI4');">
-    </div>
-  </div>
-
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Home Tab -->
-    <h2 id="home" class="active">Welcome to Mymultiplatform!</h2>
-<p>&nbsp;https://www.mymultiplatform.com/architecture_portfolio<br /><br /><a href="https://www.mymultiplatform.com/architecture_portfolio">architecture portfolio</a><br /></p>
-  </div>
-
-  <script>
-    // Tab Functionality
-    function showTabContent(tabId) {
-      const tabContents = document.querySelectorAll(".tab-content h2");
-      tabContents.forEach(content => {
-        content.classList.toggle("active", content.id === tabId);
-      });
-
-      const dynamicBanner = document.querySelector('.dynamic-banner');
-      dynamicBanner.style.display = tabId === "home" ? "block" : "none";
-    }
-
-    const tabLinks = document.querySelectorAll(".navbar a");
-    tabLinks.forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        const tabId = link.getAttribute("href").substring(1);
-        showTabContent(tabId);
-        history.pushState(null, null, `#${tabId}`);
-      });
-    });
-
-    // Dynamic Banner Animation
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".banner-slide");
-
-    setInterval(() => {
-      slides[currentSlide].classList.remove("active");
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add("active");
-    }, 5000);
-
-    // Initial Content Display
-    window.addEventListener("DOMContentLoaded", () => {
-      const initialTab = window.location.hash.substring(1) || "home";
-      showTabContent(initialTab);
-    });
-  </script>
+  </main>
 </body>
 </html>
