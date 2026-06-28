@@ -79,18 +79,22 @@
       position: relative;
       height: calc(100dvh - 58px);
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: minmax(0, 1fr) 84px;
       overflow: hidden;
     }
 
     .gallery {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: min(92vw, 1200px);
+      display: flex;
       gap: 28px;
+      align-items: center;
+
+      height: 100%;
+      min-height: 0;
+
       overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
+
       padding: 28px 80px;
       scrollbar-width: thin;
       scrollbar-color: #2a2f39 transparent;
@@ -108,16 +112,16 @@
       overflow: hidden;
       scroll-snap-align: center;
       position: relative;
+
+      flex: 0 0 auto;
+      height: 100%;
+      aspect-ratio: 17 / 22;
+
       display: flex;
       justify-content: center;
       align-items: center;
-      aspect-ratio: 17 / 22;
     }
 
-    /* KEY FIX:
-       - Position the image at the true center (50/50) and translate back
-       - Apply rotation + responsive scale so it stays inside bounds
-    */
     .card img {
       position: absolute;
       top: 50%;
@@ -136,6 +140,7 @@
     }
 
     .nav { position: absolute; inset: 0; pointer-events: none; }
+
     .btn {
       pointer-events: auto;
       position: absolute;
@@ -155,11 +160,13 @@
       font-size: 20px;
       color: #e7e7e7;
     }
+
     .btn:hover {
       background: rgba(28,32,40,.8);
       border-color: rgba(255,255,255,.2);
       transform: translateY(-50%) scale(1.05);
     }
+
     .prev { left: 18px; }
     .next { right: 18px; }
 
@@ -215,8 +222,15 @@
     }
 
     @media (max-width: 720px) {
-      .gallery { grid-auto-columns: 92vw; padding: 18px 64px; gap: 18px; }
-      .btn { width: 42px; height: 42px; }
+      .gallery {
+        padding: 18px 64px;
+        gap: 18px;
+      }
+
+      .btn {
+        width: 42px;
+        height: 42px;
+      }
     }
   </style>
 </head>
@@ -265,7 +279,6 @@
       "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPenGYHunLDBsiEgBb8tt9grgR_Y-2aCNdmsdg_cU5GGqDH1FsQ6xBDj-Y4kB5MK4ViEyPaqso2-9_hyOSBO9J8OgvQ3xZhV2ZupHIxHwkXF_-ThhFGulnu5OozMNl5RkJI8Cihhp0HFh3UOVp9yxGur_a1_3BIIsyhK3nvJiGFuzK-lfVXeXmPU5U6MbL/s2200/Dante_S_Arch_Portfolio_5MB-01.png"
     ];
 
-    // thumbs from pages automatically
     const THUMBS = PAGES.map(u => u.replace("/s2200/", "/s320/"));
 
     const galleryEl = document.getElementById('gallery');
@@ -273,7 +286,6 @@
     const nextBtn = document.getElementById('nextBtn');
     const thumbTrack = document.getElementById('thumbTrack');
 
-    // Render main cards
     PAGES.forEach((src, i) => {
       const card = document.createElement('article');
       card.className = 'card';
@@ -289,9 +301,6 @@
       galleryEl.appendChild(card);
     });
 
-    // SCALE FIX:
-    // When a portrait-ish viewport happens, rotating 90° can push the image outside width.
-    // This computes a safe scale based on the card’s current aspect ratio.
     function updateRotScale() {
       const firstCard = galleryEl.querySelector('.card');
       if (!firstCard) return;
@@ -300,22 +309,19 @@
       const h = firstCard.clientHeight;
       if (!w || !h) return;
 
-      // If card is landscape (w>h), scale=1 is fine.
-      // If card is portrait (w<h), scale down so rotated bounds stay inside width.
       const scale = Math.min(1, w / h);
 
       document.documentElement.style.setProperty('--img-scale', String(scale));
     }
 
-    // Run after layout + on resize
     updateRotScale();
+
     let _rt;
     window.addEventListener('resize', () => {
       clearTimeout(_rt);
       _rt = setTimeout(updateRotScale, 80);
     });
 
-    // Render thumbs (duplicated for marquee)
     function renderThumbRow() {
       THUMBS.forEach((src, i) => {
         const t = document.createElement('div');
@@ -332,6 +338,7 @@
         thumbTrack.appendChild(t);
       });
     }
+
     renderThumbRow();
     renderThumbRow();
 
