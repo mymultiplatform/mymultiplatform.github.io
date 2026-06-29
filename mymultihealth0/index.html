@@ -3,24 +3,1802 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MyMultiHealth</title>
+    <title>MyMultiHealth | Oral Wellness</title>
+    <meta
+      name="description"
+      content="MyMultiHealth storefront prototype with a polished oral wellness landing page, dynamic sections, and interactive product storytelling."
+    />
     <style>
-      html,
-      body {
-        margin: 0;
-        min-height: 100%;
-        background: #ffffff;
+      :root {
+        --ink: #171717;
+        --ink-soft: #555555;
+        --paper: #fbfbfa;
+        --surface: #ffffff;
+        --surface-alt: #f3f3f1;
+        --surface-alt-2: #f6f6f4;
+        --line: rgba(23, 23, 23, 0.12);
+        --brand: #2f5bea;
+        --brand-2: #2f5bea;
+        --sun: #ead37a;
+        --mint: #c9e7dd;
+        --rose: #e6c8d4;
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+        --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.06);
+        --radius-xl: 16px;
+        --radius-lg: 12px;
+        --radius-md: 8px;
+        --header-height: 88px;
+        --wrap: min(1200px, calc(100% - 32px));
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+      }
+
+      body.menu-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      .wrap {
+        width: var(--wrap);
+        margin: 0 auto;
+      }
+
+      .announcement {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: #111111;
+        color: #ffffff;
+        overflow: hidden;
+      }
+
+      .announcement-inner {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .announcement-track {
+        position: relative;
+        min-height: 22px;
+        width: min(100%, 760px);
+      }
+
+      .announcement-item {
+        position: absolute;
+        inset: 0;
         display: grid;
         place-items: center;
-        font-family: Arial, sans-serif;
-        color: #000000;
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 320ms ease, transform 320ms ease;
+        font-size: 0.92rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        text-align: center;
+      }
+
+      .announcement-item.is-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .site-header {
+        position: sticky;
+        top: 44px;
+        z-index: 40;
+        transition: background-color 220ms ease, box-shadow 220ms ease, backdrop-filter 220ms ease;
+      }
+
+      .site-header.is-stuck {
+        backdrop-filter: blur(14px);
+        background: rgba(251, 251, 250, 0.92);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .header-shell {
+        width: var(--wrap);
+        margin: 14px auto 0;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: var(--header-height);
+        padding: 0 22px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        background: var(--brand);
+        box-shadow: none;
+      }
+
+      .brand-copy {
+        display: grid;
+      }
+
+      .brand-copy strong {
+        font-size: 1.05rem;
+      }
+
+      .brand-copy span {
+        font-size: 0.76rem;
+        color: var(--ink-soft);
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .nav-item {
+        position: relative;
+      }
+
+      .nav-trigger,
+      .nav-link {
+        border: 0;
+        background: transparent;
+        padding: 12px 14px;
+        border-radius: 8px;
+        color: var(--ink);
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .nav-trigger:hover,
+      .nav-link:hover,
+      .icon-button:hover,
+      .chip-button:hover,
+      .hero-cta.secondary:hover,
+      .card-cta:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+
+      .nav-trigger::after {
+        content: "+";
+        margin-left: 8px;
+        color: var(--ink-soft);
+      }
+
+      .dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 0;
+        min-width: 240px;
+        padding: 14px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .dropdown a {
+        padding: 12px 14px;
+        border-radius: 6px;
+        font-weight: 500;
+        color: var(--ink-soft);
+      }
+
+      .dropdown a:hover {
+        background: var(--surface-alt);
+        color: var(--ink);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .icon-button,
+      .menu-button {
+        width: 46px;
+        height: 46px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        display: inline-grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .chip-button {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--ink);
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-weight: 500;
+      }
+
+      .menu-button {
+        display: none;
+      }
+
+      .mobile-drawer {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: none;
+      }
+
+      .mobile-drawer.is-open {
+        display: block;
+      }
+
+      .drawer-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(25, 10, 47, 0.42);
+      }
+
+      .drawer-panel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: min(92vw, 420px);
+        padding: 22px;
+        background: #ffffff;
+        box-shadow: -20px 0 60px rgba(0, 0, 0, 0.12);
+        display: grid;
+        gap: 18px;
+        overflow: auto;
+      }
+
+      .drawer-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .drawer-nav {
+        display: grid;
+        gap: 12px;
+      }
+
+      .drawer-group {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #ffffff;
+        overflow: hidden;
+      }
+
+      .drawer-summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 20px;
+        font-weight: 500;
+      }
+
+      .drawer-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .drawer-links {
+        display: grid;
+        gap: 8px;
+        padding: 0 18px 18px;
+      }
+
+      .drawer-links a {
+        padding: 12px 14px;
+        background: var(--surface-alt-2);
+        border-radius: 6px;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      main {
+        overflow: clip;
+      }
+
+      .hero {
+        padding: 28px 0 18px;
+      }
+
+      .hero-shell {
+        width: var(--wrap);
+        margin: 0 auto;
+        border-radius: 16px;
+        background: #f3f3f1;
+        color: var(--ink);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 28px 90px rgba(57, 26, 142, 0.18);
+      }
+
+      .hero-shell::before,
+      .hero-shell::after {
+        content: "";
+        position: absolute;
+        border-radius: 0;
+        background: rgba(23, 23, 23, 0.03);
+      }
+
+      .hero-shell::before {
+        width: 380px;
+        height: 380px;
+        right: -120px;
+        top: -120px;
+      }
+
+      .hero-shell::after {
+        width: 220px;
+        height: 220px;
+        left: -70px;
+        bottom: -90px;
+      }
+
+      .hero-carousel {
+        position: relative;
+        min-height: 640px;
+      }
+
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(0.98);
+        transition: opacity 420ms ease, transform 420ms ease;
+        pointer-events: none;
+      }
+
+      .hero-slide.is-active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 20px;
+        align-items: center;
+        min-height: 640px;
+        padding: 48px;
+      }
+
+      .hero-copy {
+        max-width: 560px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 6px;
+        background: #ffffff;
+        color: var(--ink-soft);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .hero h1 {
+        margin: 18px 0 16px;
+        font-size: clamp(3rem, 7vw, 5.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+      }
+
+      .hero p {
+        margin: 0;
+        max-width: 38rem;
+        font-size: 1.08rem;
+        line-height: 1.75;
+        color: var(--ink-soft);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .hero-cta,
+      .card-cta {
+        border: 0;
+        border-radius: 8px;
+        padding: 16px 22px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .hero-cta.primary,
+      .card-cta.primary {
+        background: var(--brand);
+        color: #ffffff;
+        box-shadow: none;
+      }
+
+      .hero-cta.secondary {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+
+      .hero-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 26px;
+      }
+
+      .hero-stat {
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: #ffffff;
+        min-width: 130px;
+      }
+
+      .hero-stat strong {
+        display: block;
+        font-size: 1.05rem;
+      }
+
+      .hero-stat span {
+        font-size: 0.82rem;
+        color: var(--ink-soft);
+      }
+
+      .hero-visual {
+        display: grid;
+        place-items: center;
+      }
+
+      .device-stage {
+        position: relative;
+        width: min(100%, 460px);
+        aspect-ratio: 1 / 1;
+        display: grid;
+        place-items: center;
+      }
+
+      .orbit,
+      .spark,
+      .case-shape,
+      .brush-shape {
+        position: absolute;
+      }
+
+      .orbit {
+        inset: 10%;
+        border-radius: 0;
+        border: 1px dashed rgba(23, 23, 23, 0.14);
+      }
+
+      .spark {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        background: var(--ink);
+        box-shadow: none;
+        animation: float 5.4s ease-in-out infinite;
+      }
+
+      .spark.one {
+        top: 18%;
+        right: 14%;
+      }
+
+      .spark.two {
+        bottom: 18%;
+        left: 15%;
+        animation-delay: 1.4s;
+        background: var(--brand);
+        box-shadow: none;
+      }
+
+      .case-shape {
+        width: 70%;
+        height: 34%;
+        bottom: 14%;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 18px 28px rgba(0, 0, 0, 0.08);
+      }
+
+      .brush-shape {
+        width: 120px;
+        height: 340px;
+        border-radius: 18px;
+        background: #d9d9d9;
+        box-shadow: 0 18px 28px rgba(0, 0, 0, 0.08);
+        transform: rotate(16deg) translateX(10px);
+      }
+
+      .brush-shape::before,
+      .brush-shape::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .brush-shape::before {
+        top: -42px;
+        width: 56px;
+        height: 70px;
+        border-radius: 8px;
+        background: #f0f0f0;
+      }
+
+      .brush-shape::after {
+        top: -26px;
+        width: 42px;
+        height: 24px;
+        background: repeating-linear-gradient(90deg, #bbbbbb 0 4px, #ffffff 4px 8px);
+        border-radius: 4px;
+      }
+
+      .hero-dots {
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .hero-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        border: 0;
+        background: rgba(23, 23, 23, 0.22);
+        cursor: pointer;
+      }
+
+      .hero-dot.is-active {
+        background: var(--ink);
+      }
+
+      .marquee {
+        padding: 18px 0 8px;
+      }
+
+      .marquee-shell {
+        background: #ececea;
+        color: var(--ink);
+        overflow: hidden;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      }
+
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee 28s linear infinite;
+      }
+
+      .marquee-group {
+        display: flex;
+        gap: 18px;
+        padding: 18px 0;
+        white-space: nowrap;
+        font-size: clamp(1.15rem, 3vw, 2.1rem);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      .marquee-group span::after {
+        content: "•";
+        margin-left: 18px;
+        color: rgba(23, 23, 23, 0.22);
+      }
+
+      .section {
+        padding: 34px 0;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+      }
+
+      .section-head p {
+        margin: 0;
+        max-width: 34rem;
+        color: var(--ink-soft);
+        line-height: 1.72;
+      }
+
+      .product-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .product-card {
+        position: relative;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        min-height: 440px;
+        display: grid;
+      }
+
+      .product-card[data-tone="purple"],
+      .product-card[data-tone="mint"],
+      .product-card[data-tone="sun"] {
+        background: #ffffff;
+      }
+
+      .card-visual {
+        position: relative;
+        min-height: 240px;
+        overflow: hidden;
+      }
+
+      .card-blob,
+      .card-device {
+        position: absolute;
+      }
+
+      .card-blob {
+        inset: auto auto 20px 20px;
+        width: 220px;
+        height: 220px;
+        border-radius: 12px;
+        background: #f1f1ef;
+      }
+
+      .product-card[data-tone="mint"] .card-blob {
+        background: #efefec;
+      }
+
+      .product-card[data-tone="sun"] .card-blob {
+        background: #efefec;
+      }
+
+      .card-device {
+        right: 34px;
+        top: 24px;
+      }
+
+      .device-pill {
+        width: 80px;
+        height: 220px;
+        border-radius: 12px;
+        background: #d9d9d9;
+        box-shadow: 0 14px 24px rgba(0, 0, 0, 0.08);
+        transform: rotate(14deg);
+      }
+
+      .device-pill.round {
+        width: 170px;
+        height: 170px;
+        border-radius: 12px;
+        background: #e0e0e0;
+      }
+
+      .device-pill.wide {
+        width: 190px;
+        height: 110px;
+        border-radius: 12px;
+        background: #dddddd;
+      }
+
+      .card-body {
+        display: grid;
+        gap: 14px;
+        padding: 0 24px 24px;
+        align-content: start;
+      }
+
+      .card-tag {
+        display: inline-flex;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: #f3f3f1;
+        color: var(--brand);
+        font-weight: 600;
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .product-card h3,
+      .story-card h3,
+      .review-card h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        letter-spacing: -0.04em;
+      }
+
+      .product-card p,
+      .story-card p,
+      .review-card p,
+      .faq-copy {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.7;
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .price {
+        font-size: 1.8rem;
+        font-weight: 600;
+        letter-spacing: -0.05em;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 18px;
+      }
+
+      .story-card {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+        padding: 28px;
+      }
+
+      .story-card.primary {
+        background: #ffffff;
+      }
+
+      .steps {
+        display: grid;
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        gap: 16px;
+        align-items: start;
+        padding: 14px;
+        border-radius: 8px;
+        background: #f6f6f4;
+      }
+
+      .step-index {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-weight: 600;
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .mini-metrics {
+        display: grid;
+        gap: 12px;
+      }
+
+      .metric {
+        padding: 18px;
+        border-radius: 8px;
+        background: var(--surface-alt-2);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 1.6rem;
+        letter-spacing: -0.04em;
+      }
+
+      .reviews {
+        position: relative;
+      }
+
+      .reviews-viewport {
+        overflow: hidden;
+      }
+
+      .reviews-track {
+        display: flex;
+        transition: transform 360ms ease;
+      }
+
+      .review-card {
+        min-width: 100%;
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .stars {
+        display: inline-flex;
+        gap: 6px;
+        color: var(--brand);
+        margin-bottom: 16px;
+        font-size: 1.1rem;
+      }
+
+      .review-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      .review-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .round-control {
+        width: 46px;
+        height: 46px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: #fff;
+        cursor: pointer;
+      }
+
+      .faq-layout {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 18px;
+      }
+
+      .faq-panel,
+      .newsletter {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .faq-panel {
+        padding: 28px;
+      }
+
+      .faq-list {
+        padding: 16px;
+      }
+
+      .faq-item {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .faq-item:last-child {
+        border-bottom: 0;
+      }
+
+      .faq-question {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 8px;
+        font-size: 1.02rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .faq-question::-webkit-details-marker {
+        display: none;
+      }
+
+      .faq-answer {
+        padding: 0 8px 18px;
+      }
+
+      .newsletter {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+        background: #ffffff;
+      }
+
+      .newsletter-form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .newsletter-form input {
+        width: 100%;
+        padding: 16px 18px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .newsletter-form button {
+        border: 0;
+        border-radius: 8px;
+        padding: 16px 18px;
+        font-weight: 600;
+        background: var(--brand);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .footer {
+        padding: 28px 0 48px;
+      }
+
+      .footer-shell {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: var(--shadow-soft);
+        padding: 24px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .footer-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      .floating-cta {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 45;
+        border: 0;
+        border-radius: 8px;
+        padding: 16px 18px;
+        font-weight: 600;
+        color: #ffffff;
+        background: var(--brand);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+      }
+
+      [data-reveal] {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 500ms ease, transform 500ms ease;
+      }
+
+      [data-reveal].is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @media (max-width: 1080px) {
+        .header-nav,
+        .chip-button.desktop-only {
+          display: none;
+        }
+
+        .menu-button {
+          display: inline-grid;
+        }
+
+        .hero-grid,
+        .story-grid,
+        .faq-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .product-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-carousel,
+        .hero-grid {
+          min-height: auto;
+        }
+
+        .hero-grid {
+          padding: 34px 24px 70px;
+        }
+
+        .device-stage {
+          margin-top: 12px;
+          max-width: 360px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .header-shell {
+          min-height: 74px;
+          padding: 0 16px;
+        }
+
+        .brand-copy span {
+          display: none;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.5rem, 14vw, 4.3rem);
+        }
+
+        .hero-actions,
+        .section-head,
+        .price-row,
+        .footer-shell {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .review-card,
+        .story-card,
+        .faq-panel,
+        .newsletter {
+          padding: 22px;
+        }
+
+        .floating-cta {
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+          text-align: center;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>hello world mymultihealth</h1>
+    <div class="announcement">
+      <div class="wrap announcement-inner">
+        <div class="announcement-track" aria-live="polite">
+          <div class="announcement-item is-active">Clinically inspired oral care, reimagined for MyMultiHealth.</div>
+          <div class="announcement-item">Launch prototype: dynamic storefront behavior first, product photos later.</div>
+          <div class="announcement-item">Simple checkout path ready to connect when you want to promote the store.</div>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header" id="siteHeader">
+      <div class="header-shell">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-copy">
+            <strong>MyMultiHealth</strong>
+            <span>Oral Wellness Lab</span>
+          </span>
+        </a>
+
+        <nav class="header-nav" aria-label="Main navigation">
+          <div class="nav-item">
+            <button class="nav-trigger" type="button">Bundles</button>
+            <div class="dropdown">
+              <a href="#products">Starter Bundle</a>
+              <a href="#products">Travel Kit</a>
+              <a href="#products">Daily Whitening Set</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <button class="nav-trigger" type="button">Brush</button>
+            <div class="dropdown">
+              <a href="#products">Sonic Brush</a>
+              <a href="#products">Replacement Heads</a>
+              <a href="#story">How it works</a>
+            </div>
+          </div>
+          <div class="nav-item">
+            <button class="nav-trigger" type="button">Whitening</button>
+            <div class="dropdown">
+              <a href="#products">Smile Trainer</a>
+              <a href="#products">Whitening Trays</a>
+              <a href="#reviews">Results</a>
+            </div>
+          </div>
+          <a class="nav-link" href="#reviews">Reviews</a>
+          <a class="nav-link" href="#faq">FAQ</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="chip-button desktop-only" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop now</button>
+          <button class="icon-button" type="button" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16 16L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+          <button class="menu-button" type="button" aria-label="Open menu" id="menuOpen">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+      <div class="drawer-backdrop" id="drawerBackdrop"></div>
+      <aside class="drawer-panel">
+        <div class="drawer-head">
+          <div class="brand-copy">
+            <strong>MyMultiHealth</strong>
+            <span>Menu</span>
+          </div>
+          <button class="icon-button" type="button" aria-label="Close menu" id="menuClose">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="drawer-nav" aria-label="Mobile navigation">
+          <details class="drawer-group">
+            <summary class="drawer-summary">Bundles</summary>
+            <div class="drawer-links">
+              <a href="#products">Starter Bundle</a>
+              <a href="#products">Travel Kit</a>
+              <a href="#products">Whitening Set</a>
+            </div>
+          </details>
+          <details class="drawer-group">
+            <summary class="drawer-summary">Brush</summary>
+            <div class="drawer-links">
+              <a href="#products">Sonic Brush</a>
+              <a href="#products">Refills</a>
+              <a href="#story">How it works</a>
+            </div>
+          </details>
+          <details class="drawer-group">
+            <summary class="drawer-summary">Whitening</summary>
+            <div class="drawer-links">
+              <a href="#products">Smile Trainer</a>
+              <a href="#products">Trays</a>
+              <a href="#reviews">Reviews</a>
+            </div>
+          </details>
+          <a class="chip-button" href="#faq">Open FAQ</a>
+        </nav>
+      </aside>
+    </div>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-shell">
+          <div class="hero-carousel" id="heroCarousel">
+            <article class="hero-slide is-active">
+              <div class="hero-grid">
+                <div class="hero-copy">
+                  <span class="eyebrow">Daily oral wellness</span>
+                  <h1>Bright smiles. Softer routines. Better momentum.</h1>
+                  <p>
+                    This storefront prototype recreates the energy of a modern oral-care brand: moving hero slides,
+                    sticky navigation, rich section pacing, and product storytelling designed to feel premium before
+                    you even add final photography.
+                  </p>
+                  <div class="hero-actions">
+                    <button class="hero-cta primary" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop the lineup</button>
+                    <button class="hero-cta secondary" type="button" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">See how it works</button>
+                  </div>
+                  <div class="hero-stats">
+                    <div class="hero-stat">
+                      <strong>3-step</strong>
+                      <span>daily routine flow</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>4.9/5</strong>
+                      <span>prototype review feel</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>1 page</strong>
+                      <span>built for fast launch</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-visual">
+                  <div class="device-stage">
+                    <div class="orbit"></div>
+                    <div class="spark one"></div>
+                    <div class="spark two"></div>
+                    <div class="case-shape"></div>
+                    <div class="brush-shape"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide">
+              <div class="hero-grid">
+                <div class="hero-copy">
+                  <span class="eyebrow">Bundle-first commerce</span>
+                  <h1>Package your products like a confident brand.</h1>
+                  <p>
+                    Repeating promo rails, rounded product cards, and quiet purchase cues help the store feel organized,
+                    giftable, and easy to browse on both desktop and mobile.
+                  </p>
+                  <div class="hero-actions">
+                    <button class="hero-cta primary" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Browse bundles</button>
+                    <button class="hero-cta secondary" type="button" onclick="document.getElementById('reviews').scrollIntoView({behavior:'smooth'})">Read proof points</button>
+                  </div>
+                  <div class="hero-stats">
+                    <div class="hero-stat">
+                      <strong>Sticky</strong>
+                      <span>header + CTA flow</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>Slider</strong>
+                      <span>motion without clutter</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>FAQ</strong>
+                      <span>accordion support</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-visual">
+                  <div class="device-stage">
+                    <div class="orbit"></div>
+                    <div class="spark one"></div>
+                    <div class="spark two"></div>
+                    <div class="case-shape" style="width:74%;height:26%;bottom:12%;"></div>
+                    <div class="brush-shape" style="transform:rotate(-12deg) translateX(-20px);width:96px;height:300px;"></div>
+                    <div class="brush-shape" style="transform:rotate(8deg) translateX(80px);width:96px;height:300px;background:#d8d8d8;"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide">
+              <div class="hero-grid">
+                <div class="hero-copy">
+                  <span class="eyebrow">Ready to evolve</span>
+                  <h1>Start with the dynamics, layer in the assets later.</h1>
+                  <p>
+                    You asked for the interactions, not the images. This version gives you the structural system first,
+                    so we can later swap in your own product renders, videos, and checkout blocks without rebuilding the page.
+                  </p>
+                  <div class="hero-actions">
+                    <button class="hero-cta primary" type="button" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Build the launch list</button>
+                    <button class="hero-cta secondary" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Replay the experience</button>
+                  </div>
+                  <div class="hero-stats">
+                    <div class="hero-stat">
+                      <strong>No photos</strong>
+                      <span>all visual placeholders</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>Original</strong>
+                      <span>custom styling + code</span>
+                    </div>
+                    <div class="hero-stat">
+                      <strong>Adaptable</strong>
+                      <span>for future products</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-visual">
+                  <div class="device-stage">
+                    <div class="orbit"></div>
+                    <div class="spark one"></div>
+                    <div class="spark two"></div>
+                    <div class="case-shape" style="width:78%;height:28%;bottom:16%;background:#ffffff;"></div>
+                    <div class="brush-shape" style="transform:rotate(0deg) translateX(0);width:132px;height:320px;background:#d4d4d4;"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <div class="hero-dots" aria-label="Hero navigation">
+              <button class="hero-dot is-active" type="button" aria-label="Slide 1"></button>
+              <button class="hero-dot" type="button" aria-label="Slide 2"></button>
+              <button class="hero-dot" type="button" aria-label="Slide 3"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="Brand promises">
+        <div class="marquee-shell">
+          <div class="marquee-track">
+            <div class="marquee-group">
+              <span>Clinically inspired formulas</span>
+              <span>Design-forward routines</span>
+              <span>Comfort-first whitening</span>
+              <span>Soft daily motivation</span>
+            </div>
+            <div class="marquee-group" aria-hidden="true">
+              <span>Clinically inspired formulas</span>
+              <span>Design-forward routines</span>
+              <span>Comfort-first whitening</span>
+              <span>Soft daily motivation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="products">
+        <div class="wrap">
+          <div class="section-head" data-reveal>
+            <div>
+              <h2>Signature sets with motion-ready product cards.</h2>
+            </div>
+            <p>
+              Burst uses strong merchandising rhythm: clean categories, premium bundles, and repeated CTAs. This section
+              recreates that energy with original placeholders and interactive card composition.
+            </p>
+          </div>
+
+          <div class="product-strip">
+            <article class="product-card" data-tone="purple" data-reveal>
+              <div class="card-visual">
+                <div class="card-blob"></div>
+                <div class="card-device">
+                  <div class="device-pill"></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">Starter system</span>
+                <h3>Sonic Brush Bundle</h3>
+                <p>
+                  Your flagship homepage card: one hero tool, one refill cadence, one visual anchor. Great for a first
+                  collection with premium positioning.
+                </p>
+                <div class="price-row">
+                  <div class="price">$69</div>
+                  <button class="card-cta primary" type="button">View bundle</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-tone="mint" data-reveal>
+              <div class="card-visual">
+                <div class="card-blob"></div>
+                <div class="card-device">
+                  <div class="device-pill round"></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">Whitening ritual</span>
+                <h3>Smile Trainer Kit</h3>
+                <p>
+                  A softer, more wellness-led card that supports your future MyMultiHealth offer and gives the page a
+                  more distinct product voice.
+                </p>
+                <div class="price-row">
+                  <div class="price">$44</div>
+                  <button class="card-cta primary" type="button">See details</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-tone="sun" data-reveal>
+              <div class="card-visual">
+                <div class="card-blob"></div>
+                <div class="card-device">
+                  <div class="device-pill wide"></div>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">Daily support</span>
+                <h3>Travel + Refill Pack</h3>
+                <p>
+                  Compact bundle logic for smaller-ticket conversion, subscription nudges, or seasonal promotions without
+                  needing complex storefront plumbing yet.
+                </p>
+                <div class="price-row">
+                  <div class="price">$24</div>
+                  <button class="card-cta primary" type="button">Add interest</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="story">
+        <div class="wrap story-grid">
+          <article class="story-card primary" data-reveal>
+            <span class="card-tag">How it works</span>
+            <h3>A polished home page is really a pacing system.</h3>
+            <p>
+              The Burst site keeps momentum by alternating large emotional sections with clear shopping modules. We can
+              use that same logic here to make MyMultiHealth feel bigger than a simple one-product page.
+            </p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-index">01</div>
+                <div>
+                  <h3>Lead with a strong promise</h3>
+                  <p>Big typography, one focused benefit, and one obvious CTA.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-index">02</div>
+                <div>
+                  <h3>Support it with bundles</h3>
+                  <p>Merchandise categories create confidence even before you have a huge catalog.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-index">03</div>
+                <div>
+                  <h3>Finish with proof + FAQ</h3>
+                  <p>Social proof, testimonials, and objections handled in one smooth downward flow.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <aside class="mini-metrics">
+            <article class="story-card" data-reveal>
+              <span class="card-tag">Store behavior</span>
+              <div class="metric">
+                <strong>Sticky nav</strong>
+                <p>Desktop hover menus and a compact mobile drawer replicate the high-end storefront feel.</p>
+              </div>
+            </article>
+            <article class="story-card" data-reveal>
+              <span class="card-tag">Motion system</span>
+              <div class="metric">
+                <strong>Autoplay sections</strong>
+                <p>Hero slides, marquee movement, reveal-on-scroll, and a testimonial carousel add life without video.</p>
+              </div>
+            </article>
+            <article class="story-card" data-reveal>
+              <span class="card-tag">Launch path</span>
+              <div class="metric">
+                <strong>Swap assets later</strong>
+                <p>All the heavy lifting is structural, so we can replace placeholders with real products later.</p>
+              </div>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section reviews" id="reviews">
+        <div class="wrap">
+          <div class="section-head" data-reveal>
+            <div>
+              <h2>Review energy without copying their media.</h2>
+            </div>
+            <div class="review-controls">
+              <button class="round-control" type="button" id="reviewPrev" aria-label="Previous review">←</button>
+              <button class="round-control" type="button" id="reviewNext" aria-label="Next review">→</button>
+            </div>
+          </div>
+
+          <div class="reviews-viewport" data-reveal>
+            <div class="reviews-track" id="reviewsTrack">
+              <article class="review-card">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <h3>“Feels like a real wellness brand already.”</h3>
+                <p>
+                  The rounded cards, moving header, and premium spacing make this prototype feel much more established
+                  than a basic landing page. It already gives the user a shopping rhythm.
+                </p>
+                <div class="review-meta">
+                  <span>Prototype feedback</span>
+                  <span>Visual merchandising</span>
+                  <span>Motion + pacing</span>
+                </div>
+              </article>
+              <article class="review-card">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <h3>“The dynamics do the heavy lifting.”</h3>
+                <p>
+                  Even without the product photography, the hero rotation, marquee rail, and review slider already make
+                  the experience feel active and expensive in a good way.
+                </p>
+                <div class="review-meta">
+                  <span>Storefront structure</span>
+                  <span>No-image prototype</span>
+                  <span>Launch-ready system</span>
+                </div>
+              </article>
+              <article class="review-card">
+                <div class="stars" aria-hidden="true">★★★★★</div>
+                <h3>“Easy to expand into a full store.”</h3>
+                <p>
+                  This gives you a template for future oral care products, bundles, and story sections instead of locking
+                  you into a single temporary page.
+                </p>
+                <div class="review-meta">
+                  <span>Scalable layout</span>
+                  <span>Future product lines</span>
+                  <span>FAQ + CTA pattern</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="wrap faq-layout">
+          <article class="faq-panel" data-reveal>
+            <span class="card-tag">FAQ</span>
+            <h2 style="margin:14px 0 12px;">Answer objections the same way premium ecommerce does.</h2>
+            <p class="faq-copy">
+              The Burst footer and support sections rely on compact accordions. This gives you that same clean interaction
+              pattern for launch questions without turning the page into a wall of text.
+            </p>
+          </article>
+
+          <div class="faq-panel faq-list" data-reveal>
+            <details class="faq-item" open>
+              <summary class="faq-question">Did you copy Burst’s assets?</summary>
+              <div class="faq-answer">
+                <p class="faq-copy">
+                  No. This build recreates the page dynamics and structural patterns only: sticky header behavior, sliders,
+                  marquees, cards, and accordions. The visuals, code, and placeholders here are original.
+                </p>
+              </div>
+            </details>
+            <details class="faq-item">
+              <summary class="faq-question">Why no real product images yet?</summary>
+              <div class="faq-answer">
+                <p class="faq-copy">
+                  You asked to skip replicating the images. That keeps the prototype safe while still letting us build the
+                  shopping experience and refine your own brand direction.
+                </p>
+              </div>
+            </details>
+            <details class="faq-item">
+              <summary class="faq-question">Can this connect to your PayPal page next?</summary>
+              <div class="faq-answer">
+                <p class="faq-copy">
+                  Yes. The next step can be wiring your product CTAs to the hosted PayPal flow or embedding a more polished
+                  pre-checkout handoff inside this subpath.
+                </p>
+              </div>
+            </details>
+            <details class="faq-item">
+              <summary class="faq-question">Can we replace the placeholder cards with your real products later?</summary>
+              <div class="faq-answer">
+                <p class="faq-copy">
+                  Absolutely. The layout is already structured for product renders, comparison graphics, videos, and trust
+                  badges once you’re ready.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="newsletter">
+        <div class="wrap">
+          <div class="newsletter" data-reveal>
+            <span class="card-tag">Early access</span>
+            <h2 style="margin:0;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.05em;">Build the email list before the full store goes live.</h2>
+            <p>
+              This section mirrors the kind of clean conversion close you’d expect from a premium commerce site. It gives
+              you a low-risk next step even before final checkout expansion.
+            </p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Enter your email address" aria-label="Email address" />
+              <button type="button">Join the launch list</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-shell">
+        <div class="brand-copy">
+          <strong>MyMultiHealth</strong>
+          <span>Prototype storefront build</span>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="#products">Products</a>
+          <a href="#story">Story</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+    </footer>
+
+    <button class="floating-cta" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+      Shop MyMultiHealth prototype
+    </button>
+
+    <script>
+      const announcementItems = [...document.querySelectorAll(".announcement-item")];
+      let announcementIndex = 0;
+
+      function showAnnouncement(index) {
+        announcementItems.forEach((item, itemIndex) => {
+          item.classList.toggle("is-active", itemIndex === index);
+        });
+      }
+
+      setInterval(() => {
+        announcementIndex = (announcementIndex + 1) % announcementItems.length;
+        showAnnouncement(announcementIndex);
+      }, 3200);
+
+      const siteHeader = document.getElementById("siteHeader");
+      const onScroll = () => {
+        siteHeader.classList.toggle("is-stuck", window.scrollY > 18);
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      const menuOpen = document.getElementById("menuOpen");
+      const menuClose = document.getElementById("menuClose");
+      const mobileDrawer = document.getElementById("mobileDrawer");
+      const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+      function setDrawer(open) {
+        mobileDrawer.classList.toggle("is-open", open);
+        mobileDrawer.setAttribute("aria-hidden", String(!open));
+        document.body.classList.toggle("menu-open", open);
+      }
+
+      menuOpen?.addEventListener("click", () => setDrawer(true));
+      menuClose?.addEventListener("click", () => setDrawer(false));
+      drawerBackdrop?.addEventListener("click", () => setDrawer(false));
+
+      const heroSlides = [...document.querySelectorAll(".hero-slide")];
+      const heroDots = [...document.querySelectorAll(".hero-dot")];
+      let heroIndex = 0;
+      let heroTimer;
+
+      function showHero(index) {
+        heroSlides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("is-active", slideIndex === index);
+        });
+        heroDots.forEach((dot, dotIndex) => {
+          dot.classList.toggle("is-active", dotIndex === index);
+        });
+        heroIndex = index;
+      }
+
+      function startHeroTimer() {
+        window.clearInterval(heroTimer);
+        heroTimer = window.setInterval(() => {
+          showHero((heroIndex + 1) % heroSlides.length);
+        }, 4500);
+      }
+
+      heroDots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          showHero(index);
+          startHeroTimer();
+        });
+      });
+
+      showHero(0);
+      startHeroTimer();
+
+      const reviewsTrack = document.getElementById("reviewsTrack");
+      const reviewCards = [...document.querySelectorAll(".review-card")];
+      const reviewPrev = document.getElementById("reviewPrev");
+      const reviewNext = document.getElementById("reviewNext");
+      let reviewIndex = 0;
+
+      function showReview(index) {
+        reviewIndex = (index + reviewCards.length) % reviewCards.length;
+        reviewsTrack.style.transform = `translateX(-${reviewIndex * 100}%)`;
+      }
+
+      reviewPrev?.addEventListener("click", () => showReview(reviewIndex - 1));
+      reviewNext?.addEventListener("click", () => showReview(reviewIndex + 1));
+      window.setInterval(() => showReview(reviewIndex + 1), 5200);
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.16 }
+      );
+
+      document.querySelectorAll("[data-reveal]").forEach(node => observer.observe(node));
+    </script>
   </body>
 </html>
