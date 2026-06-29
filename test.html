@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smile Trainer Test Checkout</title>
+    <style>
+      :root {
+        --bg: #f6f1e8;
+        --card: #fffaf2;
+        --ink: #1f1a17;
+        --muted: #6b625c;
+        --accent: #ffd140;
+        --accent-strong: #f3bf14;
+        --line: rgba(31, 26, 23, 0.12);
+        --shadow: 0 24px 60px rgba(83, 61, 25, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top, rgba(255, 209, 64, 0.32), transparent 30%),
+          linear-gradient(180deg, #fffdf9 0%, var(--bg) 100%);
+      }
+
+      main {
+        width: min(100%, 960px);
+        margin: 0 auto;
+        padding: 48px 20px 72px;
+      }
+
+      .hero {
+        display: grid;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        padding: 32px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        font-size: 0.8rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 5vw, 4.3rem);
+        line-height: 0.95;
+      }
+
+      .subhead {
+        margin: 18px 0 0;
+        max-width: 38rem;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+
+      .product {
+        display: grid;
+        gap: 18px;
+      }
+
+      .product-panel {
+        display: grid;
+        gap: 16px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: #fff;
+        padding: 24px;
+      }
+
+      .badge {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        background: rgba(255, 209, 64, 0.22);
+        padding: 8px 14px;
+        font-size: 0.86rem;
+        font-weight: 700;
+      }
+
+      .price {
+        font-size: 2.4rem;
+        font-weight: 800;
+      }
+
+      .details {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .purchase-note {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .paypal-shell {
+        display: inline-grid;
+        justify-items: center;
+        gap: 10px;
+        width: fit-content;
+      }
+
+      .pp-UNBME8HGR84SA {
+        text-align: center;
+        border: none;
+        border-radius: 999px;
+        min-width: 13rem;
+        padding: 0 2rem;
+        height: 3.2rem;
+        font-weight: 800;
+        background-color: var(--accent);
+        color: #000;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        cursor: pointer;
+        transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+        box-shadow: 0 14px 26px rgba(243, 191, 20, 0.34);
+      }
+
+      .pp-UNBME8HGR84SA:hover {
+        transform: translateY(-1px);
+        background-color: var(--accent-strong);
+      }
+
+      .pp-UNBME8HGR84SA:focus-visible {
+        outline: 3px solid rgba(31, 26, 23, 0.2);
+        outline-offset: 3px;
+      }
+
+      .paypal-mark {
+        height: 20px;
+      }
+
+      .fine-print {
+        margin: 18px 0 0;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      @media (min-width: 760px) {
+        .hero {
+          grid-template-columns: 1.15fr 0.85fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Live Checkout Test</p>
+          <h1>Smile Trainer</h1>
+          <p class="subhead">
+            A simple checkout test for your new product concept: a mouth pad designed to support a smile face position.
+          </p>
+        </div>
+
+        <aside class="card product">
+          <div class="product-panel">
+            <span class="badge">Test product</span>
+            <div class="price">$1.00</div>
+            <p class="purchase-note">
+              This page uses your live PayPal single-button flow for checkout validation.
+            </p>
+            <ul class="details">
+              <li>Product: Smile Trainer Test</li>
+              <li>Checkout type: live PayPal hosted button</li>
+              <li>Payment opens in a new PayPal window</li>
+            </ul>
+
+            <div class="paypal-shell">
+              <form
+                action="https://www.paypal.com/ncp/payment/UNBME8HGR84SA"
+                method="post"
+                target="_blank"
+                style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;"
+              >
+                <input class="pp-UNBME8HGR84SA" type="submit" value="Buy Now" />
+                <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="Accepted cards" />
+                <section style="font-size:0.75rem;">
+                  Powered by
+                  <img
+                    class="paypal-mark"
+                    src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg"
+                    alt="PayPal"
+                    style="vertical-align:middle;"
+                  />
+                </section>
+              </form>
+            </div>
+          </div>
+          <p class="fine-print">
+            Hosted button ID: <strong>UNBME8HGR84SA</strong>
+          </p>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
