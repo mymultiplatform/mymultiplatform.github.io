@@ -977,6 +977,32 @@
         padding: 18px;
       }
 
+      .bundle-callout {
+        margin-bottom: 14px;
+        padding: 18px 20px;
+        border-radius: 10px;
+        background: #f5f7ff;
+        border: 1px solid rgba(47, 91, 234, 0.12);
+        display: grid;
+        gap: 8px;
+      }
+
+      .bundle-callout strong {
+        font-size: 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .bundle-callout p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.6;
+      }
+
+      .bundle-callout .price-row {
+        justify-content: flex-start;
+        gap: 14px;
+      }
+
       .bundle-grid {
         display: grid;
         grid-template-columns: 1.1fr repeat(3, minmax(0, 1fr));
@@ -1510,14 +1536,22 @@
 
         .bundle-grid {
           grid-template-columns: 1fr;
+          gap: 10px;
+          background: transparent;
         }
 
         .bundle-cell {
           min-height: auto;
+          border: 1px solid var(--line);
+          border-radius: 10px;
         }
 
         .bundle-cell.is-head {
           justify-content: center;
+        }
+
+        .bundle-cell.is-side {
+          background: #f6f6f4;
         }
 
         .trust-item {
@@ -1995,6 +2029,19 @@
             </article>
 
             <article class="bundle-table" data-reveal>
+              <div class="bundle-callout">
+                <span class="card-tag">Recommended bundle</span>
+                <strong>Best value: the full MyMultiHealth routine</strong>
+                <p>
+                  Start with the toothbrush, add smile support, and complete the system with UV accessory care for the
+                  strongest premium experience on the page.
+                </p>
+                <div class="price-row">
+                  <div class="price">$177</div>
+                  <span style="color:var(--ink-soft);font-size:0.95rem;">Toothbrush + Smile Trainer + UV Light Device</span>
+                </div>
+              </div>
+
               <div class="bundle-grid" role="table" aria-label="Product comparison table">
                 <div class="bundle-cell is-head">Feature</div>
                 <div class="bundle-cell is-head">Toothbrush</div>
