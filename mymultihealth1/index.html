@@ -1303,6 +1303,48 @@
         cursor: pointer;
       }
 
+      .summary-cta {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+        padding: 28px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .summary-cta-copy {
+        display: grid;
+        gap: 10px;
+      }
+
+      .summary-cta-copy h2 {
+        margin: 0;
+        font-size: clamp(1.9rem, 4vw, 3rem);
+        letter-spacing: -0.05em;
+        line-height: 0.98;
+      }
+
+      .summary-cta-copy p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.7;
+        max-width: 42rem;
+      }
+
+      .summary-cta-actions {
+        display: grid;
+        gap: 10px;
+        min-width: 260px;
+      }
+
+      .summary-cta-note {
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+      }
+
       .footer {
         padding: 28px 0 48px;
       }
@@ -1464,6 +1506,7 @@
         .hero-grid,
         .bundle-layout,
         .benefits-grid,
+        .summary-cta,
         .story-grid,
         .faq-layout {
           grid-template-columns: 1fr;
@@ -2455,6 +2498,22 @@
 
       <section class="section" id="newsletter">
         <div class="wrap">
+          <div class="summary-cta" data-reveal style="margin-bottom:18px;">
+            <div class="summary-cta-copy">
+              <span class="card-tag">Routine summary</span>
+              <h2>Start with the best seller or commit to the full routine.</h2>
+              <p>
+                The toothbrush is the easiest entry point, but the full MyMultiHealth system gives you the strongest
+                premium oral care story on the page: brush, support, and protect in one connected routine.
+              </p>
+            </div>
+            <div class="summary-cta-actions">
+              <button class="hero-cta primary" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop best seller</button>
+              <button class="hero-cta secondary" type="button" onclick="document.getElementById('bundles').scrollIntoView({behavior:'smooth'})">View full routine</button>
+              <div class="summary-cta-note">Best value bundle shown in the comparison section above.</div>
+            </div>
+          </div>
+
           <div class="newsletter" data-reveal>
             <span class="card-tag">Early access</span>
             <h2 style="margin:0;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.05em;">Stay close to the next MyMultiHealth product drops.</h2>
