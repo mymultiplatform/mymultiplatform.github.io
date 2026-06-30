@@ -1291,11 +1291,87 @@
         background: rgba(255, 255, 255, 0.86);
         box-shadow: var(--shadow-soft);
         padding: 24px;
+        display: grid;
+        gap: 24px;
+      }
+
+      .footer-top {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .footer-intro {
+        display: grid;
+        gap: 12px;
+      }
+
+      .footer-intro p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.7;
+        max-width: 34rem;
+      }
+
+      .footer-trust {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .footer-trust-item {
+        padding: 14px 16px;
+        border-radius: 10px;
+        background: #f6f6f4;
+      }
+
+      .footer-trust-item strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.95rem;
+      }
+
+      .footer-trust-item span {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-column {
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-column strong {
+        font-size: 0.95rem;
+        letter-spacing: -0.01em;
+      }
+
+      .footer-column a,
+      .footer-column span {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .footer-bottom {
         display: flex;
         justify-content: space-between;
-        gap: 20px;
+        gap: 16px;
         flex-wrap: wrap;
-        align-items: center;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-size: 0.88rem;
       }
 
       .footer-nav {
@@ -1518,6 +1594,7 @@
         .hero-actions,
         .section-head,
         .price-row,
+        .footer-bottom,
         .footer-shell {
           flex-direction: column;
           align-items: stretch;
@@ -1539,6 +1616,12 @@
         .faq-panel,
         .newsletter {
           padding: 22px;
+        }
+
+        .footer-top,
+        .footer-grid,
+        .footer-trust {
+          grid-template-columns: 1fr;
         }
 
         .section {
@@ -2361,16 +2444,72 @@
 
     <footer class="footer">
       <div class="wrap footer-shell">
-        <div class="brand-copy">
-          <strong>MyMultiHealth</strong>
-          <span>Oral wellness essentials</span>
+        <div class="footer-top">
+          <div class="footer-intro">
+            <div class="brand-copy">
+              <strong>MyMultiHealth</strong>
+              <span>Oral wellness essentials</span>
+            </div>
+            <p>
+              Premium oral care tools designed to support cleaner routines, better consistency, and a more elevated
+              daily smile wellness experience.
+            </p>
+          </div>
+
+          <div class="footer-trust">
+            <article class="footer-trust-item">
+              <strong>Secure PayPal checkout</strong>
+              <span>Featured products open in a protected new tab for a cleaner purchase flow.</span>
+            </article>
+            <article class="footer-trust-item">
+              <strong>System-first product design</strong>
+              <span>Each product is positioned to work together as one stronger oral care routine.</span>
+            </article>
+          </div>
         </div>
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="#products">Products</a>
-          <a href="#story">Story</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#faq">FAQ</a>
-        </nav>
+
+        <div class="footer-grid">
+          <div class="footer-column">
+            <strong>Shop</strong>
+            <a href="#products">Toothbrush</a>
+            <a href="#products">Smile Trainer</a>
+            <a href="#products">UV Light Device</a>
+            <a href="#bundles">Recommended bundle</a>
+          </div>
+
+          <div class="footer-column">
+            <strong>Support</strong>
+            <a href="#faq">FAQ</a>
+            <a href="#newsletter">Email updates</a>
+            <span>Support replies: 1-2 business days</span>
+            <span>Routine guidance available through future email support</span>
+          </div>
+
+          <div class="footer-column">
+            <strong>Shipping & Returns</strong>
+            <span>Fast shipping guidance can be added here for launch markets.</span>
+            <span>Return and exchange policy section is ready to expand.</span>
+            <span>Checkout currently routes through live PayPal product flows.</span>
+          </div>
+
+          <div class="footer-column">
+            <strong>Policies</strong>
+            <a href="/privacy_policy.html">Privacy policy</a>
+            <a href="/terms.html">Terms</a>
+            <a href="#benefits">Product benefits</a>
+            <a href="#reviews">Customer confidence</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>© MyMultiHealth. All rights reserved.</span>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="#products">Products</a>
+            <a href="#bundles">Bundles</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+        </div>
       </div>
     </footer>
 
