@@ -3,11 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MyMultiHealth | Oral Wellness</title>
+    <title>MyMultiHealth | Premium Oral Care and Smile Wellness</title>
     <meta
       name="description"
-      content="MyMultiHealth storefront prototype with a polished oral wellness landing page, dynamic sections, and interactive product storytelling."
+      content="Shop MyMultiHealth oral care essentials including a premium toothbrush, Smile Trainer, and UV light device with live PayPal checkout and modern interactive product views."
     />
+    <meta name="keywords" content="oral care, toothbrush, smile trainer, UV light device, dental wellness, smile wellness, premium oral care" />
+    <meta name="author" content="MyMultiHealth" />
+    <meta name="theme-color" content="#fbfbfa" />
+    <link rel="canonical" href="https://www.mymultiplatform.com/mymultihealth1/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MyMultiHealth | Premium Oral Care and Smile Wellness" />
+    <meta
+      property="og:description"
+      content="Discover modern oral care with interactive 3D products, live checkout, and a premium MyMultiHealth storefront experience."
+    />
+    <meta property="og:url" content="https://www.mymultiplatform.com/mymultihealth1/" />
+    <meta property="og:site_name" content="MyMultiHealth" />
+    <meta property="og:image" content="https://www.mymultiplatform.com/mymultihealth1/images/toothbrush-poster.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MyMultiHealth | Premium Oral Care and Smile Wellness" />
+    <meta
+      name="twitter:description"
+      content="Premium oral care essentials with interactive 3D product views and live checkout."
+    />
+    <meta name="twitter:image" content="https://www.mymultiplatform.com/mymultihealth1/images/toothbrush-poster.png" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="preconnect" href="https://www.paypal.com" />
     <style>
       :root {
         --ink: #171717;
@@ -532,6 +554,33 @@
         aspect-ratio: 1 / 1;
         display: grid;
         place-items: center;
+      }
+
+      .hero-model {
+        position: absolute;
+        background: transparent;
+        --poster-color: transparent;
+      }
+
+      .hero-model.toothbrush {
+        width: 132px;
+        height: 340px;
+        right: 22%;
+        top: 8%;
+      }
+
+      .hero-model.trainer {
+        width: 220px;
+        height: 160px;
+        left: 8%;
+        bottom: 18%;
+      }
+
+      .hero-model.uv {
+        width: 220px;
+        height: 150px;
+        right: 4%;
+        bottom: 4%;
       }
 
       .orbit,
@@ -1134,6 +1183,26 @@
           max-width: 360px;
         }
 
+        .hero-model.toothbrush {
+          width: 112px;
+          height: 290px;
+          right: 20%;
+        }
+
+        .hero-model.trainer {
+          width: 190px;
+          height: 138px;
+          left: 4%;
+          bottom: 18%;
+        }
+
+        .hero-model.uv {
+          width: 188px;
+          height: 128px;
+          right: 2%;
+          bottom: 8%;
+        }
+
       }
 
       @media (max-width: 720px) {
@@ -1186,6 +1255,27 @@
           width: 176px;
           height: 154px;
         }
+
+        .hero-model.toothbrush {
+          width: 96px;
+          height: 250px;
+          right: 18%;
+          top: 10%;
+        }
+
+        .hero-model.trainer {
+          width: 156px;
+          height: 118px;
+          left: 6%;
+          bottom: 20%;
+        }
+
+        .hero-model.uv {
+          width: 158px;
+          height: 112px;
+          right: 4%;
+          bottom: 10%;
+        }
       }
     </style>
   </head>
@@ -1194,8 +1284,8 @@
       <div class="wrap announcement-inner">
         <div class="announcement-track" aria-live="polite">
           <div class="announcement-item is-active">Clinically inspired oral care, reimagined for MyMultiHealth.</div>
-          <div class="announcement-item">Launch prototype: dynamic storefront behavior first, product photos later.</div>
-          <div class="announcement-item">Simple checkout path ready to connect when you want to promote the store.</div>
+          <div class="announcement-item">Premium toothbrush, Smile Trainer, and UV care essentials in one daily routine.</div>
+          <div class="announcement-item">Interactive product views and live PayPal checkout are ready now.</div>
         </div>
       </div>
     </div>
@@ -1309,28 +1399,27 @@
               <div class="hero-grid">
                 <div class="hero-copy">
                   <span class="eyebrow">Daily oral wellness</span>
-                  <h1>Bright smiles. Softer routines. Better momentum.</h1>
+                  <h1>Better brushing. Better habits. Better smiles.</h1>
                   <p>
-                    This storefront prototype recreates the energy of a modern oral-care brand: moving hero slides,
-                    sticky navigation, rich section pacing, and product storytelling designed to feel premium before
-                    you even add final photography.
+                    MyMultiHealth brings together premium oral care tools designed to support cleaner routines, more
+                    confident smiles, and a more elevated everyday wellness ritual.
                   </p>
                   <div class="hero-actions">
                     <button class="hero-cta primary" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop the lineup</button>
-                    <button class="hero-cta secondary" type="button" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">See how it works</button>
+                    <button class="hero-cta secondary" type="button" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">Explore the routine</button>
                   </div>
                   <div class="hero-stats">
                     <div class="hero-stat">
                       <strong>3-step</strong>
-                      <span>daily routine flow</span>
+                      <span>oral care system</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>4.9/5</strong>
-                      <span>prototype review feel</span>
+                      <strong>Premium</strong>
+                      <span>daily-use design</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>1 page</strong>
-                      <span>built for fast launch</span>
+                      <strong>Live</strong>
+                      <span>checkout ready</span>
                     </div>
                   </div>
                 </div>
@@ -1340,7 +1429,9 @@
                     <div class="spark one"></div>
                     <div class="spark two"></div>
                     <div class="case-shape"></div>
-                    <div class="brush-shape"></div>
+                    <model-viewer class="hero-model toothbrush" src="./models/toothbrush.glb" alt="3D toothbrush" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.85" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
+                    <model-viewer class="hero-model trainer" src="./models/smile_trainer.glb" alt="3D Smile Trainer" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.75" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
+                    <model-viewer class="hero-model uv" src="./models/uv_light.glb" alt="3D UV light device" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.75" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
                   </div>
                 </div>
               </div>
@@ -1350,10 +1441,10 @@
               <div class="hero-grid">
                 <div class="hero-copy">
                   <span class="eyebrow">Bundle-first commerce</span>
-                  <h1>Package your products like a confident brand.</h1>
+                  <h1>Build a sharper smile routine with tools that work together.</h1>
                   <p>
-                    Repeating promo rails, rounded product cards, and quiet purchase cues help the store feel organized,
-                    giftable, and easy to browse on both desktop and mobile.
+                    A toothbrush, smile trainer, and UV storage device create a more complete care system than any single
+                    product on its own, while keeping the routine simple enough to use every day.
                   </p>
                   <div class="hero-actions">
                     <button class="hero-cta primary" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Browse bundles</button>
@@ -1361,16 +1452,16 @@
                   </div>
                   <div class="hero-stats">
                     <div class="hero-stat">
-                      <strong>Sticky</strong>
-                      <span>header + CTA flow</span>
+                      <strong>System</strong>
+                      <span>brush + train + protect</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>Slider</strong>
-                      <span>motion without clutter</span>
+                      <strong>Simple</strong>
+                      <span>easy daily rhythm</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>FAQ</strong>
-                      <span>accordion support</span>
+                      <strong>Premium</strong>
+                      <span>giftable presentation</span>
                     </div>
                   </div>
                 </div>
@@ -1380,8 +1471,8 @@
                     <div class="spark one"></div>
                     <div class="spark two"></div>
                     <div class="case-shape" style="width:74%;height:26%;bottom:12%;"></div>
-                    <div class="brush-shape" style="transform:rotate(-12deg) translateX(-20px);width:96px;height:300px;"></div>
-                    <div class="brush-shape" style="transform:rotate(8deg) translateX(80px);width:96px;height:300px;background:#d8d8d8;"></div>
+                    <model-viewer class="hero-model toothbrush" src="./models/toothbrush.glb" alt="3D toothbrush" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.85" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
+                    <model-viewer class="hero-model uv" src="./models/uv_light.glb" alt="3D UV light device" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.75" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
                   </div>
                 </div>
               </div>
@@ -1390,28 +1481,28 @@
             <article class="hero-slide">
               <div class="hero-grid">
                 <div class="hero-copy">
-                  <span class="eyebrow">Ready to evolve</span>
-                  <h1>Start with the dynamics, layer in the assets later.</h1>
+                  <span class="eyebrow">Made for consistency</span>
+                  <h1>Oral care feels better when the experience feels intentional.</h1>
                   <p>
-                    You asked for the interactions, not the images. This version gives you the structural system first,
-                    so we can later swap in your own product renders, videos, and checkout blocks without rebuilding the page.
+                    MyMultiHealth is designed to make premium care feel approachable: strong products, calm presentation,
+                    clear product education, and a checkout flow that stays focused.
                   </p>
                   <div class="hero-actions">
-                    <button class="hero-cta primary" type="button" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Build the launch list</button>
+                    <button class="hero-cta primary" type="button" onclick="document.getElementById('newsletter').scrollIntoView({behavior:'smooth'})">Join the waitlist</button>
                     <button class="hero-cta secondary" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Replay the experience</button>
                   </div>
                   <div class="hero-stats">
                     <div class="hero-stat">
-                      <strong>No photos</strong>
-                      <span>all visual placeholders</span>
+                      <strong>3D views</strong>
+                      <span>product-first shopping</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>Original</strong>
-                      <span>custom styling + code</span>
+                      <strong>Clean</strong>
+                      <span>elevated visual language</span>
                     </div>
                     <div class="hero-stat">
-                      <strong>Adaptable</strong>
-                      <span>for future products</span>
+                      <strong>Flexible</strong>
+                      <span>ready for future drops</span>
                     </div>
                   </div>
                 </div>
@@ -1421,7 +1512,8 @@
                     <div class="spark one"></div>
                     <div class="spark two"></div>
                     <div class="case-shape" style="width:78%;height:28%;bottom:16%;background:#ffffff;"></div>
-                    <div class="brush-shape" style="transform:rotate(0deg) translateX(0);width:132px;height:320px;background:#d4d4d4;"></div>
+                    <model-viewer class="hero-model trainer" src="./models/smile_trainer.glb" alt="3D Smile Trainer" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.75" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
+                    <model-viewer class="hero-model uv" src="./models/uv_light.glb" alt="3D UV light device" auto-rotate camera-controls interaction-prompt="none" shadow-intensity="0.75" exposure="1.02" environment-image="neutral" touch-action="pan-y"></model-viewer>
                   </div>
                 </div>
               </div>
@@ -1462,8 +1554,8 @@
               <h2>Signature products with live PayPal checkout.</h2>
             </div>
             <p>
-              The original layout stays intact here. The only change is that each featured product card now opens a real
-              live PayPal checkout for purchase testing and campaign launch.
+              Explore the full MyMultiHealth lineup with interactive 3D product views and direct live PayPal checkout
+              built for a smoother premium oral care shopping experience.
             </p>
           </div>
 
@@ -1582,32 +1674,32 @@
       <section class="section" id="story">
         <div class="wrap story-grid">
           <article class="story-card primary" data-reveal>
-            <span class="card-tag">How it works</span>
-            <h3>A polished home page is really a pacing system.</h3>
+              <span class="card-tag">How it works</span>
+            <h3>A strong oral care page should guide the routine, not just display products.</h3>
             <p>
-              The Burst site keeps momentum by alternating large emotional sections with clear shopping modules. We can
-              use that same logic here to make MyMultiHealth feel bigger than a simple one-product page.
+              MyMultiHealth works best when the page explains how each product fits into a full oral wellness flow:
+              brushing, smile support, and cleaner daily storage in one calm system.
             </p>
             <div class="steps">
               <div class="step">
                 <div class="step-index">01</div>
                 <div>
-                  <h3>Lead with a strong promise</h3>
-                  <p>Big typography, one focused benefit, and one obvious CTA.</p>
+                  <h3>Brush with intention</h3>
+                  <p>Start with a premium daily toothbrush that makes the routine feel cleaner and more consistent.</p>
                 </div>
               </div>
               <div class="step">
                 <div class="step-index">02</div>
                 <div>
-                  <h3>Support it with bundles</h3>
-                  <p>Merchandise categories create confidence even before you have a huge catalog.</p>
+                  <h3>Support smile posture</h3>
+                  <p>The Smile Trainer adds a second layer of habit-building support beyond basic brushing alone.</p>
                 </div>
               </div>
               <div class="step">
                 <div class="step-index">03</div>
                 <div>
-                  <h3>Finish with proof + FAQ</h3>
-                  <p>Social proof, testimonials, and objections handled in one smooth downward flow.</p>
+                  <h3>Protect the routine</h3>
+                  <p>A UV storage device helps finish the system with cleaner accessory care and more confidence.</p>
                 </div>
               </div>
             </div>
@@ -1617,22 +1709,22 @@
             <article class="story-card" data-reveal>
               <span class="card-tag">Store behavior</span>
               <div class="metric">
-                <strong>Sticky nav</strong>
-                <p>Desktop hover menus and a compact mobile drawer replicate the high-end storefront feel.</p>
+                <strong>Guided shopping</strong>
+                <p>Clear navigation, strong CTAs, and compact modules keep the store easy to browse on any screen.</p>
               </div>
             </article>
             <article class="story-card" data-reveal>
               <span class="card-tag">Motion system</span>
               <div class="metric">
-                <strong>Autoplay sections</strong>
-                <p>Hero slides, marquee movement, reveal-on-scroll, and a testimonial carousel add life without video.</p>
+                <strong>Interactive products</strong>
+                <p>Real 3D product viewers let visitors inspect shape and finish before they click through to checkout.</p>
               </div>
             </article>
             <article class="story-card" data-reveal>
               <span class="card-tag">Launch path</span>
               <div class="metric">
-                <strong>Swap assets later</strong>
-                <p>All the heavy lifting is structural, so we can replace placeholders with real products later.</p>
+                <strong>Growth ready</strong>
+                <p>The structure is ready for more products, richer FAQ content, social proof, and branded photography.</p>
               </div>
             </article>
           </aside>
@@ -1643,7 +1735,7 @@
         <div class="wrap">
           <div class="section-head" data-reveal>
             <div>
-              <h2>Review energy without copying their media.</h2>
+              <h2>Premium oral care should feel trustworthy before checkout.</h2>
             </div>
             <div class="review-controls">
               <button class="round-control" type="button" id="reviewPrev" aria-label="Previous review">←</button>
@@ -1655,36 +1747,36 @@
             <div class="reviews-track" id="reviewsTrack">
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“Feels like a real wellness brand already.”</h3>
+                <h3>“The product lineup feels deliberate and premium.”</h3>
                 <p>
-                  The rounded cards, moving header, and premium spacing make this prototype feel much more established
-                  than a basic landing page. It already gives the user a shopping rhythm.
+                  The toothbrush, Smile Trainer, and UV device feel like part of one system rather than random items,
+                  which makes the shopping experience feel more credible.
                 </p>
                 <div class="review-meta">
-                  <span>Prototype feedback</span>
+                  <span>Product system</span>
                   <span>Visual merchandising</span>
-                  <span>Motion + pacing</span>
+                  <span>Routine clarity</span>
                 </div>
               </article>
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“The dynamics do the heavy lifting.”</h3>
+                <h3>“The 3D product views add confidence fast.”</h3>
                 <p>
-                  Even without the product photography, the hero rotation, marquee rail, and review slider already make
-                  the experience feel active and expensive in a good way.
+                  Visitors can immediately understand the silhouette and finish of each product, which makes the page
+                  feel more polished and more serious as a store.
                 </p>
                 <div class="review-meta">
-                  <span>Storefront structure</span>
-                  <span>No-image prototype</span>
-                  <span>Launch-ready system</span>
+                  <span>3D product detail</span>
+                  <span>Premium presentation</span>
+                  <span>Conversion support</span>
                 </div>
               </article>
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“Easy to expand into a full store.”</h3>
+                <h3>“It’s ready to grow into a full wellness brand.”</h3>
                 <p>
-                  This gives you a template for future oral care products, bundles, and story sections instead of locking
-                  you into a single temporary page.
+                  The page already has the right structure for future bundles, replacement products, promotions, and
+                  more detailed educational content.
                 </p>
                 <div class="review-meta">
                   <span>Scalable layout</span>
@@ -1701,47 +1793,47 @@
         <div class="wrap faq-layout">
           <article class="faq-panel" data-reveal>
             <span class="card-tag">FAQ</span>
-            <h2 style="margin:14px 0 12px;">Answer objections the same way premium ecommerce does.</h2>
+            <h2 style="margin:14px 0 12px;">Answer key buying questions before the customer hesitates.</h2>
             <p class="faq-copy">
-              The Burst footer and support sections rely on compact accordions. This gives you that same clean interaction
-              pattern for launch questions without turning the page into a wall of text.
+              Fast answers help customers move forward. A clean FAQ keeps the page readable while still covering shipping,
+              product use, compatibility, and care expectations.
             </p>
           </article>
 
           <div class="faq-panel faq-list" data-reveal>
             <details class="faq-item" open>
-              <summary class="faq-question">Did you copy Burst’s assets?</summary>
+              <summary class="faq-question">What makes the MyMultiHealth toothbrush premium?</summary>
               <div class="faq-answer">
                 <p class="faq-copy">
-                  No. This build recreates the page dynamics and structural patterns only: sticky header behavior, sliders,
-                  marquees, cards, and accordions. The visuals, code, and placeholders here are original.
+                  It is designed as a more elevated daily-use tool with a refined silhouette, professional presentation,
+                  and a routine-first role inside the broader MyMultiHealth system.
                 </p>
               </div>
             </details>
             <details class="faq-item">
-              <summary class="faq-question">Why no real product images yet?</summary>
+              <summary class="faq-question">How does the Smile Trainer fit into the routine?</summary>
               <div class="faq-answer">
                 <p class="faq-copy">
-                  You asked to skip replicating the images. That keeps the prototype safe while still letting us build the
-                  shopping experience and refine your own brand direction.
+                  The Smile Trainer complements brushing by supporting a more intentional smile and facial posture routine,
+                  giving the product line a more complete wellness angle.
                 </p>
               </div>
             </details>
             <details class="faq-item">
-              <summary class="faq-question">Can this connect to your PayPal page next?</summary>
+              <summary class="faq-question">Why include a UV light device?</summary>
               <div class="faq-answer">
                 <p class="faq-copy">
-                  Yes. The next step can be wiring your product CTAs to the hosted PayPal flow or embedding a more polished
-                  pre-checkout handoff inside this subpath.
+                  It rounds out the product ecosystem by giving customers a premium accessory care option that feels cleaner,
+                  more intentional, and more complete.
                 </p>
               </div>
             </details>
             <details class="faq-item">
-              <summary class="faq-question">Can we replace the placeholder cards with your real products later?</summary>
+              <summary class="faq-question">Is checkout already active?</summary>
               <div class="faq-answer">
                 <p class="faq-copy">
-                  Absolutely. The layout is already structured for product renders, comparison graphics, videos, and trust
-                  badges once you’re ready.
+                  Yes. The featured products already open live PayPal checkout flows in a secure new tab, which makes this
+                  page usable as a real commerce surface while the brand continues evolving.
                 </p>
               </div>
             </details>
@@ -1753,14 +1845,13 @@
         <div class="wrap">
           <div class="newsletter" data-reveal>
             <span class="card-tag">Early access</span>
-            <h2 style="margin:0;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.05em;">Build the email list before the full store goes live.</h2>
+            <h2 style="margin:0;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.05em;">Stay close to the next MyMultiHealth product drops.</h2>
             <p>
-              This section mirrors the kind of clean conversion close you’d expect from a premium commerce site. It gives
-              you a low-risk next step even before final checkout expansion.
+              Capture interest early with product updates, launch offers, and education around better daily oral wellness.
             </p>
             <form class="newsletter-form">
               <input type="email" placeholder="Enter your email address" aria-label="Email address" />
-              <button type="button">Join the launch list</button>
+              <button type="button">Join the list</button>
             </form>
           </div>
         </div>
@@ -1771,7 +1862,7 @@
       <div class="wrap footer-shell">
         <div class="brand-copy">
           <strong>MyMultiHealth</strong>
-          <span>Prototype storefront build</span>
+          <span>Oral wellness essentials</span>
         </div>
         <nav class="footer-nav" aria-label="Footer navigation">
           <a href="#products">Products</a>
@@ -1783,10 +1874,101 @@
     </footer>
 
     <button class="floating-cta" type="button" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
-      Shop MyMultiHealth prototype
+      Shop MyMultiHealth
     </button>
 
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "MyMultiHealth Oral Care Collection",
+        "itemListElement": [
+          {
+            "@type": "Product",
+            "position": 1,
+            "name": "MyMultiHealth Toothbrush",
+            "description": "Premium daily oral care toothbrush for a cleaner and more intentional routine.",
+            "image": "https://www.mymultiplatform.com/mymultihealth1/images/toothbrush-poster.png",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "59",
+              "availability": "https://schema.org/InStock",
+              "url": "https://www.mymultiplatform.com/mymultihealth1/#products"
+            }
+          },
+          {
+            "@type": "Product",
+            "position": 2,
+            "name": "Smile Trainer",
+            "description": "Pearl-finish smile support device designed to complement a daily oral wellness routine.",
+            "image": "https://www.mymultiplatform.com/mymultihealth1/images/smile_trainer-poster.png",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "39",
+              "availability": "https://schema.org/InStock",
+              "url": "https://www.mymultiplatform.com/mymultihealth1/#products"
+            }
+          },
+          {
+            "@type": "Product",
+            "position": 3,
+            "name": "UV Light Device",
+            "description": "Premium UV storage device for cleaner oral care accessory support.",
+            "image": "https://www.mymultiplatform.com/mymultihealth1/images/uv_light-poster.png",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "USD",
+              "price": "79",
+              "availability": "https://schema.org/InStock",
+              "url": "https://www.mymultiplatform.com/mymultihealth1/#products"
+            }
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What makes the MyMultiHealth toothbrush premium?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is designed as a more elevated daily-use tool with a refined silhouette, professional presentation, and a routine-first role inside the broader MyMultiHealth system."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the Smile Trainer fit into the routine?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Smile Trainer complements brushing by supporting a more intentional smile and facial posture routine, giving the product line a more complete wellness angle."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why include a UV light device?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It rounds out the product ecosystem by giving customers a premium accessory care option that feels cleaner, more intentional, and more complete."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is checkout already active?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The featured products already open live PayPal checkout flows in a secure new tab."
+            }
+          }
+        ]
+      }
+    </script>
     <script>
       const announcementItems = [...document.querySelectorAll(".announcement-item")];
       let announcementIndex = 0;
