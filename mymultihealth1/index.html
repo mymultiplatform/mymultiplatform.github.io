@@ -1060,6 +1060,47 @@
         padding: 28px;
       }
 
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .benefit-card {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+        padding: 24px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .benefit-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: var(--ink);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .benefit-card h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        letter-spacing: -0.03em;
+      }
+
+      .benefit-card p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.68;
+      }
+
       .story-card.primary {
         background: #ffffff;
       }
@@ -1324,6 +1365,7 @@
 
         .hero-grid,
         .bundle-layout,
+        .benefits-grid,
         .story-grid,
         .faq-layout {
           grid-template-columns: 1fr;
@@ -2135,6 +2177,58 @@
               </div>
             </article>
           </aside>
+        </div>
+      </section>
+
+      <section class="section" id="benefits">
+        <div class="wrap">
+          <div class="section-head" data-reveal>
+            <div>
+              <h2>What the full routine is really designed to improve.</h2>
+            </div>
+            <p>
+              The page works better when it speaks to outcomes clearly. MyMultiHealth is not only about product shape,
+              but about cleaner habits, more consistency, and a stronger daily care experience.
+            </p>
+          </div>
+
+          <div class="benefits-grid">
+            <article class="benefit-card" data-reveal>
+              <span class="benefit-number">01</span>
+              <h3>Consistency</h3>
+              <p>
+                A clear product system makes it easier to keep the routine going because each item has a distinct role
+                instead of competing for attention.
+              </p>
+            </article>
+
+            <article class="benefit-card" data-reveal>
+              <span class="benefit-number">02</span>
+              <h3>Confidence</h3>
+              <p>
+                Premium product presentation, 3D product views, and strong checkout clarity help the store feel more
+                credible before the customer commits.
+              </p>
+            </article>
+
+            <article class="benefit-card" data-reveal>
+              <span class="benefit-number">03</span>
+              <h3>Cleaner routine</h3>
+              <p>
+                The toothbrush handles the daily foundation, the Smile Trainer adds support, and the UV device extends
+                the care story into storage and maintenance.
+              </p>
+            </article>
+
+            <article class="benefit-card" data-reveal>
+              <span class="benefit-number">04</span>
+              <h3>Premium feel</h3>
+              <p>
+                When the products work together visually and functionally, the whole brand feels more elevated and more
+                giftable than a one-product page.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
