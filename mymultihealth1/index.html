@@ -917,6 +917,115 @@
         gap: 18px;
       }
 
+      .bundle-layout {
+        display: grid;
+        grid-template-columns: 0.88fr 1.12fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .bundle-intro,
+      .bundle-table {
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .bundle-intro {
+        padding: 28px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .bundle-intro h3 {
+        margin: 0;
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        letter-spacing: -0.05em;
+      }
+
+      .bundle-intro p {
+        margin: 0;
+        color: var(--ink-soft);
+        line-height: 1.72;
+      }
+
+      .bundle-points {
+        display: grid;
+        gap: 12px;
+      }
+
+      .bundle-point {
+        padding: 14px 16px;
+        border-radius: 8px;
+        background: var(--surface-alt-2);
+      }
+
+      .bundle-point strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.98rem;
+      }
+
+      .bundle-point span {
+        color: var(--ink-soft);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .bundle-table {
+        padding: 18px;
+      }
+
+      .bundle-grid {
+        display: grid;
+        grid-template-columns: 1.1fr repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        background: var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .bundle-cell {
+        padding: 16px 14px;
+        background: #ffffff;
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+      }
+
+      .bundle-cell.is-head {
+        background: #f6f6f4;
+        font-weight: 600;
+      }
+
+      .bundle-cell.is-side {
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .bundle-cell.highlight {
+        background: #f5f7ff;
+      }
+
+      .bundle-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        min-height: 28px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        background: var(--ink);
+        color: #ffffff;
+      }
+
+      .bundle-badge.soft {
+        background: #dfe5ff;
+        color: var(--brand);
+      }
+
       .story-card {
         border-radius: 12px;
         border: 1px solid var(--line);
@@ -1188,6 +1297,7 @@
         }
 
         .hero-grid,
+        .bundle-layout,
         .story-grid,
         .faq-layout {
           grid-template-columns: 1fr;
@@ -1356,6 +1466,7 @@
         }
 
         .review-card,
+        .bundle-intro,
         .story-card,
         .faq-panel,
         .newsletter {
@@ -1395,6 +1506,18 @@
 
         .trust-strip {
           grid-template-columns: 1fr;
+        }
+
+        .bundle-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .bundle-cell {
+          min-height: auto;
+        }
+
+        .bundle-cell.is-head {
+          justify-content: center;
         }
 
         .trust-item {
@@ -1829,6 +1952,79 @@
                   <input class="paypal-card-submit" type="submit" value="Buy with PayPal" />
                 </form>
                 <div style="font-size:0.82rem;color:var(--ink-soft);">Live PayPal checkout opens in a secure new window.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="bundles">
+        <div class="wrap">
+          <div class="section-head" data-reveal>
+            <div>
+              <h2>Choose one product or build the full routine.</h2>
+            </div>
+            <p>
+              A single hero product can work on its own, but the full MyMultiHealth system makes the daily routine feel
+              more complete, more premium, and easier to stay consistent with.
+            </p>
+          </div>
+
+          <div class="bundle-layout">
+            <article class="bundle-intro" data-reveal>
+              <span class="card-tag">Bundle logic</span>
+              <h3>The real upgrade is how the products work together.</h3>
+              <p>
+                The toothbrush covers the daily foundation, the Smile Trainer adds support beyond brushing, and the UV
+                device gives the routine a cleaner accessory-care finish.
+              </p>
+              <div class="bundle-points">
+                <div class="bundle-point">
+                  <strong>Start simple</strong>
+                  <span>Choose the toothbrush if you want the most direct daily-use entry point.</span>
+                </div>
+                <div class="bundle-point">
+                  <strong>Add habit support</strong>
+                  <span>The Smile Trainer makes the lineup feel more wellness-driven instead of basic oral care only.</span>
+                </div>
+                <div class="bundle-point">
+                  <strong>Complete the system</strong>
+                  <span>The UV device helps the full routine feel more elevated, more hygienic, and more giftable.</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="bundle-table" data-reveal>
+              <div class="bundle-grid" role="table" aria-label="Product comparison table">
+                <div class="bundle-cell is-head">Feature</div>
+                <div class="bundle-cell is-head">Toothbrush</div>
+                <div class="bundle-cell is-head">Smile Trainer</div>
+                <div class="bundle-cell is-head highlight">Full Routine</div>
+
+                <div class="bundle-cell is-side">Daily-use foundation</div>
+                <div class="bundle-cell"><span class="bundle-badge">Yes</span></div>
+                <div class="bundle-cell"><span class="bundle-badge soft">Light</span></div>
+                <div class="bundle-cell highlight"><span class="bundle-badge">Yes</span></div>
+
+                <div class="bundle-cell is-side">Smile support</div>
+                <div class="bundle-cell"><span class="bundle-badge soft">Basic</span></div>
+                <div class="bundle-cell"><span class="bundle-badge">Yes</span></div>
+                <div class="bundle-cell highlight"><span class="bundle-badge">Yes</span></div>
+
+                <div class="bundle-cell is-side">Accessory care</div>
+                <div class="bundle-cell"><span class="bundle-badge soft">No</span></div>
+                <div class="bundle-cell"><span class="bundle-badge soft">No</span></div>
+                <div class="bundle-cell highlight"><span class="bundle-badge">Yes</span></div>
+
+                <div class="bundle-cell is-side">Giftable premium feel</div>
+                <div class="bundle-cell"><span class="bundle-badge soft">Good</span></div>
+                <div class="bundle-cell"><span class="bundle-badge soft">Good</span></div>
+                <div class="bundle-cell highlight"><span class="bundle-badge">Best</span></div>
+
+                <div class="bundle-cell is-side">Best for</div>
+                <div class="bundle-cell">Simple daily upgrade</div>
+                <div class="bundle-cell">Support-focused add-on</div>
+                <div class="bundle-cell highlight">Most complete experience</div>
               </div>
             </article>
           </div>
