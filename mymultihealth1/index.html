@@ -749,6 +749,34 @@
         gap: 18px;
       }
 
+      .trust-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .trust-item {
+        padding: 16px 18px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #ffffff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .trust-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.98rem;
+        letter-spacing: -0.02em;
+      }
+
+      .trust-item span {
+        color: var(--ink-soft);
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
       .product-card {
         position: relative;
         border-radius: 12px;
@@ -1169,6 +1197,10 @@
           grid-template-columns: 1fr;
         }
 
+        .trust-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
         .hero-carousel {
           min-height: 560px;
         }
@@ -1359,6 +1391,14 @@
         .card-model-viewer-wide {
           width: 166px;
           height: 146px;
+        }
+
+        .trust-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .trust-item {
+          padding: 14px 16px;
         }
 
         .hero-model.toothbrush {
@@ -1664,6 +1704,25 @@
             </p>
           </div>
 
+          <div class="trust-strip" data-reveal>
+            <article class="trust-item">
+              <strong>Secure checkout</strong>
+              <span>Each featured product opens a live PayPal checkout in a protected new tab.</span>
+            </article>
+            <article class="trust-item">
+              <strong>Designed as a system</strong>
+              <span>Brush, train, and protect with products built to feel like one premium oral care routine.</span>
+            </article>
+            <article class="trust-item">
+              <strong>Clear product views</strong>
+              <span>Interactive 3D models help customers inspect each product before they buy.</span>
+            </article>
+            <article class="trust-item">
+              <strong>Ready to expand</strong>
+              <span>The storefront is structured for future bundles, trust badges, and deeper product education.</span>
+            </article>
+          </div>
+
           <div class="product-strip">
             <article class="product-card" data-tone="purple" data-reveal>
               <div class="card-visual">
@@ -1852,23 +1911,23 @@
             <div class="reviews-track" id="reviewsTrack">
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“The product lineup feels deliberate and premium.”</h3>
+                <h3>“It feels like a complete oral care system, not random products.”</h3>
                 <p>
-                  The toothbrush, Smile Trainer, and UV device feel like part of one system rather than random items,
-                  which makes the shopping experience feel more credible.
+                  The toothbrush, Smile Trainer, and UV device all make sense together, which gives the brand a stronger
+                  sense of trust and purpose.
                 </p>
                 <div class="review-meta">
-                  <span>Product system</span>
-                  <span>Visual merchandising</span>
                   <span>Routine clarity</span>
+                  <span>Product trust</span>
+                  <span>System thinking</span>
                 </div>
               </article>
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“The 3D product views add confidence fast.”</h3>
+                <h3>“The 3D views make the products feel more real before checkout.”</h3>
                 <p>
-                  Visitors can immediately understand the silhouette and finish of each product, which makes the page
-                  feel more polished and more serious as a store.
+                  Being able to see the shape and finish of each item adds confidence quickly and helps the page feel
+                  more premium as a real store.
                 </p>
                 <div class="review-meta">
                   <span>3D product detail</span>
@@ -1878,15 +1937,15 @@
               </article>
               <article class="review-card">
                 <div class="stars" aria-hidden="true">★★★★★</div>
-                <h3>“It’s ready to grow into a full wellness brand.”</h3>
+                <h3>“The page already answers most of the questions I’d have as a buyer.”</h3>
                 <p>
-                  The page already has the right structure for future bundles, replacement products, promotions, and
-                  more detailed educational content.
+                  Product visuals, pricing, FAQ content, and direct checkout all work together in a way that feels much
+                  closer to launch-ready commerce.
                 </p>
                 <div class="review-meta">
-                  <span>Scalable layout</span>
-                  <span>Future product lines</span>
-                  <span>FAQ + CTA pattern</span>
+                  <span>Buyer confidence</span>
+                  <span>FAQ support</span>
+                  <span>Checkout readiness</span>
                 </div>
               </article>
             </div>
