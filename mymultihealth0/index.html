@@ -758,6 +758,13 @@
         transform: rotate(14deg);
       }
 
+      .card-model-viewer {
+        width: 150px;
+        height: 214px;
+        background: transparent;
+        --poster-color: transparent;
+      }
+
       .device-pill.round {
         width: 170px;
         height: 170px;
@@ -1121,6 +1128,7 @@
           margin-top: 12px;
           max-width: 360px;
         }
+
       }
 
       @media (max-width: 720px) {
@@ -1162,6 +1170,11 @@
           right: 12px;
           bottom: 12px;
           text-align: center;
+        }
+
+        .card-model-viewer {
+          width: 138px;
+          height: 198px;
         }
       }
     </style>
@@ -1449,7 +1462,20 @@
               <div class="card-visual">
                 <div class="card-blob"></div>
                 <div class="card-device">
-                  <div class="device-pill"></div>
+                  <model-viewer
+                    class="card-model-viewer"
+                    src="./models/toothbrush.glb"
+                    alt="Interactive 3D model of the MyMultiHealth toothbrush"
+                    camera-controls
+                    auto-rotate
+                    auto-rotate-delay="900"
+                    rotation-per-second="18deg"
+                    shadow-intensity="0.8"
+                    exposure="1.0"
+                    environment-image="neutral"
+                    interaction-prompt="none"
+                    touch-action="pan-y"
+                  ></model-viewer>
                 </div>
               </div>
               <div class="card-body">
@@ -1724,6 +1750,7 @@
       Shop MyMultiHealth prototype
     </button>
 
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script>
       const announcementItems = [...document.querySelectorAll(".announcement-item")];
       let announcementIndex = 0;
