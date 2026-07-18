@@ -3,159 +3,270 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Formulario de Registro / Solicitud</title>
+  <title>Rentas Tijuana - Solicitud</title>
   <style>
-    :root{--bg:#f6f8fa;--card:#ffffff;--muted:#6b7280;--accent:#1f6feb}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); padding:28px;}
-    .container{max-width:780px;margin:24px auto;padding:22px;background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(20,20,30,0.06)}
-    h1{font-size:20px;margin:0 0 12px}
-    p.intro{margin:0 0 18px;color:var(--muted)}
-    form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-    label{display:block;font-size:13px;margin-bottom:6px}
-    input[type=text], input[type=email], input[type=tel], input[type=password], input[type=file], input[type=date], select, textarea{
-      width:100%;padding:10px;border:1px solid #e6e9ee;border-radius:8px;font-size:14px;box-sizing:border-box
+    :root {
+      --bg: #eef4f8;
+      --card: #ffffff;
+      --line: #d6e1ea;
+      --text: #122235;
+      --muted: #5b6f7f;
+      --accent: #0f766e;
+      --accent-dark: #0b5f59;
+      --danger: #b42318;
+      --ok: #1a7f37;
     }
-    .full{grid-column:1 / -1}
-    .actions{display:flex;gap:8px;align-items:center;margin-top:12px}
-    button{padding:10px 14px;border-radius:10px;border:0;background:var(--accent);color:white;font-weight:600;cursor:pointer}
-    button.ghost{background:transparent;color:var(--muted);border:1px solid #e6e9ee}
-    .small{font-size:13px;color:var(--muted);margin-top:6px}
-    .file-meta{margin-top:6px;font-size:13px;color:var(--muted)}
-    .terms{display:flex;align-items:center;gap:8px}
-    @media (max-width:720px){form{grid-template-columns:1fr}}
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.12), transparent 34%),
+        linear-gradient(315deg, rgba(29, 78, 216, 0.11), transparent 36%),
+        var(--bg);
+      padding: 24px;
+    }
+    .container {
+      width: min(900px, 100%);
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 16px 36px rgba(15, 37, 55, 0.12);
+      padding: 24px;
+    }
+    h1 { font-size: 1.55rem; margin: 0 0 8px; }
+    .intro { margin: 0 0 18px; color: var(--muted); line-height: 1.5; }
+    form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    label { display: block; font-size: 0.86rem; font-weight: 700; margin-bottom: 6px; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfdff;
+      color: var(--text);
+      padding: 11px 12px;
+      font-size: 1rem;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    input[type=file] { background: #ffffff; }
+    .full { grid-column: 1 / -1; }
+    .hidden { display: none; }
+    .terms { display: flex; align-items: flex-start; gap: 9px; color: var(--muted); }
+    .terms input { width: auto; margin-top: 3px; }
+    .actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-dark); }
+    button:disabled { opacity: 0.65; cursor: wait; }
+    .ghost {
+      background: #f4f7fa;
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .ghost:hover { background: #ebf1f5; }
+    .status {
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-weight: 700;
+      display: none;
+    }
+    .status.ok { display: block; color: var(--ok); background: #edf8f0; border: 1px solid #b9e5c5; }
+    .status.error { display: block; color: var(--danger); background: #fff0ee; border: 1px solid #ffd0cb; }
+    .file-meta { color: var(--muted); font-size: 0.86rem; margin-top: 6px; line-height: 1.4; }
+    @media (max-width: 720px) {
+      body { padding: 14px; }
+      .container { padding: 18px; }
+      form { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Formulario de Registro / Solicitud</h1>
-    <p class="intro">Rellena los campos para completar tu registro. Los campos marcados con * son obligatorios.</p>
+  <main class="container">
+    <h1>Solicitud de Renta - Tijuana</h1>
+    <p class="intro">Completa la solicitud y adjunta documentos en PDF o imagen. La informacion se guarda en el servidor privado de MyMultiplatform.</p>
 
-    <form id="registrationForm" action="#" method="post" enctype="multipart/form-data" novalidate>
+    <form id="registrationForm" enctype="multipart/form-data" novalidate>
       <div>
         <label for="firstName">Nombre *</label>
-        <input id="firstName" name="firstName" type="text" required autocomplete="given-name" placeholder="Ej. María">
+        <input id="firstName" name="firstName" type="text" required autocomplete="given-name" placeholder="Ej. Maria">
       </div>
 
       <div>
         <label for="lastName">Apellido *</label>
-        <input id="lastName" name="lastName" type="text" required autocomplete="family-name" placeholder="Ej. González">
+        <input id="lastName" name="lastName" type="text" required autocomplete="family-name" placeholder="Ej. Gonzalez">
       </div>
 
       <div class="full">
-        <label for="address">Dirección *</label>
-        <input id="address" name="address" type="text" required autocomplete="street-address" placeholder="Calle, número, piso, etc.">
+        <label for="address">Direccion actual *</label>
+        <input id="address" name="address" type="text" required autocomplete="street-address" placeholder="Calle, numero, colonia">
       </div>
 
       <div>
         <label for="city">Ciudad *</label>
-        <input id="city" name="city" type="text" required placeholder="Ej. Madrid">
+        <input id="city" name="city" type="text" required placeholder="Ej. Tijuana">
       </div>
 
       <div>
-        <label for="state">Estado / Provincia</label>
-        <input id="state" name="state" type="text" placeholder="Ej. Comunidad de Madrid">
+        <label for="state">Estado</label>
+        <input id="state" name="state" type="text" placeholder="Ej. Baja California">
       </div>
 
       <div>
-        <label for="postal">Código Postal</label>
-        <input id="postal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{4,10}" placeholder="Ej. 28001">
+        <label for="postal">Codigo postal</label>
+        <input id="postal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{4,10}" placeholder="Ej. 22000">
       </div>
 
       <div>
-        <label for="country">País *</label>
-        <input id="country" name="country" type="text" required placeholder="Ej. España" autocomplete="country">
+        <label for="country">Pais *</label>
+        <input id="country" name="country" type="text" required placeholder="Ej. Mexico" autocomplete="country-name">
       </div>
 
       <div>
-        <label for="email">Correo Electrónico *</label>
-        <input id="email" name="email" type="email" required autocomplete="email" placeholder="ejemplo@correo.com">
+        <label for="email">Correo electronico *</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="nombre@correo.com">
       </div>
 
       <div>
-        <label for="phone">Número de Teléfono</label>
-        <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+34 600 000 000">
+        <label for="phone">Telefono</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+52 664 000 0000">
       </div>
 
       <div>
-        <label for="dob">Fecha de Nacimiento</label>
-        <input id="dob" name="dob" type="date" max="2025-11-06">
+        <label for="dob">Fecha de nacimiento</label>
+        <input id="dob" name="dob" type="date">
       </div>
 
       <div>
-        <label for="username">Nombre de Usuario *</label>
-        <input id="username" name="username" type="text" required placeholder="usuario123" autocomplete="username">
-      </div>
-
-      <div>
-        <label for="password">Contraseña *</label>
-        <input id="password" name="password" type="password" required minlength="8" placeholder="Mín. 8 caracteres" autocomplete="new-password">
-      </div>
-
-      <div>
-        <label for="confirmPassword">Confirmar Contraseña *</label>
-        <input id="confirmPassword" name="confirmPassword" type="password" required minlength="8" placeholder="Repite la contraseña" autocomplete="new-password">
+        <label for="username">Nombre de usuario</label>
+        <input id="username" name="username" type="text" placeholder="usuario123" autocomplete="username">
       </div>
 
       <div class="full">
-        <label for="file">Adjuntar Archivo (PDF, CV, Documento) — Máx. 5 MB</label>
-        <input id="file" name="file" type="file" accept="application/pdf" aria-describedby="fileHelp">
-        <div id="fileHelp" class="file-meta">Ningún archivo seleccionado</div>
+        <label for="notes">Notas</label>
+        <textarea id="notes" name="notes" placeholder="Informacion adicional para la solicitud"></textarea>
       </div>
+
+      <div class="full">
+        <label for="files">Documentos e imagenes * - PDF, PNG, JPG o JPEG</label>
+        <input id="files" name="files" type="file" accept="application/pdf,image/png,image/jpeg" multiple required aria-describedby="fileHelp">
+        <div id="fileHelp" class="file-meta">Ningun archivo seleccionado. Maximo 40 MB por envio.</div>
+      </div>
+
+      <input class="hidden" id="website" name="website" type="text" autocomplete="off" tabindex="-1">
 
       <div class="full terms">
         <input id="terms" name="terms" type="checkbox" required>
-        <label for="terms">Acepto los Términos y Condiciones *</label>
+        <label for="terms">Confirmo que la informacion enviada es correcta y autorizo guardarla para revisar mi solicitud. *</label>
+      </div>
+
+      <div class="full">
+        <div id="status" class="status" role="status"></div>
       </div>
 
       <div class="full actions">
-        <button type="submit">Enviar</button>
-        <button type="button" class="ghost" id="clearBtn">Borrar Formulario</button>
-        <div style="margin-left:auto;color:var(--muted);font-size:13px">* Campos obligatorios</div>
+        <button id="submitBtn" type="submit">Enviar solicitud</button>
+        <button type="button" class="ghost" id="clearBtn">Borrar formulario</button>
       </div>
     </form>
-  </div>
+  </main>
 
   <script>
     (function(){
+      const API_URL = 'https://facility-translate-perception-telescope.trycloudflare.com/server/rentas.tijuana/api/applications';
+      const MAX_TOTAL_BYTES = 40 * 1024 * 1024;
+      const ALLOWED_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg']);
       const form = document.getElementById('registrationForm');
-      const fileInput = document.getElementById('file');
+      const fileInput = document.getElementById('files');
       const fileHelp = document.getElementById('fileHelp');
       const clearBtn = document.getElementById('clearBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const statusBox = document.getElementById('status');
 
-      // Mostrar nombre y tamaño del archivo seleccionado
-      fileInput.addEventListener('change', () => {
-        const f = fileInput.files[0];
-        if(!f){ fileHelp.textContent = 'Ningún archivo seleccionado'; return; }
-        if(f.type !== 'application/pdf'){
-          fileHelp.textContent = 'Solo se permiten archivos PDF.';
-          fileInput.value = '';
-          return;
-        }
-        const sizeMB = (f.size / (1024*1024)).toFixed(2);
-        if(f.size > 5 * 1024 * 1024){
-          fileHelp.textContent = `El archivo es demasiado grande (${sizeMB} MB). Máx. 5 MB.`;
-          fileInput.value = '';
-          return;
-        }
-        fileHelp.textContent = `Seleccionado: ${f.name} — ${sizeMB} MB`;
-      });
+      function setStatus(kind, text) {
+        statusBox.className = 'status ' + kind;
+        statusBox.textContent = text;
+      }
 
-      // Limpiar formulario
-      clearBtn.addEventListener('click', () => { form.reset(); fileHelp.textContent = 'Ningún archivo seleccionado'; });
+      function clearStatus() {
+        statusBox.className = 'status';
+        statusBox.textContent = '';
+      }
 
-      // Validación de contraseña coincidente
-      form.addEventListener('submit', (e) => {
-        const pw = document.getElementById('password').value;
-        const cpw = document.getElementById('confirmPassword').value;
-        if(pw !== cpw){
-          e.preventDefault();
-          alert('Las contraseñas no coinciden. Por favor, revísalas.');
+      function validateFiles() {
+        const files = Array.from(fileInput.files);
+        if (!files.length) {
+          fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
           return false;
         }
+        const total = files.reduce((sum, file) => sum + file.size, 0);
+        const invalid = files.find(file => !ALLOWED_TYPES.has(file.type));
+        if (invalid) {
+          fileHelp.textContent = 'Solo se permiten PDF, PNG, JPG o JPEG.';
+          fileInput.value = '';
+          return false;
+        }
+        if (total > MAX_TOTAL_BYTES) {
+          fileHelp.textContent = 'Los archivos son demasiado grandes. Maximo 40 MB por envio.';
+          fileInput.value = '';
+          return false;
+        }
+        const sizeMB = (total / (1024 * 1024)).toFixed(2);
+        fileHelp.textContent = files.length + ' archivo(s) seleccionado(s), ' + sizeMB + ' MB en total.';
+        return true;
+      }
 
-        // Aquí podrías enviar el formulario con fetch/XHR si no deseas recargar.
-        // e.preventDefault();
-        // En este ejemplo dejamos que el formulario se envíe de forma tradicional.
+      fileInput.addEventListener('change', () => {
+        clearStatus();
+        validateFiles();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        form.reset();
+        clearStatus();
+        fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearStatus();
+
+        if (!form.reportValidity()) return;
+        if (!validateFiles()) {
+          setStatus('error', 'Adjunta por lo menos un PDF o imagen valida.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+
+        try {
+          const response = await fetch(API_URL, {
+            method: 'POST',
+            body: new FormData(form)
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.ok) {
+            throw new Error(result.error || 'No se pudo guardar la solicitud.');
+          }
+          form.reset();
+          fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
+          setStatus('ok', 'Solicitud recibida. ID: ' + result.submissionId);
+        } catch (error) {
+          setStatus('error', error.message || 'No se pudo conectar con el servidor.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar solicitud';
+        }
       });
     })();
   </script>

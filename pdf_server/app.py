@@ -1,4 +1,5 @@
 import os
+import json
 import secrets
 import sqlite3
 from datetime import datetime
@@ -9,6 +10,8 @@ from flask import (
     Flask,
     abort,
     flash,
+    jsonify,
+    make_response,
     redirect,
     render_template,
     request,
@@ -23,6 +26,7 @@ from werkzeug.utils import secure_filename
 
 BASE_ROUTE = "/server"
 RENTAS_ROUTE = "/rentas.sanchez"
+RENTAS_TIJUANA_API_ROUTE = f"{BASE_ROUTE}/rentas.tijuana/api"
 MAX_UPLOAD_MB = int(os.getenv("MMSERVER_MAX_UPLOAD_MB", "40"))
 APP_USERNAME = os.getenv("MMSERVER_USERNAME", "DES333888")
 APP_PASSWORD = os.getenv("MMSERVER_PASSWORD", "Sexo247420@")
@@ -30,6 +34,12 @@ APP_HOST = os.getenv("MMSERVER_HOST", "0.0.0.0")
 APP_PORT = int(os.getenv("MMSERVER_PORT", "8090"))
 
 ALLOWED_RENTAL_EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg"}
+PUBLIC_FORM_ALLOWED_ORIGINS = {
+    "https://www.mymultiplatform.com",
+    "https://mymultiplatform.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+}
 BANK_OPTIONS = ["bbva", "santander", "banorte", "nu", "bancomer", "scotiabank"]
 APARTMENT_OPTIONS = ["1", "2", "3", "4", "5"]
 STATUS_OPTIONS = {"pending", "selected", "rejected"}
@@ -144,6 +154,28 @@ def _init_db(db_path: Path) -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS rentas_tijuana_submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                submission_token TEXT NOT NULL UNIQUE,
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                address TEXT NOT NULL,
+                city TEXT NOT NULL,
+                state TEXT NOT NULL DEFAULT '',
+                postal TEXT NOT NULL DEFAULT '',
+                country TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT NOT NULL DEFAULT '',
+                dob TEXT NOT NULL DEFAULT '',
+                username TEXT NOT NULL DEFAULT '',
+                notes TEXT NOT NULL DEFAULT '',
+                files_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
 
 
 def _list_posts(db_path: Path, limit: int = 100):
@@ -243,6 +275,54 @@ def _save_rental_document(file_obj, destination_dir: Path, prefix: str) -> str:
     final_name = f"{safe_prefix}-{stamp}-{token}{ext}"
     file_obj.save(destination_dir / final_name)
     return final_name
+
+
+def _looks_like_allowed_upload(file_obj, ext: str) -> bool:
+    head = file_obj.stream.read(16)
+    file_obj.stream.seek(0)
+    if ext == ".pdf":
+        return head.startswith(b"%PDF-")
+    if ext == ".png":
+        return head.startswith(b"\x89PNG\r\n\x1a\n")
+    if ext in {".jpg", ".jpeg"}:
+        return head.startswith(b"\xff\xd8\xff")
+    return False
+
+
+def _save_public_form_file(file_obj, destination_dir: Path) -> dict:
+    if not file_obj or not file_obj.filename:
+        raise ValueError("missing file")
+
+    safe_name = secure_filename(file_obj.filename)
+    ext = Path(safe_name).suffix.lower()
+    if ext not in ALLOWED_RENTAL_EXTENSIONS:
+        allowed = ", ".join(sorted(ALLOWED_RENTAL_EXTENSIONS))
+        raise ValueError(f"allowed file types: {allowed}")
+
+    if not _looks_like_allowed_upload(file_obj, ext):
+        raise ValueError("file content does not match the allowed type")
+
+    token = secrets.token_hex(6)
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    stem = Path(safe_name).stem[:60] or "document"
+    final_name = f"{stem}-{stamp}-{token}{ext}"
+    file_obj.save(destination_dir / final_name)
+    return {
+        "original_name": safe_name,
+        "stored_name": final_name,
+        "content_type": file_obj.content_type or "",
+    }
+
+
+def _api_response(payload: dict, status: int = 200):
+    response = make_response(jsonify(payload), status)
+    origin = request.headers.get("Origin", "")
+    if origin in PUBLIC_FORM_ALLOWED_ORIGINS:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Vary"] = "Origin"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
 
 def _rental_user_folder(upload_dir: Path, user_id: int) -> Path:
@@ -889,6 +969,145 @@ def create_app() -> Flask:
 
         user_folder = _rental_user_folder(upload_dir, int(candidate["user_id"]))
         return send_from_directory(user_folder, filename, as_attachment=False)
+
+    @app.route(f"{RENTAS_TIJUANA_API_ROUTE}/applications", methods=["OPTIONS"])
+    def rentas_tijuana_apply_options():
+        return _api_response({}, status=204)
+
+    @app.post(f"{RENTAS_TIJUANA_API_ROUTE}/applications")
+    def rentas_tijuana_apply_submit():
+        if request.form.get("website", "").strip():
+            return _api_response({"ok": True}, status=202)
+
+        required_fields = {
+            "firstName": "first name",
+            "lastName": "last name",
+            "address": "address",
+            "city": "city",
+            "country": "country",
+            "email": "email",
+        }
+        values = {name: request.form.get(name, "").strip() for name in required_fields}
+        missing = [label for name, label in required_fields.items() if not values[name]]
+        if missing:
+            return _api_response(
+                {"ok": False, "error": f"Missing required fields: {', '.join(missing)}"},
+                status=400,
+            )
+
+        incoming_files = []
+        for key in ("files", "file"):
+            incoming_files.extend(
+                item for item in request.files.getlist(key) if item and item.filename
+            )
+
+        if not incoming_files:
+            return _api_response(
+                {"ok": False, "error": "Attach at least one PDF or image."},
+                status=400,
+            )
+        if len(incoming_files) > 10:
+            return _api_response(
+                {"ok": False, "error": "Attach 10 files or fewer."},
+                status=400,
+            )
+
+        submission_token = secrets.token_urlsafe(12)
+        submission_dir = _ensure_upload_dir(
+            upload_dir / "rentas_tijuana_applications" / submission_token
+        )
+
+        try:
+            stored_files = [
+                _save_public_form_file(file_obj, submission_dir)
+                for file_obj in incoming_files
+            ]
+        except ValueError as exc:
+            return _api_response({"ok": False, "error": str(exc)}, status=400)
+
+        now = _utc_now()
+        with _db_connect(db_path) as conn:
+            conn.execute(
+                """
+                INSERT INTO rentas_tijuana_submissions (
+                    submission_token,
+                    first_name,
+                    last_name,
+                    address,
+                    city,
+                    state,
+                    postal,
+                    country,
+                    email,
+                    phone,
+                    dob,
+                    username,
+                    notes,
+                    files_json,
+                    created_at
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    submission_token,
+                    values["firstName"][:120],
+                    values["lastName"][:120],
+                    values["address"][:500],
+                    values["city"][:120],
+                    request.form.get("state", "").strip()[:120],
+                    request.form.get("postal", "").strip()[:40],
+                    values["country"][:120],
+                    values["email"][:180],
+                    request.form.get("phone", "").strip()[:80],
+                    request.form.get("dob", "").strip()[:40],
+                    request.form.get("username", "").strip()[:80],
+                    request.form.get("notes", "").strip()[:2000],
+                    json.dumps(stored_files),
+                    now,
+                ),
+            )
+
+        return _api_response(
+            {
+                "ok": True,
+                "message": "Application received.",
+                "submissionId": submission_token,
+                "fileCount": len(stored_files),
+            },
+            status=201,
+        )
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/applications")
+    @require_login
+    def rentas_tijuana_applications():
+        with _db_connect(db_path) as conn:
+            rows = conn.execute(
+                """
+                SELECT id, submission_token, first_name, last_name, city, state,
+                       country, email, phone, files_json, created_at
+                FROM rentas_tijuana_submissions
+                ORDER BY id DESC
+                LIMIT 200
+                """
+            ).fetchall()
+        return {
+            "items": [
+                {
+                    **dict(row),
+                    "files": json.loads(row["files_json"]),
+                }
+                for row in rows
+            ]
+        }
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/files/<path:filename>")
+    @require_login
+    def rentas_tijuana_file(submission_token: str, filename: str):
+        folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission_token)
+        safe_filename = secure_filename(filename)
+        if not safe_filename:
+            abort(404)
+        return send_from_directory(folder, safe_filename, as_attachment=False)
 
     @app.errorhandler(413)
     def too_large(_error):
