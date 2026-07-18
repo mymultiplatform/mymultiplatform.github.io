@@ -212,6 +212,7 @@
   <script>
     (function(){
       const API_URL = 'https://facility-translate-perception-telescope.trycloudflare.com/server/rentas.tijuana/api/applications';
+      const STATUS_URL = 'https://facility-translate-perception-telescope.trycloudflare.com/server/rentas.tijuana/status/login';
       const MAX_TOTAL_BYTES = 40 * 1024 * 1024;
       const ALLOWED_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg']);
       const form = document.getElementById('registrationForm');
@@ -294,6 +295,9 @@
           form.reset();
           fileHelp.textContent = 'Talones de pago, estado de cuenta bancario u otro comprobante. Maximo 40 MB por envio.';
           setStatus('ok', 'Solicitud recibida. ID: ' + result.submissionId);
+          window.setTimeout(() => {
+            window.location.href = STATUS_URL;
+          }, 1200);
         } catch (error) {
           setStatus('error', error.message || 'No se pudo conectar con el servidor.');
         } finally {
