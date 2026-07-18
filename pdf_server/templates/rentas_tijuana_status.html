@@ -27,6 +27,9 @@
     dd { margin:0; }
     a.btn, button { display:inline-block; border:0; border-radius:8px; padding:10px 12px; font-weight:800; background:var(--accent); color:#fff; text-decoration:none; cursor:pointer; }
     button { background:#364152; }
+    .upload-form { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+    .upload-form label { display:block; margin-bottom:6px; font-weight:800; }
+    .upload-form input { width:100%; border:1px solid var(--line); border-radius:8px; padding:9px; background:#fff; }
     @media (max-width:640px) { dl { grid-template-columns:1fr; } }
   </style>
 </head>
@@ -88,12 +91,14 @@
           {% if application.signed_contract_file %}
             <a class="btn" href="{{ url_for('rentas_tijuana_status_signed_contract') }}" target="_blank" rel="noopener">Download Signed Contract</a>
           {% endif %}
-          {% if application.signature_audit_file %}
-            <a class="btn" href="{{ url_for('rentas_tijuana_status_signature_audit') }}" target="_blank" rel="noopener">View Signature Audit</a>
-          {% endif %}
         {% else %}
           <a class="btn" href="{{ url_for('rentas_tijuana_sign_page') }}">Sign and Accept</a>
         {% endif %}
+        <form class="upload-form" method="post" action="{{ url_for('rentas_tijuana_upload_signed_contract') }}" enctype="multipart/form-data">
+          <label for="signed_contract">Upload signed PDF</label>
+          <input id="signed_contract" name="signed_contract" type="file" accept="application/pdf" required>
+          <button type="submit" style="margin-top:10px;">Upload Signed Contract</button>
+        </form>
       </section>
     {% endif %}
 

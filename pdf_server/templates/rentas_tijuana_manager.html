@@ -198,11 +198,10 @@
                 <hr>
                 <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.contract_file) }}" target="_blank" rel="noopener">Generated contract PDF</a>
                 <div class="muted">Signing: {{ app.signing_status }}</div>
-                {% if app.signature_audit_file %}
-                  {% if app.signed_contract_file %}
-                    <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.signed_contract_file) }}" target="_blank" rel="noopener">Signed contract PDF</a>
-                  {% endif %}
-                  <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.signature_audit_file) }}" target="_blank" rel="noopener">Signature audit certificate</a>
+                {% if app.signed_contract_file %}
+                  <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.signed_contract_file) }}" target="_blank" rel="noopener">Signed contract PDF</a>
+                {% endif %}
+                {% if app.signed_at %}
                   <div class="muted">Signed {{ app.signed_at }} by {{ app.signed_name }}</div>
                 {% endif %}
               {% endif %}

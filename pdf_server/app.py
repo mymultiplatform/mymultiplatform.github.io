@@ -128,7 +128,11 @@ def _ensure_columns(conn: sqlite3.Connection, table: str, columns: dict) -> None
     existing = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
     for name, ddl in columns.items():
         if name not in existing:
-            conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {ddl}")
+            try:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {ddl}")
+            except sqlite3.OperationalError as exc:
+                if "duplicate column name" not in str(exc).lower():
+                    raise
 
 
 def _init_db(db_path: Path) -> None:
@@ -196,6 +200,7 @@ def _init_db(db_path: Path) -> None:
                 "signed_user_agent": "TEXT NOT NULL DEFAULT ''",
                 "signature_audit_file": "TEXT NOT NULL DEFAULT ''",
                 "signed_contract_file": "TEXT NOT NULL DEFAULT ''",
+                "signed_contract_uploaded_at": "TEXT NOT NULL DEFAULT ''",
                 "updated_at": "TEXT NOT NULL DEFAULT ''",
             },
         )
@@ -704,6 +709,26 @@ def _set_tijuana_signed_files(
             WHERE submission_token = ?
             """,
             (audit_file, signed_contract_file, _utc_now(), submission_token),
+        )
+
+
+def _set_tijuana_uploaded_signed_contract(
+    db_path: Path,
+    submission_token: str,
+    signed_contract_file: str,
+) -> None:
+    now = _utc_now()
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET signing_status = 'signed_uploaded',
+                signed_contract_file = ?,
+                signed_contract_uploaded_at = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (signed_contract_file, now, now, submission_token),
         )
 
 
@@ -1842,6 +1867,40 @@ def create_app() -> Flask:
             abort(404)
         folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
         return send_from_directory(folder, submission["signed_contract_file"], as_attachment=False)
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/status/upload-signed-contract")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_upload_signed_contract():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission:
+            abort(404)
+        if not submission.get("contract_file"):
+            flash("Your contract is not ready yet.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+
+        file_obj = request.files.get("signed_contract")
+        if not file_obj or not file_obj.filename:
+            flash("Choose the signed PDF first.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+
+        safe_name = secure_filename(file_obj.filename)
+        if Path(safe_name).suffix.lower() != ".pdf":
+            flash("Signed contract must be a PDF.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+        if not _is_pdf(file_obj.stream):
+            flash("Signed contract PDF does not look valid.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+
+        folder = _rentas_tijuana_folder(upload_dir, submission["submission_token"])
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        final_name = f"contrato-firmado-uploaded-{secure_filename(submission['submission_token'])}-{stamp}.pdf"
+        file_obj.save(folder / final_name)
+        _set_tijuana_uploaded_signed_contract(db_path, submission["submission_token"], final_name)
+        flash("Signed contract uploaded.", "success")
+        return redirect(url_for("rentas_tijuana_status"))
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
     def rentas_tijuana_manager_login_page():
