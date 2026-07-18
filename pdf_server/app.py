@@ -1815,10 +1815,6 @@ def create_app() -> Flask:
         if not submission.get("contract_file"):
             flash("Your contract is not ready for signing yet.", "error")
             return redirect(url_for("rentas_tijuana_status"))
-        if submission.get("signed_at"):
-            flash("This contract has already been signed online.", "success")
-            return redirect(url_for("rentas_tijuana_status"))
-
         signed_name = request.form.get("signed_name", "").strip()[:180]
         consent = request.form.get("consent") == "yes"
         if not signed_name:

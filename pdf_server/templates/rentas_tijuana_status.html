@@ -91,6 +91,7 @@
           {% if application.signed_contract_file %}
             <a class="btn" href="{{ url_for('rentas_tijuana_status_signed_contract') }}" target="_blank" rel="noopener">Download Signed Contract</a>
           {% endif %}
+          <a class="btn" href="{{ url_for('rentas_tijuana_sign_page') }}">Sign Online Again</a>
         {% else %}
           <a class="btn" href="{{ url_for('rentas_tijuana_sign_page') }}">Sign and Accept</a>
         {% endif %}
