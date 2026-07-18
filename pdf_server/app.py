@@ -2,7 +2,7 @@ import os
 import json
 import secrets
 import sqlite3
-from datetime import datetime
+from datetime import date, datetime
 from functools import wraps
 from pathlib import Path
 
@@ -34,6 +34,13 @@ APP_HOST = os.getenv("MMSERVER_HOST", "0.0.0.0")
 APP_PORT = int(os.getenv("MMSERVER_PORT", "8090"))
 
 ALLOWED_RENTAL_EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg"}
+RENTAS_TIJUANA_STATUS_OPTIONS = ("pending", "preapproved", "approved", "rejected")
+RENTAS_TIJUANA_DOC_SPECS = [
+    ("ine", "ine_file_json", "INE / Mexican voter ID", True),
+    ("secondary_id", "secondary_id_file_json", "Secondary ID", False),
+    ("residency_proof", "residency_proof_file_json", "Proof of residency", True),
+    ("income_proof", "income_proof_file_json", "Proof of income", True),
+]
 PUBLIC_FORM_ALLOWED_ORIGINS = {
     "https://www.mymultiplatform.com",
     "https://mymultiplatform.com",
@@ -107,6 +114,13 @@ def _db_connect(db_path: Path) -> sqlite3.Connection:
     return conn
 
 
+def _ensure_columns(conn: sqlite3.Connection, table: str, columns: dict) -> None:
+    existing = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
+    for name, ddl in columns.items():
+        if name not in existing:
+            conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {ddl}")
+
+
 def _init_db(db_path: Path) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(db_path) as conn:
@@ -119,6 +133,27 @@ def _init_db(db_path: Path) -> None:
                 created_at TEXT NOT NULL
             )
             """
+        )
+        _ensure_columns(
+            conn,
+            "rentas_tijuana_submissions",
+            {
+                "ine_file_json": "TEXT NOT NULL DEFAULT '{}'",
+                "secondary_id_file_json": "TEXT NOT NULL DEFAULT '{}'",
+                "residency_proof_file_json": "TEXT NOT NULL DEFAULT '{}'",
+                "income_proof_file_json": "TEXT NOT NULL DEFAULT '{}'",
+                "status": "TEXT NOT NULL DEFAULT 'pending'",
+                "manager_notes": "TEXT NOT NULL DEFAULT ''",
+                "apartment_unit": "TEXT NOT NULL DEFAULT ''",
+                "move_in_date": "TEXT NOT NULL DEFAULT ''",
+                "contract_start_date": "TEXT NOT NULL DEFAULT ''",
+                "contract_end_date": "TEXT NOT NULL DEFAULT ''",
+                "monthly_rent": "TEXT NOT NULL DEFAULT ''",
+                "deposit_amount": "TEXT NOT NULL DEFAULT ''",
+                "contract_file": "TEXT NOT NULL DEFAULT ''",
+                "contract_created_at": "TEXT NOT NULL DEFAULT ''",
+                "updated_at": "TEXT NOT NULL DEFAULT ''",
+            },
         )
         conn.execute(
             """
@@ -323,6 +358,237 @@ def _api_response(payload: dict, status: int = 200):
     response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
     return response
+
+
+def _safe_json(raw: str, fallback):
+    try:
+        return json.loads(raw) if raw else fallback
+    except (TypeError, json.JSONDecodeError):
+        return fallback
+
+
+def _parse_iso_date(raw: str):
+    try:
+        return date.fromisoformat(raw)
+    except (TypeError, ValueError):
+        return None
+
+
+def _add_months(value: date, months: int) -> date:
+    month = value.month - 1 + months
+    year = value.year + month // 12
+    month = month % 12 + 1
+    days = [31, 29 if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0) else 28,
+            31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    return date(year, month, min(value.day, days[month - 1]))
+
+
+def _spanish_date(value: str) -> str:
+    parsed = _parse_iso_date(value)
+    if not parsed:
+        return value
+    months = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+    ]
+    return f"{parsed.day} de {months[parsed.month - 1]} de {parsed.year}"
+
+
+def _full_name(row: dict) -> str:
+    return f"{row.get('first_name', '').strip()} {row.get('last_name', '').strip()}".strip()
+
+
+def _rentas_tijuana_folder(upload_dir: Path, submission_token: str) -> Path:
+    return _ensure_upload_dir(
+        upload_dir / "rentas_tijuana_applications" / secure_filename(submission_token)
+    )
+
+
+def _decorate_tijuana_submission(row: sqlite3.Row) -> dict:
+    item = dict(row)
+    files = _safe_json(item.get("files_json", ""), [])
+    item["files"] = files
+    for _, column_name, _, _ in RENTAS_TIJUANA_DOC_SPECS:
+        item[column_name.replace("_json", "")] = _safe_json(item.get(column_name, ""), {})
+    item["full_name"] = _full_name(item)
+    return item
+
+
+def _list_tijuana_submissions(db_path: Path):
+    with _db_connect(db_path) as conn:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM rentas_tijuana_submissions
+            ORDER BY
+                CASE status
+                    WHEN 'pending' THEN 0
+                    WHEN 'preapproved' THEN 1
+                    WHEN 'approved' THEN 2
+                    WHEN 'rejected' THEN 3
+                    ELSE 4
+                END,
+                id DESC
+            LIMIT 300
+            """
+        ).fetchall()
+    return [_decorate_tijuana_submission(row) for row in rows]
+
+
+def _get_tijuana_submission(db_path: Path, submission_token: str):
+    with _db_connect(db_path) as conn:
+        row = conn.execute(
+            "SELECT * FROM rentas_tijuana_submissions WHERE submission_token = ?",
+            (submission_token,),
+        ).fetchone()
+    return _decorate_tijuana_submission(row) if row else None
+
+
+def _update_tijuana_review(db_path: Path, submission_token: str, values: dict) -> bool:
+    with sqlite3.connect(db_path) as conn:
+        cur = conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET status = ?,
+                manager_notes = ?,
+                apartment_unit = ?,
+                move_in_date = ?,
+                contract_start_date = ?,
+                contract_end_date = ?,
+                monthly_rent = ?,
+                deposit_amount = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (
+                values["status"],
+                values["manager_notes"],
+                values["apartment_unit"],
+                values["move_in_date"],
+                values["contract_start_date"],
+                values["contract_end_date"],
+                values["monthly_rent"],
+                values["deposit_amount"],
+                _utc_now(),
+                submission_token,
+            ),
+        )
+    return cur.rowcount > 0
+
+
+def _set_tijuana_contract_file(db_path: Path, submission_token: str, contract_file: str) -> None:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET status = 'approved',
+                contract_file = ?,
+                contract_created_at = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (contract_file, _utc_now(), _utc_now(), submission_token),
+        )
+
+
+def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path) -> str:
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+    start_date = submission.get("contract_start_date") or submission.get("move_in_date")
+    parsed_start = _parse_iso_date(start_date) or date.today()
+    end_date = submission.get("contract_end_date") or _add_months(parsed_start, 6).isoformat()
+    tenant_name = submission["full_name"].upper()
+    unit = submission.get("apartment_unit") or "____"
+    rent = submission.get("monthly_rent") or "____"
+    deposit = submission.get("deposit_amount") or rent
+
+    filename = f"contrato-{secure_filename(submission['submission_token'])}.pdf"
+    path = output_dir / filename
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name="LeaseTitle", parent=styles["Title"], fontSize=14, leading=18, alignment=1))
+    styles.add(ParagraphStyle(name="LeaseBody", parent=styles["BodyText"], fontSize=10.5, leading=14, spaceAfter=8))
+    styles.add(ParagraphStyle(name="LeaseClause", parent=styles["BodyText"], fontSize=10.2, leading=13.5, spaceAfter=7))
+
+    doc = SimpleDocTemplate(
+        str(path),
+        pagesize=letter,
+        leftMargin=0.8 * inch,
+        rightMargin=0.8 * inch,
+        topMargin=0.72 * inch,
+        bottomMargin=0.72 * inch,
+    )
+    story = [
+        Paragraph("CONTRATO DE ARRENDAMIENTO", styles["LeaseTitle"]),
+        Spacer(1, 8),
+        Paragraph(
+            "CON FUNDAMENTO EN EL ARTICULO 2357 DEL CODIGO CIVIL DEL ESTADO DE "
+            "BAJA CALIFORNIA, CELEBRAN EL PRESENTE CONTRATO DE ARRENDAMIENTO "
+            "COMO ARRENDADOR: SANCHEZ DELGADILLO DANTE ETHAN Y COMO ARRENDATARIO: "
+            f"{tenant_name}, ACEPTANDO LOS TERMINOS DE LAS SIGUIENTES CLAUSULAS:",
+            styles["LeaseBody"],
+        ),
+        Paragraph("CLAUSULAS", styles["LeaseTitle"]),
+    ]
+
+    clauses = [
+        f"1.- El arrendador Sanchez Delgadillo Dante Ethan da en arrendamiento a "
+        f"{submission['full_name']} el inmueble (VIVIENDA) que se encuentra en Calle Av "
+        f"Aldama 7024 #{unit}, Col. Independencia, CP: 22055, en la Ciudad de Tijuana, BC.",
+        f"2.- El presente contrato tendra una duracion de 6 meses a partir del dia "
+        f"{_spanish_date(parsed_start.isoformat())} hasta el dia {_spanish_date(end_date)}, "
+        "voluntario para ambas partes, contando a partir de que se firme el presente contrato.",
+        f"3.- Se conviene expresamente en que el precio del arrendamiento sera de "
+        f"${rent} MXN pagaderos mensualmente por adelantado. Ademas de un deposito de "
+        f"${deposit} MXN por concepto de garantia por los danos que el inmueble pudiera sufrir "
+        "al final del periodo de renta; en caso contrario, sera devuelto al arrendatario a la entrega del inmueble.",
+        "4.- El arrendatario podra modificar o alterar los bienes arrendados solamente con consentimiento previo del arrendador.",
+        "5.- El arrendatario queda formalmente comprometido a pagar integramente el monto de la renta por adelantado, "
+        "realizando el deposito en la cuenta indicada por el arrendador o en efectivo en el domicilio del propietario.",
+        "6.- El arrendatario conviene en desocupar la casa habitacion objeto del presente contrato al dia siguiente de que termine el contrato.",
+        "7.- En caso de que por causas ajenas el arrendatario no pueda desocupar el inmueble en el plazo pactado y se encuentre "
+        "al corriente en sus pagos, se le podra dar una prorroga pagando una contraprestacion de 10% diarios hasta desocupar el inmueble, "
+        "a menos que firme un nuevo contrato que renueve sus derechos.",
+        "8.- El arrendatario tiene prohibido subarrendar, traspasar o ceder sus derechos de inquilino, o realizar cualquier otro uso de la propiedad, "
+        "sin consentimiento expreso y por escrito del arrendador.",
+        "9.- El arrendatario no podra usar el inmueble arrendado mas que para vivienda.",
+        "10.- El arrendatario reconoce que recibe la vivienda objeto del presente contrato a su entera satisfaccion.",
+        "11.- Al finalizar la vigencia del presente contrato, el arrendatario debera entregar el inmueble en las mismas condiciones en las que fue entregado.",
+        "12.- Las partes convienen que pueden dar por terminado el presente contrato con treinta dias de anticipacion a la fecha en que se desocupe el inmueble.",
+    ]
+    for clause in clauses:
+        story.append(Paragraph(clause, styles["LeaseClause"]))
+
+    story.extend([
+        PageBreak(),
+        Paragraph("INVENTARIO", styles["LeaseTitle"]),
+        Paragraph(
+            "El inmueble se encuentra en condiciones de uso, asi como las siguientes instalaciones: "
+            "VIDRIOS, PUERTAS, CHAPAS, INSTALACIONES DE LUZ Y AGUA CORRIENTE.",
+            styles["LeaseBody"],
+        ),
+        Spacer(1, 80),
+        Table(
+            [
+                ["ARRENDADOR", "ARRENDATARIO"],
+                ["Sanchez Delgadillo Dante Ethan", submission["full_name"]],
+                ["Firma", "Firma"],
+            ],
+            colWidths=[3.1 * inch, 3.1 * inch],
+            style=TableStyle([
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("LINEABOVE", (0, 2), (-1, 2), 0.75, colors.black),
+                ("TOPPADDING", (0, 2), (-1, 2), 28),
+            ]),
+        ),
+        Spacer(1, 45),
+        Paragraph(f"Tijuana, Baja California, {_spanish_date(parsed_start.isoformat())}", styles["LeaseBody"]),
+    ])
+    doc.build(story)
+    return filename
 
 
 def _rental_user_folder(upload_dir: Path, user_id: int) -> Path:
@@ -995,33 +1261,30 @@ def create_app() -> Flask:
                 status=400,
             )
 
-        incoming_files = []
-        for key in ("files", "file"):
-            incoming_files.extend(
-                item for item in request.files.getlist(key) if item and item.filename
-            )
-
-        if not incoming_files:
-            return _api_response(
-                {"ok": False, "error": "Attach at least one PDF or image."},
-                status=400,
-            )
-        if len(incoming_files) > 10:
-            return _api_response(
-                {"ok": False, "error": "Attach 10 files or fewer."},
-                status=400,
-            )
-
         submission_token = secrets.token_urlsafe(12)
         submission_dir = _ensure_upload_dir(
             upload_dir / "rentas_tijuana_applications" / submission_token
         )
 
+        stored_docs = {}
+        stored_files = []
         try:
-            stored_files = [
-                _save_public_form_file(file_obj, submission_dir)
-                for file_obj in incoming_files
-            ]
+            for field_name, column_name, label, required in RENTAS_TIJUANA_DOC_SPECS:
+                file_obj = request.files.get(field_name)
+                if not file_obj or not file_obj.filename:
+                    if required:
+                        return _api_response(
+                            {"ok": False, "error": f"{label} is required."},
+                            status=400,
+                        )
+                    stored_docs[column_name] = {}
+                    continue
+
+                stored = _save_public_form_file(file_obj, submission_dir)
+                stored["document_type"] = field_name
+                stored["label"] = label
+                stored_docs[column_name] = stored
+                stored_files.append(stored)
         except ValueError as exc:
             return _api_response({"ok": False, "error": str(exc)}, status=400)
 
@@ -1044,9 +1307,13 @@ def create_app() -> Flask:
                     username,
                     notes,
                     files_json,
+                    ine_file_json,
+                    secondary_id_file_json,
+                    residency_proof_file_json,
+                    income_proof_file_json,
                     created_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     submission_token,
@@ -1063,6 +1330,10 @@ def create_app() -> Flask:
                     request.form.get("username", "").strip()[:80],
                     request.form.get("notes", "").strip()[:2000],
                     json.dumps(stored_files),
+                    json.dumps(stored_docs.get("ine_file_json", {})),
+                    json.dumps(stored_docs.get("secondary_id_file_json", {})),
+                    json.dumps(stored_docs.get("residency_proof_file_json", {})),
+                    json.dumps(stored_docs.get("income_proof_file_json", {})),
                     now,
                 ),
             )
@@ -1080,25 +1351,83 @@ def create_app() -> Flask:
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/applications")
     @require_login
     def rentas_tijuana_applications():
-        with _db_connect(db_path) as conn:
-            rows = conn.execute(
-                """
-                SELECT id, submission_token, first_name, last_name, city, state,
-                       country, email, phone, files_json, created_at
-                FROM rentas_tijuana_submissions
-                ORDER BY id DESC
-                LIMIT 200
-                """
-            ).fetchall()
         return {
-            "items": [
-                {
-                    **dict(row),
-                    "files": json.loads(row["files_json"]),
-                }
-                for row in rows
-            ]
+            "items": _list_tijuana_submissions(db_path)
         }
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager")
+    @require_login
+    def rentas_tijuana_manager():
+        applications = _list_tijuana_submissions(db_path)
+        stats = {status: 0 for status in RENTAS_TIJUANA_STATUS_OPTIONS}
+        for item in applications:
+            status = item.get("status", "pending")
+            if status in stats:
+                stats[status] += 1
+        return render_template(
+            "rentas_tijuana_manager.html",
+            username=session.get("username", APP_USERNAME),
+            applications=applications,
+            stats=stats,
+            status_options=RENTAS_TIJUANA_STATUS_OPTIONS,
+            doc_specs=RENTAS_TIJUANA_DOC_SPECS,
+        )
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/review")
+    @require_login
+    def rentas_tijuana_review(submission_token: str):
+        status = request.form.get("status", "pending").strip().lower()
+        if status not in RENTAS_TIJUANA_STATUS_OPTIONS:
+            flash("Invalid status.", "error")
+            return redirect(url_for("rentas_tijuana_manager"))
+
+        start_date = request.form.get("contract_start_date", "").strip()
+        end_date = request.form.get("contract_end_date", "").strip()
+        if start_date and not end_date:
+            parsed_start = _parse_iso_date(start_date)
+            if parsed_start:
+                end_date = _add_months(parsed_start, 6).isoformat()
+
+        values = {
+            "status": status,
+            "manager_notes": request.form.get("manager_notes", "").strip()[:1200],
+            "apartment_unit": request.form.get("apartment_unit", "").strip()[:40],
+            "move_in_date": request.form.get("move_in_date", "").strip()[:40],
+            "contract_start_date": start_date[:40],
+            "contract_end_date": end_date[:40],
+            "monthly_rent": request.form.get("monthly_rent", "").strip()[:40],
+            "deposit_amount": request.form.get("deposit_amount", "").strip()[:40],
+        }
+        if not _update_tijuana_review(db_path, submission_token, values):
+            abort(404)
+        flash("Application review saved.", "success")
+        return redirect(url_for("rentas_tijuana_manager"))
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/contract")
+    @require_login
+    def rentas_tijuana_generate_contract(submission_token: str):
+        submission = _get_tijuana_submission(db_path, submission_token)
+        if not submission:
+            abort(404)
+
+        required = {
+            "apartment_unit": "apartment/unit",
+            "contract_start_date": "contract start date",
+            "monthly_rent": "monthly rent",
+            "deposit_amount": "deposit amount",
+        }
+        missing = [label for key, label in required.items() if not submission.get(key)]
+        if missing:
+            flash(f"Missing contract data: {', '.join(missing)}.", "error")
+            return redirect(url_for("rentas_tijuana_manager"))
+
+        contract_file = _generate_tijuana_contract_pdf(
+            submission,
+            _rentas_tijuana_folder(upload_dir, submission_token),
+        )
+        _set_tijuana_contract_file(db_path, submission_token, contract_file)
+        flash("Contract PDF generated and application approved.", "success")
+        return redirect(url_for("rentas_tijuana_manager"))
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/files/<path:filename>")
     @require_login

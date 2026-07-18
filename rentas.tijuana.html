@@ -157,9 +157,27 @@
       </div>
 
       <div class="full">
-        <label for="files">Documentos e imagenes * - PDF, PNG, JPG o JPEG</label>
-        <input id="files" name="files" type="file" accept="application/pdf,image/png,image/jpeg" multiple required aria-describedby="fileHelp">
-        <div id="fileHelp" class="file-meta">Ningun archivo seleccionado. Maximo 40 MB por envio.</div>
+        <label for="ine">INE / identificacion oficial mexicana *</label>
+        <input id="ine" name="ine" type="file" accept="application/pdf,image/png,image/jpeg" required>
+        <div class="file-meta">PDF, PNG, JPG o JPEG.</div>
+      </div>
+
+      <div class="full">
+        <label for="secondary_id">Identificacion secundaria</label>
+        <input id="secondary_id" name="secondary_id" type="file" accept="application/pdf,image/png,image/jpeg">
+        <div class="file-meta">Opcional, si tienes otro documento de identificacion.</div>
+      </div>
+
+      <div class="full">
+        <label for="residency_proof">Comprobante de domicilio actual *</label>
+        <input id="residency_proof" name="residency_proof" type="file" accept="application/pdf,image/png,image/jpeg" required>
+        <div class="file-meta">Recibo de luz, agua, internet u otro comprobante de residencia.</div>
+      </div>
+
+      <div class="full">
+        <label for="income_proof">Comprobante de ingresos *</label>
+        <input id="income_proof" name="income_proof" type="file" accept="application/pdf,image/png,image/jpeg" required aria-describedby="fileHelp">
+        <div id="fileHelp" class="file-meta">Talones de pago, estado de cuenta bancario u otro comprobante. Maximo 40 MB por envio.</div>
       </div>
 
       <input class="hidden" id="website" name="website" type="text" autocomplete="off" tabindex="-1">
@@ -186,7 +204,6 @@
       const MAX_TOTAL_BYTES = 40 * 1024 * 1024;
       const ALLOWED_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg']);
       const form = document.getElementById('registrationForm');
-      const fileInput = document.getElementById('files');
       const fileHelp = document.getElementById('fileHelp');
       const clearBtn = document.getElementById('clearBtn');
       const submitBtn = document.getElementById('submitBtn');
@@ -202,22 +219,21 @@
         statusBox.textContent = '';
       }
 
+      function selectedFiles() {
+        return ['ine', 'secondary_id', 'residency_proof', 'income_proof']
+          .flatMap(id => Array.from(document.getElementById(id).files));
+      }
+
       function validateFiles() {
-        const files = Array.from(fileInput.files);
-        if (!files.length) {
-          fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
-          return false;
-        }
+        const files = selectedFiles();
         const total = files.reduce((sum, file) => sum + file.size, 0);
         const invalid = files.find(file => !ALLOWED_TYPES.has(file.type));
         if (invalid) {
           fileHelp.textContent = 'Solo se permiten PDF, PNG, JPG o JPEG.';
-          fileInput.value = '';
           return false;
         }
         if (total > MAX_TOTAL_BYTES) {
           fileHelp.textContent = 'Los archivos son demasiado grandes. Maximo 40 MB por envio.';
-          fileInput.value = '';
           return false;
         }
         const sizeMB = (total / (1024 * 1024)).toFixed(2);
@@ -225,15 +241,17 @@
         return true;
       }
 
-      fileInput.addEventListener('change', () => {
-        clearStatus();
-        validateFiles();
+      ['ine', 'secondary_id', 'residency_proof', 'income_proof'].forEach(id => {
+        document.getElementById(id).addEventListener('change', () => {
+          clearStatus();
+          validateFiles();
+        });
       });
 
       clearBtn.addEventListener('click', () => {
         form.reset();
         clearStatus();
-        fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
+        fileHelp.textContent = 'Talones de pago, estado de cuenta bancario u otro comprobante. Maximo 40 MB por envio.';
       });
 
       form.addEventListener('submit', async (event) => {
@@ -259,7 +277,7 @@
             throw new Error(result.error || 'No se pudo guardar la solicitud.');
           }
           form.reset();
-          fileHelp.textContent = 'Ningun archivo seleccionado. Maximo 40 MB por envio.';
+          fileHelp.textContent = 'Talones de pago, estado de cuenta bancario u otro comprobante. Maximo 40 MB por envio.';
           setStatus('ok', 'Solicitud recibida. ID: ' + result.submissionId);
         } catch (error) {
           setStatus('error', error.message || 'No se pudo conectar con el servidor.');

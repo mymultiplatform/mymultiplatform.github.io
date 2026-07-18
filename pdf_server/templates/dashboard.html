@@ -131,6 +131,7 @@
     <section class="card">
       <p><strong>Storage folder:</strong> <code>{{ upload_dir }}</code></p>
       <p><strong>Upload limit:</strong> {{ max_upload_mb }} MB per file (PDF only)</p>
+      <p><a href="{{ url_for('rentas_tijuana_manager') }}">Open Rentas Tijuana Manager</a></p>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
