@@ -159,6 +159,7 @@ def _init_db(db_path: Path) -> None:
                 "payment_meeting_at": "TEXT NOT NULL DEFAULT ''",
                 "first_payment_due": "TEXT NOT NULL DEFAULT ''",
                 "appointment_notes": "TEXT NOT NULL DEFAULT ''",
+                "password_hash": "TEXT NOT NULL DEFAULT ''",
                 "updated_at": "TEXT NOT NULL DEFAULT ''",
             },
         )
@@ -878,6 +879,16 @@ def require_tijuana_manager_login(view):
     return wrapped
 
 
+def require_tijuana_tenant_login(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        if not session.get("tijuana_tenant_submission_token"):
+            return redirect(url_for("rentas_tijuana_status_login_page"))
+        return view(*args, **kwargs)
+
+    return wrapped
+
+
 def create_app() -> Flask:
     app = Flask(__name__, template_folder="templates")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
@@ -1279,12 +1290,41 @@ def create_app() -> Flask:
             "city": "city",
             "country": "country",
             "email": "email",
+            "username": "username",
         }
         values = {name: request.form.get(name, "").strip() for name in required_fields}
         missing = [label for name, label in required_fields.items() if not values[name]]
         if missing:
             return _api_response(
                 {"ok": False, "error": f"Missing required fields: {', '.join(missing)}"},
+                status=400,
+            )
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirmPassword", "")
+        if len(password) < 8:
+            return _api_response(
+                {"ok": False, "error": "Password must have at least 8 characters."},
+                status=400,
+            )
+        if password != confirm_password:
+            return _api_response(
+                {"ok": False, "error": "Passwords do not match."},
+                status=400,
+            )
+
+        with _db_connect(db_path) as conn:
+            existing_username = conn.execute(
+                """
+                SELECT id
+                FROM rentas_tijuana_submissions
+                WHERE lower(username) = lower(?)
+                LIMIT 1
+                """,
+                (values["username"],),
+            ).fetchone()
+        if existing_username:
+            return _api_response(
+                {"ok": False, "error": "That username is already taken."},
                 status=400,
             )
 
@@ -1338,9 +1378,10 @@ def create_app() -> Flask:
                     secondary_id_file_json,
                     residency_proof_file_json,
                     income_proof_file_json,
+                    password_hash,
                     created_at
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     submission_token,
@@ -1354,13 +1395,14 @@ def create_app() -> Flask:
                     values["email"][:180],
                     request.form.get("phone", "").strip()[:80],
                     request.form.get("dob", "").strip()[:40],
-                    request.form.get("username", "").strip()[:80],
+                    values["username"][:80],
                     request.form.get("notes", "").strip()[:2000],
                     json.dumps(stored_files),
                     json.dumps(stored_docs.get("ine_file_json", {})),
                     json.dumps(stored_docs.get("secondary_id_file_json", {})),
                     json.dumps(stored_docs.get("residency_proof_file_json", {})),
                     json.dumps(stored_docs.get("income_proof_file_json", {})),
+                    generate_password_hash(password),
                     now,
                 ),
             )
@@ -1381,6 +1423,69 @@ def create_app() -> Flask:
         return {
             "items": _list_tijuana_submissions(db_path)
         }
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/login")
+    def rentas_tijuana_status_login_page():
+        if session.get("tijuana_tenant_submission_token"):
+            return redirect(url_for("rentas_tijuana_status"))
+        return render_template(
+            "rentas_tijuana_status_login.html",
+            action_url=url_for("rentas_tijuana_status_login"),
+        )
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/status/login")
+    def rentas_tijuana_status_login():
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        with _db_connect(db_path) as conn:
+            row = conn.execute(
+                """
+                SELECT submission_token, username, password_hash
+                FROM rentas_tijuana_submissions
+                WHERE lower(username) = lower(?)
+                LIMIT 1
+                """,
+                (username,),
+            ).fetchone()
+        if not row or not row["password_hash"] or not check_password_hash(row["password_hash"], password):
+            flash("Invalid username or password.", "error")
+            return redirect(url_for("rentas_tijuana_status_login_page"))
+
+        session["tijuana_tenant_submission_token"] = row["submission_token"]
+        session["tijuana_tenant_username"] = row["username"]
+        return redirect(url_for("rentas_tijuana_status"))
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/status/logout")
+    def rentas_tijuana_status_logout():
+        session.pop("tijuana_tenant_submission_token", None)
+        session.pop("tijuana_tenant_username", None)
+        return redirect(url_for("rentas_tijuana_status_login_page"))
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_status():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission:
+            session.pop("tijuana_tenant_submission_token", None)
+            session.pop("tijuana_tenant_username", None)
+            flash("Please sign in again.", "error")
+            return redirect(url_for("rentas_tijuana_status_login_page"))
+        return render_template("rentas_tijuana_status.html", application=submission)
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/contract")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_status_contract():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission or not submission.get("contract_file"):
+            abort(404)
+        folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
+        return send_from_directory(folder, submission["contract_file"], as_attachment=False)
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
     def rentas_tijuana_manager_login_page():

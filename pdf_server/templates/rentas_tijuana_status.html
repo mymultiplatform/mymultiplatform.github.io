@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rentas Tijuana Status</title>
+  <style>
+    :root { --bg:#eef4f8; --card:#fff; --line:#d6e1ea; --text:#122235; --muted:#5b6f7f; --accent:#0f766e; --ok:#1a7f37; --warn:#b7791f; --danger:#b42318; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; padding:18px; font-family:"Segoe UI", Tahoma, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    .wrap { max-width:820px; margin:0 auto; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:14px; box-shadow:0 12px 28px rgba(15,37,55,.10); }
+    .top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
+    h1 { margin:0 0 6px; font-size:1.45rem; }
+    h2 { margin:0 0 10px; font-size:1.08rem; }
+    p { margin:0 0 8px; color:var(--muted); line-height:1.45; }
+    .status { display:inline-block; border-radius:999px; padding:4px 9px; text-transform:capitalize; font-weight:800; border:1px solid var(--line); }
+    .pending { color:var(--warn); background:#fff8e5; }
+    .preapproved { color:#0f5f70; background:#e6fbff; }
+    .approved { color:var(--ok); background:#edf8f0; }
+    .rejected { color:var(--danger); background:#fff0ee; }
+    dl { display:grid; grid-template-columns:180px 1fr; gap:8px 12px; margin:0; }
+    dt { color:var(--muted); font-weight:700; }
+    dd { margin:0; }
+    a.btn, button { display:inline-block; border:0; border-radius:8px; padding:10px 12px; font-weight:800; background:var(--accent); color:#fff; text-decoration:none; cursor:pointer; }
+    button { background:#364152; }
+    @media (max-width:640px) { dl { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card top">
+      <div>
+        <h1>{{ application.full_name }}</h1>
+        <p>Application ID: {{ application.submission_token }}</p>
+        <span class="status {{ application.status }}">{{ application.status }}</span>
+      </div>
+      <form method="post" action="{{ url_for('rentas_tijuana_status_logout') }}">
+        <button type="submit">Log Out</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Application Status</h2>
+      {% if application.status == 'pending' %}
+        <p>Your application was received and is waiting for manager review.</p>
+      {% elif application.status == 'preapproved' %}
+        <p>Your application is preapproved. Review the next-step meeting and payment details below.</p>
+      {% elif application.status == 'approved' %}
+        <p>Your application is approved. Download your contract when available.</p>
+      {% elif application.status == 'rejected' %}
+        <p>Your application was not approved at this time.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Next Steps</h2>
+      <dl>
+        <dt>Apartment / unit</dt><dd>{{ application.apartment_unit or 'Pending' }}</dd>
+        <dt>Move-in date</dt><dd>{{ application.move_in_date or 'Pending' }}</dd>
+        <dt>Contract start</dt><dd>{{ application.contract_start_date or 'Pending' }}</dd>
+        <dt>Contract end</dt><dd>{{ application.contract_end_date or 'Pending' }}</dd>
+        <dt>Monthly rent</dt><dd>{% if application.monthly_rent %}${{ application.monthly_rent }} MXN{% else %}Pending{% endif %}</dd>
+        <dt>Deposit</dt><dd>{% if application.deposit_amount %}${{ application.deposit_amount }} MXN{% else %}Pending{% endif %}</dd>
+        <dt>First payment due</dt><dd>{{ application.first_payment_due or 'Pending' }}</dd>
+        <dt>Move-in meeting</dt><dd>{{ application.move_in_meeting_at or 'Pending' }}</dd>
+        <dt>Payment meeting</dt><dd>{{ application.payment_meeting_at or 'Pending' }}</dd>
+        <dt>Signing status</dt><dd>{{ application.signing_status.replace('_', ' ') }}</dd>
+      </dl>
+      {% if application.appointment_notes %}
+        <p style="margin-top:12px;">{{ application.appointment_notes }}</p>
+      {% endif %}
+    </section>
+
+    {% if application.contract_file %}
+      <section class="card">
+        <h2>Contract</h2>
+        <p>Your contract PDF is ready. Download it, review it, and follow the signing instructions from management.</p>
+        <a class="btn" href="{{ url_for('rentas_tijuana_status_contract') }}" target="_blank" rel="noopener">Download Contract</a>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>

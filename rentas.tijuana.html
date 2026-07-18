@@ -93,7 +93,7 @@
 <body>
   <main class="container">
     <h1>Solicitud de Renta - Tijuana</h1>
-    <p class="intro">Completa la solicitud y adjunta documentos en PDF o imagen. La informacion se guarda en el servidor privado de MyMultiplatform.</p>
+    <p class="intro">Completa la solicitud y adjunta documentos en PDF o imagen. Crea un usuario y contrasena para revisar el estado de tu solicitud despues.</p>
 
     <form id="registrationForm" enctype="multipart/form-data" novalidate>
       <div>
@@ -147,8 +147,18 @@
       </div>
 
       <div>
-        <label for="username">Nombre de usuario</label>
-        <input id="username" name="username" type="text" placeholder="usuario123" autocomplete="username">
+        <label for="username">Nombre de usuario *</label>
+        <input id="username" name="username" type="text" required placeholder="usuario123" autocomplete="username">
+      </div>
+
+      <div>
+        <label for="password">Contrasena *</label>
+        <input id="password" name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="Minimo 8 caracteres">
+      </div>
+
+      <div>
+        <label for="confirmPassword">Confirmar contrasena *</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" required minlength="8" autocomplete="new-password">
       </div>
 
       <div class="full">
@@ -194,6 +204,7 @@
       <div class="full actions">
         <button id="submitBtn" type="submit">Enviar solicitud</button>
         <button type="button" class="ghost" id="clearBtn">Borrar formulario</button>
+        <a class="ghost" style="text-decoration:none;padding:11px 15px;border-radius:8px;" href="https://facility-translate-perception-telescope.trycloudflare.com/server/rentas.tijuana/status/login">Ver estado</a>
       </div>
     </form>
   </main>
@@ -259,6 +270,10 @@
         clearStatus();
 
         if (!form.reportValidity()) return;
+        if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+          setStatus('error', 'Las contrasenas no coinciden.');
+          return;
+        }
         if (!validateFiles()) {
           setStatus('error', 'Adjunta por lo menos un PDF o imagen valida.');
           return;
