@@ -540,6 +540,32 @@ def _update_tijuana_review(db_path: Path, submission_token: str, values: dict) -
     return cur.rowcount > 0
 
 
+def _tijuana_review_values_from_form() -> dict:
+    status = request.form.get("status", "pending").strip().lower()
+    start_date = request.form.get("contract_start_date", "").strip()
+    end_date = request.form.get("contract_end_date", "").strip()
+    if start_date and not end_date:
+        parsed_start = _parse_iso_date(start_date)
+        if parsed_start:
+            end_date = _add_months(parsed_start, 6).isoformat()
+
+    return {
+        "status": status,
+        "manager_notes": request.form.get("manager_notes", "").strip()[:1200],
+        "apartment_unit": request.form.get("apartment_unit", "").strip()[:40],
+        "move_in_date": request.form.get("move_in_date", "").strip()[:40],
+        "contract_start_date": start_date[:40],
+        "contract_end_date": end_date[:40],
+        "monthly_rent": request.form.get("monthly_rent", "").strip()[:40],
+        "deposit_amount": request.form.get("deposit_amount", "").strip()[:40],
+        "signing_status": request.form.get("signing_status", "not_sent").strip()[:40],
+        "move_in_meeting_at": request.form.get("move_in_meeting_at", "").strip()[:80],
+        "payment_meeting_at": request.form.get("payment_meeting_at", "").strip()[:80],
+        "first_payment_due": request.form.get("first_payment_due", "").strip()[:40],
+        "appointment_notes": request.form.get("appointment_notes", "").strip()[:1200],
+    }
+
+
 def _set_tijuana_contract_file(db_path: Path, submission_token: str, contract_file: str) -> None:
     with sqlite3.connect(db_path) as conn:
         conn.execute(
@@ -1816,33 +1842,11 @@ def create_app() -> Flask:
     @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/review")
     @require_tijuana_manager_login
     def rentas_tijuana_review(submission_token: str):
-        status = request.form.get("status", "pending").strip().lower()
-        if status not in RENTAS_TIJUANA_STATUS_OPTIONS:
+        values = _tijuana_review_values_from_form()
+        if values["status"] not in RENTAS_TIJUANA_STATUS_OPTIONS:
             flash("Invalid status.", "error")
             return redirect(url_for("rentas_tijuana_manager"))
 
-        start_date = request.form.get("contract_start_date", "").strip()
-        end_date = request.form.get("contract_end_date", "").strip()
-        if start_date and not end_date:
-            parsed_start = _parse_iso_date(start_date)
-            if parsed_start:
-                end_date = _add_months(parsed_start, 6).isoformat()
-
-        values = {
-            "status": status,
-            "manager_notes": request.form.get("manager_notes", "").strip()[:1200],
-            "apartment_unit": request.form.get("apartment_unit", "").strip()[:40],
-            "move_in_date": request.form.get("move_in_date", "").strip()[:40],
-            "contract_start_date": start_date[:40],
-            "contract_end_date": end_date[:40],
-            "monthly_rent": request.form.get("monthly_rent", "").strip()[:40],
-            "deposit_amount": request.form.get("deposit_amount", "").strip()[:40],
-            "signing_status": request.form.get("signing_status", "not_sent").strip()[:40],
-            "move_in_meeting_at": request.form.get("move_in_meeting_at", "").strip()[:80],
-            "payment_meeting_at": request.form.get("payment_meeting_at", "").strip()[:80],
-            "first_payment_due": request.form.get("first_payment_due", "").strip()[:40],
-            "appointment_notes": request.form.get("appointment_notes", "").strip()[:1200],
-        }
         if not _update_tijuana_review(db_path, submission_token, values):
             abort(404)
         flash("Application review saved.", "success")
@@ -1888,6 +1892,18 @@ def create_app() -> Flask:
         submission = _get_tijuana_submission(db_path, submission_token)
         if not submission:
             abort(404)
+
+        if request.form:
+            values = _tijuana_review_values_from_form()
+            if values["status"] not in RENTAS_TIJUANA_STATUS_OPTIONS:
+                flash("Invalid status.", "error")
+                return redirect(url_for("rentas_tijuana_manager"))
+            values["status"] = "approved"
+            if values["signing_status"] == "not_sent":
+                values["signing_status"] = "sent"
+            if not _update_tijuana_review(db_path, submission_token, values):
+                abort(404)
+            submission = _get_tijuana_submission(db_path, submission_token)
 
         required = {
             "apartment_unit": "apartment/unit",

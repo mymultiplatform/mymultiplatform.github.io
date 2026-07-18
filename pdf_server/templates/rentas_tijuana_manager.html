@@ -271,9 +271,12 @@
                   </div>
                 </div>
                 <button class="btn" type="submit">Save Review</button>
-              </form>
-              <form method="post" action="{{ url_for('rentas_tijuana_generate_contract', submission_token=app.submission_token) }}" style="margin-top:8px;">
-                <button class="btn ok" type="submit">Generate Contract PDF</button>
+                <button
+                  class="btn ok"
+                  type="submit"
+                  formaction="{{ url_for('rentas_tijuana_generate_contract', submission_token=app.submission_token) }}"
+                  style="margin-top:8px;"
+                >Save and Generate Contract PDF</button>
               </form>
             </div>
           </div>
