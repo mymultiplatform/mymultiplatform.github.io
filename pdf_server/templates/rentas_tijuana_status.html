@@ -85,6 +85,9 @@
         <a class="btn" href="{{ url_for('rentas_tijuana_status_contract') }}" target="_blank" rel="noopener">Download Contract</a>
         {% if application.signed_at %}
           <p style="margin-top:12px;">Signed online on {{ application.signed_at }} by {{ application.signed_name }}.</p>
+          {% if application.signed_contract_file %}
+            <a class="btn" href="{{ url_for('rentas_tijuana_status_signed_contract') }}" target="_blank" rel="noopener">Download Signed Contract</a>
+          {% endif %}
           {% if application.signature_audit_file %}
             <a class="btn" href="{{ url_for('rentas_tijuana_status_signature_audit') }}" target="_blank" rel="noopener">View Signature Audit</a>
           {% endif %}

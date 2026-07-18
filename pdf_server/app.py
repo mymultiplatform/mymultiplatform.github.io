@@ -195,6 +195,7 @@ def _init_db(db_path: Path) -> None:
                 "signed_ip": "TEXT NOT NULL DEFAULT ''",
                 "signed_user_agent": "TEXT NOT NULL DEFAULT ''",
                 "signature_audit_file": "TEXT NOT NULL DEFAULT ''",
+                "signed_contract_file": "TEXT NOT NULL DEFAULT ''",
                 "updated_at": "TEXT NOT NULL DEFAULT ''",
             },
         )
@@ -687,6 +688,25 @@ def _generate_tijuana_signature_audit_pdf(submission: dict, output_dir: Path) ->
     return filename
 
 
+def _set_tijuana_signed_files(
+    db_path: Path,
+    submission_token: str,
+    audit_file: str,
+    signed_contract_file: str,
+) -> None:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET signature_audit_file = ?,
+                signed_contract_file = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (audit_file, signed_contract_file, _utc_now(), submission_token),
+        )
+
+
 def _mark_tijuana_signed(
     db_path: Path,
     upload_dir: Path,
@@ -723,20 +743,16 @@ def _mark_tijuana_signed(
         updated,
         _rentas_tijuana_folder(upload_dir, submission_token),
     )
-    with sqlite3.connect(db_path) as conn:
-        conn.execute(
-            """
-            UPDATE rentas_tijuana_submissions
-            SET signature_audit_file = ?,
-                updated_at = ?
-            WHERE submission_token = ?
-            """,
-            (audit_file, _utc_now(), submission_token),
-        )
+    signed_contract_file = _generate_tijuana_contract_pdf(
+        updated,
+        _rentas_tijuana_folder(upload_dir, submission_token),
+        signed=True,
+    )
+    _set_tijuana_signed_files(db_path, submission_token, audit_file, signed_contract_file)
     return audit_file
 
 
-def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path) -> str:
+def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path, signed: bool = False) -> str:
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -751,7 +767,8 @@ def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path) -> str:
     rent = submission.get("monthly_rent") or "____"
     deposit = submission.get("deposit_amount") or rent
 
-    filename = f"contrato-{secure_filename(submission['submission_token'])}.pdf"
+    prefix = "contrato-firmado" if signed else "contrato"
+    filename = f"{prefix}-{secure_filename(submission['submission_token'])}.pdf"
     path = output_dir / filename
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="LeaseTitle", parent=styles["Title"], fontSize=14, leading=18, alignment=1))
@@ -832,6 +849,34 @@ def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path) -> str:
         Spacer(1, 45),
         Paragraph(f"Tijuana, Baja California, {_spanish_date(parsed_start.isoformat())}", styles["LeaseBody"]),
     ])
+    if signed:
+        story.extend([
+            PageBreak(),
+            Paragraph("CERTIFICADO DE FIRMA ELECTRONICA", styles["LeaseTitle"]),
+            Paragraph(
+                "El arrendatario reviso el contrato de arrendamiento y acepto firmarlo electronicamente dentro del portal Rentas Tijuana.",
+                styles["LeaseBody"],
+            ),
+            Paragraph(f"<b>Arrendatario:</b> {submission.get('signed_name') or submission['full_name']}", styles["LeaseBody"]),
+            Paragraph(f"<b>Fecha y hora de firma:</b> {submission.get('signed_at') or 'N/A'}", styles["LeaseBody"]),
+            Paragraph(f"<b>ID de solicitud:</b> {submission.get('submission_token')}", styles["LeaseBody"]),
+            Paragraph(f"<b>Archivo de contrato original:</b> {submission.get('contract_file') or filename}", styles["LeaseBody"]),
+            Paragraph(f"<b>IP registrada:</b> {submission.get('signed_ip') or 'N/A'}", styles["LeaseBody"]),
+            Spacer(1, 70),
+            Table(
+                [
+                    ["FIRMA ELECTRONICA DEL ARRENDATARIO"],
+                    [submission.get("signed_name") or submission["full_name"]],
+                    [submission.get("signed_at") or ""],
+                ],
+                colWidths=[6.2 * inch],
+                style=TableStyle([
+                    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                    ("LINEABOVE", (0, 1), (0, 1), 0.75, colors.black),
+                    ("TOPPADDING", (0, 1), (0, 1), 30),
+                ]),
+            ),
+        ])
     doc.build(story)
     return filename
 
@@ -1785,6 +1830,18 @@ def create_app() -> Flask:
             abort(404)
         folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
         return send_from_directory(folder, submission["signature_audit_file"], as_attachment=False)
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/signed-contract")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_status_signed_contract():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission or not submission.get("signed_contract_file"):
+            abort(404)
+        folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
+        return send_from_directory(folder, submission["signed_contract_file"], as_attachment=False)
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
     def rentas_tijuana_manager_login_page():
