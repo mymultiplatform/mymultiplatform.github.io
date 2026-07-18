@@ -114,8 +114,7 @@
         <div class="muted">Signed in as {{ username }}</div>
       </div>
       <div class="actions">
-        <a class="btn dark" href="{{ url_for('dashboard') }}">PDF Server</a>
-        <form method="post" action="{{ url_for('logout') }}">
+        <form method="post" action="{{ url_for('rentas_tijuana_manager_logout') }}">
           <button class="btn dark" type="submit">Log Out</button>
         </form>
       </div>
@@ -170,6 +169,7 @@
               {% if app.contract_file %}
                 <hr>
                 <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.contract_file) }}" target="_blank" rel="noopener">Generated contract PDF</a>
+                <div class="muted">Signing: {{ app.signing_status }}</div>
               {% endif %}
             </div>
 
@@ -209,9 +209,33 @@
                     <label>Deposit MXN</label>
                     <input name="deposit_amount" value="{{ app.deposit_amount }}" placeholder="8000">
                   </div>
+                  <div>
+                    <label>Signing status</label>
+                    <select name="signing_status">
+                      {% for item in ['not_sent', 'sent', 'signed_online', 'signed_uploaded', 'completed'] %}
+                        <option value="{{ item }}" {% if app.signing_status == item %}selected{% endif %}>{{ item.replace('_', ' ')|capitalize }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div>
+                    <label>First payment due</label>
+                    <input name="first_payment_due" type="date" value="{{ app.first_payment_due }}">
+                  </div>
+                  <div>
+                    <label>Move-in meeting</label>
+                    <input name="move_in_meeting_at" type="datetime-local" value="{{ app.move_in_meeting_at }}">
+                  </div>
+                  <div>
+                    <label>Payment meeting</label>
+                    <input name="payment_meeting_at" type="datetime-local" value="{{ app.payment_meeting_at }}">
+                  </div>
                   <div class="full">
                     <label>Manager notes</label>
                     <textarea name="manager_notes">{{ app.manager_notes }}</textarea>
+                  </div>
+                  <div class="full">
+                    <label>Appointment notes</label>
+                    <textarea name="appointment_notes">{{ app.appointment_notes }}</textarea>
                   </div>
                 </div>
                 <button class="btn" type="submit">Save Review</button>

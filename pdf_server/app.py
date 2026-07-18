@@ -30,6 +30,8 @@ RENTAS_TIJUANA_API_ROUTE = f"{BASE_ROUTE}/rentas.tijuana/api"
 MAX_UPLOAD_MB = int(os.getenv("MMSERVER_MAX_UPLOAD_MB", "40"))
 APP_USERNAME = os.getenv("MMSERVER_USERNAME", "DES333888")
 APP_PASSWORD = os.getenv("MMSERVER_PASSWORD", "Sexo247420@")
+TIJUANA_MANAGER_USERNAME = os.getenv("MMSERVER_TIJUANA_MANAGER_USERNAME", "ManagerDES01")
+TIJUANA_MANAGER_PASSWORD = os.getenv("MMSERVER_TIJUANA_MANAGER_PASSWORD", "Sexo247420@")
 APP_HOST = os.getenv("MMSERVER_HOST", "0.0.0.0")
 APP_PORT = int(os.getenv("MMSERVER_PORT", "8090"))
 
@@ -152,6 +154,11 @@ def _init_db(db_path: Path) -> None:
                 "deposit_amount": "TEXT NOT NULL DEFAULT ''",
                 "contract_file": "TEXT NOT NULL DEFAULT ''",
                 "contract_created_at": "TEXT NOT NULL DEFAULT ''",
+                "signing_status": "TEXT NOT NULL DEFAULT 'not_sent'",
+                "move_in_meeting_at": "TEXT NOT NULL DEFAULT ''",
+                "payment_meeting_at": "TEXT NOT NULL DEFAULT ''",
+                "first_payment_due": "TEXT NOT NULL DEFAULT ''",
+                "appointment_notes": "TEXT NOT NULL DEFAULT ''",
                 "updated_at": "TEXT NOT NULL DEFAULT ''",
             },
         )
@@ -457,6 +464,11 @@ def _update_tijuana_review(db_path: Path, submission_token: str, values: dict) -
                 contract_end_date = ?,
                 monthly_rent = ?,
                 deposit_amount = ?,
+                signing_status = ?,
+                move_in_meeting_at = ?,
+                payment_meeting_at = ?,
+                first_payment_due = ?,
+                appointment_notes = ?,
                 updated_at = ?
             WHERE submission_token = ?
             """,
@@ -469,6 +481,11 @@ def _update_tijuana_review(db_path: Path, submission_token: str, values: dict) -
                 values["contract_end_date"],
                 values["monthly_rent"],
                 values["deposit_amount"],
+                values["signing_status"],
+                values["move_in_meeting_at"],
+                values["payment_meeting_at"],
+                values["first_payment_due"],
+                values["appointment_notes"],
                 _utc_now(),
                 submission_token,
             ),
@@ -846,6 +863,16 @@ def require_manager_login(view):
     def wrapped(*args, **kwargs):
         if not session.get("manager_logged_in"):
             return redirect(url_for("rentas_manager_login_page"))
+        return view(*args, **kwargs)
+
+    return wrapped
+
+
+def require_tijuana_manager_login(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        if not session.get("tijuana_manager_logged_in"):
+            return redirect(url_for("rentas_tijuana_manager_login_page"))
         return view(*args, **kwargs)
 
     return wrapped
@@ -1355,8 +1382,35 @@ def create_app() -> Flask:
             "items": _list_tijuana_submissions(db_path)
         }
 
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
+    def rentas_tijuana_manager_login_page():
+        if session.get("tijuana_manager_logged_in"):
+            return redirect(url_for("rentas_tijuana_manager"))
+        return render_template(
+            "rentas_tijuana_manager_login.html",
+            action_url=url_for("rentas_tijuana_manager_login"),
+        )
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
+    def rentas_tijuana_manager_login():
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        if username != TIJUANA_MANAGER_USERNAME or password != TIJUANA_MANAGER_PASSWORD:
+            flash("Invalid manager credentials.", "error")
+            return redirect(url_for("rentas_tijuana_manager_login_page"))
+
+        session["tijuana_manager_logged_in"] = True
+        session["tijuana_manager_username"] = username
+        return redirect(url_for("rentas_tijuana_manager"))
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/manager/logout")
+    def rentas_tijuana_manager_logout():
+        session.pop("tijuana_manager_logged_in", None)
+        session.pop("tijuana_manager_username", None)
+        return redirect(url_for("rentas_tijuana_manager_login_page"))
+
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager")
-    @require_login
+    @require_tijuana_manager_login
     def rentas_tijuana_manager():
         applications = _list_tijuana_submissions(db_path)
         stats = {status: 0 for status in RENTAS_TIJUANA_STATUS_OPTIONS}
@@ -1366,7 +1420,7 @@ def create_app() -> Flask:
                 stats[status] += 1
         return render_template(
             "rentas_tijuana_manager.html",
-            username=session.get("username", APP_USERNAME),
+            username=session.get("tijuana_manager_username", TIJUANA_MANAGER_USERNAME),
             applications=applications,
             stats=stats,
             status_options=RENTAS_TIJUANA_STATUS_OPTIONS,
@@ -1374,7 +1428,7 @@ def create_app() -> Flask:
         )
 
     @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/review")
-    @require_login
+    @require_tijuana_manager_login
     def rentas_tijuana_review(submission_token: str):
         status = request.form.get("status", "pending").strip().lower()
         if status not in RENTAS_TIJUANA_STATUS_OPTIONS:
@@ -1397,6 +1451,11 @@ def create_app() -> Flask:
             "contract_end_date": end_date[:40],
             "monthly_rent": request.form.get("monthly_rent", "").strip()[:40],
             "deposit_amount": request.form.get("deposit_amount", "").strip()[:40],
+            "signing_status": request.form.get("signing_status", "not_sent").strip()[:40],
+            "move_in_meeting_at": request.form.get("move_in_meeting_at", "").strip()[:80],
+            "payment_meeting_at": request.form.get("payment_meeting_at", "").strip()[:80],
+            "first_payment_due": request.form.get("first_payment_due", "").strip()[:40],
+            "appointment_notes": request.form.get("appointment_notes", "").strip()[:1200],
         }
         if not _update_tijuana_review(db_path, submission_token, values):
             abort(404)
@@ -1404,7 +1463,7 @@ def create_app() -> Flask:
         return redirect(url_for("rentas_tijuana_manager"))
 
     @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/contract")
-    @require_login
+    @require_tijuana_manager_login
     def rentas_tijuana_generate_contract(submission_token: str):
         submission = _get_tijuana_submission(db_path, submission_token)
         if not submission:
@@ -1430,7 +1489,7 @@ def create_app() -> Flask:
         return redirect(url_for("rentas_tijuana_manager"))
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/files/<path:filename>")
-    @require_login
+    @require_tijuana_manager_login
     def rentas_tijuana_file(submission_token: str, filename: str):
         folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission_token)
         safe_filename = secure_filename(filename)
