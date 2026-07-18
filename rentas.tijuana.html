@@ -37,6 +37,37 @@
       box-shadow: 0 16px 36px rgba(15, 37, 55, 0.12);
       padding: 24px;
     }
+    .login-strip {
+      width: min(900px, 100%);
+      margin: 0 auto 14px;
+      background: #0f1f2e;
+      color: #edf7ff;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 12px 28px rgba(15, 37, 55, 0.14);
+    }
+    .login-strip form {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .login-strip label { color: #c7d6e3; }
+    .login-strip input {
+      background: #0b1621;
+      color: #ffffff;
+      border-color: #365167;
+    }
+    .login-strip button { white-space: nowrap; }
+    .login-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .login-title strong { font-size: 1rem; }
+    .login-title span { color: #a9bfd0; font-size: 0.9rem; }
     h1 { font-size: 1.55rem; margin: 0 0 8px; }
     .intro { margin: 0 0 18px; color: var(--muted); line-height: 1.5; }
     form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
@@ -86,11 +117,30 @@
     @media (max-width: 720px) {
       body { padding: 14px; }
       .container { padding: 18px; }
+      .login-strip form { grid-template-columns: 1fr; }
       form { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <section class="login-strip" aria-label="Application status login">
+    <div class="login-title">
+      <strong>Ya aplicaste?</strong>
+      <span>Revisa tu estado con el usuario y contrasena que creaste.</span>
+    </div>
+    <form method="post" action="https://facility-translate-perception-telescope.trycloudflare.com/server/rentas.tijuana/status/login">
+      <div>
+        <label for="statusUsername">Usuario</label>
+        <input id="statusUsername" name="username" type="text" autocomplete="username">
+      </div>
+      <div>
+        <label for="statusPassword">Contrasena</label>
+        <input id="statusPassword" name="password" type="password" autocomplete="current-password">
+      </div>
+      <button type="submit">Ver estado</button>
+    </form>
+  </section>
+
   <main class="container">
     <h1>Solicitud de Renta - Tijuana</h1>
     <p class="intro">Completa la solicitud y adjunta documentos en PDF o imagen. Crea un usuario y contrasena para revisar el estado de tu solicitud despues.</p>
