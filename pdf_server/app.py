@@ -37,6 +37,14 @@ APP_PORT = int(os.getenv("MMSERVER_PORT", "8090"))
 
 ALLOWED_RENTAL_EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg"}
 RENTAS_TIJUANA_STATUS_OPTIONS = ("pending", "preapproved", "approved", "rejected")
+RENTAS_TIJUANA_SIGNING_OPTIONS = (
+    "not_sent",
+    "sent",
+    "signed_online",
+    "signed_uploaded",
+    "completed",
+)
+RENTAS_TIJUANA_PAYMENT_OPTIONS = ("due", "paid", "partial", "late", "waived")
 RENTAS_TIJUANA_DOC_SPECS = [
     ("ine", "ine_file_json", "INE / Mexican voter ID", True),
     ("secondary_id", "secondary_id_file_json", "Secondary ID", False),
@@ -136,6 +144,28 @@ def _init_db(db_path: Path) -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS rentas_tijuana_submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                submission_token TEXT NOT NULL UNIQUE,
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                address TEXT NOT NULL,
+                city TEXT NOT NULL,
+                state TEXT NOT NULL DEFAULT '',
+                postal TEXT NOT NULL DEFAULT '',
+                country TEXT NOT NULL,
+                email TEXT NOT NULL,
+                phone TEXT NOT NULL DEFAULT '',
+                dob TEXT NOT NULL DEFAULT '',
+                username TEXT NOT NULL DEFAULT '',
+                notes TEXT NOT NULL DEFAULT '',
+                files_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
         _ensure_columns(
             conn,
             "rentas_tijuana_submissions",
@@ -160,8 +190,31 @@ def _init_db(db_path: Path) -> None:
                 "first_payment_due": "TEXT NOT NULL DEFAULT ''",
                 "appointment_notes": "TEXT NOT NULL DEFAULT ''",
                 "password_hash": "TEXT NOT NULL DEFAULT ''",
+                "signed_at": "TEXT NOT NULL DEFAULT ''",
+                "signed_name": "TEXT NOT NULL DEFAULT ''",
+                "signed_ip": "TEXT NOT NULL DEFAULT ''",
+                "signed_user_agent": "TEXT NOT NULL DEFAULT ''",
+                "signature_audit_file": "TEXT NOT NULL DEFAULT ''",
                 "updated_at": "TEXT NOT NULL DEFAULT ''",
             },
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS rentas_tijuana_payments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                submission_token TEXT NOT NULL,
+                due_date TEXT NOT NULL,
+                period_label TEXT NOT NULL DEFAULT '',
+                amount_due TEXT NOT NULL,
+                amount_paid TEXT NOT NULL DEFAULT '',
+                paid_at TEXT NOT NULL DEFAULT '',
+                status TEXT NOT NULL DEFAULT 'due',
+                notes TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                FOREIGN KEY(submission_token) REFERENCES rentas_tijuana_submissions(submission_token)
+            )
+            """
         )
         conn.execute(
             """
@@ -194,28 +247,6 @@ def _init_db(db_path: Path) -> None:
                 created_at TEXT NOT NULL,
                 updated_at TEXT NOT NULL,
                 FOREIGN KEY(user_id) REFERENCES rental_users(id)
-            )
-            """
-        )
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS rentas_tijuana_submissions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                submission_token TEXT NOT NULL UNIQUE,
-                first_name TEXT NOT NULL,
-                last_name TEXT NOT NULL,
-                address TEXT NOT NULL,
-                city TEXT NOT NULL,
-                state TEXT NOT NULL DEFAULT '',
-                postal TEXT NOT NULL DEFAULT '',
-                country TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT NOT NULL DEFAULT '',
-                dob TEXT NOT NULL DEFAULT '',
-                username TEXT NOT NULL DEFAULT '',
-                notes TEXT NOT NULL DEFAULT '',
-                files_json TEXT NOT NULL,
-                created_at TEXT NOT NULL
             )
             """
         )
@@ -419,7 +450,22 @@ def _decorate_tijuana_submission(row: sqlite3.Row) -> dict:
     for _, column_name, _, _ in RENTAS_TIJUANA_DOC_SPECS:
         item[column_name.replace("_json", "")] = _safe_json(item.get(column_name, ""), {})
     item["full_name"] = _full_name(item)
+    item["lease_state"] = _lease_state(item)
     return item
+
+
+def _lease_state(item: dict) -> str:
+    if item.get("status") != "approved":
+        return "application"
+    end_date = _parse_iso_date(item.get("contract_end_date"))
+    if not end_date:
+        return "active"
+    today = date.today()
+    if end_date < today:
+        return "expired"
+    if (end_date - today).days <= 30:
+        return "ending soon"
+    return "active"
 
 
 def _list_tijuana_submissions(db_path: Path):
@@ -502,11 +548,166 @@ def _set_tijuana_contract_file(db_path: Path, submission_token: str, contract_fi
             SET status = 'approved',
                 contract_file = ?,
                 contract_created_at = ?,
+                signing_status = CASE
+                    WHEN signing_status = 'not_sent' THEN 'sent'
+                    ELSE signing_status
+                END,
                 updated_at = ?
             WHERE submission_token = ?
             """,
             (contract_file, _utc_now(), _utc_now(), submission_token),
         )
+
+
+def _list_tijuana_payments(db_path: Path, submission_token: str | None = None):
+    query = """
+        SELECT *
+        FROM rentas_tijuana_payments
+    """
+    params = ()
+    if submission_token:
+        query += " WHERE submission_token = ?"
+        params = (submission_token,)
+    query += " ORDER BY due_date DESC, id DESC LIMIT 500"
+    with _db_connect(db_path) as conn:
+        rows = conn.execute(query, params).fetchall()
+    return [dict(row) for row in rows]
+
+
+def _payments_by_submission(db_path: Path) -> dict:
+    grouped = {}
+    for payment in _list_tijuana_payments(db_path):
+        grouped.setdefault(payment["submission_token"], []).append(payment)
+    return grouped
+
+
+def _create_tijuana_payment(db_path: Path, submission_token: str, values: dict) -> None:
+    now = _utc_now()
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            INSERT INTO rentas_tijuana_payments (
+                submission_token,
+                due_date,
+                period_label,
+                amount_due,
+                amount_paid,
+                paid_at,
+                status,
+                notes,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                submission_token,
+                values["due_date"],
+                values["period_label"],
+                values["amount_due"],
+                values["amount_paid"],
+                values["paid_at"],
+                values["status"],
+                values["notes"],
+                now,
+                now,
+            ),
+        )
+
+
+def _generate_tijuana_signature_audit_pdf(submission: dict, output_dir: Path) -> str:
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.units import inch
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+    filename = f"firma-auditoria-{secure_filename(submission['submission_token'])}.pdf"
+    path = output_dir / filename
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name="AuditTitle", parent=styles["Title"], fontSize=15, leading=18, alignment=1))
+    styles.add(ParagraphStyle(name="AuditBody", parent=styles["BodyText"], fontSize=10.5, leading=14, spaceAfter=8))
+
+    fields = [
+        ("Tenant", submission.get("full_name", "")),
+        ("Application ID", submission.get("submission_token", "")),
+        ("Contract file", submission.get("contract_file", "")),
+        ("Signed name", submission.get("signed_name", "")),
+        ("Signed at", submission.get("signed_at", "")),
+        ("Signing IP", submission.get("signed_ip", "")),
+        ("User agent", submission.get("signed_user_agent", "")),
+        ("Contract version created at", submission.get("contract_created_at", "")),
+    ]
+    story = [
+        Paragraph("ELECTRONIC SIGNATURE AUDIT CERTIFICATE", styles["AuditTitle"]),
+        Spacer(1, 12),
+        Paragraph(
+            "This certificate records the tenant consent and electronic acceptance event for the lease contract stored by the Rentas Tijuana portal.",
+            styles["AuditBody"],
+        ),
+    ]
+    for label, value in fields:
+        story.append(Paragraph(f"<b>{label}:</b> {value or 'N/A'}", styles["AuditBody"]))
+    story.append(Spacer(1, 18))
+    story.append(Paragraph("Consent statement: The tenant confirmed that they reviewed the lease PDF and agreed to sign and accept it electronically.", styles["AuditBody"]))
+
+    doc = SimpleDocTemplate(
+        str(path),
+        pagesize=letter,
+        leftMargin=0.8 * inch,
+        rightMargin=0.8 * inch,
+        topMargin=0.72 * inch,
+        bottomMargin=0.72 * inch,
+    )
+    doc.build(story)
+    return filename
+
+
+def _mark_tijuana_signed(
+    db_path: Path,
+    upload_dir: Path,
+    submission_token: str,
+    signed_name: str,
+    signed_ip: str,
+    signed_user_agent: str,
+) -> str:
+    signed_at = _utc_now()
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET signing_status = 'signed_online',
+                signed_at = ?,
+                signed_name = ?,
+                signed_ip = ?,
+                signed_user_agent = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (
+                signed_at,
+                signed_name,
+                signed_ip[:120],
+                signed_user_agent[:500],
+                signed_at,
+                submission_token,
+            ),
+        )
+
+    updated = _get_tijuana_submission(db_path, submission_token)
+    audit_file = _generate_tijuana_signature_audit_pdf(
+        updated,
+        _rentas_tijuana_folder(upload_dir, submission_token),
+    )
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            """
+            UPDATE rentas_tijuana_submissions
+            SET signature_audit_file = ?,
+                updated_at = ?
+            WHERE submission_token = ?
+            """,
+            (audit_file, _utc_now(), submission_token),
+        )
+    return audit_file
 
 
 def _generate_tijuana_contract_pdf(submission: dict, output_dir: Path) -> str:
@@ -1473,7 +1674,12 @@ def create_app() -> Flask:
             session.pop("tijuana_tenant_username", None)
             flash("Please sign in again.", "error")
             return redirect(url_for("rentas_tijuana_status_login_page"))
-        return render_template("rentas_tijuana_status.html", application=submission)
+        payments = _list_tijuana_payments(db_path, submission["submission_token"])
+        return render_template(
+            "rentas_tijuana_status.html",
+            application=submission,
+            payments=payments,
+        )
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/contract")
     @require_tijuana_tenant_login
@@ -1486,6 +1692,73 @@ def create_app() -> Flask:
             abort(404)
         folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
         return send_from_directory(folder, submission["contract_file"], as_attachment=False)
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/sign")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_sign_page():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission:
+            abort(404)
+        if not submission.get("contract_file"):
+            flash("Your contract is not ready for signing yet.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+        return render_template("rentas_tijuana_sign.html", application=submission)
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/status/sign")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_sign_submit():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission:
+            abort(404)
+        if not submission.get("contract_file"):
+            flash("Your contract is not ready for signing yet.", "error")
+            return redirect(url_for("rentas_tijuana_status"))
+        if submission.get("signed_at"):
+            flash("This contract has already been signed online.", "success")
+            return redirect(url_for("rentas_tijuana_status"))
+
+        signed_name = request.form.get("signed_name", "").strip()[:180]
+        consent = request.form.get("consent") == "yes"
+        if not signed_name:
+            flash("Type your full legal name to sign.", "error")
+            return redirect(url_for("rentas_tijuana_sign_page"))
+        if signed_name.lower() != submission["full_name"].strip().lower():
+            flash("Signed name must match the application name.", "error")
+            return redirect(url_for("rentas_tijuana_sign_page"))
+        if not consent:
+            flash("Consent is required before signing electronically.", "error")
+            return redirect(url_for("rentas_tijuana_sign_page"))
+
+        signed_ip = request.headers.get("CF-Connecting-IP") or request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or request.remote_addr or ""
+        signed_user_agent = request.headers.get("User-Agent", "")
+        _mark_tijuana_signed(
+            db_path,
+            upload_dir,
+            submission["submission_token"],
+            signed_name,
+            signed_ip,
+            signed_user_agent,
+        )
+        flash("Contract signed electronically. Audit certificate created.", "success")
+        return redirect(url_for("rentas_tijuana_status"))
+
+    @app.get(f"{BASE_ROUTE}/rentas.tijuana/status/signature-audit")
+    @require_tijuana_tenant_login
+    def rentas_tijuana_status_signature_audit():
+        submission = _get_tijuana_submission(
+            db_path,
+            session["tijuana_tenant_submission_token"],
+        )
+        if not submission or not submission.get("signature_audit_file"):
+            abort(404)
+        folder = upload_dir / "rentas_tijuana_applications" / secure_filename(submission["submission_token"])
+        return send_from_directory(folder, submission["signature_audit_file"], as_attachment=False)
 
     @app.get(f"{BASE_ROUTE}/rentas.tijuana/manager/login")
     def rentas_tijuana_manager_login_page():
@@ -1519,16 +1792,24 @@ def create_app() -> Flask:
     def rentas_tijuana_manager():
         applications = _list_tijuana_submissions(db_path)
         stats = {status: 0 for status in RENTAS_TIJUANA_STATUS_OPTIONS}
+        lease_stats = {"active": 0, "ending soon": 0, "expired": 0}
         for item in applications:
             status = item.get("status", "pending")
             if status in stats:
                 stats[status] += 1
+            lease_state = item.get("lease_state")
+            if lease_state in lease_stats:
+                lease_stats[lease_state] += 1
         return render_template(
             "rentas_tijuana_manager.html",
             username=session.get("tijuana_manager_username", TIJUANA_MANAGER_USERNAME),
             applications=applications,
             stats=stats,
+            lease_stats=lease_stats,
+            payments_by_submission=_payments_by_submission(db_path),
             status_options=RENTAS_TIJUANA_STATUS_OPTIONS,
+            signing_options=RENTAS_TIJUANA_SIGNING_OPTIONS,
+            payment_options=RENTAS_TIJUANA_PAYMENT_OPTIONS,
             doc_specs=RENTAS_TIJUANA_DOC_SPECS,
         )
 
@@ -1565,6 +1846,40 @@ def create_app() -> Flask:
         if not _update_tijuana_review(db_path, submission_token, values):
             abort(404)
         flash("Application review saved.", "success")
+        return redirect(url_for("rentas_tijuana_manager"))
+
+    @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/payments")
+    @require_tijuana_manager_login
+    def rentas_tijuana_create_payment(submission_token: str):
+        submission = _get_tijuana_submission(db_path, submission_token)
+        if not submission:
+            abort(404)
+
+        status = request.form.get("status", "due").strip().lower()
+        if status not in RENTAS_TIJUANA_PAYMENT_OPTIONS:
+            flash("Invalid payment status.", "error")
+            return redirect(url_for("rentas_tijuana_manager"))
+
+        values = {
+            "due_date": request.form.get("due_date", "").strip()[:40],
+            "period_label": request.form.get("period_label", "").strip()[:80],
+            "amount_due": request.form.get("amount_due", "").strip()[:40],
+            "amount_paid": request.form.get("amount_paid", "").strip()[:40],
+            "paid_at": request.form.get("paid_at", "").strip()[:40],
+            "status": status,
+            "notes": request.form.get("notes", "").strip()[:600],
+        }
+        missing = []
+        if not values["due_date"]:
+            missing.append("due date")
+        if not values["amount_due"]:
+            missing.append("amount due")
+        if missing:
+            flash(f"Missing payment data: {', '.join(missing)}.", "error")
+            return redirect(url_for("rentas_tijuana_manager"))
+
+        _create_tijuana_payment(db_path, submission_token, values)
+        flash("Payment record saved.", "success")
         return redirect(url_for("rentas_tijuana_manager"))
 
     @app.post(f"{BASE_ROUTE}/rentas.tijuana/applications/<submission_token>/contract")

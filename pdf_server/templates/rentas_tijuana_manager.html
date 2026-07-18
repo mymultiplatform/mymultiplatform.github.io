@@ -72,6 +72,18 @@
     .status.preapproved { color: #67e8f9; }
     .status.approved { color: #86efac; }
     .status.rejected { color: #fca5a5; }
+    .lease {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.82rem;
+      background: #17243a;
+      text-transform: capitalize;
+    }
+    .lease.active { color: #86efac; }
+    .lease.ending-soon { color: #fcd34d; }
+    .lease.expired { color: #fca5a5; }
     .grid { display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; gap: 12px; }
     .box {
       border: 1px solid #263957;
@@ -94,6 +106,14 @@
     textarea { min-height: 74px; resize: vertical; }
     .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     .full { grid-column: 1 / -1; }
+    .payment-row {
+      border-top: 1px solid #263957;
+      padding: 8px 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+    .payment-row:first-child { border-top: 0; }
     .flash {
       border: 1px solid #42608f;
       background: #172842;
@@ -125,6 +145,11 @@
         <div class="tile"><div class="k">{{ key }}</div><div class="v">{{ value }}</div></div>
       {% endfor %}
     </div>
+    <div class="stats" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+      {% for key, value in lease_stats.items() %}
+        <div class="tile"><div class="k">Lease {{ key }}</div><div class="v">{{ value }}</div></div>
+      {% endfor %}
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -141,6 +166,9 @@
             <div>
               <strong>{{ app.full_name }}</strong>
               <span class="status {{ app.status }}">{{ app.status }}</span><br>
+              {% if app.status == 'approved' %}
+                <span class="lease {{ app.lease_state.replace(' ', '-') }}">{{ app.lease_state }}</span><br>
+              {% endif %}
               <span class="muted">{{ app.email }}{% if app.phone %} | {{ app.phone }}{% endif %}</span>
             </div>
             <div class="muted">Submitted {{ app.created_at }}</div>
@@ -170,6 +198,10 @@
                 <hr>
                 <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.contract_file) }}" target="_blank" rel="noopener">Generated contract PDF</a>
                 <div class="muted">Signing: {{ app.signing_status }}</div>
+                {% if app.signature_audit_file %}
+                  <a class="doc-link" href="{{ url_for('rentas_tijuana_file', submission_token=app.submission_token, filename=app.signature_audit_file) }}" target="_blank" rel="noopener">Signature audit certificate</a>
+                  <div class="muted">Signed {{ app.signed_at }} by {{ app.signed_name }}</div>
+                {% endif %}
               {% endif %}
             </div>
 
@@ -212,7 +244,7 @@
                   <div>
                     <label>Signing status</label>
                     <select name="signing_status">
-                      {% for item in ['not_sent', 'sent', 'signed_online', 'signed_uploaded', 'completed'] %}
+                      {% for item in signing_options %}
                         <option value="{{ item }}" {% if app.signing_status == item %}selected{% endif %}>{{ item.replace('_', ' ')|capitalize }}</option>
                       {% endfor %}
                     </select>
@@ -245,6 +277,72 @@
               </form>
             </div>
           </div>
+
+          {% if app.status == 'approved' %}
+            <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top:12px;">
+              <div class="box">
+                <h2>Monthly Payments</h2>
+                {% set payments = payments_by_submission.get(app.submission_token, []) %}
+                {% if payments %}
+                  {% for payment in payments %}
+                    <div class="payment-row">
+                      <div>
+                        <strong>{{ payment.period_label or payment.due_date }}</strong><br>
+                        <span class="muted">Due {{ payment.due_date }}{% if payment.paid_at %} | Paid {{ payment.paid_at }}{% endif %}</span>
+                        {% if payment.notes %}<div class="muted">{{ payment.notes }}</div>{% endif %}
+                      </div>
+                      <div>
+                        <strong>{{ payment.status }}</strong><br>
+                        ${{ payment.amount_paid or '0' }} / ${{ payment.amount_due }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                  <div class="muted">No payment records yet.</div>
+                {% endif %}
+              </div>
+              <div class="box">
+                <h2>Add Payment Record</h2>
+                <form method="post" action="{{ url_for('rentas_tijuana_create_payment', submission_token=app.submission_token) }}">
+                  <div class="form-grid">
+                    <div>
+                      <label>Due date</label>
+                      <input name="due_date" type="date" value="{{ app.first_payment_due or app.contract_start_date }}">
+                    </div>
+                    <div>
+                      <label>Period</label>
+                      <input name="period_label" placeholder="August 2026 rent">
+                    </div>
+                    <div>
+                      <label>Amount due MXN</label>
+                      <input name="amount_due" value="{{ app.monthly_rent }}">
+                    </div>
+                    <div>
+                      <label>Amount paid MXN</label>
+                      <input name="amount_paid">
+                    </div>
+                    <div>
+                      <label>Paid date</label>
+                      <input name="paid_at" type="date">
+                    </div>
+                    <div>
+                      <label>Status</label>
+                      <select name="status">
+                        {% for status in payment_options %}
+                          <option value="{{ status }}">{{ status|capitalize }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="full">
+                      <label>Payment notes</label>
+                      <textarea name="notes"></textarea>
+                    </div>
+                  </div>
+                  <button class="btn" type="submit">Save Payment</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
         </section>
       {% endfor %}
     {% else %}

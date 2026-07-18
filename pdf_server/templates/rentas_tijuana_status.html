@@ -19,6 +19,9 @@
     .preapproved { color:#0f5f70; background:#e6fbff; }
     .approved { color:var(--ok); background:#edf8f0; }
     .rejected { color:var(--danger); background:#fff0ee; }
+    .lease { display:inline-block; border-radius:999px; padding:3px 8px; font-size:.82rem; font-weight:800; background:#e8eef7; color:#26364f; }
+    .payment { display:grid; grid-template-columns:1fr auto; gap:6px 12px; border-top:1px solid var(--line); padding:10px 0; }
+    .payment:first-child { border-top:0; }
     dl { display:grid; grid-template-columns:180px 1fr; gap:8px 12px; margin:0; }
     dt { color:var(--muted); font-weight:700; }
     dd { margin:0; }
@@ -34,6 +37,9 @@
         <h1>{{ application.full_name }}</h1>
         <p>Application ID: {{ application.submission_token }}</p>
         <span class="status {{ application.status }}">{{ application.status }}</span>
+        {% if application.status == 'approved' %}
+          <span class="lease">{{ application.lease_state }}</span>
+        {% endif %}
       </div>
       <form method="post" action="{{ url_for('rentas_tijuana_status_logout') }}">
         <button type="submit">Log Out</button>
@@ -47,7 +53,7 @@
       {% elif application.status == 'preapproved' %}
         <p>Your application is preapproved. Review the next-step meeting and payment details below.</p>
       {% elif application.status == 'approved' %}
-        <p>Your application is approved. Download your contract when available.</p>
+        <p>Your application is approved. Download your contract when available and sign it online when ready.</p>
       {% elif application.status == 'rejected' %}
         <p>Your application was not approved at this time.</p>
       {% endif %}
@@ -75,8 +81,35 @@
     {% if application.contract_file %}
       <section class="card">
         <h2>Contract</h2>
-        <p>Your contract PDF is ready. Download it, review it, and follow the signing instructions from management.</p>
+        <p>Your contract PDF is ready. Download it, review it, and sign electronically when you agree.</p>
         <a class="btn" href="{{ url_for('rentas_tijuana_status_contract') }}" target="_blank" rel="noopener">Download Contract</a>
+        {% if application.signed_at %}
+          <p style="margin-top:12px;">Signed online on {{ application.signed_at }} by {{ application.signed_name }}.</p>
+          {% if application.signature_audit_file %}
+            <a class="btn" href="{{ url_for('rentas_tijuana_status_signature_audit') }}" target="_blank" rel="noopener">View Signature Audit</a>
+          {% endif %}
+        {% else %}
+          <a class="btn" href="{{ url_for('rentas_tijuana_sign_page') }}">Sign and Accept</a>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {% if payments %}
+      <section class="card">
+        <h2>Rent Payments</h2>
+        {% for payment in payments %}
+          <div class="payment">
+            <div>
+              <strong>{{ payment.period_label or payment.due_date }}</strong><br>
+              <span class="muted">Due {{ payment.due_date }}{% if payment.paid_at %} | Paid {{ payment.paid_at }}{% endif %}</span>
+              {% if payment.notes %}<p>{{ payment.notes }}</p>{% endif %}
+            </div>
+            <div>
+              <strong>{{ payment.status }}</strong><br>
+              ${{ payment.amount_paid or '0' }} / ${{ payment.amount_due }} MXN
+            </div>
+          </div>
+        {% endfor %}
       </section>
     {% endif %}
   </main>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Contract</title>
+  <style>
+    :root { --bg:#eef4f8; --card:#fff; --line:#d6e1ea; --text:#122235; --muted:#5b6f7f; --accent:#0f766e; --danger:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; padding:18px; font-family:"Segoe UI", Tahoma, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    .wrap { max-width:880px; margin:0 auto; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:14px; box-shadow:0 12px 28px rgba(15,37,55,.10); }
+    h1 { margin:0 0 8px; font-size:1.45rem; }
+    h2 { margin:0 0 10px; font-size:1.08rem; }
+    p { margin:0 0 10px; color:var(--muted); line-height:1.45; }
+    iframe { width:100%; min-height:560px; border:1px solid var(--line); border-radius:8px; background:#f8fafc; }
+    label { display:block; margin:12px 0 5px; font-weight:800; }
+    input[type="text"] { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; }
+    .check { display:grid; grid-template-columns:auto 1fr; gap:8px; align-items:start; margin:14px 0; }
+    .check label { margin:0; font-weight:700; color:var(--text); }
+    .btn { display:inline-block; border:0; border-radius:8px; padding:11px 13px; font-weight:800; background:var(--accent); color:#fff; text-decoration:none; cursor:pointer; }
+    .btn.dark { background:#364152; }
+    .flash { border:1px solid #ffd0cb; background:#fff0ee; color:var(--danger); border-radius:8px; padding:9px; margin-bottom:10px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Sign Contract</h1>
+      <p>{{ application.full_name }} | Application ID: {{ application.submission_token }}</p>
+      <a class="btn dark" href="{{ url_for('rentas_tijuana_status') }}">Back to Status</a>
+      <a class="btn" href="{{ url_for('rentas_tijuana_status_contract') }}" target="_blank" rel="noopener">Open PDF</a>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <section class="card">
+      <h2>Contract Preview</h2>
+      <iframe src="{{ url_for('rentas_tijuana_status_contract') }}"></iframe>
+    </section>
+
+    <section class="card">
+      <h2>Electronic Signature</h2>
+      <p>Type your full legal name exactly as it appears on the application, confirm consent, then sign and accept.</p>
+      <form method="post" action="{{ url_for('rentas_tijuana_sign_submit') }}">
+        <label for="signed_name">Full legal name</label>
+        <input id="signed_name" name="signed_name" type="text" value="{{ application.full_name }}" autocomplete="name" required>
+        <div class="check">
+          <input id="consent" name="consent" type="checkbox" value="yes" required>
+          <label for="consent">I reviewed the lease PDF and agree to sign and accept it electronically.</label>
+        </div>
+        <button class="btn" type="submit">Sign and Accept</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
